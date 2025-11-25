@@ -123,7 +123,7 @@ export default {
       }
 
       if (
-        urlContains(cleaned_up_url, ["peertube."]) &&
+        urlContains(cleaned_up_url, ["peertube.fr"]) &&
         urlContains(cleaned_up_url, ["/w/"])
       )
         return {
