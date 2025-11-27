@@ -27,7 +27,7 @@
           <div v-if="can_contribute_to_space" class="u-sameRow">
             <button
               type="button"
-              class="u-button u-button_red"
+              class="u-button u-button_red u-button_small"
               @click="show_create_modal = true"
             >
               <b-icon icon="plus" :label="$t('create')" />
@@ -35,7 +35,7 @@
             </button>
             <button
               type="button"
-              class="u-button u-button_red"
+              class="u-button u-button_red u-button_small"
               v-if="can_contribute_to_space"
               @click="show_import_modal = true"
             >

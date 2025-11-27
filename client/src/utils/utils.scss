@@ -79,6 +79,17 @@ a:focus-visible {
   }
 }
 
+.u-notice {
+  display: flex;
+  gap: calc(var(--spacing) / 2);
+  align-items: center;
+  padding: calc(var(--spacing) / 1.5);
+  background-color: var(--c-bleumarine_clair);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--c-bleumarine_tres_fonce);
+}
+
 .u-wips {
   position: relative;
   // text-align: center;

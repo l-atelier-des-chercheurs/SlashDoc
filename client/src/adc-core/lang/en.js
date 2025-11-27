@@ -1280,6 +1280,7 @@ export default {
   restore_projects: "Restore projects",
   bin: "Trash",
   items_in_bin: "Items in the trash",
+  bin_removal_notice: "Items in the trash are automatically removed after 30 days.",
   all_pages: "All pages",
   all_spreads: "All spreads",
   spreads_to_export: "Spreads to export",
