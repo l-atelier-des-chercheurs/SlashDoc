@@ -241,6 +241,8 @@ module.exports = (function () {
       });
 
       // Create the browser window.
+      const preloadPath = path.join(__dirname, "preload.js");
+
       let win = new BrowserWindow({
         x: mainWindowState.x,
         y: mainWindowState.y,
@@ -258,7 +260,7 @@ module.exports = (function () {
           contextIsolation: true,
           enableRemoteModule: false, // turn off remote
           plugins: true,
-          preload: path.join(__dirname, "preload.js"),
+          preload: preloadPath,
         },
       });
 
