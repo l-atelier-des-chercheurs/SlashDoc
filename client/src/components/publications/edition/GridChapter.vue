@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     sorted_grid_areas() {
-      return this.chapter.grid_areas.sort((a, b) => a.id.localeCompare(b.id));
+      return this.chapter.grid_areas?.sort((a, b) => a.id.localeCompare(b.id));
     },
   },
   methods: {
