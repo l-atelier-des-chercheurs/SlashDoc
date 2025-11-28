@@ -1460,5 +1460,11 @@ export default {
   emoji_custom: "Personnalisé",
   message_too_long:
     "Le message est trop long, il ne doit pas dépasser {max_length} caractères.",
-  today: "Aujourd’hui",
+  today: "Aujourd'hui",
+  add_community: "Ajouter une communauté",
+  no_more_communities: "Aucune autre communauté disponible",
+  see_all_communities: "Voir toutes les communautés",
+  all_communities: "Toutes les communautés",
+  no_communities_available: "Aucune communauté disponible",
+  already_selected: "Déjà sélectionnée",
 };

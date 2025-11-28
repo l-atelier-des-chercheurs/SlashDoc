@@ -19,7 +19,7 @@ const routes = [
       ),
   },
   {
-    path: "/explore/:folder_slug?",
+    path: "/explore",
     name: "Explorer",
     component: () =>
       import(/* webpackChunkName: "CorpusView" */ "../views/CorpusView.vue"),

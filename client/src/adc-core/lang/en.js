@@ -1374,4 +1374,10 @@ export default {
   gps_coordinates_found: "GPS coordinates found.",
   column_count: "Column count",
   restore_publications: "Restore deleted publications",
+  add_community: "Add community",
+  no_more_communities: "No more communities available",
+  see_all_communities: "See all communities",
+  all_communities: "All communities",
+  no_communities_available: "No communities available",
+  already_selected: "Already selected",
 };

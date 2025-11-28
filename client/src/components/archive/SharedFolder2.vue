@@ -1,38 +1,34 @@
 <template>
   <div class="_sharedFolder">
-    <div class="_topBar" v-if="false">
-      <label class="u-label _corpusLabel">
-        {{ $t("Corpus") }}
-      </label>
-      <TitleField
-        v-if="folder"
-        :field_name="'title'"
-        :label="$t('corpus_title')"
-        :show_label="false"
-        :tag="'b'"
-        :content="folder.title || $t('untitled')"
-        :path="folder.$path"
-        :required="true"
-        :maxlength="30"
-        :can_edit="can_edit"
-      />
-      <button
-        type="button"
-        class="u-button u-button_white u-button_icon u-button_small"
-        @click="show_corpus_menu = !show_corpus_menu"
-      >
-        <b-icon icon="three-dots" />
-        <!-- {{ $t("previous") }} -->
-      </button>
+    <div class="_topBar">
+      <div class="_communautesSection">
+        <DLabel :str="$t('Communautés actives')" class="_communautesLabel" />
+        <div class="_corpusItems">
+          <div
+            v-for="folder_path in active_folder_paths"
+            :key="folder_path"
+            class="_corpusItem"
+          >
+            <button
+              type="button"
+              class="u-button u-button_pill"
+              @click="toggleCorpus(folder_path)"
+            >
+              {{ getFolderTitle(folder_path) }}
+              <b-icon icon="x" class="_closeIcon" />
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="u-button u-button_icon u-button_transparent _addCommunityButton"
+          @click="$router.push('/explore')"
+          :title="$t('see_all_communities')"
+        >
+          <b-icon icon="list" />
+        </button>
+      </div>
     </div>
-
-    <CorpusMenu
-      v-if="show_corpus_menu"
-      :current_corpus_path="shared_folder_path"
-      :can_edit="false"
-      @changeCorpus="$emit('changeCorpus', $event)"
-      @close="show_corpus_menu = false"
-    />
 
     <transition name="slideup" mode="out-in">
       <StackDisplay
@@ -76,37 +72,6 @@
             :view_mode.sync="view_mode"
             :stack_preview_width.sync="stack_preview_width"
           >
-            <template #top>
-              <DLabel :str="$t('Communautés')" />
-              <div class="_corpusItems">
-                <div
-                  v-for="folder in all_folders"
-                  :key="folder.$path"
-                  class="_corpusItem"
-                >
-                  <input
-                    checkbox
-                    type="checkbox"
-                    :id="folder.$path"
-                    checked
-                    :value="folder.$path"
-                    @change="changeCorpus(folder.$path)"
-                  />
-                  <label :for="folder.$path">{{
-                    folder.title || $t("untitled")
-                  }}</label>
-                  <AdminsAndContributorsField
-                    :folder="folder"
-                    :can_edit="can_edit"
-                    :admin_label="$t('admin')"
-                    :admin_instructions="$t('admin_instructions')"
-                    :contrib_instructions="$t('contrib_instructions')"
-                  />
-                </div>
-              </div>
-              <div class="u-spacingBottom" />
-              <hr />
-            </template>
           </FilterBar>
         </template>
 
@@ -189,7 +154,10 @@ import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 
 export default {
   props: {
-    shared_folder_path: String,
+    shared_folder_paths: {
+      type: Array,
+      default: () => [],
+    },
     select_mode: {
       type: [Boolean, String],
       default: false,
@@ -235,6 +203,8 @@ export default {
 
       show_filter_bar:
         localStorage.getItem("archive.show_filter_bar") === "true",
+
+      joined_rooms: new Set(), // Track which rooms we've joined
     };
   },
   i18n: {
@@ -251,27 +221,63 @@ export default {
   async mounted() {
     await this.checkExistingFolder();
 
-    localStorage.setItem("last_opened_folder_path", this.shared_folder_path);
+    const primaryPath = this.active_folder_paths[0];
+    if (primaryPath) {
+      localStorage.setItem("last_opened_folder_path", primaryPath);
+      this.folder = await this.$api.getFolder({
+        path: primaryPath,
+      });
+    }
 
-    this.folder = await this.$api.getFolder({
-      path: this.shared_folder_path,
-    });
-    this.$api.join({ room: this.shared_folder_path });
+    // Load all folders for the add community modal
+    this.all_folders = await this.$api.getFolders({ path: "folders" });
 
-    this.all_stacks = await this.$api.getFolders({
-      path: this.stack_shared_folder_path,
+    // Load stacks from all active communities
+    await this.loadStacksFromCommunities();
+
+    // Join socket rooms for all communities (stay connected)
+    this.active_folder_paths.forEach((path) => {
+      this.joinRoom(path);
+      this.joinRoom(path + "/stacks");
     });
-    this.$api.join({ room: this.stack_shared_folder_path });
+
     this.is_loading_folder = false;
   },
   beforeDestroy() {
-    this.$api.leave({ room: this.stack_shared_folder_path });
+    // Leave all socket rooms
+    this.active_folder_paths.forEach((path) => {
+      this.$api.leave({ room: path });
+      this.$api.leave({ room: path + "/stacks" });
+    });
   },
   watch: {
     opened_stack() {
       if (this.opened_stack) {
         this.last_selected_stack_path = this.opened_stack.$path;
       }
+    },
+    active_folder_paths: {
+      async handler(newPaths, oldPaths) {
+        if (JSON.stringify(newPaths) !== JSON.stringify(oldPaths)) {
+          // Paths changed, reload stacks
+          if (newPaths.length > 0) {
+            // Join new rooms (stay connected, don't leave old ones)
+            newPaths.forEach((path) => {
+              this.joinRoom(path);
+              this.joinRoom(path + "/stacks");
+            });
+            // Load new stacks
+            await this.loadStacksFromCommunities();
+            // Update primary folder
+            if (newPaths[0]) {
+              this.folder = await this.$api.getFolder({
+                path: newPaths[0],
+              });
+            }
+          }
+        }
+      },
+      immediate: false,
     },
     sort_order() {
       localStorage.setItem("archive.sort_order", this.sort_order);
@@ -287,14 +293,17 @@ export default {
     },
   },
   computed: {
+    active_folder_paths() {
+      return this.shared_folder_paths || [];
+    },
     display_mode() {
       return this.stack_preview_width < 120 ? "compact" : "";
     },
     can_edit() {
       return this.canLoggedinEditFolder({ folder: this.folder });
     },
-    stack_shared_folder_path() {
-      return this.shared_folder_path + "/stacks";
+    stack_shared_folder_paths() {
+      return this.active_folder_paths.map((path) => path + "/stacks");
     },
     can_be_added_to_fav() {
       return (
@@ -434,36 +443,18 @@ export default {
   },
   methods: {
     async checkExistingFolder() {
-      // first load all folders
+      // Load all folders
       this.all_folders = await this.$api.getFolders({ path: "folders" });
 
-      if (this.shared_folder_path) {
-        const matching_folder = this.all_folders.find(
-          (f) => f.$path === this.shared_folder_path
+      // Verify active paths exist
+      if (this.active_folder_paths.length > 0) {
+        const allExist = this.active_folder_paths.every((path) =>
+          this.all_folders.find((f) => f.$path === path)
         );
-        if (matching_folder) {
-          return;
-        } else {
-          // folder doesnt exist
+        if (!allExist) {
+          // Some paths don't exist, redirect to selection
+          this.$router.push({ path: "/explore" });
         }
-      }
-
-      // then check locals
-      const last_opened_folder_path = localStorage.getItem(
-        "last_opened_folder_path"
-      );
-      if (last_opened_folder_path) {
-        const matching_folder = this.all_folders.find(
-          (f) => f.$path === last_opened_folder_path
-        );
-        if (matching_folder?.$path) {
-          this.$emit("changeCorpus", matching_folder.$path);
-          return;
-        }
-      }
-
-      if (this.all_folders.length > 0) {
-        this.$emit("changeCorpus", this.all_folders[0].$path);
       }
     },
     toggleMediaFocus(path) {
@@ -510,8 +501,38 @@ export default {
       delete query.stack;
       this.$router.push({ query });
     },
-    changeCorpus(folder_path) {
-      this.$emit("changeCorpus", folder_path);
+    toggleCorpus(folder_path) {
+      this.$emit("toggleCorpus", folder_path);
+    },
+    isCommunityActive(folder_path) {
+      return this.active_folder_paths.includes(folder_path);
+    },
+    getFolderTitle(folder_path) {
+      const folder = this.all_folders.find((f) => f.$path === folder_path);
+      return folder ? folder.title || this.$t("untitled") : this.$t("untitled");
+    },
+    joinRoom(roomPath) {
+      // Only join if we haven't already joined this room
+      if (!this.joined_rooms.has(roomPath)) {
+        this.$api.join({ room: roomPath });
+        this.joined_rooms.add(roomPath);
+      }
+    },
+    async loadStacksFromCommunities() {
+      // Load stacks from all active communities and merge them
+      const allStacksPromises = this.stack_shared_folder_paths.map(
+        (stackPath) => this.$api.getFolders({ path: stackPath })
+      );
+
+      const stacksArrays = await Promise.all(allStacksPromises);
+      // Merge all stacks and remove duplicates by path
+      const stacksMap = new Map();
+      stacksArrays.flat().forEach((stack) => {
+        if (!stacksMap.has(stack.$path)) {
+          stacksMap.set(stack.$path, stack);
+        }
+      });
+      this.all_stacks = Array.from(stacksMap.values());
     },
   },
 };
@@ -612,30 +633,71 @@ export default {
   gap: calc(var(--spacing) / 2);
   padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
   border-bottom: 1px solid var(--h-200);
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  @include scrollbar(3px, 4px, 4px, transparent, var(--c-noir));
 
   :deep(._content) {
     margin-right: 0;
   }
 }
 
-._corpusLabel {
+._communautesSection {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: calc(var(--spacing) / 2);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+._communautesLabel {
+  flex: 0 0 auto;
   margin-bottom: 0;
 }
 
 ._corpusItems {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   gap: calc(var(--spacing) / 2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: calc(var(--spacing) / 4) 0;
+
+  @include scrollbar(3px, 4px, 4px, transparent, var(--c-noir));
 }
 
 ._corpusItem {
+  flex: 0 0 auto;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: calc(var(--spacing) / 2);
+}
 
-  min-height: 4rem;
-  background: var(--h-100);
-  padding: calc(var(--spacing) / 2);
+._corpusItemButton {
+  ._corpusItem.is--active & {
+    background: var(--active-color);
+    color: white;
+    border-color: var(--active-color);
+  }
+}
+
+._closeIcon {
+  margin-left: calc(var(--spacing) / 4);
+  font-size: 0.75em;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+
+  ._corpusItemButton:hover & {
+    opacity: 1;
+  }
+}
+
+._addCommunityButton {
+  flex: 0 0 auto;
+  margin-left: calc(var(--spacing) / 2);
 }
 </style>
