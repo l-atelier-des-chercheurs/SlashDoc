@@ -201,16 +201,55 @@ export default {
     // Load all available communities
     this.all_folders = await this.$api.getFolders({ path: "folders" });
 
-    // Initialize selected folders from shared_folder_paths or query
+    // Initialize selected folders
     if (this.use_query) {
-      // If using query, get from route
-      if (this.computed_shared_folder_paths.length > 0) {
-        this.selected_folders = this.computed_shared_folder_paths.slice();
+      // If route has query params, use those (override localStorage)
+      if (this.$route && this.$route.query && this.$route.query.communities) {
+        const queryPaths = this.computed_shared_folder_paths;
+        if (queryPaths.length > 0) {
+          this.selected_folders = queryPaths.slice();
+          // Save to localStorage
+          this.saveToLocalStorage(this.selected_folders);
+        }
+      } else {
+        // No query params, try to load from localStorage
+        const saved = this.loadFromLocalStorage();
+        if (saved && saved.length > 0) {
+          // Verify that saved communities still exist
+          const validPaths = saved.filter((path) =>
+            this.all_folders.find((f) => f.$path === path)
+          );
+          if (validPaths.length > 0) {
+            this.selected_folders = validPaths;
+            // Update route to reflect localStorage
+            const slugs = validPaths.map((path) => path.split("/").pop());
+            this.$router.replace({
+              path: this.$route.path,
+              query: { communities: slugs.join(",") },
+            });
+          }
+        }
       }
     } else {
-      // If using local state, get from prop
-      if (this.shared_folder_paths.length > 0) {
+      // If using local state, try to get from prop first, then localStorage
+      if (this.shared_folder_paths && this.shared_folder_paths.length > 0) {
         this.selected_folders = this.shared_folder_paths.slice();
+      } else {
+        // Load from localStorage
+        const saved = this.loadFromLocalStorage();
+        if (saved && saved.length > 0) {
+          // Verify that saved communities still exist
+          const validPaths = saved.filter((path) =>
+            this.all_folders.find((f) => f.$path === path)
+          );
+          if (validPaths.length > 0) {
+            this.selected_folders = validPaths;
+            // Update parent component (this will trigger the watcher to save to localStorage)
+            this.$nextTick(() => {
+              this.$emit("communitiesSelected", this.selected_folders);
+            });
+          }
+        }
       }
     }
   },
@@ -219,7 +258,16 @@ export default {
     computed_shared_folder_paths: {
       handler(newPaths) {
         if (this.use_query) {
-          this.selected_folders = newPaths ? newPaths.slice() : [];
+          // When query params are present, use them (override localStorage)
+          if (
+            this.$route &&
+            this.$route.query &&
+            this.$route.query.communities
+          ) {
+            this.selected_folders = newPaths ? newPaths.slice() : [];
+            // Save to localStorage (will be saved by selected_folders watcher too)
+          }
+          // If no query params, don't update from computed (let localStorage handle it in mounted)
         }
       },
       immediate: true,
@@ -231,6 +279,13 @@ export default {
         }
       },
       immediate: true,
+    },
+    selected_folders: {
+      handler(newFolders) {
+        // Always save to localStorage
+        this.saveToLocalStorage(newFolders);
+      },
+      deep: true,
     },
   },
   computed: {
@@ -426,6 +481,39 @@ export default {
       }
 
       this.community_to_remove = null;
+    },
+    saveToLocalStorage(folders) {
+      try {
+        if (folders && folders.length > 0) {
+          localStorage.setItem(
+            "corpusManager.selected_communities",
+            JSON.stringify(folders)
+          );
+        } else {
+          localStorage.removeItem("corpusManager.selected_communities");
+        }
+      } catch (error) {
+        console.warn(
+          "Failed to save selected communities to localStorage",
+          error
+        );
+      }
+    },
+    loadFromLocalStorage() {
+      try {
+        const saved = localStorage.getItem(
+          "corpusManager.selected_communities"
+        );
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (error) {
+        console.warn(
+          "Failed to load selected communities from localStorage",
+          error
+        );
+      }
+      return null;
     },
   },
 };
