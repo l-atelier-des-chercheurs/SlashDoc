@@ -888,6 +888,7 @@ export default {
 
     padding: calc(var(--spacing) / 4) calc(var(--spacing) / 2);
     background: var(--active-color);
+    background: white;
     box-shadow: var(--panel-shadows);
 
     border-radius: 12px;
