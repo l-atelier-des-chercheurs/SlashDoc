@@ -556,11 +556,12 @@ hr {
   position: relative;
   border-bottom: 1px solid var(--sd-separator);
   z-index: 2;
-  text-align: right;
 
   > button {
+    display: block;
+    text-align: right;
     width: 100%;
-    padding: calc(var(--spacing) / 2);
+    padding: 0 calc(var(--spacing) / 2);
     height: 2rem;
     justify-content: flex-end;
     border-radius: 0;

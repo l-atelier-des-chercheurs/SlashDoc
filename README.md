@@ -2,10 +2,10 @@ Lumadoc, based on dodoc https://github.com/l-atelier-des-chercheurs/dodoc
 
 Branches:
 
-- lumadoc-node
-
-Main code, running on luma server
-
 - lumadoc-node-avril25
 
-Experimental branch, new version prepared for June 2025.
+Main branch running on luma server as of 01/12/2025
+
+- lumadoc-next
+
+Main code, running on luma server

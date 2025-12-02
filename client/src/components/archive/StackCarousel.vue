@@ -247,7 +247,7 @@ export default {
 
     ._preview--media {
       opacity: 0.5;
-      transform: scale(0.8) rotate(-5deg);
+      transform: scale(0.8) rotate(0deg);
     }
   }
 

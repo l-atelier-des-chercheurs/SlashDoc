@@ -6,7 +6,7 @@
       'is--sidebarHidden': !showSidebar,
     }"
   >
-    <div class="_sidebarToggle">
+    <div class="_sidebarToggle" v-if="showToggleButton">
       <button
         type="button"
         class="u-button u-button_icon"
@@ -59,6 +59,10 @@ export default {
       default: true,
     },
     showSidebar: {
+      type: Boolean,
+      default: true,
+    },
+    showToggleButton: {
       type: Boolean,
       default: true,
     },

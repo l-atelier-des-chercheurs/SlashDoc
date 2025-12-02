@@ -6,8 +6,7 @@
       @close="$emit('close')"
       @mediasSelected="mediasSelected"
     />
-
-  </BaseModal2>
+  </div>
 </template>
 <script>
 import PickExistingMediastackModal from "@/components/PickExistingMediastackModal.vue";

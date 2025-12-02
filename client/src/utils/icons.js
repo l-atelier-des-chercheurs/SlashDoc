@@ -9,7 +9,6 @@ import {
   BIconArrowLeftShort,
   BIconX,
   BIconXLg,
-  BIconX,
   BIconPinMap,
   BIconPinMapFill,
   BIconStar,
