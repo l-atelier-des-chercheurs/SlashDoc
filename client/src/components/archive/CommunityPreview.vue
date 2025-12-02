@@ -46,10 +46,9 @@
           {{ $t("remove") }}
         </button>
       </DropDown>
-      {{ folder.$status }}
     </div>
     <div class="_selectContainer">
-      <label :for="folder.$path" class="_selectLabel">
+      <label v-if="can_see" :for="folder.$path" class="_selectLabel">
         <span class="_selectText" v-if="can_see">{{ $t("select") }}</span>
         <input
           type="checkbox"
@@ -61,6 +60,47 @@
           :disabled="!can_see"
         />
       </label>
+      <div v-else class="_joinLabel">
+        <div>{{ $t("access_restricted") }}</div>
+        <button
+          v-if="folder.$admins && folder.$admins.length > 0"
+          type="button"
+          class="u-button u-button_primary"
+          @click="showAskToJoin = true"
+        >
+          {{ $t("ask_to_join") }}
+        </button>
+        <BaseModal2
+          v-if="showAskToJoin"
+          :title="$t('ask_to_join')"
+          @close="showAskToJoin = false"
+        >
+          <div style="margin-bottom: 1.5em">
+            <p>
+              {{ $t("send_email_to_admins") }}
+            </p>
+            <ul>
+              <li v-for="admin in folder.$admins" :key="admin.email">
+                <a :href="mailtoLink(admin.email)">
+                  {{ admin.email }}
+                </a>
+              </li>
+            </ul>
+            <p>
+              {{ $t("email_instructions") }}
+            </p>
+          </div>
+          <div style="text-align: right">
+            <button
+              type="button"
+              class="u-button"
+              @click="showAskToJoin = false"
+            >
+              {{ $t("close") }}
+            </button>
+          </div>
+        </BaseModal2>
+      </div>
     </div>
   </div>
 </template>
@@ -74,21 +114,48 @@ export default {
       type: Object,
       required: true,
     },
-    can_edit: {
-      type: Boolean,
-      default: false,
-    },
-    can_see: {
-      type: Boolean,
-      default: true,
-    },
     is_selected: {
       type: Boolean,
       default: false,
     },
   },
+  computed: {
+    can_edit() {
+      return this.canLoggedinEditFolder({ folder: this.folder });
+    },
+    can_see() {
+      return this.canLoggedinSeeFolder({ folder: this.folder });
+    },
+  },
   components: {
     DropDown,
+  },
+  i18n: {
+    messages: {
+      fr: {
+        access_restricted: "Accès restreint",
+        ask_to_join: "Demander à rejoindre",
+        send_email_to_admins: "Envoyer un email aux administrateurs",
+        email_instructions:
+          "Les administrateurs recevront un email avec votre demande.",
+      },
+    },
+    en: {
+      access_restricted: "Access restricted",
+      ask_to_join: "Ask to join",
+      send_email_to_admins: "Send email to admins",
+      email_instructions: "The admins will receive an email with your request.",
+    },
+  },
+  data() {
+    return {
+      showAskToJoin: false,
+    };
+  },
+  methods: {
+    mailtoLink(email) {
+      return `mailto:${email}`;
+    },
   },
 };
 </script>
@@ -158,5 +225,15 @@ export default {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
+}
+
+._joinLabel {
+  font-size: var(--sl-font-size-small);
+  color: var(--h-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+
+  text-align: center;
 }
 </style>

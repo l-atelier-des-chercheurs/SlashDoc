@@ -20,8 +20,6 @@
           v-for="folder in displayed_folders"
           :key="folder.$path"
           :folder="folder"
-          :can_edit="canEditCommunity(folder)"
-          :can_see="canSeeCommunity(folder)"
           :is_selected="selected_folders.includes(folder.$path)"
           @select="handleSelect"
           @remove="showRemoveModal"
@@ -272,12 +270,6 @@ export default {
         // Emit event for local state management
         this.$emit("communitiesSelected", this.selected_folders);
       }
-    },
-    canEditCommunity(folder) {
-      return this.canLoggedinEditFolder({ folder: folder });
-    },
-    canSeeCommunity(folder) {
-      return this.canLoggedinSeeFolder({ folder: folder });
     },
     handleSelect(folder_path, is_selected) {
       if (is_selected) {

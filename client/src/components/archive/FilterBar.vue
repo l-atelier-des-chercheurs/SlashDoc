@@ -149,7 +149,7 @@
                 </div>
                 <div class="_keywordCheckboxes">
                   <label
-                    v-for="keyword in category.keywords"
+                    v-for="keyword in displayedKeywords(category)"
                     :key="keyword.title"
                     class="u-keywords _keywordCheckbox"
                   >
@@ -166,6 +166,28 @@
                       :cat_color="getCategoryColor(category.type)"
                     />
                   </label>
+                  <button
+                    v-if="shouldShowMoreButton(category)"
+                    type="button"
+                    class="u-buttonLink _showMoreButton"
+                    @click="toggleCategoryExpansion(category.type)"
+                  >
+                    <template v-if="!isCategoryExpanded(category.type)">
+                      {{ $t("show_more") }} ({{
+                        category.keywords.length - initial_keywords_limit
+                      }})
+                    </template>
+                    <template v-else>
+                      {{ $t("show_less") }}
+                    </template>
+                    <b-icon
+                      :icon="
+                        isCategoryExpanded(category.type)
+                          ? 'chevron-up'
+                          : 'chevron-down'
+                      "
+                    />
+                  </button>
                 </div>
               </div>
             </div>
@@ -205,6 +227,8 @@ export default {
   data() {
     return {
       all_authors: [],
+      expanded_categories: {},
+      initial_keywords_limit: 5,
 
       group_options: [
         {
@@ -261,11 +285,15 @@ export default {
   i18n: {
     messages: {
       fr: {
+        show_more: "Afficher plus",
+        show_less: "Afficher moins",
         search_fields:
           "Rechercher dans les champs titre et description des documents.",
         stack_preview_width: "Largeur aperçu",
       },
       en: {
+        show_more: "Show more",
+        show_less: "Show less",
         search_fields: "Search in titles or descriptions of documents.",
         stack_preview_width: "Preview width",
       },
@@ -370,6 +398,25 @@ export default {
         (c) => c.title === categoryType
       );
       return category?.tag_color;
+    },
+    displayedKeywords(category) {
+      if (this.isCategoryExpanded(category.type)) {
+        return category.keywords;
+      }
+      return category.keywords.slice(0, this.initial_keywords_limit);
+    },
+    shouldShowMoreButton(category) {
+      return category.keywords.length > this.initial_keywords_limit;
+    },
+    isCategoryExpanded(categoryType) {
+      return this.expanded_categories[categoryType] === true;
+    },
+    toggleCategoryExpansion(categoryType) {
+      this.$set(
+        this.expanded_categories,
+        categoryType,
+        !this.expanded_categories[categoryType]
+      );
     },
   },
 };
@@ -480,9 +527,22 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   gap: calc(var(--spacing) / 4);
-  max-height: 30vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  // overflow-x: hidden;
+}
+
+._showMoreButton {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: calc(var(--spacing) / 4);
+  margin-top: calc(var(--spacing) / 4);
+  font-size: var(--sl-font-size-small);
+  color: var(--h-600);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--h-700);
+  }
 }
 
 ._keywordCheckbox {

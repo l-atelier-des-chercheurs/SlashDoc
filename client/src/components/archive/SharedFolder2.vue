@@ -12,15 +12,15 @@
           >
             <button
               type="button"
-              class="u-button u-button_pill"
+              class="u-button"
               :class="{ 'is--active': isCommunityActive(folder.$path) }"
               @click="toggleCorpus(folder.$path)"
             >
               {{ folder.title || $t("untitled") }}
-              <b-icon
+              <!-- <b-icon
                 :icon="isCommunityActive(folder.$path) ? 'x' : 'plus'"
                 class="_toggleIcon"
-              />
+              /> -->
             </button>
           </div>
         </div>
@@ -681,13 +681,13 @@ export default {
   flex-flow: row nowrap;
   align-items: center;
 
-  &.is--active {
-    .u-button {
-      background: var(--active-color);
-      color: white;
-      border-color: var(--active-color);
-    }
-  }
+  // &.is--active {
+  //   .u-button {
+  //     background: var(--active-color);
+  //     color: white;
+  //     border-color: var(--active-color);
+  //   }
+  // }
 }
 
 ._toggleIcon {
