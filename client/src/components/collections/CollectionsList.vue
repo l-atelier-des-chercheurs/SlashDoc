@@ -323,12 +323,12 @@ export default {
   --radio-switch-width: 100%;
 
   ::v-deep .radio-switch {
-    width: 100%;
-    border: 0px;
-    font-size: var(--sl-font-size-small);
-    --radio-switch-width: 100%;
-    --radio-switch-height: 41px;
-    --radio-switch-padding: 0px;
+    // width: 100%;
+    // border: 0px;
+    // font-size: var(--sl-font-size-small);
+    // --radio-switch-width: 100%;
+    // --radio-switch-height: 41px;
+    // --radio-switch-padding: 0px;
   }
 }
 
