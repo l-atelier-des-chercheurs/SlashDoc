@@ -136,14 +136,15 @@
           <div class="_tag">
             <DLabel :str="$t('filter_by_keyword')" />
 
-            <fieldset
+            <details
               v-for="category in keywords_by_category"
               :key="category.type"
               class="_keywordCategory"
+              :open="isCategoryExpanded(category.type)"
             >
-              <legend class="_categoryHeader">
+              <summary class="_categoryHeader">
                 {{ category.type }}
-              </legend>
+              </summary>
               <div class="_keywordCheckboxes">
                 <label
                   v-for="keyword in displayedKeywords(category)"
@@ -187,13 +188,17 @@
                   />
                 </button>
               </div>
-            </fieldset>
+            </details>
           </div>
         </div>
       </div>
     </transition>
     <div class="_resetFilters" v-if="can_be_reset">
-      <button type="button" class="u-buttonLink" @click="resetFilters">
+      <button
+        type="button"
+        class="u-button u-button_black u-button_pill"
+        @click="resetFilters"
+      >
         {{ $t("reset") }}
       </button>
     </div>
