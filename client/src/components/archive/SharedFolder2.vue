@@ -75,7 +75,6 @@
             :group_mode.sync="group_mode"
             :sort_order.sync="sort_order"
             :search_str.sync="search_str"
-            :filetype_filter.sync="filetype_filter"
             :author_path_filter.sync="author_path_filter"
             :available_keywords="valid_keywords"
             :keywords_filter.sync="keywords_filter"
@@ -86,18 +85,11 @@
         </template>
 
         <template #content>
-          <transition name="pagechange" mode="out-in">
-            <transition-group
-              tag="div"
-              name="projectsList"
-              class="_stacksList"
-              appear
-              :key="sort_order + '-' + group_mode"
-            >
+          <transition name="fade" mode="out-in">
+            <div class="_stacksList" :key="sort_order + '-' + group_mode">
               <div
                 v-if="grouped_stacks.length === 0"
                 class="u-instructions _noContent"
-                :key="'nocontent'"
               >
                 {{ $t("no_content") }}
               </div>
@@ -111,17 +103,14 @@
                     <div class="_label">
                       {{ label }}
                     </div>
-                    <transition-group
-                      tag="div"
+                    <div
                       class="_itemGrid"
                       :class="{
                         'is--compact': display_mode === 'compact',
                       }"
-                      name="listComplete"
                       :style="{
                         '--stack_preview_width': `${stack_preview_width}px`,
                       }"
-                      appear
                     >
                       <StackPreview
                         v-for="stack in stacks"
@@ -134,7 +123,7 @@
                         @toggleFav="toggleFav(stack.$path)"
                         @openStack="openStack"
                       />
-                    </transition-group>
+                    </div>
                   </div>
                 </template>
                 <div
@@ -148,7 +137,7 @@
                   />
                 </div>
               </template>
-            </transition-group>
+            </div>
           </transition>
         </template>
       </TwoColumnLayout>
@@ -194,15 +183,17 @@ export default {
       show_admin_settings: false,
 
       last_selected_stack_path: undefined,
-      view_mode: "list",
+      view_mode: localStorage.getItem("archive.view_mode") || "list",
 
       sort_order: localStorage.getItem("archive.sort_order") || "date_modified",
 
-      search_str: "",
-      filetype_filter: "all",
-      author_path_filter: "",
-      keywords_filter: [],
-      group_mode: "year",
+      search_str: localStorage.getItem("archive.search_str") || "",
+      author_path_filter:
+        localStorage.getItem("archive.author_path_filter") || "",
+      keywords_filter: JSON.parse(
+        localStorage.getItem("archive.keywords_filter") || "[]"
+      ),
+      group_mode: localStorage.getItem("archive.group_mode") || "year",
 
       selected_medias_paths: [],
 
@@ -290,6 +281,27 @@ export default {
     sort_order() {
       localStorage.setItem("archive.sort_order", this.sort_order);
     },
+    view_mode() {
+      localStorage.setItem("archive.view_mode", this.view_mode);
+    },
+    search_str() {
+      localStorage.setItem("archive.search_str", this.search_str);
+    },
+    author_path_filter() {
+      localStorage.setItem(
+        "archive.author_path_filter",
+        this.author_path_filter
+      );
+    },
+    keywords_filter: {
+      handler(newVal) {
+        localStorage.setItem("archive.keywords_filter", JSON.stringify(newVal));
+      },
+      deep: true,
+    },
+    group_mode() {
+      localStorage.setItem("archive.group_mode", this.group_mode);
+    },
     show_filter_bar() {
       localStorage.setItem("archive.show_filter_bar", this.show_filter_bar);
     },
@@ -367,9 +379,6 @@ export default {
           if (!this.keywords_filter.every((kwf) => f.keywords.includes(kwf)))
             return false;
         }
-        // if (this.filetype_filter !== "all")
-        //   if (!this.fileOrStackContainsType(f, this.filetype_filter))
-        //     return false;
 
         if (this.search_str) {
           if (
@@ -586,12 +595,11 @@ export default {
     minmax(var(--stack_preview_width, 120px), 1fr)
   );
   align-items: baseline;
-  gap: calc(var(--stack_preview_width, 120px) / 10)
-    calc(var(--stack_preview_width, 120px) / 40);
+  gap: calc(var(--stack_preview_width, 120px) / 20);
 }
 
 ._itemGrid.is--compact {
-  gap: 2px;
+  gap: 0;
 }
 
 ._stacksList {

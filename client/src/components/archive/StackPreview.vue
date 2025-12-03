@@ -194,11 +194,7 @@ export default {
 
   // border-radius: 2px;
   overflow: hidden;
-  padding: clamp(
-    1px,
-    calc(var(--stack_preview_width) / 40),
-    calc(var(--stack_preview_width) / 40)
-  );
+  padding: 1px;
 
   transform-origin: center calc(100% - 2em);
   transition: all 0.45s cubic-bezier(0.19, 1, 0.22, 1);
@@ -240,7 +236,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    max-height: calc(var(--stack_preview_width) * 1.6);
+    max-height: calc(var(--stack_preview_width) * 2);
     float: right;
 
     &[data-filetype="text"] {

@@ -92,7 +92,7 @@
         >
           <b-icon icon="x-lg" />
         </button> -->
-        <div class="_filterPane--row">
+        <div class="u-sameRow _filterPane--row">
           <select
             class="_selectField"
             :value="sort_order"
@@ -114,7 +114,9 @@
               v-text="group_option.label"
             />
           </select>
+        </div>
 
+        <div class="_filterPane--row">
           <select
             class="_selectField"
             :value="author_path_filter"
@@ -134,59 +136,57 @@
           <div class="_tag">
             <DLabel :str="$t('filter_by_keyword')" />
 
-            <div class="_keywordsScrollContainer">
-              <div
-                v-for="category in keywords_by_category"
-                :key="category.type"
-                class="_keywordCategory"
-              >
-                <div class="_categoryHeader">
-                  {{ category.type }}
-                </div>
-                <div class="_keywordCheckboxes">
-                  <label
-                    v-for="keyword in displayedKeywords(category)"
-                    :key="keyword.title"
-                    class="u-keywords _keywordCheckbox"
-                  >
-                    <input
-                      type="checkbox"
-                      :checked="isKeywordSelected(keyword.title)"
-                      @change="
-                        toggleKeyword(keyword.title, $event.target.checked)
-                      "
-                    />
-                    <SingleKeyword
-                      :keyword="keyword.title"
-                      :count="keyword.count"
-                      :cat_color="getCategoryColor(category.type)"
-                    />
-                  </label>
-                  <button
-                    v-if="shouldShowMoreButton(category)"
-                    type="button"
-                    class="u-buttonLink _showMoreButton"
-                    @click="toggleCategoryExpansion(category.type)"
-                  >
-                    <template v-if="!isCategoryExpanded(category.type)">
-                      {{ $t("show_more") }} ({{
-                        category.keywords.length - initial_keywords_limit
-                      }})
-                    </template>
-                    <template v-else>
-                      {{ $t("show_less") }}
-                    </template>
-                    <b-icon
-                      :icon="
-                        isCategoryExpanded(category.type)
-                          ? 'chevron-up'
-                          : 'chevron-down'
-                      "
-                    />
-                  </button>
-                </div>
+            <fieldset
+              v-for="category in keywords_by_category"
+              :key="category.type"
+              class="_keywordCategory"
+            >
+              <legend class="_categoryHeader">
+                {{ category.type }}
+              </legend>
+              <div class="_keywordCheckboxes">
+                <label
+                  v-for="keyword in displayedKeywords(category)"
+                  :key="keyword.title"
+                  class="u-keywords _keywordCheckbox"
+                >
+                  <input
+                    type="checkbox"
+                    :checked="isKeywordSelected(keyword.title)"
+                    @change="
+                      toggleKeyword(keyword.title, $event.target.checked)
+                    "
+                  />
+                  <SingleKeyword
+                    :keyword="keyword.title"
+                    :count="keyword.count"
+                    :cat_color="getCategoryColor(category.type)"
+                  />
+                </label>
+                <button
+                  v-if="shouldShowMoreButton(category)"
+                  type="button"
+                  class="u-buttonLink _showMoreButton"
+                  @click="toggleCategoryExpansion(category.type)"
+                >
+                  <template v-if="!isCategoryExpanded(category.type)">
+                    {{ $t("show_more") }} ({{
+                      category.keywords.length - initial_keywords_limit
+                    }})
+                  </template>
+                  <template v-else>
+                    {{ $t("show_less") }}
+                  </template>
+                  <b-icon
+                    :icon="
+                      isCategoryExpanded(category.type)
+                        ? 'chevron-up'
+                        : 'chevron-down'
+                    "
+                  />
+                </button>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
       </div>
@@ -208,7 +208,6 @@ export default {
     group_mode: String,
     sort_order: String,
     search_str: String,
-    filetype_filter: String,
     author_path_filter: String,
     available_keywords: Array,
     keywords_filter: Array,
@@ -339,7 +338,6 @@ export default {
         this.sort_order !== "date_modified" ||
         this.search_str !== "" ||
         this.author_path_filter !== "" ||
-        this.filetype_filter !== "all" ||
         this.keywords_filter.length > 0
       );
     },
@@ -350,7 +348,6 @@ export default {
       this.$emit("update:sort_order", "date_modified");
       this.$emit("update:search_str", "");
       this.$emit("update:author_path_filter", "");
-      this.$emit("update:filetype_filter", "all");
       this.$emit("update:keywords_filter", []);
     },
     getKeywordCategory(keyword) {
@@ -451,10 +448,10 @@ export default {
 }
 
 ._filterPane--row {
-  display: flex;
-  flex-flow: row wrap;
-  gap: calc(var(--spacing) / 2);
-  padding-bottom: calc(var(--spacing) * 1);
+  // display: flex;
+  // flex-flow: column nowrap;
+  // gap: calc(var(--spacing) / 2);
+  padding-bottom: calc(var(--spacing) / 2);
 
   > * {
     flex: 1 1 100px;
@@ -486,7 +483,7 @@ export default {
   border: 1px solid var(--h-500);
   border-radius: 4px;
   // max-width: 420px;
-  min-width: 20ch;
+  // min-width: 20ch;
   color: var(--h-700);
 
   background-color: transparent;
@@ -496,9 +493,6 @@ export default {
   flex: 1 1 100px;
   max-width: 420px;
   margin-bottom: calc(var(--spacing) / 2);
-}
-
-._keywordsScrollContainer {
 }
 
 ._keywordCategory {
