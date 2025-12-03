@@ -466,10 +466,13 @@ export default {
 }
 
 ._actions {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-end;
-  gap: calc(var(--spacing) / 2);
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  // background-color: var(--h-50);
+  padding: calc(var(--spacing) / 2);
+  // border-top: 1px solid var(--h-200);
 }
 
 ._noCommunities {

@@ -12,7 +12,7 @@
           >
             <button
               type="button"
-              class="u-button"
+              class="u-button u-button_pill u-button_black"
               :class="{ 'is--active': isCommunityActive(folder.$path) }"
               @click="toggleCorpus(folder.$path)"
             >
@@ -636,7 +636,7 @@ export default {
   flex-flow: row nowrap;
   align-items: center;
   gap: calc(var(--spacing) / 2);
-  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
+  padding: calc(var(--spacing) / 4) calc(var(--spacing) * 2);
   border-bottom: 1px solid var(--h-200);
   overflow-x: auto;
   overflow-y: hidden;
@@ -670,7 +670,7 @@ export default {
   overflow-y: hidden;
   flex: 1 1 auto;
   min-width: 0;
-  padding: calc(var(--spacing) / 4) 0;
+  // padding: calc(var(--spacing) / 4) 0;
 
   @include scrollbar(3px, 4px, 4px, transparent, var(--c-noir));
 }

@@ -48,8 +48,8 @@
       </DropDown>
     </div>
     <div class="_selectContainer">
-      <label v-if="can_see" :for="folder.$path" class="_selectLabel">
-        <span class="_selectText" v-if="can_see">{{ $t("select") }}</span>
+      <label v-if="can_open_community" :for="folder.$path" class="_selectLabel">
+        <span class="_selectText">{{ $t("select") }}</span>
         <input
           type="checkbox"
           :id="folder.$path"
@@ -57,7 +57,6 @@
           :checked="is_selected"
           @change="$emit('select', folder.$path, $event.target.checked)"
           class="_checkbox"
-          :disabled="!can_see"
         />
       </label>
       <div v-else class="_joinLabel">
@@ -119,14 +118,6 @@ export default {
       default: false,
     },
   },
-  computed: {
-    can_edit() {
-      return this.canLoggedinEditFolder({ folder: this.folder });
-    },
-    can_see() {
-      return this.canLoggedinSeeFolder({ folder: this.folder });
-    },
-  },
   components: {
     DropDown,
   },
@@ -151,6 +142,17 @@ export default {
     return {
       showAskToJoin: false,
     };
+  },
+  computed: {
+    can_edit() {
+      return this.canLoggedinEditFolder({ folder: this.folder });
+    },
+    can_see() {
+      return this.canLoggedinSeeFolder({ folder: this.folder });
+    },
+    can_open_community() {
+      return this.can_edit || this.can_see || this.folder.$status !== "private";
+    },
   },
   methods: {
     mailtoLink(email) {
@@ -212,7 +214,7 @@ export default {
 
 ._selectLabel {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
   gap: calc(var(--spacing) / 4);
