@@ -8,7 +8,7 @@
         :data-type="file.$type"
       >
         <div v-if="file.$type === 'text'" class="_textEditor">
-          <CollaborativeEditor2
+          <CollaborativeEditor3
             :path="file.$path"
             :content="file.$content"
             :custom_formats="['bold', 'italic', 'underline', 'link']"
@@ -106,7 +106,7 @@
           </div>
 
           <div class="u-spacingBottom">
-            <CollaborativeEditor2
+            <CollaborativeEditor3
               :label="$t('caption')"
               :field_to_edit="'caption'"
               :content="file.caption"
@@ -119,7 +119,7 @@
           </div>
 
           <div class="">
-            <CollaborativeEditor2
+            <CollaborativeEditor3
               :label="$t('credit/reference')"
               :field_to_edit="'$credits'"
               :content="file.$credits"

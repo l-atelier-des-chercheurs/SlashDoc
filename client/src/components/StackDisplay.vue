@@ -51,7 +51,7 @@
               <hr />
 
               <div>
-                <CollaborativeEditor2
+                <CollaborativeEditor3
                   :label="$t('description')"
                   :field_to_edit="'description'"
                   :content="stack.description"

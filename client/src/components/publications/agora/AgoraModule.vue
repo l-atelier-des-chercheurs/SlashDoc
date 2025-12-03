@@ -69,7 +69,7 @@
           :context="'full'"
           :show_fs_button="true"
         />
-        <CollaborativeEditor2
+        <CollaborativeEditor3
           v-else
           ref="textBloc"
           :path="first_media.$path"

@@ -4,7 +4,7 @@
     @close="$emit('close')"
   >
     <div class="u-spacingBottom">
-      <CollaborativeEditor2
+      <CollaborativeEditor3
         :content="
           $i18n.locale === 'fr'
             ? $root.app_infos.instance_meta.presentation_of_instance_fr

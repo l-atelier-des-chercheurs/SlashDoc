@@ -34,7 +34,7 @@
             </div>
 
             <div class="u-spacingBottom">
-              <CollaborativeEditor2
+              <CollaborativeEditor3
                 :label="$t('presentation_of_instance') + ' (en français)'"
                 :field_to_edit="'presentation_of_instance_fr'"
                 :instructions="$t('presentation_of_instance_instructions')"
@@ -46,7 +46,7 @@
               />
             </div>
             <div class="u-spacingBottom">
-              <CollaborativeEditor2
+              <CollaborativeEditor3
                 :label="$t('presentation_of_instance') + ' (en anglais)'"
                 :field_to_edit="'presentation_of_instance_en'"
                 :instructions="$t('presentation_of_instance_instructions')"

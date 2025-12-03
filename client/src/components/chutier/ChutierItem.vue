@@ -124,7 +124,7 @@
         </div>
       </div>
     </div>
-    <!-- <CollaborativeEditor2
+    <!-- <CollaborativeEditor3
           v-if="file.$type === 'text'"
             class="_content"
             :path="file.$path"
