@@ -10,18 +10,24 @@
             class="_corpusItem"
             :class="{ 'is--active': isCommunityActive(folder.$path) }"
           >
-            <button
-              type="button"
-              class="u-button u-button_pill u-button_white"
+            <label
+              :for="`corpus-checkbox-${folder.$path}`"
+              class="u-button u-button_pill u-button_white _corpusItemLabel"
               :class="{ 'is--active': isCommunityActive(folder.$path) }"
-              @click="toggleCorpus(folder.$path)"
             >
+              <input
+                type="checkbox"
+                :id="`corpus-checkbox-${folder.$path}`"
+                :checked="isCommunityActive(folder.$path)"
+                @change="toggleCorpus(folder.$path)"
+                class="_corpusCheckbox"
+              />
               {{ folder.title || $t("untitled") }}
               <!-- <b-icon
                 :icon="isCommunityActive(folder.$path) ? 'x' : 'plus'"
                 class="_toggleIcon"
               /> -->
-            </button>
+            </label>
           </div>
         </div>
         <button
@@ -688,6 +694,21 @@ export default {
   //     border-color: var(--active-color);
   //   }
   // }
+}
+
+._corpusItemLabel {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: calc(var(--spacing) / 4);
+  cursor: pointer;
+  margin: 0;
+}
+
+._corpusCheckbox {
+  flex: 0 0 auto;
+  cursor: pointer;
+  margin: 0;
 }
 
 ._toggleIcon {

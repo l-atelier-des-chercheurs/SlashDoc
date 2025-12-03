@@ -5,10 +5,10 @@
         <TitleField
           :field_name="'title'"
           :label="$t('title')"
+          :show_label="false"
           :content="folder.title || ''"
           :path="folder.$path"
           :can_edit="can_edit"
-          :show_label="true"
           :tag="'div'"
           :maxlength="100"
         />
@@ -167,7 +167,7 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   gap: calc(var(--spacing) / 2);
-  padding: calc(var(--spacing) * 0.5);
+  padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1);
 
   background-color: var(--h-50);
   border: 1px solid var(--h-200);
@@ -187,8 +187,8 @@ export default {
 }
 
 ._communityTitle {
-  font-weight: 500;
-  font-size: var(--sl-font-size-medium);
+  // font-weight: 500;
+  font-size: var(--sl-font-size-large);
 }
 
 ._communityDescription {
