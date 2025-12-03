@@ -3,27 +3,37 @@
     <slot name="top" />
 
     <div>
-      <div class="_stackPreviewWidthSlider">
-        <label class="_sliderLabel">{{ $t("stack_preview_width") }}</label>
-        <input
-          type="range"
-          class="_inputRange"
-          :value="stack_preview_width"
-          min="50"
-          max="250"
-          step="5"
-          @input="$emit('update:stack_preview_width', +$event.target.value)"
-        />
-      </div>
-      <div class="u-sameRow">
+      <div class="u-sameRow u-spacingBottom">
+        <div class="_stackPreviewWidthSlider">
+          <input
+            type="range"
+            class="_inputRange"
+            :value="stack_preview_width"
+            min="50"
+            max="250"
+            step="5"
+            @input="$emit('update:stack_preview_width', +$event.target.value)"
+          />
+        </div>
+
         <div>
           <button
+            class="u-button u-button_icon"
             type="button"
-            class="u-button u-button_icon u-button_transparent"
             :class="{
-              'is--active': fav_filter === true,
+              'is--active': view_mode === 'list',
             }"
-            @click="$emit('update:fav_filter', !fav_filter)"
+            @click="$emit('update:view_mode', 'list')"
+          >
+            <b-icon icon="grid3x3" />
+          </button>
+          <button
+            class="u-button u-button_icon"
+            type="button"
+            :class="{
+              'is--active': view_mode === 'fav',
+            }"
+            @click="$emit('update:view_mode', 'fav')"
           >
             <svg
               width="16"
@@ -37,23 +47,8 @@
                 stroke-linejoin="round"
               />
             </svg>
-
-            <!-- <b-icon v-if="!is_favorite" icon="star" :aria-label="$t('add')" />
-          <b-icon v-else icon="star-fill" :aria-label="$t('remove')" /> -->
           </button>
-        </div>
-
-        <button
-          class="u-button u-button_icon"
-          type="button"
-          :class="{
-            'is--active': view_mode === 'list',
-          }"
-          @click="$emit('update:view_mode', 'list')"
-        >
-          <b-icon icon="grid3x3" />
-        </button>
-        <!-- <button
+          <!-- <button
           class="u-button u-button_icon"
           type="button"
           :class="{
@@ -63,16 +58,17 @@
         >
           <b-icon icon="calendar-week" />
         </button> -->
-        <button
-          class="u-button u-button_icon"
-          type="button"
-          :class="{
-            'is--active': view_mode === 'map',
-          }"
-          @click="$emit('update:view_mode', 'map')"
-        >
-          <b-icon icon="map-fill" />
-        </button>
+          <button
+            class="u-button u-button_icon"
+            type="button"
+            :class="{
+              'is--active': view_mode === 'map',
+            }"
+            @click="$emit('update:view_mode', 'map')"
+          >
+            <b-icon icon="map-fill" />
+          </button>
+        </div>
       </div>
     </div>
 
@@ -216,7 +212,6 @@ export default {
     author_path_filter: String,
     available_keywords: Array,
     keywords_filter: Array,
-    fav_filter: Boolean,
     view_mode: String,
     stack_preview_width: Number,
   },
@@ -564,7 +559,7 @@ export default {
   flex-flow: row nowrap;
   align-items: center;
   gap: calc(var(--spacing) / 2);
-  min-width: 200px;
+  flex: 1 1 150px;
 }
 
 ._sliderLabel {
