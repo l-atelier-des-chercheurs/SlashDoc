@@ -144,10 +144,19 @@ export default {
       }
 
       nodes.chapters.forEach((chapter) => {
+        let starts_on_page = chapter.starts_on_page;
+        if (
+          !starts_on_page &&
+          (chapter.section_type === "gallery" ||
+            chapter.section_type === "grid")
+        ) {
+          starts_on_page = "page";
+        }
+
         html += `
           <!-- ${chapter.title} -->`;
         html += `<section class="chapter"
-          data-starts-on-page="${chapter.starts_on_page}"
+          data-starts-on-page="${starts_on_page}"
           style="--column-count: ${chapter.column_count};"
           data-chapter-meta-filename="${chapter.meta_filename}"
           data-chapter-title="${chapter.title}"

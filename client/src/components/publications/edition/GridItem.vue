@@ -31,12 +31,21 @@
             </button>
           </template>
         </CollaborativeEditor3>
+
+        <PickMediaForMarkdown
+          v-if="show_media_picker"
+          :publication_path="publication.$path"
+          @insertToText="insertToText"
+          @close="closePickModal"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import PickMediaForMarkdown from "./PickMediaForMarkdown.vue";
+
 export default {
   props: {
     area: {
@@ -46,17 +55,30 @@ export default {
     area_text_meta: {
       type: Object,
     },
+    publication: Object,
   },
-  components: {},
+  components: {
+    PickMediaForMarkdown,
+  },
   data() {
-    return {};
+    return {
+      show_media_picker: false,
+    };
   },
   created() {},
   mounted() {},
   beforeDestroy() {},
   watch: {},
   computed: {},
-  methods: {},
+  methods: {
+    insertToText(content) {
+      this.$refs.collaborativeEditor.insertAtCursor(content);
+      this.show_media_picker = false;
+    },
+    closePickModal() {
+      this.show_media_picker = false;
+    },
+  },
 };
 </script>
 

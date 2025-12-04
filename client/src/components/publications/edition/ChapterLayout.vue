@@ -67,7 +67,10 @@ export default {
   },
   computed: {
     starts_on_page_options() {
-      if (this.chapter.section_type === "gallery")
+      if (
+        this.chapter.section_type === "gallery" ||
+        this.chapter.section_type === "grid"
+      )
         return [
           {
             key: "page",
