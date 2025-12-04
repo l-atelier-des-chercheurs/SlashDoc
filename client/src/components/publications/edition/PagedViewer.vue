@@ -209,6 +209,7 @@ export default {
           console.log("no bookpreview div");
           return;
         }
+        bookpreview.innerHTML = "";
 
         let paged = new Previewer();
 
@@ -219,10 +220,8 @@ export default {
         @page {
           size: ${this.format_mode};
         }
-      `;
-        // --paged-layout: booklet;
+        `;
         pagedjs_styles += this.css_styles;
-        pagedjs_styles += `.makertoidentfyendofcustomcss{}`;
 
         const theme_styles = [
           {
@@ -231,8 +230,7 @@ export default {
         ];
 
         paged.preview(pagedjs_html, theme_styles, bookpreview).then((flow) => {
-          // could be used to get the pages area and tweak it before displaying it
-          // console.log(flow.pagesArea);
+          bookpreview.appendChild(flow.pagesArea);
 
           this.$nextTick(() => {
             this.showOnlyPages();
