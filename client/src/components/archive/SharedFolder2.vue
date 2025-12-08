@@ -496,6 +496,8 @@ export default {
       );
     },
     async toggleFav(stack_path) {
+      debugger;
+
       let favorites = this.connected_as?.favorites
         ? this.connected_as.favorites.slice()
         : [];
@@ -594,7 +596,7 @@ export default {
     auto-fill,
     minmax(var(--stack_preview_width, 120px), 1fr)
   );
-  align-items: baseline;
+  // align-items: baseline;
   gap: calc(var(--stack_preview_width, 120px) / 20);
 }
 
@@ -617,7 +619,10 @@ export default {
   font-weight: 400;
   padding: calc(var(--spacing) / 4);
   margin-top: calc(var(--spacing) / 2);
-  background-color: var(--body-bg);
+  // background-color: var(--body-bg);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 2px solid white;
+  backdrop-filter: blur(3px);
 }
 
 ._stackModal {

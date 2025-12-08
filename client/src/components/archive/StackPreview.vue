@@ -6,65 +6,62 @@
     @mouseleave="endSlide"
     :style="{}"
   >
-    <button
-      type="button"
+    <div
       class="_stackPreview--content"
       :class="{
         'is--slider': start_slide,
         'is--selected': is_selected,
         'is--compact': display === 'compact',
       }"
-      :title="stack.title"
-      @click="openStack"
     >
       <div class="_preview">
-        <div
-          key="preview"
-          class="_mainPreview"
-          :class="{
-            'is--showingSlides': slide_file_to_show,
-          }"
+        <button
+          type="button"
+          class="_previewBtn"
+          :title="stack.title"
+          @click="openStack"
         >
-          <MediaContent
-            v-if="stack.$preview"
-            :file="stack.$preview"
-            class="_mediaPreview"
-          />
-          <b-icon v-else icon="eye-slash" />
-        </div>
-
-        <div
-          v-for="slide_file in stack_files"
-          class="_slide"
-          :class="{
-            'is--shown': slide_file.$path === slide_file_to_show?.$path,
-          }"
-          :key="slide_file.$path"
-        >
-          <MediaContent :file="slide_file" class="_mediaPreview" />
-        </div>
-        <transition name="fade_fast" mode="out-in">
           <div
-            class="_count"
-            v-if="start_slide && number_of_medias_in_stack > 0"
+            key="preview"
+            class="_mainPreview"
+            :class="{
+              'is--showingSlides': slide_file_to_show,
+            }"
           >
-            <template v-if="index_of_slide_file_to_show !== undefined">
-              {{ index_of_slide_file_to_show + 1 }} /
-              {{ number_of_medias_in_stack }}
-            </template>
-            <template v-else>
-              {{ number_of_medias_in_stack }}
-            </template>
+            <MediaContent
+              v-if="stack.$preview"
+              :file="stack.$preview"
+              class="_mediaPreview"
+            />
+            <b-icon v-else icon="eye-slash" class="_noVisual" />
           </div>
-        </transition>
-      </div>
-      <div class="_title" v-if="display !== 'compact'">
-        {{ stack.title }}
-      </div>
-    </button>
 
-    <transition name="fade_fast" mode="out-in">
-      <div>
+          <div
+            v-for="slide_file in stack_files"
+            class="_slide"
+            :class="{
+              'is--shown': slide_file.$path === slide_file_to_show?.$path,
+            }"
+            :key="slide_file.$path"
+          >
+            <MediaContent :file="slide_file" class="_mediaPreview" />
+          </div>
+          <transition name="fade_fast" mode="out-in">
+            <div
+              class="_count"
+              v-if="start_slide && number_of_medias_in_stack > 0"
+            >
+              <template v-if="index_of_slide_file_to_show !== undefined">
+                {{ index_of_slide_file_to_show + 1 }} /
+                {{ number_of_medias_in_stack }}
+              </template>
+              <template v-else>
+                {{ number_of_medias_in_stack }}
+              </template>
+            </div>
+          </transition>
+        </button>
+
         <button
           type="button"
           class="u-button u-button_icon u-button_transparent _addToFav"
@@ -84,12 +81,12 @@
               stroke-linejoin="round"
             />
           </svg>
-
-          <!-- <b-icon v-if="!is_favorite" icon="star" :aria-label="$t('add')" />
-          <b-icon v-else icon="star-fill" :aria-label="$t('remove')" /> -->
         </button>
       </div>
-    </transition>
+    </div>
+    <div class="_title" v-if="display !== 'compact'">
+      {{ stack.title }}
+    </div>
   </div>
 </template>
 <script>
@@ -190,7 +187,6 @@ export default {
   // box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
   background: transparent;
   // border: 2px solid var(--c-bodybg);
-  cursor: pointer;
 
   // border-radius: 2px;
   overflow: hidden;
@@ -219,10 +215,18 @@ export default {
   }
 }
 
+._previewBtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
 ._preview {
   position: relative;
   width: 100%;
-  // min-height: 3rem;
   // aspect-ratio: 1/1;
   overflow: hidden;
 
@@ -293,7 +297,7 @@ export default {
   // bottom: 0;
   // background: rgba(255, 255, 255, 0.9);
 
-  // height: 1.5em;
+  height: 2.7em;
   padding-top: calc(var(--spacing) / 4);
 
   // text-overflow: ellipsis;
@@ -329,12 +333,26 @@ export default {
 }
 
 ._mainPreview {
+  position: relative;
   width: 100%;
   height: 100%;
+  min-height: 3rem;
   opacity: 1;
   // transition: all 0.05s ease-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &.is--showingSlides {
     opacity: 0;
+  }
+
+  > ._noVisual {
+    // display: block;
+    // align-self: center;
+    // font-size: 0;
+    // line-height: 0;
   }
 }
 
@@ -343,7 +361,8 @@ export default {
   top: 0;
   right: 0;
   margin: 0px;
-  z-index: 1;
+  z-index: 10;
+  pointer-events: auto;
   color: transparent;
   stroke: var(--c-noir);
 
