@@ -264,6 +264,12 @@
             "section_starts_on_page": {
               "type": "string"
             },
+            "grid_areas": {
+              "type": "array"
+            },
+            "grid_area_id": {
+              "type": "string"
+            },
             "main_text_meta": {
               "type": "string"
             },
