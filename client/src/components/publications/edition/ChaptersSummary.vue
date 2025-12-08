@@ -29,10 +29,9 @@
             @click="createSection({ type: 'text' })"
           >
             <b-icon icon="plus" />
-            {{ $t("new_section") }}
+            {{ $t("text") }}
           </button>
           <button
-            v-if="false"
             type="button"
             class="u-button u-button_bleuvert u-button_small"
             @click="createSection({ type: 'gallery' })"
@@ -41,7 +40,6 @@
             {{ $t("gallery") }}
           </button>
           <button
-            v-if="false"
             type="button"
             class="u-button u-button_bleuvert u-button_small"
             @click="createSection({ type: 'grid' })"
@@ -75,16 +73,6 @@ export default {
     chapters_positions: Object,
   },
   components: { ChapterPreview, SetCover },
-  i18n: {
-    messages: {
-      fr: {
-        new_section: "Nouveau chapitre",
-      },
-      en: {
-        new_section: "New chapter",
-      },
-    },
-  },
   data() {
     return {};
   },

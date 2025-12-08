@@ -50,7 +50,7 @@
         </div>
         <div>
           <button type="button" class="u-linkList" @click="$emit('close')">
-            <b-icon icon="x-circle" :label="$t('close')" />
+            <b-icon icon="x" :label="$t('close')" />
             {{ $t("close") }}
           </button>
         </div>
@@ -100,6 +100,10 @@
             <b-icon icon="image" />
             {{ $t("gallery") }}
           </template>
+          <template v-else-if="chapter.section_type === 'grid'">
+            <b-icon icon="grid-fill" />
+            {{ $t("grid") }}
+          </template>
           <template v-else-if="chapter.section_type === 'story'">
             <b-icon icon="list" />
             {{ $t("story") }}
@@ -124,44 +128,11 @@
         </transition>
       </div>
 
-      <fieldset
-        v-if="chapter.section_type === 'text' && view_mode === 'book'"
-        class="u-spacingBottom _layout"
-      >
-        <legend>{{ $t("layout") }}</legend>
-        <div class="_optionsRow">
-          <div class="_colCount">
-            <DLabel :str="$t('column_count')" />
-            <div class="">
-              <SelectField2
-                :field_name="'column_count'"
-                :value="chapter.column_count || 1"
-                :path="chapter.$path"
-                size="small"
-                :hide_validation="true"
-                :can_edit="true"
-                :options="[
-                  { key: 1, text: '1' },
-                  { key: 2, text: '2' },
-                  { key: 3, text: '3' },
-                ]"
-              />
-            </div>
-          </div>
-          <div class="_selects--starts_on_page">
-            <DLabel :str="$t('starts_on_page')" />
-            <SelectField2
-              :field_name="'section_starts_on_page'"
-              :value="chapter.section_starts_on_page || ''"
-              :path="chapter.$path"
-              size="small"
-              :hide_validation="true"
-              :can_edit="true"
-              :options="starts_on_page_options"
-            />
-          </div>
-        </div>
-      </fieldset>
+      <ChapterLayout
+        :chapter="chapter"
+        :publication="publication"
+        :view_mode="view_mode"
+      />
 
       <div class="_content">
         <template v-if="chapter.section_type === 'text'">
@@ -179,45 +150,10 @@
           </template>
         </template>
         <template v-if="chapter.section_type === 'gallery'">
-          <transition-group
-            tag="div"
-            class="_gallery"
-            name="StoryModules"
-            appear
-          >
-            <div
-              class="_gallery--item"
-              v-for="media in gallery_medias"
-              :key="media.$path"
-            >
-              <MediaContent :file="media" :context="'full'" />
-              <div class="_remove_media">
-                <RemoveMenu
-                  :show_button_text="false"
-                  @remove="removeMedia(media)"
-                />
-              </div>
-            </div>
-
-            <div class="_add_medias" key="add_medias">
-              <button
-                type="button"
-                class="u-button u-button_bleuvert"
-                @click="show_media_picker = true"
-              >
-                {{ $t("add_medias") }}
-              </button>
-            </div>
-          </transition-group>
-
-          <MediaPicker
-            v-if="show_media_picker"
-            :publication_path="publication.$path"
-            :select_mode="'multiple'"
-            :pick_from_types="['image']"
-            @pickMedias="pickMediasForGallery"
-            @close="show_media_picker = false"
-          />
+          <GalleryChapter :chapter="chapter" :publication="publication" />
+        </template>
+        <template v-if="chapter.section_type === 'grid'">
+          <GridChapter :chapter="chapter" :publication="publication" />
         </template>
         <template v-if="chapter.section_type === 'story'">
           <SingleSection
@@ -251,8 +187,10 @@ export default {
   },
   components: {
     // MarkdownEditor,
-    PickMediaForMarkdown,
-    MediaPicker,
+    GalleryChapter,
+    GridChapter,
+    ChapterLayout,
+    MainText,
     SingleSection: () =>
       import("@/components/publications/story/SingleSection.vue"),
   },
@@ -262,7 +200,6 @@ export default {
   created() {},
   mounted() {},
   beforeDestroy() {},
-
   watch: {},
   computed: {},
   methods: {},
@@ -401,9 +338,7 @@ export default {
   min-height: 8rem;
 }
 ._content--type {
-  .b-icon {
-    vertical-align: middle;
-  }
+  font-weight: 500;
 }
 
 ._infos {
@@ -414,66 +349,6 @@ export default {
   justify-content: space-between;
   align-items: baseline;
   gap: calc(var(--spacing) * 1);
-}
-
-._gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: calc(var(--spacing) * 1);
-
-  ._add_medias {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
-  ._gallery--item {
-    position: relative;
-    aspect-ratio: 1/1;
-
-    border: 2px solid var(--c-gris_clair);
-    // aspect-ratio: 1/1;
-    overflow: hidden;
-
-    ::v-deep {
-      ._mediaContent {
-        width: 100%;
-        height: 100%;
-      }
-
-      ._mediaContent--image,
-      .plyr--video,
-      .plyr__poster,
-      ._mediaContent--iframe,
-      ._iframeStylePreview {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        object-fit: scale-down;
-        background-size: scale-down;
-        background-color: var(--c-gris_clair);
-      }
-    }
-  }
-}
-
-._remove_media {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: calc(var(--spacing) / 2);
-}
-
-._selects--starts_on_page {
-  width: 30ch;
-  // width: auto;
-  flex: 0 0 auto;
-  position: relative;
-  z-index: 2;
-  // margin-bottom: calc(var(--spacing) * 1);
 }
 
 ._selects--pageRange {
@@ -491,16 +366,5 @@ export default {
       display: none;
     }
   }
-}
-
-._colCount {
-  max-width: 20ch;
-}
-
-._optionsRow {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
-  gap: calc(var(--spacing) * 1);
 }
 </style>
