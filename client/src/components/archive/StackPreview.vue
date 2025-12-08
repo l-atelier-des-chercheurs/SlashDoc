@@ -31,6 +31,7 @@
             <MediaContent
               v-if="stack.$preview"
               :file="stack.$preview"
+              :resolution="media_resolution"
               class="_mediaPreview"
             />
             <b-icon v-else icon="eye-slash" class="_noVisual" />
@@ -44,7 +45,11 @@
             }"
             :key="slide_file.$path"
           >
-            <MediaContent :file="slide_file" class="_mediaPreview" />
+            <MediaContent
+              :file="slide_file"
+              :resolution="media_resolution"
+              class="_mediaPreview"
+            />
           </div>
           <transition name="fade_fast" mode="out-in">
             <div
@@ -124,6 +129,9 @@ export default {
         ? this.stack_files[this.index_of_slide_file_to_show]
         : false;
     },
+    media_resolution() {
+      return this.display === "compact" ? 220 : 360;
+    },
   },
   methods: {
     openStack() {
@@ -178,17 +186,7 @@ export default {
 }
 
 ._stackPreview--content {
-  appearance: none;
-  padding: 0;
-  text-align: left;
-  font-size: var(--sl-font-size-x-small);
-
   position: relative;
-  // box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-  background: transparent;
-  // border: 2px solid var(--c-bodybg);
-
-  // border-radius: 2px;
   overflow: hidden;
   padding: 1px;
 
@@ -216,12 +214,23 @@ export default {
 }
 
 ._previewBtn {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  display: block;
+  appearance: none;
   padding: 0;
+  width: 100%;
+  text-align: left;
+  font-size: var(--sl-font-size-x-small);
+  font-weight: inherit;
+  background: transparent;
+  padding: 0;
+
+  ._stackPreview--content.is--compact & {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 ._preview {
@@ -240,7 +249,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    max-height: calc(var(--stack_preview_width) * 2);
+    // max-height: calc(var(--stack_preview_width) * 2);
     float: right;
 
     &[data-filetype="text"] {
