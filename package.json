@@ -1,8 +1,8 @@
 {
-  "name": "dodoc",
-  "productName": "do•doc",
-  "version": "13.0.2",
-  "description": "do•doc is a documentation tool for creativity.",
+  "name": "lumadoc",
+  "productName": "lumadoc",
+  "version": "1.0.0-dev",
+  "description": "",
   "author": "L’Atelier des Chercheurs <https://latelier-des-chercheurs.fr/>",
   "homepage": "",
   "license": "AGPL-3.0-only",

@@ -1,8 +1,8 @@
 {
-  "name": "dodoc-electron",
-  "productName": "do•doc",
-  "version": "13.0.1",
-  "description": "do•doc Electron wrapper",
+  "name": "lumadoc-electron",
+  "productName": "lumadoc",
+  "version": "1.0.0-dev",
+  "description": "lumadoc Electron wrapper",
   "main": "index.js",
   "private": true,
   "scripts": {
