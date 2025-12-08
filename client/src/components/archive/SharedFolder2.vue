@@ -480,9 +480,13 @@ export default {
       const slug = this.getFilename(path);
       this.openStack(slug);
     },
-    openStack(stack_slug) {
+    openStack(stack_slug, slideIndex) {
       let query = Object.assign({}, this.$route.query) || {};
       query.stack = stack_slug;
+      // If a slide index is provided, include it in the URL
+      if (slideIndex !== undefined && slideIndex !== null) {
+        query.slide = slideIndex.toString();
+      }
       this.$router.push({ query });
     },
     isFavorite(stack_path) {

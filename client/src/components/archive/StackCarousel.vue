@@ -123,6 +123,18 @@ export default {
     this.$eventHub.$on("carousel.next", this.nextFile);
     this.$eventHub.$on("carousel.prev", this.prevFile);
 
+    // Initialize from URL query parameter
+    if (this.$route.query.slide !== undefined) {
+      const slideIndex = parseInt(this.$route.query.slide, 10);
+      if (
+        !isNaN(slideIndex) &&
+        slideIndex >= 0 &&
+        slideIndex < this.files.length
+      ) {
+        this.active_file_index = slideIndex;
+      }
+    }
+
     if (this.can_be_selected === "single") {
       this.$emit("selectMedia", this.current_file_shown);
     }
@@ -132,17 +144,41 @@ export default {
     this.$eventHub.$off("carousel.prev", this.prevFile);
   },
   watch: {
-    active_file_index() {
+    active_file_index(newIndex) {
+      // Update URL query parameter when slide index changes
+      if (newIndex !== false && newIndex !== null && newIndex !== undefined) {
+        const query = { ...this.$route.query };
+        query.slide = newIndex.toString();
+        this.$router.replace({ query }).catch(() => {});
+      }
+
       this.$nextTick(() => {
         const current_file = this.$el.querySelector(
           "._preview[data-iscurrent]"
         );
-        current_file.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
+        if (current_file) {
+          current_file.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+        }
       });
+    },
+    "$route.query.slide"(newSlide) {
+      // Sync with URL changes (e.g., browser back/forward)
+      if (newSlide !== undefined) {
+        const slideIndex = parseInt(newSlide, 10);
+        if (
+          !isNaN(slideIndex) &&
+          slideIndex >= 0 &&
+          slideIndex < this.files.length
+        ) {
+          if (this.active_file_index !== slideIndex) {
+            this.active_file_index = slideIndex;
+          }
+        }
+      }
     },
   },
   computed: {

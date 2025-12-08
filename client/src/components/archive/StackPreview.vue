@@ -127,7 +127,9 @@ export default {
   methods: {
     openStack() {
       const stack_slug = this.getFilename(this.stack.$path);
-      this.$emit("openStack", stack_slug);
+      // If a slide is currently being shown in the preview, include its index
+      const slideIndex = this.index_of_slide_file_to_show;
+      this.$emit("openStack", stack_slug, slideIndex);
     },
     async startSlide(event) {
       this.start_slide = true;
