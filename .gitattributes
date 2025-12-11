@@ -1,1 +1,2 @@
 *.txt    -text
+client/dist/** merge=ours
