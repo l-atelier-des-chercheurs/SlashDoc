@@ -470,13 +470,13 @@ export default {
   > * {
     flex: 1 1 50%;
 
-    &._topBar_content {
-      flex: 0 1 250px;
+    &._logoIcons {
+      flex: 0 0 400px;
+      border-right: 1px solid var(--border-color);
     }
 
-    &._logoIcons {
-      flex: 0 1 400px;
-      border-right: 1px solid var(--border-color);
+    &._topBar_content {
+      flex: 0 1 250px;
     }
   }
 
