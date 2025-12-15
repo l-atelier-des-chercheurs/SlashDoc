@@ -325,12 +325,12 @@ export default {
   justify-content: center;
   bottom: 0;
   left: 0;
-  padding: calc(var(--spacing) / 8) calc(var(--spacing) / 4);
+  padding: calc(var(--spacing) / 16) calc(var(--spacing) / 8);
   font-weight: 400;
   background: white;
   color: var(--c-noir);
   line-height: 1;
-  font-size: 0.75rem;
+  font-size: var(--sl-font-size-x-small);
   border-radius: 2px;
   margin: calc(var(--spacing) / 8);
 }
