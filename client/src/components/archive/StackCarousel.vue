@@ -242,6 +242,7 @@ export default {
   display: flex;
   gap: 2px;
   overflow: auto;
+  overscroll-behavior-x: contain;
   padding: 2px;
   border-top: 1px solid var(--sd-separator);
 }
