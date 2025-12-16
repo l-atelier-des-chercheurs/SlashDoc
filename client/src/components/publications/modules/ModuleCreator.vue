@@ -304,7 +304,7 @@ export default {
                 this.pre_addtl_meta.width * source_media.$infos.ratio;
             }
             const meta_filename = await this.createMetaForModule({
-              module_type: source_media.$type === "text" ? "text" : "mosaic",
+              module_type: source_media?.$type === "text" ? "text" : "mosaic",
               source_medias: [new_entry],
               addtl_meta,
             });
