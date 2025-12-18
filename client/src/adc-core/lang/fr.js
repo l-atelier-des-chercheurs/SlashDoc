@@ -1347,6 +1347,19 @@ export default {
   multisupport_embed_img_instr:
     "Pour ajouter des médias depuis internet, vous pouvez aussi copier-coller les balises suivantes :",
   attributes_for_embeds: "Attributs pour les balises :",
+  embed_example_image: "Intégrer une image",
+  embed_example_video: "Intégrer une vidéo",
+  embed_example_audio: "Intégrer un audio",
+  embed_example_peertube: "Intégrer une vidéo PeerTube",
+  embed_example_youtube: "Intégrer une vidéo YouTube",
+  embed_example_scratch: "Intégrer un projet Scratch",
+  embed_attr_caption: "Ajouter une légende au média",
+  embed_attr_class: "Ajouter une classe CSS personnalisée",
+  embed_attr_float_left: "Faire flotter le média à gauche",
+  embed_attr_float_right: "Faire flotter le média à droite",
+  embed_attr_size_full: "Afficher le média en pleine largeur",
+  embed_attr_size_full_cover:
+    "Afficher le média en pleine largeur avec recouvrement",
   show_source_html: "Afficher le code source HTML",
   reset: "Réinitialiser",
 
@@ -1354,7 +1367,8 @@ export default {
   restore_projects: "Restaurer des projets supprimés",
   bin: "Corbeille",
   items_in_bin: "Éléments dans la corbeille",
-  bin_removal_notice: "Les éléments dans la corbeille sont automatiquement supprimés après 30 jours.",
+  bin_removal_notice:
+    "Les éléments dans la corbeille sont automatiquement supprimés après 30 jours.",
   bin_removal_notice:
     "Les éléments dans la corbeille sont automatiquement supprimés après 30 jours.",
   restore: "Restaurer",

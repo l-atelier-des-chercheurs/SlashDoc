@@ -63,28 +63,58 @@
         <hr />
         {{ $t("multisupport_embed_img_instr") }}
 
-        <CodeBlock code="(image: https://www.pageweb.com/image.jpeg)" />
-        <CodeBlock code="(video: https://www.pageweb.com/video.mp4)" />
-        <CodeBlock code="(audio: https://www.pageweb.com/audio.mp3)" />
+        <CodeBlock
+          code="(image: https://www.pageweb.com/image.jpeg)"
+          :explanation="$t('embed_example_image')"
+        />
+        <CodeBlock
+          code="(video: https://www.pageweb.com/video.mp4)"
+          :explanation="$t('embed_example_video')"
+        />
+        <CodeBlock
+          code="(audio: https://www.pageweb.com/audio.mp3)"
+          :explanation="$t('embed_example_audio')"
+        />
         <CodeBlock
           code="(embed: https://peertube.fr/w/wB6M6CHdfpWXpozVnqjbde)"
+          :explanation="$t('embed_example_peertube')"
         />
         <CodeBlock
           code="(embed: https://www.youtube.com/watch?v=Bn6zdyCAwJs)"
+          :explanation="$t('embed_example_youtube')"
         />
         <CodeBlock
           code="(embed: https://scratch.mit.edu/projects/1061783643)"
+          :explanation="$t('embed_example_scratch')"
         />
 
         <div class="u-spacingBottom">
           {{ $t("attributes_for_embeds") }}
 
-          <CodeBlock code="caption: Ma légende" />
-          <CodeBlock code="class: nomDeLaClasse" />
-          <CodeBlock code="float: left" />
-          <CodeBlock code="float: right" />
-          <CodeBlock code="size: full" />
-          <CodeBlock code="size: full-cover" />
+          <CodeBlock
+            code="caption: Ma légende"
+            :explanation="$t('embed_attr_caption')"
+          />
+          <CodeBlock
+            code="class: nomDeLaClasse"
+            :explanation="$t('embed_attr_class')"
+          />
+          <CodeBlock
+            code="float: left"
+            :explanation="$t('embed_attr_float_left')"
+          />
+          <CodeBlock
+            code="float: right"
+            :explanation="$t('embed_attr_float_right')"
+          />
+          <CodeBlock
+            code="size: full"
+            :explanation="$t('embed_attr_size_full')"
+          />
+          <CodeBlock
+            code="size: full-cover"
+            :explanation="$t('embed_attr_size_full_cover')"
+          />
         </div>
         <div>
           {{ $t("for_example") }}
