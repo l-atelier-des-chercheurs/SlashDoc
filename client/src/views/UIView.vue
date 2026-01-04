@@ -70,13 +70,13 @@
         <b-icon icon="star" />
       </button>
       <button class="u-button u-button_icon">
-        <b-icon icon="heart" />
+        <b-icon icon="x-lg" />
       </button>
       <button class="u-button u-button_icon">
-        <b-icon icon="settings" />
+        <b-icon icon="play-circle-fill" />
       </button>
       <button class="u-button u-button_icon" :class="{ 'is--active': true }">
-        <b-icon icon="heart" />
+        <b-icon icon="x-lg" />
       </button>
     </div>
 
@@ -142,16 +142,16 @@
         <b-icon icon="star" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="heart" />
+        <b-icon icon="play-circle-fill" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="settings" />
+        <b-icon icon="x-lg" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="eye" />
+        <b-icon icon="globe" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="download" />
+        <b-icon icon="file-earmark-arrow-down" />
       </button>
     </div>
 

@@ -285,6 +285,10 @@ button,
 
   &.u-button_small {
     padding: calc(var(--spacing) / 4);
+    .b-icon.bi {
+      width: 1em;
+      height: 1em;
+    }
   }
 }
 .u-button_inline {

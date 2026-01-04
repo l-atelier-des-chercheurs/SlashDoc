@@ -37,7 +37,7 @@
 
       <div class="_mode">
         <button
-          class="u-button u-button_icon u-button_transparent"
+          class="u-button u-button_icon"
           type="button"
           :class="{
             'is--active': view_mode === 'list',
@@ -67,7 +67,7 @@
           </svg>
         </button>
         <button
-          class="u-button u-button_icon u-button_transparent"
+          class="u-button u-button_icon"
           type="button"
           :class="{
             'is--active': view_mode === 'map',
