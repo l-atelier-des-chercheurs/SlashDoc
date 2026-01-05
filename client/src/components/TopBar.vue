@@ -14,7 +14,7 @@
       <div class="_topRightButtons">
         <button
           type="button"
-          class="u-button u-button_icon _qrCodeBtn"
+          class="u-button u-button_icon u-button_glass _qrCodeBtn"
           :class="{
             'is--active': show_qr_code_modal,
           }"
@@ -42,7 +42,7 @@
 
         <button
           type="button"
-          class="u-button u-button_icon _helpBtn"
+          class="u-button u-button_icon u-button_glass _helpBtn"
           :class="{
             'is--active': show_credits_modal,
           }"
@@ -70,7 +70,7 @@
         <template v-if="is_instance_admin">
           <button
             type="button"
-            class="u-button u-button_icon _settingsBtn"
+            class="u-button u-button_icon u-button_glass _settingsBtn"
             :class="{
               'is--active': show_settings_modal,
             }"
@@ -102,7 +102,7 @@
         <button
           type="button"
           v-if="$root.app_infos.instance_meta.enable_chats"
-          class="u-button u-button_icon _chatsBtn"
+          class="u-button u-button_icon u-button_glass _chatsBtn"
           :class="{
             'is--active': $root.show_chats_list,
           }"
@@ -158,7 +158,7 @@
         </div>
         <button
           type="button"
-          class="u-button u-button_bleumarine _authorBtn"
+          class="u-button u-button_bleumarine u-button_glass _authorBtn"
           v-else
           @click="showAuthorModal"
         >
