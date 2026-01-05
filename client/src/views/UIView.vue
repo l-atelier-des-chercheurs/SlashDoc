@@ -1,6 +1,16 @@
 <template>
   <div class="_uiView">
-    <!-- INSERT_YOUR_CODE -->
+    <div class="u-spacingBottom">
+      <h3>Radio Switch</h3>
+      <RadioSwitch
+        :content.sync="radioswitch_content"
+        :options="[
+          { label: 'Option 1', value: 'opt1' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' },
+        ]"
+      />
+    </div>
 
     <h2>Buttons Demo</h2>
 
@@ -433,9 +443,7 @@
         <label>Input inside fieldset</label>
         <input type="text" />
       </div>
-      <div>
-        Some other content
-      </div>
+      <div>Some other content</div>
     </fieldset>
 
     <div class="u-spacingBottom"></div>
@@ -449,6 +457,7 @@ export default {
   components: {},
   data() {
     return {
+      radioswitch_content: "opt1",
       authors: [],
       show_modal: 0,
       modal_size: "small",
