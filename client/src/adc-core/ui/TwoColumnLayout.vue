@@ -31,7 +31,7 @@
     <transition name="fade">
       <div
         class="_colOverlay"
-        v-if="showSidebar && $root.is_mobile_view"
+        v-if="showSidebar && $root.is_mobile_view && false"
         @click="$emit('update:showSidebar', false)"
       />
     </transition>
@@ -83,8 +83,43 @@ export default {
   padding: 0;
 
   &.is--mobile {
+    flex-flow: column nowrap;
+    overflow-y: auto;
+    height: 100%;
+
     ._colLeft {
-      position: absolute;
+      position: relative;
+      flex: 0 0 auto;
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--h-200);
+      overflow: visible;
+      position: static;
+    }
+
+    ._colRight {
+      flex: 1 1 auto;
+      overflow: visible;
+      min-height: 0;
+    }
+
+    ._sidebarToggle {
+      position: relative;
+      width: auto;
+      height: auto;
+      z-index: 20;
+
+      > button {
+        position: relative;
+        left: auto;
+        margin: calc(var(--spacing) / 2);
+
+        &.is--active {
+          left: auto;
+        }
+      }
     }
   }
 }
@@ -170,5 +205,9 @@ export default {
   opacity: 0.8;
   z-index: 2;
   cursor: pointer;
+
+  ._twoColumnLayout.is--mobile & {
+    display: none;
+  }
 }
 </style>

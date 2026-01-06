@@ -1,7 +1,7 @@
 <template>
   <TwoColumnLayout
     :show-sidebar.sync="show_sidebar"
-    :show-toggle-button="false"
+    :show-toggle-button="true"
     @click="last_clicked = false"
   >
     <template #sidebar>
@@ -584,6 +584,11 @@ export default {
   position: relative;
   height: 100%;
   overflow: auto;
+
+  &.is--mobile {
+    height: auto;
+    overflow: visible;
+  }
 }
 
 ._adminBtn {
@@ -600,17 +605,16 @@ export default {
   padding: calc(var(--spacing) / 2);
 }
 
-._filesList {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-}
-
 ._middleContent {
   height: 100%;
   width: 100%;
   overflow: auto;
   padding: calc(var(--spacing) * 2);
+
+  ._filesList.is--mobile & {
+    height: auto;
+    overflow: visible;
+  }
 }
 
 ._items {

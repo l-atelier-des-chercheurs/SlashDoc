@@ -246,9 +246,9 @@ button {
   &:focus-visible,
   &.is--active {
     &:not([disabled]) {
-      color: var(--g-900);
+      color: white;
       outline: 0;
-      background: var(--active-color);
+      background: var(--g-900);
     }
   }
 }
