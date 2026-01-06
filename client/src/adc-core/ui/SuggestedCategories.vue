@@ -37,7 +37,7 @@
         @submit.prevent="createCategory"
       >
         <fieldset>
-          <legend class="u-label">{{ $t("add_category") }}</legend>
+          <legend>{{ $t("add_category") }}</legend>
 
           <TextInput
             class="u-spacingBottom"

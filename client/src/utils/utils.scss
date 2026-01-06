@@ -206,7 +206,7 @@ button {
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 0.02em;
-  // font-size: var(--input-font-size-small);
+  font-size: var(--input-font-size);
   text-decoration: none;
   color: inherit;
   white-space: nowrap;
@@ -293,6 +293,10 @@ button {
 
   &.u-button_small {
     padding: calc(var(--spacing) / 4);
+    .b-icon.bi {
+      width: 1em;
+      height: 1em;
+    }
   }
 }
 .u-button_inline {
@@ -408,19 +412,14 @@ button {
   &:focus-visible {
     &:not([disabled]) {
       background: rgba(255, 255, 255, 1);
+      color: var(--c-noir);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       transform: translateY(-1px);
     }
   }
-
-  &.is--active {
-    background: white;
-    color: var(--c-noir);
-  }
 }
 .u-button_orange {
   background-color: var(--c-orange);
-  color: white;
 
   &:hover,
   &:focus-visible,
@@ -428,6 +427,10 @@ button {
     &:not([disabled]) {
       background-color: var(--c-orange_fonce);
     }
+  }
+
+  &[disabled] {
+    color: var(--c-gris);
   }
 }
 .u-button_bleumarine {
@@ -935,20 +938,29 @@ code {
 }
 
 fieldset {
-  border: 2px solid var(--c-gris);
+  border: 2px solid var(--c-gris_clair);
+  padding: calc(var(--spacing) / 2);
   margin: 0;
   border-radius: var(--input-border-radius);
+  min-width: 0;
 
   legend {
-    color: var(--c-gris_fonce) !important;
-    background: white;
-    border-radius: 4px;
-    text-align: center;
-    padding: 0 calc(var(--spacing) / 2);
-    font-weight: 500;
+    // <<<<<<< HEAD
+    //     color: var(--c-gris_fonce) !important;
+    //     background: white;
+    //     border-radius: 4px;
+    //     text-align: center;
+    //     padding: 0 calc(var(--spacing) / 2);
+    //     font-weight: 500;
+    // =======
+    @extend .u-label;
+    width: 100%;
+    float: left;
+    margin-bottom: calc(var(--spacing) / 2);
+    padding: 0;
 
-    &.u-label {
-      margin-bottom: 0;
+    & + * {
+      clear: both;
     }
   }
 }

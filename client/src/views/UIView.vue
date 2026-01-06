@@ -1,6 +1,16 @@
 <template>
   <div class="_uiView">
-    <!-- INSERT_YOUR_CODE -->
+    <div class="u-spacingBottom">
+      <h3>Radio Switch</h3>
+      <RadioSwitch
+        :content.sync="radioswitch_content"
+        :options="[
+          { label: 'Option 1', value: 'opt1' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' },
+        ]"
+      />
+    </div>
 
     <h2>Buttons Demo</h2>
 
@@ -70,13 +80,13 @@
         <b-icon icon="star" />
       </button>
       <button class="u-button u-button_icon">
-        <b-icon icon="heart" />
+        <b-icon icon="x-lg" />
       </button>
       <button class="u-button u-button_icon">
-        <b-icon icon="settings" />
+        <b-icon icon="play-circle-fill" />
       </button>
       <button class="u-button u-button_icon" :class="{ 'is--active': true }">
-        <b-icon icon="heart" />
+        <b-icon icon="x-lg" />
       </button>
     </div>
 
@@ -142,16 +152,16 @@
         <b-icon icon="star" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="heart" />
+        <b-icon icon="play-circle-fill" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="settings" />
+        <b-icon icon="x-lg" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="eye" />
+        <b-icon icon="globe" />
       </button>
       <button class="u-button u-button_icon u-button_small">
-        <b-icon icon="download" />
+        <b-icon icon="file-earmark-arrow-down" />
       </button>
     </div>
 
@@ -427,6 +437,17 @@
 
     <div class="u-spacingBottom"></div>
 
+    <fieldset>
+      <legend>My Fieldset</legend>
+      <div class="u-spacingBottom">
+        <label>Input inside fieldset</label>
+        <input type="text" />
+      </div>
+      <div>Some other content</div>
+    </fieldset>
+
+    <div class="u-spacingBottom"></div>
+
     <SizeDisplay :size="2059" />
   </div>
 </template>
@@ -436,6 +457,7 @@ export default {
   components: {},
   data() {
     return {
+      radioswitch_content: "opt1",
       authors: [],
       show_modal: 0,
       modal_size: "small",
