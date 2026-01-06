@@ -18,7 +18,7 @@
           />
 
           <button
-            class="u-button u-button_outline _createAction"
+            class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'story_with_sections'"
           >
             <b-icon icon="plus-circle" />
@@ -26,7 +26,7 @@
             <img :src="$root.publicPath + 'picto_luma/story.svg'" alt="story" />
           </button>
           <button
-            class="u-button u-button_outline _createAction"
+            class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'edition'"
           >
             <b-icon icon="plus-circle" />
@@ -37,7 +37,7 @@
             />
           </button>
           <button
-            class="u-button u-button_outline _createAction"
+            class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'agora'"
           >
             <b-icon icon="plus-circle" />

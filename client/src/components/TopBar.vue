@@ -80,7 +80,7 @@
         <div class="_mobileActions">
           <button
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_glass"
             @click="
               show_qr_code_modal = true;
               show_mobile_menu = false;
@@ -109,7 +109,7 @@
 
           <button
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_glass"
             @click="
               $eventHub.$emit(`app.show_welcome_modal`);
               show_mobile_menu = false;
@@ -121,7 +121,7 @@
 
           <button
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_glass"
             @click="
               show_lang_modal = !show_lang_modal;
               show_mobile_menu = false;
@@ -133,7 +133,7 @@
           <button
             v-if="is_instance_admin"
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_glass"
             @click="
               show_admin_settings = !show_admin_settings;
               show_mobile_menu = false;
@@ -160,7 +160,7 @@
           </div>
           <button
             type="button"
-            class="_mobileAuthorBtn"
+            class="u-button u-button_glass _mobileAuthorBtn"
             v-else
             @click="
               $eventHub.$emit('showAuthorModal');
@@ -200,7 +200,7 @@
       <div class="_topRow">
         <button
           type="button"
-          class="u-button u-button_icon"
+          class="u-button u-button_icon u-button_glass"
           @click="show_qr_code_modal = true"
         >
           <svg
@@ -223,7 +223,7 @@
 
         <button
           type="button"
-          class="u-button u-button_icon"
+          class="u-button u-button_icon u-button_glass"
           @click="$eventHub.$emit(`app.show_welcome_modal`)"
         >
           <b-icon icon="question-square" />
@@ -231,14 +231,14 @@
 
         <button
           type="button"
-          class="u-button u-button_icon"
+          class="u-button u-button_icon u-button_glass"
           @click="show_lang_modal = !show_lang_modal"
           v-text="current_lang_code"
         ></button>
 
         <button
           type="button"
-          class="u-button u-button_icon"
+          class="u-button u-button_icon u-button_glass"
           v-if="is_instance_admin"
           @click="show_admin_settings = !show_admin_settings"
         >

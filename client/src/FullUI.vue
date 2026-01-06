@@ -175,6 +175,7 @@ export default {
   ._fullUI--content--view {
     position: relative;
     flex: 1;
+    width: 100%;
     overflow-y: visible;
   }
 }

@@ -240,6 +240,7 @@ export default {
   --font-verysmall: var(--sl-font-size-x-small);
 
   --max-column-width: 90%;
+  --max-column-width-px: 1280px;
 
   accent-color: var(--c-rouge);
 
