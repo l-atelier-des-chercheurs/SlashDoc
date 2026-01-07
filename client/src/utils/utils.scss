@@ -387,7 +387,7 @@ button,
 
   &:hover,
   &:focus-visible {
-    &:not([disabled]) {
+    &:not([disabled]):not(.is--active) {
       background: rgba(255, 255, 255, 1);
       color: var(--c-noir);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -433,11 +433,6 @@ button,
   font-size: var(--sl-font-size-x-small);
   padding: calc(var(--spacing) / 8) calc(var(--spacing) / 4);
 }
-.u-button_big {
-  font-size: var(--input-font-size-big);
-  min-height: 2.9em;
-}
-
 .u-colorOrange {
   color: var(--c-orange);
 }
