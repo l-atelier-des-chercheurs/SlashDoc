@@ -1,81 +1,29 @@
 <template>
   <div class="_corpusManager">
-    <div v-if="!hasSelectedCommunities" class="_selectionView">
-      <div class="_header">
-        <h1 class="_title">{{ $t("Communautés") }}</h1>
-        <div class="_headerActions">
-          <button
-            type="button"
-            class="u-button u-button_icon u-button_transparent _addCommunityButton"
-            @click="show_add_community = true"
-            :title="$t('add_community')"
-          >
-            <b-icon icon="plus" />
-            {{ $t("add_community") }}
-          </button>
-        </div>
-      </div>
-      <div class="_communitiesList">
-        <CommunityPreview
-          v-for="folder in displayed_folders"
-          :key="folder.$path"
-          :folder="folder"
-          :is_selected="selected_folders.includes(folder.$path)"
-          @select="handleSelect"
-          @remove="showRemoveModal"
-        />
-        <div v-if="displayed_folders.length === 0" class="_noCommunities">
-          {{ $t("no_communities_available") }}
-        </div>
-      </div>
-      <div class="_actions">
-        <button
-          type="button"
-          class="u-button u-button_primary"
-          :disabled="selected_folders.length === 0"
-          @click="openSelectedCommunities"
-        >
-          {{ $t("open") }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Content view: show when communities are selected -->
     <SharedFolder2
-      v-else
       :shared_folder_paths="computed_shared_folder_paths"
       :select_mode="select_mode"
       :read_only="read_only"
       @toggleCorpus="toggleCorpus"
+      @openCorpusSelection="show_corpus_selection = true"
       @selectStack="$emit('selectStack', $event)"
       @selectMedias="$emit('selectMedias', $event)"
     />
 
-    <!-- Add Community Modal -->
-    <CreateFolder
-      v-if="show_add_community"
-      :modal_name="$t('add_community')"
-      path="folders"
-      @close="show_add_community = false"
-      @openNew="onCommunityCreated"
-    />
-
-    <!-- Remove Community Modal -->
-    <RemoveMenu2
-      v-if="community_to_remove"
-      :path="community_to_remove.$path"
-      :modal_title="$t('remove_community')"
-      :modal_expl="$t('remove_community_explanation')"
-      :success_notification="$t('community_removed_successfully')"
-      @close="community_to_remove = null"
-      @removedSuccessfully="onCommunityRemoved"
+    <CorpusSelectionModal
+      v-if="show_corpus_selection"
+      :all_folders="all_folders"
+      :selected_folders="selected_folders"
+      @close="onCloseSelection"
+      @select="handleModalSelect"
+      @created="onCommunityCreated"
+      @remove="onCommunityRemoved"
     />
   </div>
 </template>
 <script>
 import SharedFolder2 from "@/components/archive/SharedFolder2.vue";
-import CommunityPreview from "@/components/archive/CommunityPreview.vue";
-import CreateFolder from "@/adc-core/modals/CreateFolder.vue";
+import CorpusSelectionModal from "@/components/archive/CorpusSelectionModal.vue";
 
 export default {
   props: {
@@ -98,21 +46,19 @@ export default {
   },
   components: {
     SharedFolder2,
-    CommunityPreview,
-    CreateFolder,
+    CorpusSelectionModal,
   },
   data() {
     return {
       all_folders: [],
       selected_folders: [],
-      show_add_community: false,
-      community_to_remove: null,
+      show_corpus_selection: false,
     };
   },
   async created() {},
   async mounted() {
     // Load all available communities
-    this.all_folders = await this.$api.getFolders({ path: "folders" });
+    await this.loadAllFolders();
     this.$api.join({ room: "folders" });
 
     // Initialize selected folders
@@ -166,6 +112,11 @@ export default {
         }
       }
     }
+
+    // If no communities selected, show selection modal
+    if (this.selected_folders.length === 0) {
+      this.show_corpus_selection = true;
+    }
   },
   beforeDestroy() {},
   watch: {
@@ -218,27 +169,30 @@ export default {
         return this.shared_folder_paths || [];
       }
     },
-    hasSelectedCommunities() {
-      return (
-        this.computed_shared_folder_paths &&
-        this.computed_shared_folder_paths.length > 0
-      );
-    },
-    available_folders_to_add() {
-      // Return folders that are not already selected
-      return this.all_folders.filter(
-        (folder) => !this.selected_folders.includes(folder.$path)
-      );
-    },
-    displayed_folders() {
-      // Show all folders by default, or filter if needed
-      return this.all_folders;
-    },
   },
   methods: {
-    openSelectedCommunities() {
-      if (this.selected_folders.length === 0) return;
-
+    async loadAllFolders() {
+      this.all_folders = await this.$api.getFolders({ path: "folders" });
+    },
+    onCloseSelection() {
+      this.show_corpus_selection = false;
+    },
+    handleModalSelect({ folder_path, is_selected }) {
+      this.handleSelect(folder_path, is_selected);
+    },
+    handleSelect(folder_path, is_selected) {
+      if (is_selected) {
+        if (!this.selected_folders.includes(folder_path)) {
+          this.selected_folders.push(folder_path);
+        }
+      } else {
+        this.selected_folders = this.selected_folders.filter(
+          (f) => f !== folder_path
+        );
+      }
+      this.updateSelection();
+    },
+    updateSelection() {
       if (this.use_query) {
         // Update route query
         const slugs = this.selected_folders.map((path) =>
@@ -251,17 +205,6 @@ export default {
       } else {
         // Emit event for local state management
         this.$emit("communitiesSelected", this.selected_folders);
-      }
-    },
-    handleSelect(folder_path, is_selected) {
-      if (is_selected) {
-        if (!this.selected_folders.includes(folder_path)) {
-          this.selected_folders.push(folder_path);
-        }
-      } else {
-        this.selected_folders = this.selected_folders.filter(
-          (f) => f !== folder_path
-        );
       }
     },
     toggleCorpus(path) {
@@ -283,8 +226,9 @@ export default {
         }
 
         if (newSlugs.length === 0) {
-          // If no communities selected, go to explore without params
+          // If no communities selected, update route and show modal
           this.$router.push({ path: this.$route.path });
+          this.show_corpus_selection = true;
         } else {
           this.$router.push({
             path: this.$route.path,
@@ -303,62 +247,25 @@ export default {
         }
         // Update local shared_folder_paths and emit
         this.$emit("communitiesSelected", this.selected_folders);
+
+        if (this.selected_folders.length === 0) {
+          this.show_corpus_selection = true;
+        }
       }
     },
     async onCommunityCreated(new_folder_slug) {
-      // Add the newly created community to selected list
+      await this.loadAllFolders();
+      // Optionally auto-select:
       // const new_folder_path = `folders/${new_folder_slug}`;
-      // if (!this.selected_folders.includes(new_folder_path)) {
-      //   this.selected_folders.push(new_folder_path);
-      // }
-
-      this.show_add_community = false;
-
-      // if (this.use_query) {
-      //   // Update route query
-      //   const slugs = this.selected_folders.map((path) =>
-      //     path.split("/").pop()
-      //   );
-      //   this.$router.push({
-      //     path: this.$route.path,
-      //     query: { communities: slugs.join(",") },
-      //   });
-      // } else {
-      //   // Emit event for local state management
-      //   this.$emit("communitiesSelected", this.selected_folders);
-      // }
+      // this.handleSelect(new_folder_path, true);
     },
-    addCommunity(folder_path) {
-      // Add community to selected list if not already selected
-      if (!this.selected_folders.includes(folder_path)) {
-        this.selected_folders.push(folder_path);
-      }
-      this.show_add_community = false;
-
-      if (this.use_query) {
-        // Update route query
-        const slugs = this.selected_folders.map((path) =>
-          path.split("/").pop()
-        );
-        this.$router.push({
-          path: this.$route.path,
-          query: { communities: slugs.join(",") },
-        });
-      } else {
-        // Emit event for local state management
-        this.$emit("communitiesSelected", this.selected_folders);
-      }
-    },
-    showRemoveModal(folder) {
-      this.community_to_remove = folder;
-    },
-    async onCommunityRemoved() {
+    async onCommunityRemoved(removed_path) {
       // Remove from local list
       this.all_folders = this.all_folders.filter(
-        (f) => f.$path !== this.community_to_remove.$path
+        (f) => f.$path !== removed_path
       );
       this.selected_folders = this.selected_folders.filter(
-        (f) => f !== this.community_to_remove.$path
+        (f) => f !== removed_path
       );
 
       if (this.use_query) {
@@ -366,11 +273,12 @@ export default {
         const currentSlugs = this.computed_shared_folder_paths.map((p) =>
           p.split("/").pop()
         );
-        const removedSlug = this.community_to_remove.$path.split("/").pop();
+        const removedSlug = removed_path.split("/").pop();
         const newSlugs = currentSlugs.filter((s) => s !== removedSlug);
 
         if (newSlugs.length === 0) {
           this.$router.push({ path: this.$route.path });
+          // Modal should be open or stay open
         } else {
           this.$router.push({
             path: this.$route.path,
@@ -379,10 +287,8 @@ export default {
         }
       } else {
         // Emit event to parent for local state management
-        this.$emit("communityRemoved", this.community_to_remove.$path);
+        this.$emit("communityRemoved", removed_path);
       }
-
-      this.community_to_remove = null;
     },
     saveToLocalStorage(folders) {
       try {
@@ -425,65 +331,5 @@ export default {
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-}
-
-._selectionView {
-  padding: calc(var(--spacing) * 2);
-  // max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-._header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: calc(var(--spacing) * 2);
-  gap: calc(var(--spacing));
-}
-
-._title {
-  font-size: var(--sl-font-size-xx-large);
-  font-weight: 400;
-  margin: 0;
-}
-
-._headerActions {
-  display: flex;
-  flex-flow: row nowrap;
-  gap: calc(var(--spacing) / 2);
-  align-items: center;
-}
-
-._addCommunityButton {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: calc(var(--spacing) / 4);
-}
-
-._communitiesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: calc(var(--spacing) / 2);
-  margin-bottom: calc(var(--spacing) * 2);
-}
-
-._actions {
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  // background-color: var(--h-50);
-  padding: calc(var(--spacing) / 2);
-  // border-top: 1px solid var(--h-200);
-}
-
-._noCommunities {
-  padding: calc(var(--spacing) * 2);
-  text-align: center;
-  color: var(--h-600);
-  font-style: italic;
 }
 </style>

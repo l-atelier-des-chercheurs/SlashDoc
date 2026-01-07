@@ -51,6 +51,7 @@
             :stack_preview_width.sync="stack_preview_width"
             :view_mode.sync="view_mode"
             @toggleCorpus="toggleCorpus"
+            @openCorpusSelection="$emit('openCorpusSelection')"
           />
 
           <transition name="fade" mode="out-in">

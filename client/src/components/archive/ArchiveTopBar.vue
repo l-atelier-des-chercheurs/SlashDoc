@@ -6,7 +6,7 @@
         <button
           type="button"
           class="u-button u-button_icon u-button_transparent _addCommunityButton"
-          @click="$router.push('/explore')"
+          @click="$emit('openCorpusSelection')"
           :title="$t('see_all_communities')"
         >
           <b-icon icon="list" />
