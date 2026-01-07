@@ -139,8 +139,8 @@ export default {
     position: absolute;
     left: 0;
     // color: black;
-    color: white;
-    background-color: var(--h-900);
+    // color: white;
+    // background-color: var(--h-900);
     border-radius: 0;
     width: 2rem;
     height: 2rem;
@@ -152,8 +152,8 @@ export default {
 
     &.is--active {
       &:not(:hover) {
-        background-color: var(--active-color);
-        color: black;
+        // background-color: var(--active-color);
+        // color: black;
       }
       left: calc(v-bind(sidebarWidth) - 2rem);
     }

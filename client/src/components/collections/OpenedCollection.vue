@@ -20,7 +20,7 @@
           <div class="u-sameRow">
             <router-link
               to="/publish"
-              class="u-button u-button_icon u-button_white"
+              class="u-button u-button_icon"
               :title="$t('back')"
             >
               <b-icon icon="arrow-left" />
