@@ -21,11 +21,7 @@
     </transition>
 
     <transition name="fade_fast" mode="out-in">
-      <div class="_loader" v-if="is_loading_folder">
-        <LoaderSpinner />
-      </div>
       <TwoColumnLayout
-        v-else
         :show-sidebar.sync="show_filter_bar"
         :show-toggle-button="false"
         class="_sharedFolder--content"
@@ -53,6 +49,11 @@
             @toggleCorpus="toggleCorpus"
             @openCorpusSelection="$emit('openCorpusSelection')"
           />
+          <transition name="fade" mode="out-in">
+            <div class="_loader" v-if="is_loading_folder">
+              <LoaderSpinner />
+            </div>
+          </transition>
 
           <transition name="fade" mode="out-in">
             <div class="_stacksList" :key="sort_order + '-' + group_mode">
@@ -210,8 +211,6 @@ export default {
       this.joinRoom(path);
       this.joinRoom(path + "/stacks");
     });
-
-    this.is_loading_folder = false;
   },
   beforeDestroy() {
     // Leave all socket rooms
@@ -545,6 +544,10 @@ export default {
       }
     },
     async loadStacksFromCommunities() {
+      this.is_loading_folder = true;
+
+      await this.$nextTick();
+
       // Load stacks from all active communities and merge them
       const allStacksPromises = this.stack_shared_folder_paths.map(
         (stackPath) => this.$api.getFolders({ path: stackPath })
@@ -559,6 +562,10 @@ export default {
         }
       });
       this.all_stacks = Array.from(stacksMap.values());
+
+      setTimeout(() => {
+        this.is_loading_folder = false;
+      }, 200);
     },
   },
 };
@@ -633,8 +640,11 @@ export default {
 }
 
 ._loader {
-  position: relative;
-  min-height: 80vh;
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.6);
+  // min-height: 80vh;
 }
 
 ._mediamapContainer {
