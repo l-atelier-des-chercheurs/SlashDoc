@@ -45,14 +45,29 @@
           </div>
         </div>
 
-        <ProjectsListWithFilter
+        <FoldersListWithFilter
           v-if="projects !== undefined"
-          :projects_pinned="space.projects_pinned"
-          :space_path="space.$path"
-          :projects="projects"
+          ref="listWithFilter"
+          :folders="projects"
+          :pinned_folders="space.projects_pinned"
+          :path="space.$path"
           :can_edit="can_edit_space"
+          :folder_type="'project'"
+          :pin_field_name="'projects_pinned'"
+          :pin_label="$t('projects_pinned')"
+          :available_view_modes="['medium', 'map']"
         >
-        </ProjectsListWithFilter>
+          <template #item="{ item }">
+            <ProjectPresentation
+              :project="item"
+              :context="'list'"
+              :display_original_space="false"
+              :can_edit="false"
+              @toggleFilter="toggleFilter($event)"
+            />
+          </template>
+        </FoldersListWithFilter>
+
         <CreateFolder
           v-if="show_create_modal"
           :modal_name="$t('create_a_project')"
@@ -80,7 +95,8 @@
   </div>
 </template>
 <script>
-import ProjectsListWithFilter from "@/components/ProjectsListWithFilter.vue";
+import FoldersListWithFilter from "@/components/FoldersListWithFilter.vue";
+import ProjectPresentation from "@/components/ProjectPresentation.vue";
 import SpacePresentation from "@/components/space/SpacePresentation.vue";
 import NotFound from "@/components/NotFound.vue";
 import DynamicTitle from "@/mixins/DynamicTitle.js";
@@ -89,7 +105,8 @@ export default {
   props: {},
   mixins: [DynamicTitle],
   components: {
-    ProjectsListWithFilter,
+    FoldersListWithFilter,
+    ProjectPresentation,
     SpacePresentation,
     ProjectsTester: () => import("@/adc-core/tests/ProjectsTester.vue"),
     NotFound,
@@ -181,6 +198,11 @@ export default {
           .delay(4000)
           .log(this.$t("space_was_removed"));
         this.$router.push("/");
+      }
+    },
+    toggleFilter(event) {
+      if (this.$refs.listWithFilter) {
+        this.$refs.listWithFilter.toggleFilter(event);
       }
     },
   },

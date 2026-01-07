@@ -17,7 +17,7 @@
             class="_list _list_pinned"
             :class="{
               'is--mobileView': $root.is_mobile_view,
-              'is--grid': direction === 'horizontal',
+              'is--grid': direction === 'grid',
             }"
             name="listComplete"
             appear
@@ -79,7 +79,7 @@
       class="_nonpinned _list"
       :class="{
         'is--mobileView': $root.is_mobile_view,
-        'is--grid': direction === 'horizontal',
+        'is--grid': direction === 'grid',
       }"
       name="listComplete"
       appear
@@ -116,7 +116,7 @@ export default {
     folders: Array,
     can_edit: Boolean,
     direction: {
-      default: "horizontal",
+      default: "list",
       type: String,
     },
   },
@@ -236,8 +236,10 @@ export default {
       minmax(min(100%, var(--item-width, 320px)), 1fr)
     );
   }
-  &:not(.is--grid) > * {
-    margin-bottom: calc(var(--spacing) / 2);
+  &:not(.is--grid) {
+    ._item {
+      margin-bottom: calc(var(--spacing) / 2);
+    }
   }
 
   &.is--mobileView {

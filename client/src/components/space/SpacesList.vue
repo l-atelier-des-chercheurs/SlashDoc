@@ -60,6 +60,7 @@
         :path="''"
         :folders="filtered_spaces"
         :can_edit="is_instance_admin"
+        :direction="'grid'"
         v-slot="slotProps"
       >
         <SpacePresentation
