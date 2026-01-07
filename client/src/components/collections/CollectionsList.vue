@@ -17,14 +17,14 @@
             v-text="$t('create_a_publication')"
           />
 
-          <button
+          <!-- <button
             class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'story_with_sections'"
           >
             <b-icon icon="plus-circle" />
             <span v-text="$t('new_story')"></span>
             <img :src="$root.publicPath + 'picto_luma/story.svg'" alt="story" />
-          </button>
+          </button> -->
           <button
             class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'edition'"
