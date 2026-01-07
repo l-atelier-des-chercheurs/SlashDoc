@@ -129,6 +129,10 @@ export default {
         send_email_to_admins: "Envoyer un email aux administrateurs",
         email_instructions:
           "Les administrateurs recevront un email avec votre demande.",
+        community_admin_instructions:
+          "Les référents d’une communauté peuvent la modifier (son nom, sa description, etc.) ou la supprimer, ainsi que tous ses contenus. Ils peuvent aussi modifier la liste des référents et des contributeurs.",
+        community_contrib_instructions:
+          "Les contributeurs d’une communauté peuvent uniquement ajouter des documents dans cette communauté. Ils ne peuvent pas modifier ou supprimer cette communauté ni les projets dont ils ne sont pas référents.",
       },
     },
     en: {
@@ -136,6 +140,10 @@ export default {
       ask_to_join: "Ask to join",
       send_email_to_admins: "Send email to admins",
       email_instructions: "The admins will receive an email with your request.",
+      community_admin_instructions:
+        "The referrers of a community can modify or delete it, as well as all its contents. They can also modify the list of referrers and contributors.",
+      community_contrib_instructions:
+        "Contributors to a community can only create projects in this community. They cannot modify or delete this community or projects for which they are not referent.",
     },
   },
   data() {
