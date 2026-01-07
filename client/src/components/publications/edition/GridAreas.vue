@@ -511,6 +511,7 @@ export default {
 ._gridArea {
   position: relative;
   border: 2px solid var(--c-gris);
+  border-radius: var(--input-border-radius);
   background: white;
   cursor: move;
   transition: border-color 0.15s ease;
@@ -527,7 +528,7 @@ export default {
 
   &._gridArea--selected {
     border-color: var(--c-bleuvert);
-    box-shadow: 0 0 0 2px rgba(94, 185, 196, 0.15);
+    // box-shadow: 0 0 0 2px rgba(94, 185, 196, 0.15);
   }
 
   &._gridArea--dragging {
