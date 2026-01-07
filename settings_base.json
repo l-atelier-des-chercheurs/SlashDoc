@@ -267,9 +267,6 @@
             "grid_areas": {
               "type": "array"
             },
-            "grid_area_id": {
-              "type": "string"
-            },
             "main_text_meta": {
               "type": "string"
             },
@@ -373,6 +370,9 @@
               "type": "array"
             },
             "column_count": {
+              "type": "number"
+            },
+            "row_count": {
               "type": "number"
             }
           }
