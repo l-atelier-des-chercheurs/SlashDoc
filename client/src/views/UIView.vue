@@ -17,7 +17,6 @@
     <h3>Standard Buttons</h3>
     <div class="_buttonsDemo">
       <button class="u-button">Default Button</button>
-      <button class="u-button u-button_big">Big Button</button>
       <button class="u-button u-button_floating">Floating</button>
       <button class="u-button u-button_wide">Wide</button>
       <button class="u-button u-button_inline">
@@ -41,6 +40,27 @@
         :class="{ 'is--active': true }"
       >
         Active Transparent
+      </button>
+    </div>
+
+    <h3>Active Buttons</h3>
+    <div class="_buttonsDemo">
+      <button class="u-button is--active">Default Active</button>
+      <button class="u-button u-button_black is--active">Black Active</button>
+      <button class="u-button u-button_white is--active">White Active</button>
+      <button class="u-button u-button_red is--active">Red Active</button>
+      <button class="u-button u-button_bleuvert is--active">
+        Bleuvert Active
+      </button>
+      <button class="u-button u-button_bleuvert_fonce is--active">
+        Bleuvert Foncé Active
+      </button>
+      <button class="u-button u-button_orange is--active">Orange Active</button>
+      <button class="u-button u-button_bleumarine is--active">
+        Bleumarine Active
+      </button>
+      <button class="u-button u-button_transparent is--active">
+        Transparent Active
       </button>
     </div>
 
