@@ -89,6 +89,7 @@
           :path="''"
           :folders="filtered_collections"
           :can_edit="is_instance_admin"
+          :direction="'grid'"
           v-slot="slotProps"
         >
           <PublicationPreview :publication="slotProps.item" />
