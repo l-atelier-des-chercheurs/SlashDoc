@@ -132,7 +132,7 @@
               >
                 {{ $t("add_to_instance_admin") }}
               </button>
-              <AdminSettings
+              <AdminLumaSettings
                 v-if="show_settings_modal"
                 :starting_tab="'administration_and_access_control'"
                 @close="show_settings_modal = false"
@@ -173,7 +173,7 @@ export default {
   props: {},
   mixins: [DynamicTitle],
   components: {
-    AdminSettings: () => import("@/adc-core/AdminSettings.vue"),
+    AdminLumaSettings: () => import("@/components/AdminLumaSettings.vue"),
   },
   data() {
     return {
