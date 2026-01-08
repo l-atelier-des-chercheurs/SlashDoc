@@ -42,7 +42,6 @@
         <AuthorCard
           :key="connected_as.$path"
           :author="connected_as"
-          :context="'preview'"
           class="u-spacingBottom"
           @navToPage="$emit('close')"
         />
