@@ -5,6 +5,12 @@
     </div>
     <template v-else>
       <div class="_authorFull">
+        <div class="u-spacingBottom">
+          <router-link to="/@" class="u-buttonLink">
+            <b-icon icon="arrow-left-short" />
+            {{ $t("list_of_accounts") }}
+          </router-link>
+        </div>
         <div class="_topbar">
           <div class="_cover">
             <CoverField
