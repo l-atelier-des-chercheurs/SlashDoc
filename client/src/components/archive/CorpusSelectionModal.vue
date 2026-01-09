@@ -1,47 +1,69 @@
 <template>
-  <BaseModal2
-    :title="$t('manage_communities')"
-    :size="'large'"
-    @close="$emit('close')"
-  >
-    <div class="_corpusSelectionModal">
-      <div class="_header">
-        <!-- <h1 class="_title">{{ $t("Communautés") }}</h1> -->
-        <div class="_headerActions">
-          <button
-            type="button"
-            class="u-button u-button_icon u-button_transparent _addCommunityButton"
-            @click="show_add_community = true"
-            :title="$t('add_community')"
-          >
-            <b-icon icon="plus" />
-            {{ $t("add_community") }}
-          </button>
+  <div class="_corpusSelection">
+    <TwoColumnLayout :show-toggle-button="false" class="_corpusLayout">
+      <template #sidebar>
+        <div class="_sidebarContent">
+          <div class="_header">
+            <h3 class="">{{ $t("Communautés") }}</h3>
+
+            <button
+              type="button"
+              class="u-button u-button_icon u-button_transparent _addCommunityButton"
+              @click="show_add_community = true"
+              :title="$t('add_community')"
+            >
+              <b-icon icon="plus" />
+              <!-- {{ $t("add_community") }} -->
+            </button>
+          </div>
+
+          <div class="_communitiesList">
+            <div
+              v-for="folder in displayed_folders"
+              :key="folder.$path"
+              class="_sidebarItem"
+              :class="{
+                'is--active': active_folder_path === folder.$path,
+                'is--selected': selected_folders.includes(folder.$path),
+              }"
+              @click="active_folder_path = folder.$path"
+            >
+              <span class="_sidebarItemTitle">{{ folder.title }}</span>
+              <b-icon
+                v-if="selected_folders.includes(folder.$path)"
+                icon="check"
+              />
+            </div>
+            <div v-if="displayed_folders.length === 0" class="_noCommunities">
+              {{ $t("no_communities_available") }}
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="_communitiesList">
-        <CommunityPreview
-          v-for="folder in displayed_folders"
-          :key="folder.$path"
-          :folder="folder"
-          :is_selected="selected_folders.includes(folder.$path)"
-          @select="handleSelect"
-          @remove="showRemoveModal"
-        />
-        <div v-if="displayed_folders.length === 0" class="_noCommunities">
-          {{ $t("no_communities_available") }}
+      </template>
+
+      <template #content>
+        <div class="_preview">
+          <CommunityPreview
+            v-if="active_folder"
+            :key="active_folder.$path"
+            :folder="active_folder"
+            :is_selected="selected_folders.includes(active_folder.$path)"
+            @select="handleSelect"
+            @remove="showRemoveModal"
+          />
         </div>
-      </div>
-      <div class="_actions">
-        <button
-          type="button"
-          class="u-button u-button_primary"
-          :disabled="selected_folders.length === 0"
-          @click="$emit('close')"
-        >
-          {{ $t("open") }}
-        </button>
-      </div>
+      </template>
+    </TwoColumnLayout>
+
+    <div class="_actions">
+      <button
+        type="button"
+        class="u-button u-button_primary"
+        :disabled="selected_folders.length === 0"
+        @click="$emit('close')"
+      >
+        {{ $t("open") }}
+      </button>
     </div>
 
     <!-- Add Community Modal -->
@@ -63,10 +85,11 @@
       @close="community_to_remove = null"
       @removedSuccessfully="onCommunityRemoved"
     />
-  </BaseModal2>
+  </div>
 </template>
 <script>
 import CommunityPreview from "@/components/archive/CommunityPreview.vue";
+import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 
 export default {
   props: {
@@ -81,16 +104,34 @@ export default {
   },
   components: {
     CommunityPreview,
+    TwoColumnLayout,
   },
   data() {
     return {
       show_add_community: false,
       community_to_remove: null,
+      active_folder_path: null,
     };
   },
   computed: {
     displayed_folders() {
       return this.all_folders;
+    },
+    active_folder() {
+      if (!this.active_folder_path) return null;
+      return this.displayed_folders.find(
+        (f) => f.$path === this.active_folder_path
+      );
+    },
+  },
+  watch: {
+    displayed_folders: {
+      handler(val) {
+        if (val.length > 0 && !this.active_folder_path) {
+          this.active_folder_path = val[0].$path;
+        }
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -136,18 +177,42 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-._corpusSelectionModal {
+._corpusSelection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+
   display: flex;
   flex-flow: column nowrap;
-  height: 70vh;
+
+  z-index: 1000;
+}
+
+._corpusLayout {
+  flex: 1 1 auto;
+  min-height: 0; // Fix for nested flex scrolling
+}
+
+._sidebarContent {
+  padding: calc(var(--spacing) / 2);
 }
 
 ._header {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: calc(var(--spacing));
+  border-bottom: 1px solid var(--h-200);
+
+  h3 {
+    margin: 0;
+  }
 }
 
 ._addCommunityButton {
@@ -158,23 +223,49 @@ export default {
 }
 
 ._communitiesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: calc(var(--spacing) / 2);
-  margin-bottom: calc(var(--spacing) * 2);
-  overflow-y: auto;
-  flex: 1 1 auto;
+  display: flex;
+  flex-flow: column nowrap;
+}
 
-  @include scrollbar(3px, 4px, 4px, transparent, var(--c-noir));
+._sidebarItem {
+  padding: calc(var(--spacing) / 2);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 2px;
+  margin-bottom: 2px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: var(--c-gris-clair);
+  }
+  &.is--active {
+    background: var(--c-gris);
+    font-weight: bold;
+  }
+}
+
+._sidebarItemTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._preview {
+  padding: calc(var(--spacing));
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 ._actions {
-  // position: sticky;
-  // bottom: 0;
   width: 100%;
   text-align: center;
   padding-top: calc(var(--spacing) / 2);
+  padding-bottom: calc(var(--spacing) / 2);
   flex: 0 0 auto;
+  border-top: 1px solid var(--c-gris);
 }
 
 ._noCommunities {
@@ -182,6 +273,5 @@ export default {
   text-align: center;
   color: var(--h-600);
   font-style: italic;
-  grid-column: 1 / -1;
 }
 </style>

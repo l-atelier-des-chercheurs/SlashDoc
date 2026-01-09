@@ -10,15 +10,17 @@
       @selectMedias="$emit('selectMedias', $event)"
     />
 
-    <CorpusSelectionModal
-      v-if="show_corpus_selection"
-      :all_folders="all_folders"
-      :selected_folders="selected_folders"
-      @close="onCloseSelection"
-      @select="handleModalSelect"
-      @created="onCommunityCreated"
-      @remove="onCommunityRemoved"
-    />
+    <transition name="fade">
+      <CorpusSelectionModal
+        v-if="show_corpus_selection"
+        :all_folders="all_folders"
+        :selected_folders="selected_folders"
+        @close="onCloseSelection"
+        @select="handleModalSelect"
+        @created="onCommunityCreated"
+        @remove="onCommunityRemoved"
+      />
+    </transition>
   </div>
 </template>
 <script>
