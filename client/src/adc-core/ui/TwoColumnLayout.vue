@@ -54,10 +54,6 @@ export default {
       type: String,
       default: "250px",
     },
-    contentPadding: {
-      type: Boolean,
-      default: true,
-    },
     showSidebar: {
       type: Boolean,
       default: true,

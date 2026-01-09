@@ -29,11 +29,13 @@
               @click="active_folder_path = folder.$path"
             >
               <span class="_sidebarItemTitle">{{ folder.title }}</span>
-              <b-icon
-                v-if="selected_folders.includes(folder.$path)"
-                icon="check"
+              <input
+                type="checkbox"
+                v-model="selected_folders"
+                :value="folder.$path"
               />
             </div>
+
             <div v-if="displayed_folders.length === 0" class="_noCommunities">
               {{ $t("no_communities_available") }}
             </div>
@@ -58,11 +60,15 @@
     <div class="_actions">
       <button
         type="button"
-        class="u-button u-button_primary"
+        class="u-button u-button_orange"
         :disabled="selected_folders.length === 0"
         @click="$emit('close')"
       >
-        {{ $t("open") }}
+        {{
+          $tc("explore_selected_communities", selected_folders.length, {
+            count: selected_folders.length,
+          })
+        }}
       </button>
     </div>
 
@@ -156,7 +162,8 @@ export default {
         manage_communities: "Gérer les communautés",
         add_community: "Ajouter une communauté",
         no_communities_available: "Aucune communauté disponible",
-        open: "Ouvrir",
+        explore_selected_communities:
+          "Explorer la communauté sélectionnée | Explorer les {count} communautés sélectionnées",
         remove_community: "Supprimer la communauté",
         remove_community_explanation:
           "Êtes-vous sûr de vouloir supprimer cette communauté ? Cette action est irréversible.",
@@ -166,7 +173,8 @@ export default {
         manage_communities: "Manage communities",
         add_community: "Add community",
         no_communities_available: "No communities available",
-        open: "Open",
+        explore_selected_communities:
+          "Explore selected community | Explore {count} selected communities",
         remove_community: "Remove community",
         remove_community_explanation:
           "Are you sure you want to remove this community? This action cannot be undone.",
@@ -199,7 +207,6 @@ export default {
 }
 
 ._sidebarContent {
-  padding: calc(var(--spacing) / 2);
 }
 
 ._header {
@@ -209,6 +216,7 @@ export default {
   align-items: center;
   margin-bottom: calc(var(--spacing));
   border-bottom: 1px solid var(--h-200);
+  padding: 0 calc(var(--spacing) / 1);
 
   h3 {
     margin: 0;
@@ -228,7 +236,7 @@ export default {
 }
 
 ._sidebarItem {
-  padding: calc(var(--spacing) / 2);
+  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -253,10 +261,10 @@ export default {
 }
 
 ._preview {
-  padding: calc(var(--spacing));
-  width: 100%;
+  padding: calc(var(--spacing) * 3);
+  // width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  // margin: 0 auto;
 }
 
 ._actions {
