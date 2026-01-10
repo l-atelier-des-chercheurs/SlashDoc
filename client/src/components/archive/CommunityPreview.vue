@@ -214,12 +214,14 @@ export default {
       return this.can_edit || this.can_see || this.folder.$status !== "private";
     },
     adminsList() {
-      if (!this.folder.$admins) return [];
-      return this.folder.$admins;
+      const admins = this.folder.$admins;
+      if (!admins) return [];
+      return Array.isArray(admins) ? admins : [admins];
     },
     contributorsList() {
-      if (!this.folder.$contributors) return [];
-      return this.folder.$contributors;
+      const contributors = this.folder.$contributors;
+      if (!contributors) return [];
+      return Array.isArray(contributors) ? contributors : [contributors];
     },
     stats() {
       if (this.localStats) return this.localStats;
