@@ -31,8 +31,8 @@
               <span class="_sidebarItemTitle">{{ folder.title }}</span>
               <input
                 type="checkbox"
-                v-model="selected_folders"
-                :value="folder.$path"
+                :checked="selected_folders.includes(folder.$path)"
+                @change="updateSelected($event.target.checked, folder.$path)"
               />
             </div>
 
@@ -45,14 +45,16 @@
 
       <template #content>
         <div class="_preview">
-          <CommunityPreview
-            v-if="active_folder"
-            :key="active_folder.$path"
-            :folder="active_folder"
-            :is_selected="selected_folders.includes(active_folder.$path)"
-            @select="handleSelect"
-            @remove="showRemoveModal"
-          />
+          <transition name="fade" mode="out-in">
+            <CommunityPreview
+              v-if="active_folder"
+              :key="active_folder.$path"
+              :folder="active_folder"
+              :is_selected="selected_folders.includes(active_folder.$path)"
+              @select="handleSelect"
+              @remove="showRemoveModal"
+            />
+          </transition>
         </div>
       </template>
     </TwoColumnLayout>
@@ -141,7 +143,17 @@ export default {
     },
   },
   methods: {
+    updateSelected(checked, path) {
+      let new_selection = this.selected_folders.slice();
+      if (checked) {
+        if (!new_selection.includes(path)) new_selection.push(path);
+      } else {
+        new_selection = new_selection.filter((p) => p !== path);
+      }
+      this.$emit("update:selected_folders", new_selection);
+    },
     handleSelect(folder_path, is_selected) {
+      this.updateSelected(is_selected, folder_path);
       this.$emit("select", { folder_path, is_selected });
     },
     showRemoveModal(folder) {

@@ -14,7 +14,7 @@
       <CorpusSelectionModal
         v-if="show_corpus_selection"
         :all_folders="all_folders"
-        :selected_folders="selected_folders"
+        :selected_folders.sync="selected_folders"
         @close="onCloseSelection"
         @select="handleModalSelect"
         @created="onCommunityCreated"
@@ -149,6 +149,22 @@ export default {
     },
     selected_folders: {
       handler(newFolders) {
+        // Update query if needed
+        if (this.use_query) {
+          const slugs = newFolders.map((path) => path.split("/").pop());
+          const newQuery = slugs.join(",");
+          const currentQuery =
+            this.$route.query && this.$route.query.communities
+              ? this.$route.query.communities
+              : "";
+
+          if (newQuery !== currentQuery) {
+            this.$router.push({
+              path: this.$route.path,
+              query: { communities: newQuery },
+            });
+          }
+        }
         // Always save to localStorage
         this.saveToLocalStorage(newFolders);
       },
