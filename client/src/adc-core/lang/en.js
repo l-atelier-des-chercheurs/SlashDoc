@@ -1,16 +1,10 @@
 export default {
-  home: "Home",
   welcome_to_dodoc: "Welcome to do•doc !",
   current_lang_name: "English",
 
-  caption: "Caption",
-  date_created: "created date",
-  date_modified: "last edited",
-  date_uploaded: "uploaded on",
-  cancel: "cancel",
-  // todo translate
   a_foss_made_by:
     "This platform uses do•doc, a free and open-source software made by a community of designers, teachers, artists, developers, makers,&nbsp;…!",
+  home: "Home",
   go_home: "Back to home",
   page_not_found: "This page does not exist",
   edit: "Edit",
@@ -20,7 +14,12 @@ export default {
   "credit/reference": "Credit/reference",
 
   stop_edit: "Stop editing",
+  caption: "Caption",
+  date_created: "Created on",
+  date_modified: "Last edited",
   alphabetical: "Alphabetical",
+  date_uploaded: "Uploaded on",
+  cancel: "Cancel",
   select: "Select",
   back: "Back",
   save: "Save",
@@ -43,6 +42,7 @@ export default {
   day: "Day",
   month: "Month",
   year: "Year",
+  admin_settings: "Admin settings",
 
   template: "Template",
 
@@ -156,35 +156,6 @@ export default {
     "If you don't know this password, you can request it in a mail to",
   more_informations: "More informations",
 
-  open_app: "Access",
-  items: "Éléments",
-  items_to_share: "Items to share",
-  do_not_show_window_again: "Do not show this window automatically",
-  admin_settings: "Admin settings",
-  import: "Import",
-  close: "Close",
-  keyword_materials_etc: "Keyword, material, place, etc.",
-  complete_or_correct_title_kw:
-    "Complete or correct title and keywords to share this item",
-  create_stack: "Create stack",
-
-  remove_stack_instr: "Remove stack and its content",
-
-  selected_items: "Selected medias:",
-  selected_item: "Selected media:",
-  show_only_my_content: "Show only my content",
-  deselect_all: "Deselect all",
-  remove_all: "Remove all",
-  remove_select: "Remove selection",
-  filters: "Filters",
-  help_contact: "help/contact",
-  sort_by: "Sort by",
-  group_by_date: "Group by date",
-  filter_by_type: "Filtrer par type",
-  filter_by_author: "Fitler by author",
-  filter_by_keyword: "Fitler by keyword",
-
-  show_all_keywords: "Show all keywords",
   already_added: "Already added",
   open: "open",
   create_and_open: "Create and open",
@@ -394,8 +365,6 @@ export default {
   make: "Make",
   publish: "Publish",
 
-  media_editing_instructions:
-    "Indicate the person(s) who can edit this content.",
   projects_you_edited_last: "Projects you edited last",
 
   path_to_content: "Path to content",
@@ -547,6 +516,7 @@ export default {
   contributors: "Contributors",
   contributor: "Contributor",
   admin: "Administrator",
+  import: "Import",
   send: "Send",
   waiting: "Coming soon",
   sending: "In progress",
@@ -697,7 +667,7 @@ export default {
   media_removed: "Media deleted",
   media_duplicated: "Media duplicated",
   media_was_saved_to_project: "The media was added to the project",
-
+  close: "Close",
   settings: "Settings",
   list_of_pages: "List of pages",
   list_of_spreads: "List of spreads",
@@ -1299,8 +1269,6 @@ export default {
   show_preview: "Show preview",
   warning_wont_be_able_to_edit:
     "Warning! By changing this setting, you will no longer be able to edit this content.",
-  coll_is_private:
-    "This collection is private and can only be viewed by the referrers.",
   markdown_help: "Text formatting (markdown) help",
   choose_emoji: "Choose emoji",
   import_medias: "Import medias",
@@ -1416,19 +1384,6 @@ export default {
   rows: "rows",
   grid_dimensions: "Grid dimensions",
   restore_publications: "Restore deleted publications",
-  add_community: "Add community",
-  no_more_communities: "No more communities available",
-  see_all_communities: "See all communities",
-  all_communities: "Communities",
-  no_communities_available: "No communities available",
-  already_selected: "Already selected",
-  edit_community: "Edit community",
-  remove_community: "Remove community",
-  remove_community_explanation:
-    "Are you sure you want to remove this community? This action cannot be undone.",
-  community_updated_successfully: "Community updated successfully",
-  community_removed_successfully: "Community removed successfully",
-  error_updating_community: "Error updating community",
 
   debug_logs: "Debug logs",
   logs_panel_instructions:
