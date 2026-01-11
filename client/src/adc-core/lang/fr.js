@@ -372,8 +372,6 @@ export default {
   reset_all: "Retirer tout",
   reset: "Réinitialiser",
 
-  no_content: "Aucun contenu à afficher",
-
   group_by_date: "Grouper par date",
   filter_by_type: "Filtrer par type",
   filter_by_author: "Filtrer par auteur",

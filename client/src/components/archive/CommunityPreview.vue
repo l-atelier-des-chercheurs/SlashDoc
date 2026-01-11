@@ -239,7 +239,6 @@ export default {
   i18n: {
     messages: {
       fr: {
-        private: "Privé",
         community_visible_in_archive: "Communauté visible dans l'archive",
         archived_media: "Médias archivés",
         images: "Images",
@@ -249,15 +248,10 @@ export default {
         pdf: "PDF",
         audios: "Audios",
         threed: "3D",
-        explore_selected_communities: "Explorer les communautés sélectionnées",
-        referent_es: "Référent·es",
-        contributeur_ices: "Contributeur·ices",
         community_admin_instructions:
           "Les référent·es gèrent les permissions et les paramètres de la communauté.",
         community_contrib_instructions:
           "Les contributeur·ices peuvent ajouter et modifier du contenu.",
-        modify: "Modifier",
-        none: "Aucun",
         access_restricted: "Accès restreint",
         ask_to_join: "Demander à rejoindre",
         send_email_to_admins: "Envoyer un email aux administrateurs",
@@ -266,7 +260,6 @@ export default {
         close: "Fermer",
       },
       en: {
-        private: "Private",
         community_visible_in_archive: "Community visible in archive",
         archived_media: "Archived media",
         images: "Images",
@@ -276,15 +269,10 @@ export default {
         pdf: "PDF",
         audios: "Audios",
         threed: "3D",
-        explore_selected_communities: "Explore selected communities",
-        referent_es: "Referents",
-        contributeur_ices: "Contributors",
         community_admin_instructions:
           "Referents manage permissions and community settings.",
         community_contrib_instructions:
           "Contributors can add and edit content.",
-        modify: "Modify",
-        none: "None",
         access_restricted: "Access restricted",
         ask_to_join: "Ask to join",
         send_email_to_admins: "Send email to admins",

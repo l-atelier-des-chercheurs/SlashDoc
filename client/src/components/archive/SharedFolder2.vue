@@ -180,12 +180,8 @@ export default {
   },
   i18n: {
     messages: {
-      fr: {
-        corpus_title: "Titre du corpus",
-      },
-      en: {
-        corpus_title: "Corpus title",
-      },
+      fr: {},
+      en: {},
     },
   },
   async created() {},

@@ -40,10 +40,31 @@ const i18n = () => {
 
   const loadLangageFile = async (lang) => {
     let content = null;
-    if (lang === "fr") content = await import("@/adc-core/lang/fr.js");
-    else if (lang === "it") content = await import("@/adc-core/lang/it.js");
+    let custom_content = null;
+
+    if (lang === "fr") {
+      content = await import("@/adc-core/lang/fr.js");
+      try {
+        custom_content = await import("@/adc-core/lang/fr_luma.js");
+      } catch (e) {
+        // No custom file
+      }
+    } else if (lang === "it") {
+      content = await import("@/adc-core/lang/it.js");
+    }
     // else if (lang === "fon") content = await import("@/adc-core/lang/fon.js");
-    else content = await import("@/adc-core/lang/en.js");
+    else {
+      content = await import("@/adc-core/lang/en.js");
+      try {
+        custom_content = await import("@/adc-core/lang/en_luma.js");
+      } catch (e) {
+        // No custom file
+      }
+    }
+
+    if (custom_content) {
+      return { ...content.default, ...custom_content.default };
+    }
     return content.default;
   };
 

@@ -185,7 +185,6 @@ export default {
   filter_by_keyword: "Fitler by keyword",
 
   show_all_keywords: "Show all keywords",
-  no_content: "No content to show",
   already_added: "Already added",
   open: "open",
   create_and_open: "Create and open",

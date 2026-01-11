@@ -164,9 +164,6 @@ export default {
   i18n: {
     messages: {
       fr: {
-        all_communities: "Communautés",
-        untitled: "Sans titre",
-        see_all_communities: "Voir toutes les communautés",
         search_fields:
           "Rechercher dans les champs titre et description des documents.",
         toggle_filters: "Afficher/masquer les filtres",
@@ -175,9 +172,6 @@ export default {
         map_view: "Vue carte",
       },
       en: {
-        all_communities: "Communities",
-        untitled: "Untitled",
-        see_all_communities: "See all communities",
         search_fields: "Search in titles or descriptions of documents.",
         toggle_filters: "Toggle filters",
         list_view: "List view",

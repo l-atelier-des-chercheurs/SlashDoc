@@ -4,7 +4,7 @@
       <template #sidebar>
         <div class="_sidebarContent">
           <div class="_header">
-            <h3 class="">{{ $t("Communautés") }}</h3>
+            <h3 class="">{{ $t("all_communities") }}</h3>
 
             <button
               type="button"
@@ -169,26 +169,12 @@ export default {
   i18n: {
     messages: {
       fr: {
-        manage_communities: "Gérer les communautés",
-        add_community: "Ajouter une communauté",
-        no_communities_available: "Aucune communauté disponible",
         explore_selected_communities:
           "Explorer la communauté sélectionnée | Explorer les {count} communautés sélectionnées",
-        remove_community: "Supprimer la communauté",
-        remove_community_explanation:
-          "Êtes-vous sûr de vouloir supprimer cette communauté ? Cette action est irréversible.",
-        community_removed_successfully: "Communauté supprimée avec succès",
       },
       en: {
-        manage_communities: "Manage communities",
-        add_community: "Add community",
-        no_communities_available: "No communities available",
         explore_selected_communities:
           "Explore selected community | Explore {count} selected communities",
-        remove_community: "Remove community",
-        remove_community_explanation:
-          "Are you sure you want to remove this community? This action cannot be undone.",
-        community_removed_successfully: "Community removed successfully",
       },
     },
   },
