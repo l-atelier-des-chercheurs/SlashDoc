@@ -34,6 +34,22 @@
                 @change="updateSelected($event.target.checked, folder.$path)"
               />
               <span class="_sidebarItemTitle">{{ folder.title }}</span>
+
+              <DropDown
+                v-if="canLoggedinEditFolder({ folder })"
+                :right="true"
+                :show_label="false"
+                @click.native.stop
+              >
+                <button
+                  type="button"
+                  class="u-buttonLink u-buttonLink_red"
+                  @click="showRemoveModal(folder)"
+                >
+                  <b-icon icon="trash" />
+                  {{ $t("remove") }}
+                </button>
+              </DropDown>
             </div>
 
             <div v-if="displayed_folders.length === 0" class="_noCommunities">
@@ -255,6 +271,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
 }
 
 ._actions {
