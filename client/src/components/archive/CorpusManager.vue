@@ -9,7 +9,6 @@
       @selectStack="$emit('selectStack', $event)"
       @selectMedias="$emit('selectMedias', $event)"
     />
-
     <transition name="fade">
       <CorpusSelectionModal
         v-if="show_corpus_selection"
@@ -249,6 +248,7 @@ export default {
         if (newSlugs.length === 0) {
           // If no communities selected, update route and show modal
           this.$router.push({ path: this.$route.path });
+          this.selected_folders = [];
           this.show_corpus_selection = true;
         } else {
           this.$router.push({
