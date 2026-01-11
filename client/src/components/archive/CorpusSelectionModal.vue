@@ -28,12 +28,12 @@
               }"
               @click="active_folder_path = folder.$path"
             >
-              <span class="_sidebarItemTitle">{{ folder.title }}</span>
               <input
                 type="checkbox"
                 :checked="selected_folders.includes(folder.$path)"
                 @change="updateSelected($event.target.checked, folder.$path)"
               />
+              <span class="_sidebarItemTitle">{{ folder.title }}</span>
             </div>
 
             <div v-if="displayed_folders.length === 0" class="_noCommunities">
@@ -237,10 +237,9 @@ export default {
   padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: calc(var(--spacing));
   align-items: center;
-  border-radius: 2px;
-  margin-bottom: 2px;
   transition: background-color 0.2s;
 
   &:hover {
