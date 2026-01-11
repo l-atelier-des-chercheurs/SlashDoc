@@ -17,7 +17,7 @@
           v-for="folder in all_folders"
           :key="folder.$path"
           type="button"
-          class="u-button u-button_pill u-button_white _corpusItem"
+          class="u-button u-button_small u-button_pill u-button_transparent _corpusItem"
           :class="{ 'is--active': isCommunityActive(folder.$path) }"
           @click="$emit('toggleCorpus', folder.$path)"
         >
@@ -312,10 +312,6 @@ export default {
 ._corpusItem {
   flex: 0 0 auto;
   padding: calc(var(--spacing) / 8) calc(var(--spacing) / 2);
-  font-size: 0.875rem;
-  line-height: 1.2;
-  white-space: nowrap;
-  border-radius: 999px;
 }
 
 ._toggleIcon {

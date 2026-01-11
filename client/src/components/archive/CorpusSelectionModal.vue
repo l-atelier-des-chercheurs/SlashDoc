@@ -261,8 +261,7 @@ export default {
 ._actions {
   width: 100%;
   text-align: center;
-  padding-top: calc(var(--spacing) / 2);
-  padding-bottom: calc(var(--spacing) / 2);
+  padding: calc(var(--spacing) * 2);
   flex: 0 0 auto;
   border-top: 1px solid var(--c-gris);
 }

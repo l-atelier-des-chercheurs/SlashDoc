@@ -44,7 +44,15 @@
 }
 
 .u-button_pill {
+  border-radius: 999px;
   padding: calc(var(--spacing) / 2) calc(var(--spacing) * 1);
+}
+
+.u-button_transparent {
+  &.is--active {
+    background-color: var(--g-200);
+    border-color: var(--g-500);
+  }
 }
 
 label,
