@@ -44,18 +44,16 @@
       </template>
 
       <template #content>
-        <div class="_preview">
-          <transition name="fade" mode="out-in">
-            <CommunityPreview
-              v-if="active_folder"
-              :key="active_folder.$path"
-              :folder="active_folder"
-              :is_selected="selected_folders.includes(active_folder.$path)"
-              @select="handleSelect"
-              @remove="showRemoveModal"
-            />
-          </transition>
-        </div>
+        <transition name="fade" mode="out-in">
+          <CommunityPreview
+            v-if="active_folder"
+            :key="active_folder.$path"
+            :folder="active_folder"
+            :is_selected="selected_folders.includes(active_folder.$path)"
+            @select="handleSelect"
+            @remove="showRemoveModal"
+          />
+        </transition>
       </template>
     </TwoColumnLayout>
 
@@ -226,7 +224,7 @@ export default {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: calc(var(--spacing));
+  // margin-bottom: calc(var(--spacing));
   border-bottom: 1px solid var(--h-200);
   padding: 0 calc(var(--spacing) / 1);
 
@@ -270,13 +268,6 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-._preview {
-  padding: calc(var(--spacing) * 3);
-  // width: 100%;
-  max-width: 800px;
-  // margin: 0 auto;
 }
 
 ._actions {

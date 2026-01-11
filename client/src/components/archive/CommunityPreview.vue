@@ -22,7 +22,7 @@
           />
         </div>
       </div>
-      <div class="_subTitle">
+      <div class="_subTitle" v-if="is_selected">
         {{ $t("community_visible_in_archive") }}
         <!-- <b-icon icon="info-circle" /> -->
       </div>
@@ -35,7 +35,7 @@
           <TitleField
             :field_name="'description'"
             :label="$t('description')"
-            :show_label="false"
+            :show_label="true"
             :content="folder.description || ''"
             :path="folder.$path"
             :can_edit="can_edit"
@@ -44,8 +44,8 @@
           />
         </div>
 
-        <div class="_statsSection">
-          <h3 class="_sectionTitle">{{ $t("archived_media") }}</h3>
+        <div class="_statsSection" v-if="false">
+          <DLabel :str="$t('archived_media')" />
           <div v-if="isLoadingStats" class="_loadingStats">
             <LoaderSpinner />
           </div>
@@ -84,48 +84,13 @@
 
       <!-- Right Column -->
       <div class="_rightCol">
-        <div class="_peopleSection">
-          <h4 class="_peopleTitle">{{ $t("referent_es") }}</h4>
-          <div class="_avatars">
-            <AuthorTag
-              v-for="adminPath in adminsList"
-              :key="adminPath"
-              :path="adminPath"
-              :show_image_only="true"
-              :mode="'link'"
-            />
-            <span v-if="adminsList.length === 0" class="u-text-small">{{
-              $t("none")
-            }}</span>
-          </div>
-        </div>
-
-        <div class="_peopleSection">
-          <h4 class="_peopleTitle">{{ $t("contributeur_ices") }}</h4>
-          <div class="_avatars">
-            <AuthorTag
-              v-for="contribPath in contributorsList"
-              :key="contribPath"
-              :path="contribPath"
-              :show_image_only="true"
-              :mode="'link'"
-            />
-            <span v-if="contributorsList.length === 0" class="u-text-small">{{
-              $t("none")
-            }}</span>
-          </div>
-        </div>
-
-        <div class="_editAction" v-if="can_edit">
-          <button
-            type="button"
-            class="u-buttonLink"
-            @click="show_edit_modal = true"
-          >
-            <b-icon icon="pencil" />
-            {{ $t("modify") }}
-          </button>
-        </div>
+        <AdminsAndContributorsField
+          :folder="folder"
+          :can_edit="can_edit"
+          :admin_label="$t('referent')"
+          :admin_instructions="$t('community_admin_instructions')"
+          :contrib_instructions="$t('community_contrib_instructions')"
+        />
 
         <div class="_joinAction" v-if="!can_open_community">
           <div class="u-instructions">{{ $t("access_restricted") }}</div>
@@ -199,9 +164,7 @@ export default {
       localStats: null,
     };
   },
-  mounted() {
-    this.fetchStats();
-  },
+  mounted() {},
   watch: {},
   computed: {
     can_edit() {
@@ -231,23 +194,6 @@ export default {
   methods: {
     mailtoLink(email) {
       return `mailto:${email}`;
-    },
-    async fetchStats() {
-      if (!this.folder.$files) {
-        this.isLoadingStats = true;
-        try {
-          const folderDetails = await this.$api.getFolder({
-            path: this.folder.$path,
-            detailed_infos: true,
-          });
-          this.localStats = this.calculateStats(folderDetails.$files || []);
-        } catch (e) {
-          console.error(e);
-        }
-        this.isLoadingStats = false;
-      } else {
-        this.localStats = this.calculateStats(this.folder.$files);
-      }
     },
     calculateStats(files) {
       const s = {
@@ -306,6 +252,10 @@ export default {
         explore_selected_communities: "Explorer les communautés sélectionnées",
         referent_es: "Référent·es",
         contributeur_ices: "Contributeur·ices",
+        community_admin_instructions:
+          "Les référent·es gèrent les permissions et les paramètres de la communauté.",
+        community_contrib_instructions:
+          "Les contributeur·ices peuvent ajouter et modifier du contenu.",
         modify: "Modifier",
         none: "Aucun",
         access_restricted: "Accès restreint",
@@ -329,6 +279,10 @@ export default {
         explore_selected_communities: "Explore selected communities",
         referent_es: "Referents",
         contributeur_ices: "Contributors",
+        community_admin_instructions:
+          "Referents manage permissions and community settings.",
+        community_contrib_instructions:
+          "Contributors can add and edit content.",
         modify: "Modify",
         none: "None",
         access_restricted: "Access restricted",
@@ -349,13 +303,14 @@ export default {
   // flex-flow: column nowrap;
   // gap: calc(var(--spacing) * 2);
   background: white;
-  // padding-top: calc(var(--spacing));
+  padding: calc(var(--spacing) * 3);
 }
 
 ._header {
   display: flex;
   flex-flow: column nowrap;
   gap: calc(var(--spacing) / 4);
+  margin-bottom: calc(var(--spacing) * 2);
 }
 
 ._titleRow {
@@ -436,7 +391,7 @@ export default {
 }
 
 ._rightCol {
-  flex: 0 0 200px;
+  flex: 1 0 200px;
   display: flex;
   flex-flow: column nowrap;
   gap: calc(var(--spacing) * 2);
