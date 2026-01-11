@@ -36,7 +36,10 @@
               <span class="_sidebarItemTitle">{{ folder.title }}</span>
 
               <DropDown
-                v-if="canLoggedinEditFolder({ folder })"
+                v-if="
+                  canLoggedinEditFolder({ folder }) &&
+                  active_folder_path === folder.$path
+                "
                 :right="true"
                 :show_label="false"
                 @click.native.stop
