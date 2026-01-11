@@ -186,6 +186,8 @@ export default {
   },
   async created() {},
   async mounted() {
+    // Load all folders for the add community modal
+    await this.loadAllFolders();
     await this.checkExistingFolder();
 
     const primaryPath = this.active_folder_paths[0];
@@ -195,9 +197,6 @@ export default {
         path: primaryPath,
       });
     }
-
-    // Load all folders for the add community modal
-    this.all_folders = await this.$api.getFolders({ path: "folders" });
 
     // Load stacks from all active communities
     await this.loadStacksFromCommunities();
@@ -210,6 +209,8 @@ export default {
   },
   beforeDestroy() {
     // Leave all socket rooms
+    this.$api.leave({ room: "folders" });
+
     this.active_folder_paths.forEach((path) => {
       this.$api.leave({ room: path });
       this.$api.leave({ room: path + "/stacks" });
@@ -438,6 +439,14 @@ export default {
     },
   },
   methods: {
+    async loadAllFolders() {
+      // Load all folders for the add community modal
+      const all_folders = await this.$api.getFolders({ path: "folders" });
+      this.all_folders = all_folders.sort((a, b) =>
+        (a.title || "").localeCompare(b.title || "")
+      );
+      this.$api.join({ room: "folders" });
+    },
     getCommunity(path) {
       // Extract community name from path (folders/{community}/stacks/{stack-slug})
       const pathParts = path.split("/");
@@ -447,9 +456,6 @@ export default {
         : null;
     },
     async checkExistingFolder() {
-      // Load all folders
-      this.all_folders = await this.$api.getFolders({ path: "folders" });
-
       // Verify active paths exist
       if (this.active_folder_paths.length > 0) {
         const allExist = this.active_folder_paths.every((path) =>

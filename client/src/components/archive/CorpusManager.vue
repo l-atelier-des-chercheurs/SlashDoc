@@ -191,6 +191,9 @@ export default {
   methods: {
     async loadAllFolders() {
       this.all_folders = await this.$api.getFolders({ path: "folders" });
+      this.all_folders = this.all_folders.sort((a, b) =>
+        (a.title || "").localeCompare(b.title || "")
+      );
     },
     onCloseSelection() {
       this.show_corpus_selection = false;

@@ -121,7 +121,9 @@ export default {
   },
   computed: {
     displayed_folders() {
-      return this.all_folders;
+      return this.all_folders
+        .slice()
+        .sort((a, b) => (a.title || "").localeCompare(b.title || ""));
     },
     active_folder() {
       if (!this.active_folder_path) return null;
