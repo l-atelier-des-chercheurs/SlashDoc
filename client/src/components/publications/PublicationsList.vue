@@ -10,7 +10,7 @@
       :pin_field_name="'publications_pinned'"
       :pin_label="$t('publications_pinned')"
       :empty_message="$t('no_publications')"
-      :available_view_modes="['tiny', 'medium']"
+      :available_view_modes="['list', 'tiny', 'medium']"
     >
       <template #before-sidebar-toggle>
         <DLabel :str="$t('publications')" :tag="'h2'" />
