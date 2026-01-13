@@ -907,6 +907,19 @@ code {
   margin-bottom: calc(var(--spacing));
 }
 
+.u-keywords {
+  display: flex;
+  flex-flow: row wrap;
+  gap: calc(var(--spacing) / 4);
+  font-size: var(--input-font-size-small);
+
+  > * {
+    &.is--first {
+      border: 2px solid black;
+    }
+  }
+}
+
 fieldset {
   border: 2px solid var(--c-gris_clair);
   padding: calc(var(--spacing) / 2);
