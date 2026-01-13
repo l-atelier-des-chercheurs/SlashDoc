@@ -155,6 +155,15 @@ By documenting your work, you help create assemblages, of materials, skills, and
   align-items: center;
   gap: calc(var(--spacing) * 4);
   margin: 0 auto;
+
+  ._accueil.is--mobileView & {
+    // flex-flow: column nowrap;
+
+    img {
+      // max-width: 320px;
+      // margin: 0 auto;
+    }
+  }
 }
 
 ._section {
@@ -175,11 +184,12 @@ By documenting your work, you help create assemblages, of materials, skills, and
   }
 
   > * {
-    flex: 1 1 0;
+    flex: 1 3 30ch;
+    min-width: 0;
   }
   > img {
-    flex: 0 1 320px;
-    width: 100%;
+    flex: 0 0 360px;
+    min-width: 0;
   }
 
   :deep(i) {
