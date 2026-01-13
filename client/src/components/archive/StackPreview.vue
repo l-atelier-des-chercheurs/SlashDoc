@@ -63,6 +63,7 @@
           class="u-button u-button_icon u-button_transparent _addToFav"
           :data-isfav="is_favorite"
           :disabled="!can_be_added_to_fav"
+          :title="is_favorite ? $t('remove_from_fav') : $t('add_to_fav')"
           @click.stop="$emit('toggleFav')"
         >
           <svg
