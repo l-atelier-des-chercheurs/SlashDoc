@@ -106,14 +106,6 @@
       </div>
     </div>
 
-    <!-- Modals -->
-    <EditAdminsAndContributorsField
-      v-if="show_edit_modal"
-      :folder="folder"
-      :can_edit="can_edit"
-      @closeModal="show_edit_modal = false"
-    />
-
     <BaseModal2
       v-if="showAskToJoin"
       :title="$t('ask_to_join')"
@@ -159,7 +151,6 @@ export default {
   data() {
     return {
       showAskToJoin: false,
-      show_edit_modal: false,
       isLoadingStats: false,
       localStats: null,
     };

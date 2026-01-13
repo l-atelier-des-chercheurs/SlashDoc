@@ -31,6 +31,7 @@
               <input
                 type="checkbox"
                 :checked="selected_folders.includes(folder.$path)"
+                @click.stop
                 @change="updateSelected($event.target.checked, folder.$path)"
               />
               <span class="_sidebarItemTitle">{{ folder.title }}</span>
@@ -259,7 +260,7 @@ export default {
   justify-content: flex-start;
   gap: calc(var(--spacing));
   align-items: center;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
 
   &:hover {
     background: var(--c-gris-clair);
@@ -275,6 +276,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1;
+  padding: calc(var(--spacing) / 2) 0;
 }
 
 ._actions {

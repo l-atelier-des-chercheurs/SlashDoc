@@ -14,4 +14,11 @@ export default {
   community_removed_successfully: "Communauté supprimée avec succès",
   error_updating_community: "Erreur lors de la mise à jour de la communauté",
   today: "Aujourd'hui",
+  filters: "Filtres",
+  sort_by: "Trier par",
+  group_by_date: "Grouper par date",
+  filter_by_author: "Filtrer par auteur",
+  filter_by_keyword: "Filtrer par mot-clé",
+  show_more: "Afficher plus",
+  show_less: "Afficher moins",
 };

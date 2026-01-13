@@ -1,4 +1,5 @@
 export default {
+  no_content: "No content to display",
   add_community: "Add community",
   no_more_communities: "No more communities available",
   see_all_communities: "See all communities",
@@ -12,4 +13,12 @@ export default {
   community_updated_successfully: "Community updated successfully",
   community_removed_successfully: "Community removed successfully",
   error_updating_community: "Error updating community",
+  today: "Today",
+  filters: "Filters",
+  sort_by: "Sort by",
+  group_by_date: "Group by date",
+  filter_by_author: "Filter by author",
+  filter_by_keyword: "Filter by keyword",
+  show_more: "Show more",
+  show_less: "Show less",
 };

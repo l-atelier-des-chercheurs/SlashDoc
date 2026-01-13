@@ -217,18 +217,6 @@ export default {
       ],
     };
   },
-  i18n: {
-    messages: {
-      fr: {
-        show_more: "Afficher plus",
-        show_less: "Afficher moins",
-      },
-      en: {
-        show_more: "Show more",
-        show_less: "Show less",
-      },
-    },
-  },
   async created() {
     this.all_authors = await this.$api.getFolders({
       path: `authors`,
