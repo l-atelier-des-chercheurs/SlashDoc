@@ -141,7 +141,7 @@
                   :can_edit="can_edit"
                 />
               </div>
-              <div class="u-spacingBottom">
+              <!-- <div class="u-spacingBottom">
                 <AuthorField
                   :label="$t('authors') + '(legacy)'"
                   :field="'$authors'"
@@ -150,7 +150,7 @@
                   :path="stack.$path"
                   :can_edit="can_edit"
                 />
-              </div>
+              </div> -->
 
               <div class="" v-if="is_instance_admin">
                 <StatusTag
