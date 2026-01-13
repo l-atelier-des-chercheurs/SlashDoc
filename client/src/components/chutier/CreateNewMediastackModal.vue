@@ -89,7 +89,7 @@
 
             <div class="u-spacingBottom">
               Crédit par défaut (si champ vide) :
-              <TextInput :content="'LUMA Arles 2025'" :can_edit="true" />
+              <TextInput :content="'Atelier LUMA'" :can_edit="true" />
             </div>
 
             <div

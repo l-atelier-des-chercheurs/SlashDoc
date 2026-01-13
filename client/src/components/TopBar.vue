@@ -523,7 +523,6 @@ export default {
   padding: var(--spacing);
   text-transform: uppercase;
   background-color: transparent;
-  // border: 1px solid #ddd;
   border-radius: 0;
   font-size: var(--topbar-font-size);
   cursor: pointer;

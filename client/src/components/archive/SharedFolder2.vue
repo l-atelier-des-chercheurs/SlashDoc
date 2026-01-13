@@ -151,7 +151,7 @@ export default {
 
       show_corpus_menu: false,
 
-      is_loading_folder: true,
+      is_loading_folder: false,
       show_admin_settings: false,
 
       last_selected_stack_path: undefined,
@@ -176,6 +176,7 @@ export default {
         localStorage.getItem("archive.show_filter_bar") === "true",
 
       joined_rooms: new Set(), // Track which rooms we've joined
+      loading_timeout: null, // Timeout for delayed spinner display
     };
   },
   i18n: {
@@ -208,6 +209,11 @@ export default {
     });
   },
   beforeDestroy() {
+    // Clear loading timeout if it exists
+    if (this.loading_timeout) {
+      clearTimeout(this.loading_timeout);
+      this.loading_timeout = null;
+    }
     // Leave all socket rooms
     this.$api.leave({ room: "folders" });
 
@@ -546,7 +552,20 @@ export default {
       }
     },
     async loadStacksFromCommunities() {
-      this.is_loading_folder = true;
+      // Clear any existing timeout
+      if (this.loading_timeout) {
+        clearTimeout(this.loading_timeout);
+        this.loading_timeout = null;
+      }
+
+      // Don't show spinner immediately - wait 1 second
+      this.is_loading_folder = false;
+
+      // Set timeout to show spinner after 1 second if still loading
+      this.loading_timeout = setTimeout(() => {
+        this.is_loading_folder = true;
+        this.loading_timeout = null;
+      }, 1000);
 
       await this.$nextTick();
 
@@ -565,9 +584,14 @@ export default {
       });
       this.all_stacks = Array.from(stacksMap.values());
 
-      setTimeout(() => {
-        this.is_loading_folder = false;
-      }, 200);
+      // Clear the timeout if loading completed before 1 second
+      if (this.loading_timeout) {
+        clearTimeout(this.loading_timeout);
+        this.loading_timeout = null;
+      }
+
+      // Hide spinner if it was shown
+      this.is_loading_folder = false;
     },
   },
 };
