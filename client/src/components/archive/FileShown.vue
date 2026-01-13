@@ -27,7 +27,7 @@
         <div class="_navArrow" v-if="position">
           <button
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_transparent"
             :disabled="position === 'alone' || position === 'first'"
             @click="$eventHub.$emit('carousel.prev')"
           >
@@ -35,11 +35,21 @@
           </button>
           <button
             type="button"
-            class="u-button u-button_icon"
+            class="u-button u-button_icon u-button_transparent"
             :disabled="position === 'alone' || position === 'last'"
             @click="$eventHub.$emit('carousel.next')"
           >
             <b-icon icon="arrow-right-short" />
+          </button>
+
+          <button
+            v-if="cropadjust_possible"
+            type="button"
+            class="u-button u-button_icon u-button_small u-button_glass _cropAdjustBtn"
+            @click="show_cropadjust_modal = true"
+          >
+            <b-icon icon="bounding-box" />
+            <!-- {{ $t("crop_adjust") }} -->
           </button>
 
           <!-- <div v-if="optimization_strongly_recommended" class="_optimizeNotice">
@@ -133,44 +143,22 @@
             </div>
           </div>
 
-          <details>
-            <summary>
-              <label class="u-label _detailsP">
-                <b-icon icon="bounding-box" />
-                {{ $t("toolbox") }}
-              </label>
-            </summary>
-            <div class="_tools">
-              <button
-                v-if="cropadjust_possible"
-                type="button"
-                class="u-button"
-                @click="show_cropadjust_modal = true"
-              >
-                <b-icon icon="bounding-box" />
-                {{ $t("crop_adjust") }}
-              </button>
+          <CropAdjustMedia
+            v-if="show_cropadjust_modal"
+            :media="file"
+            @close="$emit('close')"
+          />
 
-              <CropAdjustMedia
-                v-if="show_cropadjust_modal"
-                :media="file"
-                @close="$emit('close')"
-              />
+          <OptimizeMedia
+            v-if="optimization_strongly_recommended || optimization_possible"
+            :media="file"
+            @close="$emit('close')"
+          />
 
-              <OptimizeMedia
-                v-if="
-                  optimization_strongly_recommended || optimization_possible
-                "
-                :media="file"
-                @close="$emit('close')"
-              />
-            </div>
-          </details>
-
-          <template v-if="file.$location">
+          <template v-if="file.$location && false">
             <div class="u-spacingBottom" />
 
-            <div class="u-instructions">
+            <div class="u-instructions _location">
               {{ $t("latitude") }} : {{ file.$location.latitude }} //
               {{ $t("longitude") }} : {{ file.$location.longitude }}
             </div>
@@ -267,6 +255,7 @@ export default {
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
+  background-color: var(--g-900);
 
   &[data-type="text"] {
     overflow: auto;
@@ -362,6 +351,7 @@ export default {
 ._navArrow {
   position: absolute;
   inset: 0;
+  padding: calc(var(--spacing) / 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -395,5 +385,16 @@ export default {
 ._captionCreditItem {
   flex: 1 1 20ch;
   min-width: 20ch;
+}
+
+._cropAdjustBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: calc(var(--spacing) / 1);
+}
+
+._location {
+  font-size: var(--font-verysmall);
 }
 </style>
