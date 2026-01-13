@@ -142,10 +142,7 @@ export default {
           type: "collect",
         },
         {
-          type: "notes",
-        },
-        {
-          type: "todo",
+          type: "notes_todo",
         },
         {
           type: "make",
@@ -270,8 +267,7 @@ export default {
       else if (type === "collect") return this.dodoc_icon_collect;
       else if (type === "make") return this.dodoc_icon_make;
       else if (type === "publish") return this.dodoc_icon_publish;
-      else if (type === "notes") return this.dodoc_icon_notes;
-      else if (type === "todo") return this.dodoc_icon_todo;
+      else if (type === "notes_todo") return this.dodoc_icon_todo;
       return false;
     },
     animatePane(pane) {

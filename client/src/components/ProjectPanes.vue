@@ -63,6 +63,11 @@
           :can_edit_project="can_edit_project"
           @update:media_focused="setItem(pane, 'focus', $event)"
         />
+        <NotesTodoPane
+          v-else-if="pane.type === 'notes_todo'"
+          :project="project"
+          @close="removePane(pane)"
+        />
         <MakePane
           v-if="pane.type === 'make'"
           :project="project"
@@ -85,6 +90,7 @@
 import { Splitpanes, Pane } from "splitpanes";
 import CapturePane from "@/components/panes/CapturePane.vue";
 import MediaLibrary from "@/components/panes/MediaLibrary.vue";
+import NotesTodoPane from "@/components/panes/NotesTodoPane.vue";
 import MakePane from "@/components/panes/MakePane.vue";
 import PublierPane from "@/components/panes/PublierPane.vue";
 import InstructionsWindow from "@/components/project/InstructionsWindow.vue";
@@ -101,6 +107,7 @@ export default {
     Pane,
     PublierPane,
     MediaLibrary,
+    NotesTodoPane,
     MakePane,
     CapturePane,
     InstructionsWindow,

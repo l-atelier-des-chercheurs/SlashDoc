@@ -202,6 +202,9 @@
               },
               "publications_pinned": {
                 "type": "array"
+              },
+              "todos_pinned": {
+                "type": "array"
               }
             },
             "$files": {
@@ -221,6 +224,28 @@
               }
             },
             "$folders": {
+              "notes_todo": {
+                "fields": {
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "$files": {
+                  "thumbs": {
+                    "resolutions": [50, 220, 440, 1600]
+                  },
+                  "fields": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string",
+                      "options": ["todo", "doing", "done", "canceled"],
+                      "default": "todo"
+                    }
+                  }
+                }
+              },
               "stopmotions": {
                 "fields": {
                   "images_list": {

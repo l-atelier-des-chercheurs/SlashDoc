@@ -364,8 +364,7 @@ export default {
   collect: "Collect",
   make: "Make",
   publish: "Publish",
-  notes: "Notes",
-  todo: "Todo/List",
+  notes_todo: "Notes/todo",
 
   projects_you_edited_last: "Projects you edited last",
 
