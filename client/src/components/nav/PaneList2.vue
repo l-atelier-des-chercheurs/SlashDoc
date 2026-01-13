@@ -6,7 +6,7 @@
       'has--noPanes': project_panes.length === 0,
     }"
   >
-    <span label="Panneaux" class="_paneList2">
+    <div label="Panneaux" class="_paneList2">
       <button
         type="button"
         class="_projectTitle"
@@ -110,8 +110,7 @@
           />
         </button>
       </div>
-      <span v-if="!$root.is_mobile_view" />
-    </span>
+    </div>
   </div>
 </template>
 <script>
@@ -313,7 +312,7 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  overflow: hidden;
+  overflow: auto;
 
   min-height: 44px;
 

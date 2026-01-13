@@ -1557,4 +1557,6 @@ export default {
   no_areas_defined: "Aucune zone de grille définie",
   non_contributor: "Non contributeur",
   space_title: "Titre de l’espace",
+
+  new_note_todo: "Nouvelle note/tâche",
 };

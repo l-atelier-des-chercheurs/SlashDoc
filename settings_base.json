@@ -228,6 +228,9 @@
                 "fields": {
                   "title": {
                     "type": "string"
+                  },
+                  "notes_list": {
+                    "type": "array"
                   }
                 },
                 "$files": {
@@ -240,7 +243,7 @@
                     },
                     "state": {
                       "type": "string",
-                      "options": ["todo", "doing", "done", "canceled"],
+                      "options": ["todo", "done", "canceled"],
                       "default": "todo"
                     }
                   }
