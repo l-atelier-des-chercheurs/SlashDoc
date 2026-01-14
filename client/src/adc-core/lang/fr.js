@@ -1559,8 +1559,10 @@ export default {
   space_title: "Titre de l’espace",
 
   new_note_todo: "Nouvelle note/tâche",
-  list_of_notes_todo: "{count} note/tâche | {count} notes/tâches",
-  archived: "{count} note/tâche archivée | {count} notes/tâches archivées",
+  list_of_notes_todo:
+    "Aucune note/tâche | {count} note/tâche | {count} notes/tâches",
+  archived:
+    "Aucune note/tâche archivée | {count} note/tâche archivée | {count} notes/tâches archivées",
   done_on: "Terminé le",
 
   create_list: "Créer une liste",

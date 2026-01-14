@@ -31,11 +31,7 @@
         </TextInput>
       </div>
 
-      <div
-        v-if="list_items_done.length > 0"
-        key="todo-separator"
-        class="_separator"
-      />
+      <div key="todo-separator" class="_separator" />
 
       <div key="list">
         <DLabel
@@ -88,11 +84,6 @@
           @drop.prevent="handleDrop($event, index + 1)"
         ></div>
       </template>
-
-      <div v-if="local_todo_items.length === 0" key="no-todo-items" class="">
-        <b-icon icon="check-lg" />
-        <DLabel :str="$t('no_todo_items')" />
-      </div>
 
       <div
         v-if="list_items_done.length > 0"

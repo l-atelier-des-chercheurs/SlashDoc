@@ -11,7 +11,7 @@
         }"
         @click="toggleList(folder.$path)"
       >
-        <b-icon icon="list-ol" />
+        <template v-if="folder.$path === opened_notes_path"> • </template>
         {{ folder.title }}
       </button>
       <button
@@ -29,10 +29,6 @@
         :key="opened_notes_path"
         :path="opened_notes_path"
       />
-      <div v-else class="_noNotes">
-        <b-icon icon="list-check" />
-        <DLabel :str="$t('no_notes_to_show')" />
-      </div>
     </transition>
 
     <CreateNotesList
@@ -113,12 +109,12 @@ export default {
       }
     },
     toggleList(path) {
-      if (this.opened_notes_path === path) {
-        this.opened_notes_path = null;
-        return;
-      } else {
-        this.opened_notes_path = path;
-      }
+      // if (this.opened_notes_path === path) {
+      //   this.opened_notes_path = null;
+      //   return;
+      // } else {
+      this.opened_notes_path = path;
+      // }
     },
   },
 };

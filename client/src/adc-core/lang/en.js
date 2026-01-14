@@ -1491,8 +1491,9 @@ export default {
   show_controls: "Show controls",
 
   new_note_todo: "Nouvelle note/tâche",
-  list_of_notes_todo: "{count} note/task | {count} notes/tasks",
-  archived: "{count} note/task archived | {count} notes/tasks archived",
+  list_of_notes_todo: "No note/task | {count} note/task | {count} notes/tasks",
+  archived:
+    "No note/task archived | {count} note/task archived | {count} notes/tasks archived",
   done_on: "Done on",
 
   create_list: "Create list",
