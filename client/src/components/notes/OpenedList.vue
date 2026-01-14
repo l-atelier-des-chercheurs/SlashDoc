@@ -40,17 +40,6 @@
         />
       </div>
 
-      <!-- <div
-        class="_dropZone _dropZone_first"
-        :class="{
-          _dropZone_active: dragOverIndex === 0 && draggedIndex !== null,
-        }"
-        :key="'first_dropZone'"
-        @dragover.prevent="handleDragOver($event, 0)"
-        @dragenter.prevent="handleDragEnter(0)"
-        @dragleave="handleDragLeave"
-        @drop.prevent="handleDrop($event, 0)"
-      /> -->
       <template v-for="(item, index) in local_todo_items">
         <div
           class="_dropZone"
