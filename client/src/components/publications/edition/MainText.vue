@@ -1,5 +1,6 @@
 <template>
   <div class="_mainText">
+    <pre>{{ medias_holder.source_medias }}</pre>
     <DLabel v-if="show_label" :str="$t('content')" />
     <CollaborativeEditor3
       :content="main_text_content"
@@ -173,6 +174,8 @@ export default {
               t.meta_filename === media.meta_filename
           )
       );
+
+      debugger;
 
       if (
         JSON.stringify(source_medias) !==

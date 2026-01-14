@@ -65,7 +65,15 @@ function renderMediaHTML({
     case "audio":
       return `<audio src="${src}" controls></audio>`;
     case "pdf":
-      return `<iframe src="${src}" type="application/pdf" frameborder="0"${iframe_style_attr}></iframe>`;
+      // Ensure iframe has minimum dimensions for web mode
+      let pdf_style = iframe_style_attr;
+      if (view_mode === "html" && !width && !height) {
+        // Default dimensions for web mode if none specified
+        pdf_style = ' style="width: 100%; min-height: 400px;"';
+      }
+      return `<iframe src="${src}" type="application/pdf" frameborder="0"${
+        pdf_style || ""
+      }></iframe>`;
     case "image":
       return `<img src="${src}"${alt_attr}${img_style_attr} />`;
     case "text":
