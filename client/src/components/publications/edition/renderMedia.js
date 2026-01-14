@@ -101,6 +101,9 @@ export function renderMedia({
     ) {
       media_type = "audio";
       custom_classes.push("media-audio");
+    } else if (lowerSrc.includes(".pdf")) {
+      media_type = "pdf";
+      custom_classes.push("media-pdf");
     } else {
       custom_classes.push("media-image");
     }
@@ -109,6 +112,9 @@ export function renderMedia({
       media_html = `<video src="${meta_src}" controls></video>`;
     } else if (media_type === "audio") {
       media_html = `<audio src="${meta_src}" controls></audio>`;
+    } else if (media_type === "pdf") {
+      const iframe_style_attr = buildStyleAttribute(width, height);
+      media_html = `<iframe src="${meta_src}" type="application/pdf" frameborder="0"${iframe_style_attr}></iframe>`;
     } else {
       // For images, style goes on the img tag for external URLs
       // Don't add alt if we're also adding a figcaption with the same text
@@ -143,6 +149,10 @@ export function renderMedia({
       // Don't add alt if we're also adding a figcaption with the same text
       const alt_attr = has_caption ? "" : alt ? ` alt="${alt}"` : "";
       media_html = `<img src="${src}"${alt_attr} />`;
+    } else if (media.$type === "pdf") {
+      custom_classes.push("media-pdf");
+      const iframe_style_attr = buildStyleAttribute(width, height);
+      media_html = `<iframe src="${src}" type="application/pdf" frameborder="0"${iframe_style_attr}></iframe>`;
     } else {
       if (view_mode === "book") {
         is_qr_code = true;

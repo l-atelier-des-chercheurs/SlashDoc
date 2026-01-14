@@ -466,6 +466,8 @@ export default {
             md_string += `(video: ${meta_filename})`;
           } else if (media.$type === "audio") {
             md_string += `(audio: ${meta_filename})`;
+          } else if (media.$type === "pdf") {
+            md_string += `(pdf: ${meta_filename})`;
           } else if (media.$type === "embed") {
             md_string += `(embed: ${meta_filename})`;
           }

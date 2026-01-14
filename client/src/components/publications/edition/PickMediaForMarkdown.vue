@@ -16,7 +16,7 @@
         v-if="show_media_picker"
         :publication_path="publication_path"
         :select_mode="'multiple'"
-        :pick_from_types="['image', 'video', 'audio', 'text']"
+        :pick_from_types="['image', 'video', 'audio', 'text', 'pdf']"
         @pickMedias="pickMedias"
         @close="show_media_picker = false"
       />
@@ -74,6 +74,10 @@
         <CodeBlock
           code="(audio: https://www.pageweb.com/audio.mp3)"
           :explanation="$t('embed_example_audio')"
+        />
+        <CodeBlock
+          code="(pdf: https://www.pageweb.com/document.pdf)"
+          :explanation="$t('embed_example_pdf')"
         />
         <CodeBlock
           code="(embed: https://peertube.fr/w/wB6M6CHdfpWXpozVnqjbde)"
@@ -225,6 +229,7 @@ export default {
         if (m.$type === "image") tag = "image";
         else if (m.$type === "video") tag = "video";
         else if (m.$type === "audio") tag = "audio";
+        else if (m.$type === "pdf") tag = "pdf";
         else throw new Error("Unknown media type");
 
         media_html += `${tag}: ${src}`;

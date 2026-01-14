@@ -139,7 +139,10 @@ export default {
       const originalCscRenderer = md.renderer.rules.csc;
       md.renderer.rules.csc = (tokens, idx) => {
         const token = tokens[idx];
-        if (["image", "video", "audio"].includes(token.tag) && token.content) {
+        if (
+          ["image", "video", "audio", "pdf"].includes(token.tag) &&
+          token.content
+        ) {
           const meta_src = token.content;
           const folder_path = this.publication_path;
 

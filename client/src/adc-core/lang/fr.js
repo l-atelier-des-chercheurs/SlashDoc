@@ -1353,6 +1353,7 @@ export default {
   embed_example_image: "Intégrer une image",
   embed_example_video: "Intégrer une vidéo",
   embed_example_audio: "Intégrer un audio",
+  embed_example_pdf: "Intégrer un PDF",
   embed_example_peertube: "Intégrer une vidéo PeerTube",
   embed_example_youtube: "Intégrer une vidéo YouTube",
   embed_example_scratch: "Intégrer un projet Scratch",

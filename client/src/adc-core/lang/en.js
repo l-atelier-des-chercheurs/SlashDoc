@@ -1280,6 +1280,7 @@ export default {
   embed_example_image: "Embed an image",
   embed_example_video: "Embed a video",
   embed_example_audio: "Embed an audio",
+  embed_example_pdf: "Embed a PDF",
   embed_example_peertube: "Embed a PeerTube video",
   embed_example_youtube: "Embed a YouTube video",
   embed_example_scratch: "Embed a Scratch project",
