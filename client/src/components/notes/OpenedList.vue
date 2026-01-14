@@ -44,7 +44,10 @@
         <div
           class="_dropZone"
           :class="{
-            _dropZone_active: draggedIndex !== null,
+            _dropZone_active:
+              draggedIndex !== null &&
+              draggedIndex !== index &&
+              draggedIndex !== index - 1,
             _dropZone_hovered: dragOverIndex === index && draggedIndex !== null,
           }"
           :key="item.$path + '_dropZone'"
@@ -120,9 +123,8 @@
             @change="toggleItemState(item, $event.target.checked)"
             class="_checkbox"
           />
-          <span class="_itemTitle"
-            >{{ item.title }} {{ showDoneDate(item) }}</span
-          >
+          <span class="_itemTitle">{{ item.title }} </span>
+          <span class="u-instructions _doneDate">{{ showDoneDate(item) }}</span>
         </div>
       </template>
     </transition-group>
@@ -351,9 +353,7 @@ export default {
     },
     showDoneDate(item) {
       if (item.done_date) {
-        return ` - ${this.$t("done_on")} ${new Date(
-          item.done_date
-        ).toLocaleDateString()}`;
+        return `${new Date(item.done_date).toLocaleDateString()}`;
       }
       return "";
     },
