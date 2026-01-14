@@ -107,6 +107,7 @@
           :item="item"
           :draggable="false"
           @toggle-state="toggleItemState"
+          @remove-item="removeItem"
         />
       </template>
     </transition-group>
@@ -283,6 +284,11 @@ export default {
         new_meta: { notes_list: current_list },
       });
     },
+    async removeItem(item) {
+      await this.$api.deleteItem({
+        path: item.$path,
+      });
+    },
     handleDragStart(event, item, index) {
       this.draggedIndex = index;
       // Event handling is already done in TodoListItem
@@ -386,8 +392,6 @@ export default {
 
 ._listItems {
   position: relative;
-  // display: flex;
-  // flex-flow: column nowrap;
   background-color: rgba(0, 0, 0, 0.1);
   padding: calc(var(--spacing) / 2);
   border-radius: calc(var(--border-radius) * 2);

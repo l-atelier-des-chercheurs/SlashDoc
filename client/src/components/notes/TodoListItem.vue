@@ -51,6 +51,16 @@
           :can_edit="can_edit"
           class="_noteEditor"
         />
+        <div class="_todoListItem_content_footer">
+          <button
+            type="button"
+            class="u-button u-button_verysmall u-button_red"
+            @click.stop="removeItem"
+          >
+            <b-icon icon="trash" />
+            {{ $t("remove") }}
+          </button>
+        </div>
       </div>
     </transition>
   </div>
@@ -136,6 +146,9 @@ export default {
       }
       return "";
     },
+    async removeItem() {
+      this.$emit("remove-item", this.item);
+    },
   },
 };
 </script>
@@ -212,26 +225,13 @@ export default {
   width: 100%;
 }
 
-._loading {
+._todoListItem_content_footer {
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: calc(var(--spacing) / 2);
-  padding: calc(var(--spacing) * 2);
-  color: rgba(0, 0, 0, 0.5);
-
-  b-icon {
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  margin-top: calc(var(--spacing) / 2);
 }
 
 // Expand transition
