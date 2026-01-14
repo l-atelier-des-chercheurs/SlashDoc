@@ -19,10 +19,11 @@
         @click.stop
         class="_checkbox"
       />
-      <span class="_itemTitle">{{ item.title }}</span>
+      <span class="_itemTitle">{{ item.title }} </span>
       <span v-if="item.state === 'done'" class="u-instructions _doneDate">
         {{ showDoneDate(item) }}
       </span>
+      <b-icon v-if="has_notes" icon="text-paragraph" />
       <button
         v-if="isExpanded"
         type="button"
@@ -49,6 +50,7 @@
           :path="item.$path"
           :content="item.$content"
           :can_edit="can_edit"
+          :mode="'always_active'"
           class="_noteEditor"
         />
         <div class="_todoListItem_content_footer">
@@ -94,6 +96,11 @@ export default {
       itemContent: null,
       isLoadingContent: false,
     };
+  },
+  computed: {
+    has_notes() {
+      return this.item.$content.length > 0;
+    },
   },
   methods: {
     async toggleItemState(event) {
