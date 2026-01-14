@@ -1,7 +1,7 @@
 <template>
   <div class="_openedList">
     <!-- <DLabel :str="list_meta.title" /> -->
-    <transition-group name="listComplete" class="_listItems">
+    <transition-group name="listComplete" class="_listItems" appear>
       <div key="header">
         <DLabel :str="$t('new_note_todo')" />
       </div>
@@ -33,32 +33,34 @@
       <div key="list">
         <DLabel :str="$t('list_of_notes_todo')" />
       </div>
-      <SlickList
-        v-if="list_items_todo.length > 0"
-        class="_slickList"
-        key="todo-list"
-        axis="y"
-        :value="list_items_todo"
-        @input="updateTodoOrder($event)"
-        :useDragHandle="false"
+      <div
+        v-for="(item, index) in local_todo_items"
+        :key="item.$path"
+        class="_listItem _listItem_todo"
+        :class="{
+          _dragging: draggedIndex === index,
+          '_drag-over': dragOverIndex === index,
+        }"
+        draggable="true"
+        @dragstart="handleDragStart($event, index)"
+        @dragend="handleDragEnd"
+        @dragover.prevent="handleDragOver($event, index)"
+        @dragenter.prevent="handleDragEnter(index)"
+        @dragleave="handleDragLeave"
+        @drop.prevent="handleDrop($event, index)"
       >
-        <SlickItem
-          v-for="(item, index) in list_items_todo"
-          :key="item.$path"
-          :index="index"
-          class="_listItem _listItem_todo"
-        >
-          <input
-            type="checkbox"
-            :checked="item.state === 'done'"
-            @change="toggleItemState(item, $event.target.checked)"
-            class="_checkbox"
-          />
-          <span class="_itemTitle">{{ item.title }}</span>
-        </SlickItem>
-      </SlickList>
-      <div v-else key="no-todo-items" class="">
+        <input
+          type="checkbox"
+          :checked="item.state === 'done'"
+          @change="toggleItemState(item, $event.target.checked)"
+          class="_checkbox"
+        />
+        <span class="_itemTitle">{{ item.title }}</span>
+      </div>
+
+      <div v-if="local_todo_items.length === 0" key="no-todo-items" class="">
         <b-icon icon="check-lg" />
+        <DLabel :str="$t('no_todo_items')" />
       </div>
 
       <hr
@@ -91,8 +93,6 @@
   </div>
 </template>
 <script>
-import { SlickList, SlickItem } from "vue-slicksort";
-
 export default {
   props: {
     path: {
@@ -100,14 +100,14 @@ export default {
       required: true,
     },
   },
-  components: {
-    SlickList,
-    SlickItem,
-  },
+  components: {},
   data() {
     return {
       new_item_title: "",
       list_meta: undefined,
+      draggedIndex: null,
+      dragOverIndex: null,
+      local_todo_items: [],
     };
   },
   async created() {
@@ -118,7 +118,18 @@ export default {
   beforeDestroy() {
     this.$api.leave({ room: this.path });
   },
-  watch: {},
+  watch: {
+    list_items_todo: {
+      handler(newItems) {
+        // Update local items when computed property changes
+        // Only update if the order actually changed (not just during drag)
+        if (this.draggedIndex === null) {
+          this.local_todo_items = [...newItems];
+        }
+      },
+      immediate: true,
+    },
+  },
   computed: {
     list_items_todo() {
       if (
@@ -165,8 +176,6 @@ export default {
       this.list_meta = list_meta;
     },
     async createNewItem() {
-      debugger;
-
       if (!this.new_item_title) return;
       const filename = `${this.new_item_title}.txt`;
 
@@ -216,6 +225,57 @@ export default {
         path: item.$path,
         new_meta,
       });
+    },
+    handleDragStart(event, index) {
+      this.draggedIndex = index;
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/html", event.target);
+      // Add a slight delay to allow the drag image to be set
+      event.target.style.opacity = "0.5";
+    },
+    handleDragEnd(event) {
+      event.target.style.opacity = "";
+      this.draggedIndex = null;
+      this.dragOverIndex = null;
+    },
+    handleDragOver(event, index) {
+      event.preventDefault();
+      if (this.draggedIndex !== null && this.draggedIndex !== index) {
+        this.dragOverIndex = index;
+      }
+    },
+    handleDragEnter(index) {
+      if (this.draggedIndex !== null && this.draggedIndex !== index) {
+        this.dragOverIndex = index;
+      }
+    },
+    handleDragLeave(event) {
+      // Only clear if we're leaving the list item itself, not a child element
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX;
+      const y = event.clientY;
+      if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+        this.dragOverIndex = null;
+      }
+    },
+    handleDrop(event, dropIndex) {
+      event.preventDefault();
+      if (this.draggedIndex === null || this.draggedIndex === dropIndex) {
+        return;
+      }
+
+      // Reorder items locally for immediate visual feedback
+      const newItems = [...this.local_todo_items];
+      const draggedItem = newItems[this.draggedIndex];
+      newItems.splice(this.draggedIndex, 1);
+      newItems.splice(dropIndex, 0, draggedItem);
+      this.local_todo_items = newItems;
+
+      // Update the order on the server
+      this.updateTodoOrder(newItems);
+
+      this.draggedIndex = null;
+      this.dragOverIndex = null;
     },
     async updateTodoOrder(reorderedItems) {
       // Extract meta_filename from each reordered item
@@ -278,7 +338,7 @@ export default {
   }
 }
 
-._slickList {
+._todoList {
   display: flex;
   flex-flow: column nowrap;
   gap: calc(var(--spacing) / 2);
@@ -311,9 +371,33 @@ export default {
   align-items: center;
   gap: calc(var(--spacing) / 2);
   cursor: grab;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  user-select: none;
 
   &:active {
     cursor: grabbing;
+  }
+
+  &._dragging {
+    opacity: 0.5;
+  }
+
+  &._drag-over {
+    transform: translateY(4px);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--c-bleumarine_clair);
+      border-radius: 2px;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
   }
 }
 
