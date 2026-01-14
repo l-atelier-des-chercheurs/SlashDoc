@@ -227,7 +227,8 @@
               "notes_todo": {
                 "fields": {
                   "title": {
-                    "type": "string"
+                    "type": "string",
+                    "unique": true
                   },
                   "notes_list": {
                     "type": "array"
@@ -239,7 +240,8 @@
                   },
                   "fields": {
                     "title": {
-                      "type": "string"
+                      "type": "string",
+                      "unique": true
                     },
                     "state": {
                       "type": "string",

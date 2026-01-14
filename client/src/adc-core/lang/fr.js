@@ -1562,4 +1562,9 @@ export default {
   list_of_notes_todo: "{count} note/tâche | {count} notes/tâches",
   archived: "{count} note/tâche archivée | {count} notes/tâches archivées",
   done_on: "Terminé le",
+
+  create_list: "Créer une liste",
+  create_list_instructions:
+    "Créez une nouvelle liste pour organiser vos notes et tâches.",
+  no_notes_to_show: "Aucune note à afficher",
 };

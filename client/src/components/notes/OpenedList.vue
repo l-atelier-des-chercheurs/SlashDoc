@@ -1,6 +1,13 @@
 <template>
   <div class="_openedList">
-    <!-- <DLabel :str="list_meta.title" /> -->
+    <!-- <div style="background-color: white">
+      <pre>{{ list_meta?.notes_list }}</pre>
+    </div> -->
+
+    <div style="background-color: white">
+      <!-- <pre>{{ list_meta.notes_list }}</pre> -->
+      <!-- <pre>{{ all_notes }}</pre> -->
+    </div>
     <transition-group name="listComplete" class="_listItems" appear>
       <div key="header">
         <DLabel :str="$t('new_note_todo')" />
@@ -161,6 +168,9 @@ export default {
     },
   },
   computed: {
+    all_notes() {
+      return this.list_meta?.$files || [];
+    },
     list_items_todo() {
       if (
         this.list_meta === undefined ||
@@ -168,34 +178,49 @@ export default {
       )
         return [];
 
-      const all_notes = this.list_meta?.$files || [];
+      const todo_items = this.all_notes.filter(
+        (note) => note?.state === "todo"
+      );
 
-      return this.list_meta.notes_list.reduce((acc, meta) => {
-        const note = all_notes.find((note) =>
-          note.$path.endsWith("/" + meta.meta_filename)
+      // Reorder all todo_items: first, items listed in list_meta.notes_list in that order,
+      // then items not listed (appended at the end).
+      if (this.list_meta && Array.isArray(this.list_meta?.notes_list)) {
+        // Get meta_filenames in the order specified by notes_list
+        const listedFilenames = this.list_meta.notes_list.map(
+          (meta) => meta.meta_filename
         );
-        if (note && note.state !== "done") {
-          acc.push(note);
-        }
-        return acc;
-      }, []);
+
+        // Partition todo_items: those listed, and those not listed
+        const listedItems = [];
+        const listedSet = new Set(listedFilenames);
+        todo_items.forEach((note) => {
+          if (listedSet.has(note.$path.split("/").pop())) {
+            listedItems.push(note);
+          }
+        });
+
+        // Order listedItems according to listedFilenames
+        const orderedListedItems = listedFilenames
+          .map((meta_filename) =>
+            listedItems.find((note) => note.$path.endsWith("/" + meta_filename))
+          )
+          .filter(Boolean);
+
+        // Find unlisted items (in todo_items but not listed in notes_list)
+        const unlistedItems = todo_items.filter(
+          (note) => !listedSet.has(note.$path.split("/").pop())
+        );
+        // Concatenate: ordered listed items first, then unlisted items
+        const reordered = [...orderedListedItems, ...unlistedItems];
+
+        // Now reimplement the logic below by returning reordered instead
+        return reordered;
+      } else {
+        return todo_items;
+      }
     },
     list_items_done() {
-      const all_notes = this.list_meta?.$files || [];
-
-      const done_items = all_notes.reduce((acc, note) => {
-        if (note?.state === "done") {
-          acc.push(note);
-        }
-        return acc;
-      }, []);
-
-      // Sort by done_date descending (most recent first)
-      return done_items.sort((a, b) => {
-        const dateA = a.done_date ? new Date(a.done_date) : new Date(0);
-        const dateB = b.done_date ? new Date(b.done_date) : new Date(0);
-        return dateB - dateA; // descending order
-      });
+      return this.all_notes.filter((note) => note?.state === "done");
     },
   },
   methods: {
@@ -249,23 +274,23 @@ export default {
         new_meta,
       });
 
-      // Remove from notes_list when set to done
+      const filename = item.$path.split("/").pop();
+
+      let current_list = JSON.parse(
+        JSON.stringify(this.list_meta?.notes_list || [])
+      );
       if (isChecked) {
-        const filename = item.$path.split("/").pop();
-        const current_list = JSON.parse(
-          JSON.stringify(this.list_meta?.notes_list || [])
-        );
-        const updated_list = current_list.filter(
+        current_list = current_list.filter(
           (meta) => meta.meta_filename !== filename
         );
-
-        await this.$api.updateMeta({
-          path: this.list_meta.$path,
-          new_meta: {
-            notes_list: updated_list,
-          },
-        });
+      } else {
+        current_list.push({ meta_filename: filename });
       }
+
+      await this.$api.updateMeta({
+        path: this.list_meta.$path,
+        new_meta: { notes_list: current_list },
+      });
     },
     handleDragStart(event, item, index) {
       this.draggedIndex = index;
@@ -421,16 +446,17 @@ export default {
 ._dropZone {
   position: relative;
   height: calc(var(--spacing) / 1);
-  margin-top: calc(var(--spacing) / -2);
-  margin-bottom: calc(var(--spacing) / -2);
+  margin-top: calc(var(--spacing) / -1);
+  margin-bottom: calc(var(--spacing) / -1);
   border-radius: var(--border-radius);
   transition: height 0.2s ease, background-color 0.2s ease;
   background-color: transparent;
-  height: 20px;
+  height: calc(var(--spacing) * 2);
   width: calc(100% + 20px);
   margin-left: -10px;
   background-color: transparent;
   pointer-events: none;
+  // background-color: red;
 
   z-index: 1000;
 

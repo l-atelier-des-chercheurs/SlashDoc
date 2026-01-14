@@ -10,9 +10,8 @@
     :draggable="item.state === 'todo' && draggable"
     @dragstart="handleDragStart"
     @dragend="handleDragEnd"
-    @click="handleItemClick"
   >
-    <div class="_todoListItem_header">
+    <div class="_todoListItem_header" @click.stop="expandCollapse">
       <input
         type="checkbox"
         :checked="item.state === 'done'"
@@ -47,20 +46,11 @@
     <transition name="expand">
       <div v-if="isExpanded" class="_todoListItem_content">
         <CollaborativeEditor3
-          v-if="itemContent !== null"
           :path="item.$path"
-          :content="itemContent"
+          :content="item.$content"
           :can_edit="can_edit"
-          :mode="'always_active'"
-          :save_format="'html'"
-          :content_type="'markdown'"
-          :custom_formats="[]"
           class="_noteEditor"
         />
-        <div v-else class="_loading">
-          <b-icon icon="arrow-repeat" />
-          <span>{{ $t("loading") }}</span>
-        </div>
       </div>
     </transition>
   </div>
@@ -100,7 +90,7 @@ export default {
       const isChecked = event.target.checked;
       this.$emit("toggle-state", this.item, isChecked);
     },
-    async handleItemClick(event) {
+    async expandCollapse(event) {
       // Don't expand if clicking on checkbox or button
       if (
         event.target.closest("._checkbox") ||
@@ -111,46 +101,19 @@ export default {
 
       if (!this.isExpanded) {
         await this.expand();
+      } else {
+        await this.collapse();
       }
     },
     async expand() {
       if (this.isExpanded) return;
 
       this.isExpanded = true;
-
-      // Load content if not already loaded
-      if (this.itemContent === null && !this.isLoadingContent) {
-        await this.loadContent();
-      }
     },
     collapse() {
       this.isExpanded = false;
     },
-    async loadContent() {
-      if (this.isLoadingContent) return;
 
-      // Check if item already has content
-      if (this.item.$content !== undefined) {
-        this.itemContent = this.item.$content || "";
-        return;
-      }
-
-      this.isLoadingContent = true;
-      try {
-        // Get the file content
-        const fileData = await this.$api.getFile({
-          path: this.item.$path,
-        });
-
-        // Use $content if available, otherwise empty string
-        this.itemContent = fileData.$content || "";
-      } catch (error) {
-        console.error("Error loading item content:", error);
-        this.itemContent = "";
-      } finally {
-        this.isLoadingContent = false;
-      }
-    },
     handleDragStart(event) {
       this.isDragging = true;
       event.dataTransfer.effectAllowed = "move";
@@ -185,7 +148,6 @@ export default {
   border-radius: var(--border-radius);
   margin-bottom: calc(var(--spacing) / 4);
   transition: transform 0.2s ease, opacity 0.2s ease;
-  cursor: pointer;
 
   &--todo {
     display: flex;
@@ -223,6 +185,7 @@ export default {
   width: 100%;
   gap: calc(var(--spacing) / 2);
   user-select: none;
+  cursor: pointer;
 }
 
 ._checkbox {

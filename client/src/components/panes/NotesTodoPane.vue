@@ -9,8 +9,9 @@
         :class="{
           'is--active': folder.$path === opened_notes_path,
         }"
-        @click="opened_notes_path = folder.$path"
+        @click="toggleList(folder.$path)"
       >
+        <b-icon icon="list-ol" />
         {{ folder.title }}
       </button>
       <button
@@ -34,9 +35,8 @@
       </div>
     </transition>
 
-    <CreateFolder
+    <CreateNotesList
       v-if="show_create_notes_modal"
-      :modal_name="$t('create_list')"
       :path="path"
       @close="show_create_notes_modal = false"
       @openNew="handleFolderCreated"
@@ -46,11 +46,12 @@
           {{ $t("create_list_instructions") }}
         </div>
       </template>
-    </CreateFolder>
+    </CreateNotesList>
   </div>
 </template>
 <script>
 import OpenedList from "@/components/notes/OpenedList.vue";
+import CreateNotesList from "@/components/notes/CreateNotesList.vue";
 
 export default {
   props: {
@@ -58,6 +59,7 @@ export default {
   },
   components: {
     OpenedList,
+    CreateNotesList,
   },
   data() {
     return {
@@ -110,6 +112,14 @@ export default {
         this.opened_notes_path = false;
       }
     },
+    toggleList(path) {
+      if (this.opened_notes_path === path) {
+        this.opened_notes_path = null;
+        return;
+      } else {
+        this.opened_notes_path = path;
+      }
+    },
   },
 };
 </script>
@@ -119,6 +129,7 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: var(--color-notes_todo);
+  padding-bottom: calc(var(--spacing) * 2);
   display: flex;
   flex-flow: column nowrap;
 }

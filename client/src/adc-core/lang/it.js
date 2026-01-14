@@ -1315,4 +1315,9 @@ Lascia il campo vuoto per rendere l'accesso aperto a tuttə. `,
   resource_imported_successfully: "Risorsa importata con successo",
   failed_to_import_resource: "Impossibile importare la risorsa",
   space_title: "Titolo dello spazio",
+
+  create_list: "Crea un elenco",
+  create_list_instructions:
+    "Crea un nuovo elenco per organizzare le tue note e attività.",
+  no_notes_to_show: "Nessuna nota da mostrare",
 };
