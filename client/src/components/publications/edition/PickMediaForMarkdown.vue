@@ -230,8 +230,11 @@ export default {
 
         if (m.caption) {
           const md_caption = this.turnHtmlToMarkdown(m.caption);
-          if (md_caption && md_caption.trim() !== "")
-            media_html += ` caption: ${md_caption}`;
+          if (md_caption && md_caption.trim() !== "") {
+            // Replace newlines with a visible separator to prevent breaking markdown syntax
+            const sanitized_caption = md_caption.replace(/\n/g, " · ");
+            media_html += ` caption: ${sanitized_caption}`;
+          }
         }
 
         media_html += ")\n";
@@ -254,6 +257,8 @@ export default {
 
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
+
+      debugger;
 
       let md = "";
       const paragraphs = tempDiv.querySelectorAll("p");
