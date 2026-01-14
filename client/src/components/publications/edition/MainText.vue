@@ -1,6 +1,6 @@
 <template>
   <div class="_mainText">
-    <pre>{{ medias_holder.source_medias }}</pre>
+    <!-- <pre>{{ medias_holder.source_medias }}</pre> -->
     <DLabel v-if="show_label" :str="$t('content')" />
     <CollaborativeEditor3
       :content="main_text_content"

@@ -81,6 +81,7 @@ import markdownItAttrs from "markdown-it-attrs";
 import markdownItBracketedSpans from "markdown-it-bracketed-spans";
 import LinkAttributes from "markdown-it-link-attributes";
 import hljs from "highlight.js/lib/common";
+import DOMPurify from "dompurify";
 
 import { generate } from "lean-qr";
 import { renderMedia as renderMediaFunction } from "@/components/publications/edition/renderMedia.js";
@@ -399,7 +400,20 @@ export default {
       });
 
       const result = md.render(content);
-      const sanitized_result = this.$sanitize(result);
+      // Allow iframes for PDFs and other embedded content
+      const sanitized_result = DOMPurify.sanitize(result, {
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: [
+          "src",
+          "frameborder",
+          "type",
+          "style",
+          "width",
+          "height",
+          "allowfullscreen",
+          "allow",
+        ],
+      });
 
       return sanitized_result;
     },
