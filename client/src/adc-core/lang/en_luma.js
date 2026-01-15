@@ -21,4 +21,13 @@ export default {
   filter_by_keyword: "Filter by keyword",
   show_more: "Show more",
   show_less: "Show less",
+
+  // Missing translations
+  items_to_share: "Items to share",
+  selected_item: "selected item",
+  selected_items: "selected items",
+  deselect_all: "Deselect all",
+  remove_select: "Remove selection",
+  keyword_materials_etc: "Keywords, materials, etc.",
+  stack_was_removed: "The document has been removed",
 };

@@ -21,4 +21,13 @@ export default {
   filter_by_keyword: "Filtrer par mot-clé",
   show_more: "Afficher plus",
   show_less: "Afficher moins",
+
+  // Missing translations
+  items_to_share: "Éléments à partager",
+  selected_item: "élément sélectionné",
+  selected_items: "éléments sélectionnés",
+  deselect_all: "Tout désélectionner",
+  remove_select: "Supprimer la sélection",
+  keyword_materials_etc: "Mots-clés, matériaux, etc.",
+  stack_was_removed: "Le document a été supprimé",
 };
