@@ -76,11 +76,19 @@ export default {
         new_title: "Nouveau titre",
         duplicate_stack: "Dupliquer ou déplacer la pile",
         destination_corpus: "Corpus de destination",
+        stack_duplicated_successfully: "Pile dupliquée avec succès",
+        stack_moved_successfully: "Pile déplacée avec succès",
+        error_duplicating_stack: "Erreur lors de la duplication de la pile",
+        error_moving_stack: "Erreur lors du déplacement de la pile",
       },
       en: {
         new_title: "New title",
         duplicate_stack: "Duplicate or move the stack",
         destination_corpus: "Destination corpus",
+        stack_duplicated_successfully: "Stack duplicated successfully",
+        stack_moved_successfully: "Stack moved successfully",
+        error_duplicating_stack: "Error duplicating stack",
+        error_moving_stack: "Error moving stack",
       },
     },
   },
@@ -93,23 +101,40 @@ export default {
     async duplicateOrMoveStack() {
       this.is_copying = true;
 
-      const new_folder_path = await this.$api.copyFolder({
-        path: this.stack.$path,
-        path_to_destination_type:
-          this.selected_destination_folder_path + "/stacks",
-        is_copy_or_move: this.remove_original ? "move" : "copy",
-        new_meta: {
-          title: this.new_title,
-        },
-      });
-
-      if (this.remove_original) {
-        await this.$api.deleteItem({
+      try {
+        const new_folder_path = await this.$api.copyFolder({
           path: this.stack.$path,
+          path_to_destination_type:
+            this.selected_destination_folder_path + "/stacks",
+          is_copy_or_move: this.remove_original ? "move" : "copy",
+          new_meta: {
+            title: this.new_title,
+          },
         });
-      }
 
-      this.is_copying = false;
+        if (this.remove_original) {
+          await this.$api.deleteItem({
+            path: this.stack.$path,
+          });
+        }
+
+        // Show success message
+        const successMessage = this.remove_original
+          ? this.$t("stack_moved_successfully")
+          : this.$t("stack_duplicated_successfully");
+        this.$alertify.delay(4000).success(successMessage);
+
+        // Close the modal
+        this.$emit("close");
+      } catch (err) {
+        console.error("Error duplicating/moving stack:", err);
+        const errorMessage = this.remove_original
+          ? this.$t("error_moving_stack")
+          : this.$t("error_duplicating_stack");
+        this.$alertify.delay(4000).error(errorMessage);
+      } finally {
+        this.is_copying = false;
+      }
     },
   },
 };
