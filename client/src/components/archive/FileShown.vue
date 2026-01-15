@@ -255,7 +255,7 @@ export default {
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
-  background-color: var(--g-900);
+  background-color: var(--g-50);
 
   &[data-type="text"] {
     overflow: auto;

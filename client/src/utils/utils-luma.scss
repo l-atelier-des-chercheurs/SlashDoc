@@ -15,9 +15,10 @@
 
 .u-button {
   text-transform: initial;
-  font-weight: 500;
+  font-weight: 400;
 
   &.is--active.is--active {
+    // outline: 0;
     // color: var(--r-500);
   }
 }

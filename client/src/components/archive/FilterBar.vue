@@ -71,7 +71,7 @@
 
       <div class="_filterSection">
         <div class="_tag">
-          <DLabel :str="$t('filter_by_keyword')" />
+          <div class="_sectionTitle">{{ $t("filter_by_keyword") }}</div>
           <input
             type="text"
             class="_searchField"
@@ -404,7 +404,7 @@ export default {
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 1rem;
-  margin-bottom: calc(var(--spacing) / 2);
+  margin-bottom: calc(var(--spacing) / 4);
   color: var(--c-gris-fonce);
 }
 
@@ -490,7 +490,9 @@ export default {
 
 ._categoryHeader {
   position: sticky;
-  font-weight: 600;
+  // font-weight: 600;
+  text-transform: uppercase;
+  font-size: var(--sl-font-size-x-small);
 }
 
 ._keywordCheckboxes {
