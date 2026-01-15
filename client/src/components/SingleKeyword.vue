@@ -92,7 +92,7 @@ export default {
   align-items: center;
   gap: calc(var(--spacing) / 1);
 
-  background-color: var(--cat-color, white);
+  background-color: var(--cat-color, var(--g-50));
   color: #000;
 
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);

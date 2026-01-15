@@ -1,5 +1,5 @@
 <template>
-  <div class="_stackDisplay" :data-context="context">
+  <div class="_stackDisplay">
     <div class="_closeStack">
       <button
         class="u-button u-button_icon u-button_transparent"
@@ -75,14 +75,7 @@
               </div>
 
               <hr />
-              <!-- 
-              <DetailsPane
-                v-if="context === 'full'"
-                :header="$t('location')"
-                :is_open_initially="true"
-                :icon="'map'"
-                class="u-spacingBottom"
-              > -->
+
               <PositionPicker
                 :field_name="'$location'"
                 :label="$t('location')"
@@ -181,20 +174,6 @@
                 />
               </div>
             </div>
-            <!-- // todo remove -->
-            <div class="_bottomBtns" v-if="context === 'chutier'">
-              <div class="u-instructions">
-                <div v-if="!stack.title || stack.title.length === 0">
-                  {{ $t("fill_title") }}
-                </div>
-                <div v-if="!stack.keywords || stack.keywords.length === 0">
-                  {{ $t("fill_keywords") }}
-                </div>
-                <div v-if="stack_files_in_order.length === 0">
-                  {{ $t("files_missing") }}
-                </div>
-              </div>
-            </div>
           </div>
         </template>
         <template #content>
@@ -252,7 +231,6 @@
   </div>
 </template>
 <script>
-// import ChutierItem from "@/components/chutier/ChutierItem.vue";
 import KeywordsField from "@/components/KeywordsField.vue";
 import StackCarousel from "@/components/archive/StackCarousel.vue";
 import DuplicateStackModal from "@/components/archive/DuplicateStackModal.vue";
@@ -261,14 +239,12 @@ import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 export default {
   props: {
     stack_path: String,
-    context: String,
     is_favorite: Boolean,
     can_be_added_to_fav: Boolean,
     can_be_selected: [Boolean, String],
     read_only: Boolean,
   },
   components: {
-    // ChutierItem,
     KeywordsField,
     StackCarousel,
     DuplicateStackModal,
@@ -288,9 +264,6 @@ export default {
   i18n: {
     messages: {
       fr: {
-        fill_title: "Veuillez remplir le champ Titre",
-        fill_keywords: "Veuillez remplir le champ Mots-clés",
-        files_missing: "Veuillez ajouter des médias à ce document",
         stack_not_public: "Ce document n'est pas public",
         error_loading_stack: "Erreur lors du chargement du document",
         select_stack: "Ajouter à ce document",
@@ -298,9 +271,6 @@ export default {
           "Ajouter le média sélectionné | Ajouter les {count} médias sélectionnés",
       },
       en: {
-        fill_title: "Fill in the title field",
-        fill_keywords: "Fill in the keywords field",
-        files_missing: "Add medias to this document",
         stack_not_public: "This document is not public",
         error_loading_stack: "Error loading document",
         select_stack: "Add to this document",
@@ -373,13 +343,6 @@ export default {
       return this.getStackFilesInOrder({
         stack: this.stack,
       });
-    },
-    share_button_is_enabled() {
-      return (
-        this.stack.title?.length > 0 &&
-        this.stack.keywords?.length > 0 &&
-        this.stack_files_in_order.length > 0
-      );
     },
   },
   methods: {
@@ -537,9 +500,6 @@ export default {
   > ._allFields {
     flex: 1 1 0;
   }
-  > ._bottomBtns {
-    flex: 0 0 auto;
-  }
 }
 
 ._topCarousel {
@@ -592,21 +552,6 @@ hr {
   border: 2px solid var(--sd-separator);
   padding: calc(var(--spacing) / 2);
   margin: calc(var(--spacing) * 2) 0;
-}
-
-._bottomBtns {
-  position: sticky;
-  bottom: 0;
-
-  text-align: center;
-  background: var(--c-noir);
-  padding: calc(var(--spacing) * 2);
-
-  ._btn {
-    width: 100%;
-    border-radius: 4px;
-    max-width: 360px;
-  }
 }
 
 ._titleRow {
