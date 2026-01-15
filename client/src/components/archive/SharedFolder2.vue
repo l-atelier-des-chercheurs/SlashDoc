@@ -681,6 +681,9 @@ export default {
 }
 
 ._noContent {
-  margin: calc(var(--spacing) / 1);
+  // margin: calc(var(--spacing) / 1);
+  padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+  text-align: center;
+  text-transform: lowercase;
 }
 </style>
