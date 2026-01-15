@@ -74,6 +74,7 @@ const i18n = () => {
       fon: ["fr"],
       default: ["en"],
     },
+    silentTranslationWarn: true,
   });
 
   const loadLangAsDefault = async (lang) => {

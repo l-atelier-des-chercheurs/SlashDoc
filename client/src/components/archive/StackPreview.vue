@@ -107,11 +107,6 @@ export default {
       is_being_opened: false,
     };
   },
-  i18n: {
-    messages: {
-      fr: {},
-    },
-  },
   created() {},
   mounted() {},
   beforeDestroy() {},
