@@ -25,36 +25,36 @@
         <div key="'add'" class="_addSection">
           <button
             type="button"
-            class="u-button u-button_bleuvert u-button_small"
+            class="u-button u-button_small u-button_white"
             @click="createSection({ type: 'text' })"
           >
-            <b-icon icon="plus" />
+            <b-icon icon="fonts" />
             {{ $t("text") }}
           </button>
-          <button
+          <!-- <button
             type="button"
             class="u-button u-button_bleuvert u-button_small"
             @click="createSection({ type: 'gallery' })"
           >
             <b-icon icon="plus" />
             {{ $t("gallery") }}
-          </button>
+          </button> -->
           <button
             type="button"
-            class="u-button u-button_bleuvert u-button_small"
+            class="u-button u-button_small u-button_white"
             @click="createSection({ type: 'grid' })"
           >
-            <b-icon icon="plus" />
+            <b-icon icon="grid-3x2-gap-fill" />
             {{ $t("grid") }}
           </button>
-          <button
+          <!-- <button
             type="button"
             class="u-button u-button_bleuvert u-button_small"
             @click="createSection({ type: 'story' })"
           >
             <b-icon icon="plus" />
             {{ $t("story") }}
-          </button>
+          </button> -->
         </div>
       </transition-group>
     </div>
