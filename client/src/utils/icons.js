@@ -106,6 +106,7 @@ import {
   BIconPlusSquare,
   BIconListOl,
   BIconGrid,
+  BIconListCheck,
   BIconGrid3x2GapFill,
   BIconGridFill,
   BIconMapFill,
@@ -287,6 +288,7 @@ Vue.component("BIconXSquare", BIconXSquare);
 Vue.component("BIconPlusSquare", BIconPlusSquare);
 Vue.component("BIconListOl", BIconListOl);
 Vue.component("BIconGrid", BIconGrid);
+Vue.component("BIconListCheck", BIconListCheck);
 Vue.component("BIconGrid3x2GapFill", BIconGrid3x2GapFill);
 Vue.component("BIconGridFill", BIconGridFill);
 Vue.component("BIconMapFill", BIconMapFill);

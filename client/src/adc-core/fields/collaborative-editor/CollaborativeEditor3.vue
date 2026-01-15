@@ -197,6 +197,10 @@ export default {
     path: String,
     sharedb_id: String,
     content: String,
+    placeholder: {
+      type: String,
+      default: "…",
+    },
     field_to_edit: {
       type: String,
       default: "$content",
@@ -341,7 +345,7 @@ export default {
         bounds: this.$refs.editor,
         theme: "snow",
         formats: this.custom_formats || default_formats,
-        placeholder: "",
+        placeholder: this.capitalize(this.placeholder),
         readOnly: !this.editor_is_enabled,
         scrollingContainer: this.scrollingContainer,
       });
@@ -521,6 +525,9 @@ export default {
         .querySelectorAll(".is--selected")
         .forEach((el) => el.classList && el.classList.remove("is--selected"));
       return t.innerHTML;
+    },
+    capitalize(text) {
+      return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
     },
     insertAtCursor(text) {
       var index = this.editor.getSelection(true)?.index;
@@ -861,6 +868,10 @@ export default {
     .ql-editor {
       padding: calc(var(--spacing) * 0.25) calc(var(--spacing) * 0.5);
       min-height: 10rem;
+
+      &.ql-editor.ql-blank::before {
+        left: calc(var(--spacing) / 2);
+      }
     }
   }
 }
@@ -873,6 +884,9 @@ export default {
     }
     .ql-formats {
       display: none;
+    }
+    .ql-editor.ql-blank::before {
+      left: 0;
     }
   }
 }

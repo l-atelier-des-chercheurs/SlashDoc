@@ -1,5 +1,6 @@
 <template>
   <div class="_mainText">
+    <!-- <pre>{{ medias_holder.source_medias }}</pre> -->
     <DLabel v-if="show_label" :str="$t('content')" />
     <CollaborativeEditor3
       :content="main_text_content"
@@ -139,7 +140,10 @@ export default {
       const originalCscRenderer = md.renderer.rules.csc;
       md.renderer.rules.csc = (tokens, idx) => {
         const token = tokens[idx];
-        if (["image", "video", "audio"].includes(token.tag) && token.content) {
+        if (
+          ["image", "video", "audio", "pdf"].includes(token.tag) &&
+          token.content
+        ) {
           const meta_src = token.content;
           const folder_path = this.publication_path;
 
@@ -161,15 +165,20 @@ export default {
       // update list of embedded medias if it changed
 
       // remove duplicates
-      source_medias = source_medias.filter(
-        (media, index, self) =>
-          index ===
-          self.findIndex(
-            (t) =>
-              t.meta_filename_in_project === media.meta_filename_in_project ||
-              t.meta_filename === media.meta_filename
-          )
-      );
+      // Two media objects are duplicates if they have the same identifier
+      // (either meta_filename_in_project or meta_filename)
+      source_medias = source_medias.filter((media, index, self) => {
+        const mediaId = media.meta_filename_in_project || media.meta_filename;
+        if (!mediaId) return true; // Keep items without identifiers
+
+        // Find the first occurrence of this media
+        const firstIndex = self.findIndex((t) => {
+          const tId = t.meta_filename_in_project || t.meta_filename;
+          return tId && tId === mediaId;
+        });
+
+        return index === firstIndex;
+      });
 
       if (
         JSON.stringify(source_medias) !==

@@ -16,7 +16,7 @@
         v-if="show_media_picker"
         :publication_path="publication_path"
         :select_mode="'multiple'"
-        :pick_from_types="['image', 'video', 'audio', 'text']"
+        :pick_from_types="['image', 'video', 'audio', 'text', 'pdf']"
         @pickMedias="pickMedias"
         @close="show_media_picker = false"
       />
@@ -76,6 +76,10 @@
           :explanation="$t('embed_example_audio')"
         />
         <CodeBlock
+          code="(pdf: https://www.pageweb.com/document.pdf)"
+          :explanation="$t('embed_example_pdf')"
+        />
+        <CodeBlock
           code="(embed: https://peertube.fr/w/wB6M6CHdfpWXpozVnqjbde)"
           :explanation="$t('embed_example_peertube')"
         />
@@ -115,6 +119,7 @@
             code="size: full-cover"
             :explanation="$t('embed_attr_size_full_cover')"
           />
+          <CodeBlock code="width: 5cm" :explanation="$t('embed_attr_width')" />
         </div>
         <div>
           {{ $t("for_example") }}
@@ -224,25 +229,33 @@ export default {
         if (m.$type === "image") tag = "image";
         else if (m.$type === "video") tag = "video";
         else if (m.$type === "audio") tag = "audio";
+        else if (m.$type === "pdf") tag = "pdf";
         else throw new Error("Unknown media type");
 
         media_html += `${tag}: ${src}`;
 
         if (m.caption) {
           const md_caption = this.turnHtmlToMarkdown(m.caption);
-          if (md_caption && md_caption.trim() !== "")
-            media_html += ` caption: ${md_caption}`;
+          if (md_caption && md_caption.trim() !== "") {
+            // Replace newlines with a visible separator to prevent breaking markdown syntax
+            const sanitized_caption = md_caption.replace(/\n/g, " · ");
+            media_html += ` caption: ${sanitized_caption}`;
+          }
         }
 
-        media_html += ")\n";
+        media_html += ")";
         html.push(media_html);
       });
 
       if (medias_on_new_line) {
-        return html.join("\n\n");
+        html = html.join("\n\n");
       } else {
-        return html.join(" ");
+        html = html.join(" ");
       }
+
+      html += "\n\n";
+
+      return html;
     },
     turnHtmlToMarkdown(html) {
       // turn <p><strong>Plop</strong></p><p><em>Plip</em></p><p><a href="https://geojson.io" rel="noopener noreferrer" target="_blank">qqq</a></p><p><strong><em>Hehehe</em></strong></p>
@@ -254,6 +267,8 @@ export default {
 
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
+
+      debugger;
 
       let md = "";
       const paragraphs = tempDiv.querySelectorAll("p");

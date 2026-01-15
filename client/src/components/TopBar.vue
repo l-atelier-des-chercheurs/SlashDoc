@@ -303,7 +303,7 @@
         </div>
         <button
           type="button"
-          class="_authorBtn"
+          class="u-button u-button_bleumarine _authorBtn"
           v-else
           @click="$eventHub.$emit('showAuthorModal')"
         >

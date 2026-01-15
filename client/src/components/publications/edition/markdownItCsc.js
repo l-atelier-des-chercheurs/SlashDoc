@@ -1,7 +1,7 @@
 // grabbed from https://github.com/furutsubaki/markdown-it-custom-short-codes
 
 "use strict";
-const tags_list = ["image", "video", "audio", "embed", "break"];
+const tags_list = ["image", "video", "audio", "embed", "pdf", "break"];
 
 export default (md, o = {}) => {
   const renderMedia = o.renderMedia;

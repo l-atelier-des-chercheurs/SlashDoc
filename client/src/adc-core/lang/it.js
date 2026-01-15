@@ -84,7 +84,8 @@ Lascia il campo vuoto per rendere l'accesso aperto a tuttə. `,
   submit: "Invia",
   search_in_title_desc_kw:
     "Cerca nei titoli, nelle descrizioni, nelle parole chiave, nelle macchine e nei materiali.",
-  search_by_name: "Cerca nei nomi o nei nickname",
+  search_by_name: "Cerca per nome",
+  search_by_author_name: "Cerca nei nomi o nei nickname",
   search_by_title_or_subtitle: "Cerca nei titoli e sottotitoli",
 
   search: "Cerca",
@@ -1315,4 +1316,9 @@ Lascia il campo vuoto per rendere l'accesso aperto a tuttə. `,
   resource_imported_successfully: "Risorsa importata con successo",
   failed_to_import_resource: "Impossibile importare la risorsa",
   space_title: "Titolo dello spazio",
+
+  create_list: "Crea un elenco",
+  create_list_instructions:
+    "Crea un nuovo elenco per organizzare le tue note e attività.",
+  no_notes_to_show: "Nessuna nota da mostrare",
 };

@@ -1,15 +1,12 @@
 <template>
   <div class="_chapterLayout">
     <fieldset
-      v-if="
-        ['text', 'gallery', 'grid'].includes(chapter.section_type) &&
-        view_mode === 'book'
-      "
+      v-if="['text', 'gallery', 'grid'].includes(chapter.section_type)"
       class="u-spacingBottom _layout"
     >
       <legend>{{ $t("layout") }}</legend>
       <div class="_optionsRow">
-        <div class="_selects--starts_on_page">
+        <div class="_selects--starts_on_page" v-if="view_mode === 'book'">
           <DLabel :str="$t('starts_on_page')" />
           <SelectField2
             :field_name="'section_starts_on_page'"
@@ -41,6 +38,9 @@
             @save="updateChapterMeta({ row_count: $event })"
           />
         </template>
+        <!-- <button type="button" class="u-button u-button_small u-button_white">
+          {{ $t("preset_grid") }} (todo)
+        </button> -->
       </div>
 
       <div class="_gridConfiguration" v-if="chapter.section_type === 'grid'">
@@ -132,25 +132,15 @@ export default {
       const area = this.chapter.grid_areas.find((a) => a.id === areaId);
 
       // Find and delete associated text file if it exists
-      let text_meta;
-      if (area && area.main_text_meta) {
-        text_meta = this.publication.$files.find((f) =>
-          f.$path.endsWith("/" + area.main_text_meta)
-        );
-      } else {
-        text_meta = this.publication.$files.find(
-          (f) => f.grid_area_id === areaId
-        );
-      }
+      const content_meta = area.content_meta || area.main_text_meta;
 
-      if (text_meta) {
-        try {
-          await this.$api.deleteItem({
-            path: text_meta.$path,
-          });
-        } catch (error) {
-          console.error("Error deleting text block:", error);
-        }
+      const media = this.publication.$files.find((f) =>
+        f.$path.endsWith("/" + content_meta)
+      );
+      if (media) {
+        await this.$api.deleteItem({
+          path: media.$path,
+        });
       }
 
       // Remove area from grid_areas

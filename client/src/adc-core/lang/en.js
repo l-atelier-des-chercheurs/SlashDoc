@@ -87,7 +87,9 @@ export default {
   submit: "Submit",
   search_in_title_desc_kw:
     "Search in titles, descriptions, keywords, machines and materials.",
-  search_by_name: "Search in names or nicknames",
+  search_in_title: "Search in titles.",
+  search_by_name: "Search by name",
+  search_by_author_name: "Search in names or nicknames",
   search_by_title_or_subtitle: "Search in titles and subtitles",
 
   search: "Search",
@@ -364,6 +366,7 @@ export default {
   collect: "Collect",
   make: "Make",
   publish: "Publish",
+  notes_todo: "Notes/todo",
 
   projects_you_edited_last: "Projects you edited last",
 
@@ -1279,6 +1282,7 @@ export default {
   embed_example_image: "Embed an image",
   embed_example_video: "Embed a video",
   embed_example_audio: "Embed an audio",
+  embed_example_pdf: "Embed a PDF",
   embed_example_peertube: "Embed a PeerTube video",
   embed_example_youtube: "Embed a YouTube video",
   embed_example_scratch: "Embed a Scratch project",
@@ -1330,7 +1334,7 @@ export default {
   add_row: "Add row",
   remove_column: "Remove column",
   remove_row: "Remove row",
-  chats: "Discussion topics",
+  chats: "Discussions",
   enable_chats: "Enable the discussion feature",
   enable_chats_instructions:
     "The discussion feature allows you to create topics where selected users can exchange messages. Once enabled, click on the bubble in the top right of the screen to access it.",
@@ -1488,4 +1492,16 @@ export default {
   loop: "Loop",
   muted: "Muted",
   show_controls: "Show controls",
+
+  new_note_todo: "Nouvelle note/tâche",
+  list_of_notes_todo: "No note/task | {count} note/task | {count} notes/tasks",
+  archived:
+    "No note/task archived | {count} note/task archived | {count} notes/tasks archived",
+  done_on: "Done on",
+
+  create_list: "Create list",
+  create_list_instructions:
+    "Create a new list to organize your notes and tasks.",
+  no_notes_to_show: "No notes to show",
+  note_content: "Note content…",
 };

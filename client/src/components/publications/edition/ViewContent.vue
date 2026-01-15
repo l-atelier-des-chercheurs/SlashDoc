@@ -81,6 +81,7 @@ import markdownItAttrs from "markdown-it-attrs";
 import markdownItBracketedSpans from "markdown-it-bracketed-spans";
 import LinkAttributes from "markdown-it-link-attributes";
 import hljs from "highlight.js/lib/common";
+import DOMPurify from "dompurify";
 
 import { generate } from "lean-qr";
 import { renderMedia as renderMediaFunction } from "@/components/publications/edition/renderMedia.js";
@@ -399,7 +400,20 @@ export default {
       });
 
       const result = md.render(content);
-      const sanitized_result = this.$sanitize(result);
+      // Allow iframes for PDFs and other embedded content
+      const sanitized_result = DOMPurify.sanitize(result, {
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: [
+          "src",
+          "frameborder",
+          "type",
+          "style",
+          "width",
+          "height",
+          "allowfullscreen",
+          "allow",
+        ],
+      });
 
       return sanitized_result;
     },
@@ -466,6 +480,8 @@ export default {
             md_string += `(video: ${meta_filename})`;
           } else if (media.$type === "audio") {
             md_string += `(audio: ${meta_filename})`;
+          } else if (media.$type === "pdf") {
+            md_string += `(pdf: ${meta_filename})`;
           } else if (media.$type === "embed") {
             md_string += `(embed: ${meta_filename})`;
           }
@@ -493,30 +509,41 @@ export default {
       let html = `<div class="grid"><div class="grid-content" style="--col-count: ${col_count}; --row-count: ${row_count};">`;
 
       chapter.grid_areas.forEach((area) => {
-        let text_meta;
-        if (area.main_text_meta) {
-          text_meta = this.publication.$files.find((f) =>
-            f.$path.endsWith("/" + area.main_text_meta)
+        let media;
+
+        const content_meta = area.content_meta || area.main_text_meta;
+        if (content_meta) {
+          media = this.publication.$files.find((f) =>
+            f.$path.endsWith("/" + content_meta)
           );
         } else {
-          text_meta = this.publication.$files.find(
+          media = this.publication.$files.find(
             (f) => f.grid_area_id === area.id
           );
         }
 
-        if (text_meta && text_meta.$content) {
+        if (!media) {
+          return;
+        }
+
+        html += `<div class="grid-cell" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
+
+        if (media?.$content) {
           const text = this.parseMarkdownWithMarkedownIt(
-            text_meta.$content,
-            text_meta.source_medias
+            media.$content,
+            media.source_medias
           );
 
-          html += `<div class="grid-cell" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">
-            ${text}
-          </div>`;
-        } else {
-          // Empty cell with grid positioning
-          html += `<div class="grid-cell" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};"></div>`;
+          html += text;
+        } else if (media?.$type === "image") {
+          html += `<img src="${this.makeMediaFileURL({
+            $path: media.$path,
+            $media_filename: media.$media_filename,
+          })}" />`;
+        } else if (media?.$type === "video") {
         }
+
+        html += "</div>";
       });
 
       html += "</div></div>";
@@ -613,6 +640,12 @@ export default {
                 ${this.formatDurationToHoursMinutesSeconds(
                   media.$infos.duration
                 )}
+              </div>`;
+      } else if (media.$type === "pdf") {
+        // Show PDF name for PDFs
+        const pdf_name = media.title || media.$media_filename || this.$t("pdf");
+        html += `<div class="mediaDuration">
+                ${pdf_name}
               </div>`;
       }
 

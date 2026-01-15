@@ -105,7 +105,9 @@ export default {
   submit: "Valider",
   search_in_title_desc_kw:
     "Chercher dans les titres, descriptions, mots-clés, machines et matériaux.",
-  search_by_name: "Chercher dans les noms ou pseudonymes",
+  search_in_title: "Chercher dans les titres.",
+  search_by_name: "Chercher par nom",
+  search_by_author_name: "Chercher dans les noms ou pseudonymes",
   search_by_title_or_subtitle: "Chercher dans les titres ou sous-titres",
 
   search: "Chercher",
@@ -1030,6 +1032,7 @@ export default {
   collect: "Collecter",
   make: "Fabriquer",
   publish: "Publier",
+  notes_todo: "Notes/tâches",
 
   projects_you_edited_last: "Derniers projets que vous avez modifiés",
 
@@ -1352,6 +1355,7 @@ export default {
   embed_example_image: "Intégrer une image",
   embed_example_video: "Intégrer une vidéo",
   embed_example_audio: "Intégrer un audio",
+  embed_example_pdf: "Intégrer un PDF",
   embed_example_peertube: "Intégrer une vidéo PeerTube",
   embed_example_youtube: "Intégrer une vidéo YouTube",
   embed_example_scratch: "Intégrer un projet Scratch",
@@ -1362,6 +1366,7 @@ export default {
   embed_attr_size_full: "Afficher le média en pleine largeur",
   embed_attr_size_full_cover:
     "Afficher le média en pleine largeur avec recouvrement",
+  embed_attr_width: "Définir la largeur du média en centimètres",
   show_source_html: "Afficher le code source HTML",
   reset: "Réinitialiser",
 
@@ -1556,4 +1561,17 @@ export default {
   no_areas_defined: "Aucune zone de grille définie",
   non_contributor: "Non contributeur",
   space_title: "Titre de l’espace",
+
+  new_note_todo: "Nouvelle note/tâche",
+  list_of_notes_todo:
+    "Aucune note/tâche | {count} note/tâche | {count} notes/tâches",
+  archived:
+    "Aucune note/tâche archivée | {count} note/tâche archivée | {count} notes/tâches archivées",
+  done_on: "Terminé le",
+
+  create_list: "Créer une liste",
+  create_list_instructions:
+    "Créez une nouvelle liste pour organiser vos notes et tâches.",
+  no_notes_to_show: "Aucune note à afficher",
+  note_content: "Contenu de la note…",
 };

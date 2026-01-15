@@ -1,6 +1,9 @@
 <template>
   <BaseModal2 :title="modal_name || $t('create')" @close="$emit('close')">
     <form class="input-validation-required" @submit.prevent="createFolder">
+      <div v-if="$slots.instructions" class="u-spacingBottom">
+        <slot name="instructions" />
+      </div>
       <DLabel :str="$t('title')" />
       <TextInput
         :content.sync="new_folder_title"
