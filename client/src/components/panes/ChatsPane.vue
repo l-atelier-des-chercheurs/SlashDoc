@@ -3,7 +3,7 @@
     <div class="_content">
       <!-- Chat content will go here -->
       <div class="_placeholder">
-        <p>{{ $t("chats") }}</p>
+        <p>{{ $t("chats") }} (à venir)</p>
       </div>
     </div>
   </div>

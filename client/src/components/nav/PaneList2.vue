@@ -133,26 +133,6 @@ export default {
       is_stickied_to_top: false,
 
       project_panes: [],
-      possible_project_panes: [
-        {
-          type: "capture",
-        },
-        {
-          type: "collect",
-        },
-        {
-          type: "notes_todo",
-        },
-        {
-          type: "chats",
-        },
-        {
-          type: "make",
-        },
-        {
-          type: "publish",
-        },
-      ],
 
       animate_pane: false,
       animate_pane_timeout: null,
@@ -203,6 +183,36 @@ export default {
     },
   },
   computed: {
+    possible_project_panes() {
+      const all_panes = [
+        {
+          type: "capture",
+        },
+        {
+          type: "collect",
+        },
+        {
+          type: "notes_todo",
+        },
+        {
+          type: "chats",
+        },
+        {
+          type: "make",
+        },
+        {
+          type: "publish",
+        },
+      ];
+
+      // Filter out chats pane if enable_chats is not enabled
+      return all_panes.filter((pane) => {
+        if (pane.type === "chats") {
+          return this.$root.app_infos?.instance_meta?.enable_chats === true;
+        }
+        return true;
+      });
+    },
     cover_thumb() {
       return this.makeRelativeURLFromThumbs({
         $thumbs: this.project.$cover,
