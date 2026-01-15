@@ -243,15 +243,19 @@ export default {
           }
         }
 
-        media_html += ")\n";
+        media_html += ")";
         html.push(media_html);
       });
 
       if (medias_on_new_line) {
-        return html.join("\n\n");
+        html = html.join("\n\n");
       } else {
-        return html.join(" ");
+        html = html.join(" ");
       }
+
+      html += "\n\n";
+
+      return html;
     },
     turnHtmlToMarkdown(html) {
       // turn <p><strong>Plop</strong></p><p><em>Plip</em></p><p><a href="https://geojson.io" rel="noopener noreferrer" target="_blank">qqq</a></p><p><strong><em>Hehehe</em></strong></p>
