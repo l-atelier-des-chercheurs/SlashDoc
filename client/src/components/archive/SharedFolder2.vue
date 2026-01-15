@@ -20,6 +20,13 @@
       />
     </transition>
 
+    <CommunitiesSection
+      :all_folders="all_folders"
+      :active_folder_paths="active_folder_paths"
+      @toggleCorpus="toggleCorpus"
+      @openCorpusSelection="$emit('openCorpusSelection')"
+    />
+
     <transition name="fade_fast" mode="out-in">
       <TwoColumnLayout
         :show-sidebar.sync="show_filter_bar"
@@ -40,14 +47,10 @@
 
         <template #content>
           <ArchiveTopBar
-            :all_folders="all_folders"
-            :active_folder_paths="active_folder_paths"
             :search_str.sync="search_str"
             :show_filter_bar.sync="show_filter_bar"
             :stack_preview_width.sync="stack_preview_width"
             :view_mode.sync="view_mode"
-            @toggleCorpus="toggleCorpus"
-            @openCorpusSelection="$emit('openCorpusSelection')"
           />
           <transition name="fade" mode="out-in">
             <div class="_loader" v-if="is_loading_folder">
@@ -121,6 +124,7 @@ import StackDisplay from "@/components/StackDisplay.vue";
 import CorpusMenu from "@/components/archive/CorpusMenu.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 import ArchiveTopBar from "@/components/archive/ArchiveTopBar.vue";
+import CommunitiesSection from "@/components/archive/CommunitiesSection.vue";
 
 export default {
   props: {
@@ -141,6 +145,7 @@ export default {
     CorpusMenu,
     TwoColumnLayout,
     ArchiveTopBar,
+    CommunitiesSection,
     MediaMap: () => import("@/adc-core/ui/MediaMap.vue"),
   },
   data() {

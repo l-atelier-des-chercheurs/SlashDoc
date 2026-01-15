@@ -1,31 +1,5 @@
 <template>
   <div class="_topBar">
-    <div class="_communautesSection">
-      <div class="_communautesLabel">
-        <DLabel :str="$t('all_communities')" />
-        <button
-          type="button"
-          class="u-button u-button_icon u-button_transparent _addCommunityButton"
-          @click="$emit('openCorpusSelection')"
-          :title="$t('see_all_communities')"
-        >
-          <b-icon icon="list" />
-        </button>
-      </div>
-      <div class="_corpusItems">
-        <button
-          v-for="folder in all_folders"
-          :key="folder.$path"
-          type="button"
-          class="u-button u-button_small u-button_pill u-button_transparent _corpusItem"
-          :class="{ 'is--active': isCommunityActive(folder.$path) }"
-          @click="$emit('toggleCorpus', folder.$path)"
-        >
-          {{ folder.title || $t("untitled") }}
-        </button>
-      </div>
-    </div>
-
     <div class="_topBarContent">
       <div class="_searchBar">
         <SearchInput2
@@ -133,14 +107,6 @@ import SearchInput2 from "@/components/SearchInput2.vue";
 
 export default {
   props: {
-    all_folders: {
-      type: Array,
-      default: () => [],
-    },
-    active_folder_paths: {
-      type: Array,
-      default: () => [],
-    },
     search_str: {
       type: String,
       default: "",
@@ -180,13 +146,6 @@ export default {
       },
     },
   },
-  computed: {
-    isCommunityActive() {
-      return (folder_path) => {
-        return this.active_folder_paths.includes(folder_path);
-      };
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
@@ -204,10 +163,6 @@ export default {
   > * {
     flex: 0 0 auto;
 
-    &._communautesSection {
-      flex: 0 0 400px;
-      padding: 0 calc(var(--spacing) * 2);
-    }
     &._searchBar {
       flex: 1 1 400px;
     }
@@ -276,58 +231,5 @@ export default {
   align-items: center;
   gap: calc(var(--spacing) / 4);
   flex: 0 0 auto;
-}
-
-._communautesSection {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: calc(var(--spacing) * 1);
-  flex: 1 1 auto;
-  min-width: 0;
-  background-color: var(--g-100);
-  padding: 0 calc(var(--spacing) * 2);
-}
-
-._communautesLabel {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: calc(var(--spacing) / 2);
-}
-
-._corpusItems {
-  display: flex;
-  flex-flow: row nowrap;
-  gap: calc(var(--spacing) / 2);
-  padding: calc(var(--spacing) / 2);
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex: 1 1 auto;
-  min-width: 0;
-
-  @include scrollbar(3px, 4px, 4px, transparent, var(--c-noir));
-}
-
-._corpusItem {
-  flex: 0 0 auto;
-  padding: calc(var(--spacing) / 8) calc(var(--spacing) / 2);
-}
-
-._toggleIcon {
-  margin-left: calc(var(--spacing) / 4);
-  font-size: 0.75em;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-
-  .u-button:hover & {
-    opacity: 1;
-  }
-}
-
-._addCommunityButton {
-  flex: 0 0 auto;
-  margin-left: calc(var(--spacing) / 2);
 }
 </style>
