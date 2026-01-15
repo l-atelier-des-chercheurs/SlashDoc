@@ -510,7 +510,7 @@ export default {
 
 ._allFields {
   position: relative;
-  // padding-bottom: calc(var(--spacing) * 2);
+  padding-bottom: calc(var(--spacing) * 2);
 }
 
 hr {
