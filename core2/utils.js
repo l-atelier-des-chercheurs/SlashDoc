@@ -80,12 +80,28 @@ module.exports = (function () {
       dev.logfunction({ paths });
 
       const meta_path = API.getPathToUserContent(...paths);
-      const meta_file_content = await fs
+      let meta_file_content = await fs
         .readFile(meta_path, "UTF-8")
         .catch((err) => {
           throw err;
         });
-      return API.parseMeta(meta_file_content);
+
+      // Try parsing first, and if it fails due to control characters, sanitize and retry
+      try {
+        return API.parseMeta(meta_file_content);
+      } catch (err) {
+        // If parsing fails due to control characters, sanitize and retry
+        if (err.message && err.message.includes("Control characters")) {
+          // Sanitize control characters (codes < 0x1f and 0x7f) - replace with space
+          meta_file_content = meta_file_content.replace(
+            /[\x00-\x1F\x7F]/g,
+            " "
+          );
+          return API.parseMeta(meta_file_content);
+        }
+        // Re-throw if it's a different error
+        throw err;
+      }
     },
 
     async readFileContent(...paths) {

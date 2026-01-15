@@ -31,7 +31,7 @@ export default defineConfig({
   assetsInclude: ["**/*.svg"],
   server: {
     https: true,
-    port: 5173,
+    port: 5180,
     host: true,
     origin: undefined,
     cors: {
