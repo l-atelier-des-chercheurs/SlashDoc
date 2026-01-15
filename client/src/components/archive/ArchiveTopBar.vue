@@ -282,7 +282,7 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: calc(var(--spacing) * 2);
+  gap: calc(var(--spacing) * 1);
   flex: 1 1 auto;
   min-width: 0;
   background-color: var(--g-100);
@@ -301,6 +301,7 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   gap: calc(var(--spacing) / 2);
+  padding: calc(var(--spacing) / 2);
   overflow-x: auto;
   overflow-y: hidden;
   flex: 1 1 auto;
