@@ -234,7 +234,7 @@ export default {
   align-items: center;
   // margin-bottom: calc(var(--spacing));
   border-bottom: 1px solid var(--h-200);
-  padding: 0 calc(var(--spacing) / 1);
+  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
 
   h3 {
     margin: 0;
