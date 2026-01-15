@@ -122,7 +122,7 @@ export default {
   },
   computed: {
     has_notes() {
-      return this.item.$content.length > 0;
+      return this.item.$content?.length > 0 || false;
     },
   },
   methods: {
@@ -171,10 +171,9 @@ export default {
       this.$emit("drag-end", event);
     },
     showDoneDate(item) {
-      if (item.done_date) {
-        return `${new Date(item.done_date).toLocaleDateString()}`;
-      }
-      return "";
+      return item.done_date
+        ? new Date(item.done_date).toLocaleDateString()
+        : "";
     },
     async duplicateItem() {
       this.$emit("duplicate-item", this.item);

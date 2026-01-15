@@ -212,7 +212,10 @@ export default {
           (note) => !listedSet.has(note.$path.split("/").pop())
         );
         // Concatenate: ordered listed items first, then unlisted items
-        const reordered = [...orderedListedItems, ...unlistedItems];
+        // const reordered = [...orderedListedItems, ...unlistedItems];
+
+        // disabled for now, hopefully no unliisted note items appear there
+        const reordered = orderedListedItems;
 
         // Now reimplement the logic below by returning reordered instead
         return reordered;
@@ -221,7 +224,13 @@ export default {
       }
     },
     list_items_done() {
-      return this.all_notes.filter((note) => note?.state === "done");
+      return this.all_notes
+        .filter((note) => note?.state === "done")
+        .sort((a, b) => {
+          const a_done_date = a.done_date ? new Date(a.done_date) : 0;
+          const b_done_date = b.done_date ? new Date(b.done_date) : 0;
+          return b_done_date.getTime() - a_done_date.getTime();
+        });
     },
   },
   methods: {
