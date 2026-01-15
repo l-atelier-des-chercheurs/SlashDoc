@@ -1,14 +1,5 @@
 <template>
   <div class="_corpusManager">
-    <SharedFolder2
-      :shared_folder_paths="computed_shared_folder_paths"
-      :select_mode="select_mode"
-      :read_only="read_only"
-      @toggleCorpus="toggleCorpus"
-      @openCorpusSelection="show_corpus_selection = true"
-      @selectStack="$emit('selectStack', $event)"
-      @selectMedias="$emit('selectMedias', $event)"
-    />
     <transition name="fade">
       <CorpusSelectionModal
         v-if="show_corpus_selection"
@@ -18,6 +9,16 @@
         @select="handleModalSelect"
         @created="onCommunityCreated"
         @remove="onCommunityRemoved"
+      />
+      <SharedFolder2
+        v-else
+        :shared_folder_paths="computed_shared_folder_paths"
+        :select_mode="select_mode"
+        :read_only="read_only"
+        @toggleCorpus="toggleCorpus"
+        @openCorpusSelection="show_corpus_selection = true"
+        @selectStack="$emit('selectStack', $event)"
+        @selectMedias="$emit('selectMedias', $event)"
       />
     </transition>
   </div>

@@ -58,7 +58,7 @@
           <transition name="fade" mode="out-in">
             <div class="_stacksList" :key="sort_order + '-' + group_mode">
               <div
-                v-if="grouped_stacks.length === 0"
+                v-if="grouped_stacks.length === 0 && !is_loading_folder"
                 class="u-instructions _noContent"
               >
                 {{ $t("no_content") }}
@@ -151,7 +151,7 @@ export default {
 
       show_corpus_menu: false,
 
-      is_loading_folder: false,
+      is_loading_folder: true,
       show_admin_settings: false,
 
       last_selected_stack_path: undefined,
@@ -557,9 +557,6 @@ export default {
         clearTimeout(this.loading_timeout);
         this.loading_timeout = null;
       }
-
-      // Don't show spinner immediately - wait 1 second
-      this.is_loading_folder = false;
 
       // Set timeout to show spinner after 1 second if still loading
       this.loading_timeout = setTimeout(() => {
