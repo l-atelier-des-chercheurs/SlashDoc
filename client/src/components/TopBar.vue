@@ -376,10 +376,6 @@ export default {
   },
   created() {},
   async mounted() {
-    await this.$api.getFolders({
-      path: `authors`,
-    });
-    this.$api.join({ room: "authors" });
     this.$eventHub.$on(`toolbar.openAuthor`, this.showAuthorModal);
     this.$eventHub.$on(`toolbar.openCredits`, this.showCredits);
 
@@ -388,7 +384,6 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$api.leave({ room: "authors" });
     this.$eventHub.$off(`toolbar.openAuthor`, this.showAuthorModal);
     this.$eventHub.$off(`toolbar.openCredits`, this.showCredits);
 

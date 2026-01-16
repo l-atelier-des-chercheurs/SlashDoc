@@ -145,9 +145,16 @@ export default {
   --c-bleu_clair: hsl(211, 63%, 77%);
   --c-noir: hsl(0, 0%, 15%);
 
-  --c-gris: hsl(195, 14%, 83%);
-  --c-gris_clair: hsl(195, 14%, 97%);
-  --c-gris_fonce: hsl(257, 3%, 47%);
+  --c-gris: hsl(0, 0%, 83%);
+  --c-gris_clair: hsl(0, 0%, 96%);
+  --c-gris_fonce: hsl(0, 0%, 45%);
+
+  --g-100: hsl(0, 0%, 96%);
+  --g-200: hsl(0, 0%, 90%);
+  --g-300: hsl(0, 0%, 83%);
+  --g-400: hsl(0, 0%, 75%);
+  --g-500: hsl(0, 0%, 60%);
+  --g-600: hsl(0, 0%, 45%);
 
   --c-vert: hsl(143, 69%, 55%);
   --c-vert_fonce: hsl(143, 69%, 40%);
