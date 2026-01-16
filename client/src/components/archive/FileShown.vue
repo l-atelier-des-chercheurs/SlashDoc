@@ -117,26 +117,26 @@
 
           <div class="_captionCreditContainer">
             <div class="_captionCreditItem">
-              <CollaborativeEditor3
+              <TextEditor
                 :label="$t('caption')"
                 :field_to_edit="'caption'"
                 :content="file.caption"
                 :path="file.$path"
+                :placeholder="''"
                 :custom_formats="['bold', 'italic', 'link']"
-                :is_collaborative="false"
                 :maxlength="1280"
                 :can_edit="can_edit"
               />
             </div>
 
             <div class="_captionCreditItem">
-              <CollaborativeEditor3
+              <TextEditor
                 :label="$t('credit/reference')"
                 :field_to_edit="'$credits'"
                 :content="file.$credits"
                 :path="file.$path"
+                :placeholder="''"
                 :custom_formats="['bold', 'italic', 'link']"
-                :is_collaborative="false"
                 :maxlength="1280"
                 :can_edit="can_edit"
               />
@@ -343,8 +343,6 @@ export default {
   padding: 0 calc(var(--spacing) / 1);
 
   ::v-deep .ql-editor {
-    padding: calc(var(--spacing) / 2);
-    border-left: 2px solid var(--h-700);
   }
 }
 
