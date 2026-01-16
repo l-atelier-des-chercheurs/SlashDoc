@@ -21,31 +21,47 @@
 
     <h3>Standard Buttons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button" :class="{ 'is--active': all_active }">
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Default Button
       </button>
       <button
         class="u-button u-button_floating"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Floating
       </button>
       <button
         class="u-button u-button_wide"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Wide
       </button>
       <button
         class="u-button u-button_inline"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Inline <b-icon icon="arrow-right" />
       </button>
-      <button class="u-button" disabled :class="{ 'is--active': all_active }">
+      <button
+        class="u-button"
+        disabled
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Disabled
       </button>
-      <button class="u-button" :class="{ 'is--active': all_active }">
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Toggleable Active
       </button>
     </div>
@@ -55,48 +71,56 @@
       <button
         class="u-button u-button_black"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Black
       </button>
       <button
         class="u-button u-button_white"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         White
       </button>
       <button
         class="u-button u-button_red"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Red
       </button>
       <button
         class="u-button u-button_bleuvert"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Bleuvert
       </button>
       <button
         class="u-button u-button_bleuvert_fonce"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Bleuvert Foncé
       </button>
       <button
         class="u-button u-button_orange"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Orange
       </button>
       <button
         class="u-button u-button_bleumarine"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Bleumarine
       </button>
       <button
         class="u-button u-button_transparent"
         :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
       >
         Transparent
       </button>
@@ -104,154 +128,365 @@
 
     <h3>Buttons with Icons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button"><b-icon icon="plus" /> Add</button>
-      <button class="u-button"><b-icon icon="trash" /> Delete</button>
-      <button class="u-button"><b-icon icon="pencil" /> Edit</button>
-      <button class="u-button"><b-icon icon="download" /> Download</button>
-      <button class="u-button"><b-icon icon="upload" /> Upload</button>
-      <button class="u-button u-button_red">
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        <b-icon icon="plus" /> Add
+      </button>
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" /> Delete
       </button>
-      <button class="u-button u-button_bleuvert">
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        <b-icon icon="pencil" /> Edit
+      </button>
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        <b-icon icon="download" /> Download
+      </button>
+      <button
+        class="u-button"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        <b-icon icon="upload" /> Upload
+      </button>
+      <button
+        class="u-button u-button_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        <b-icon icon="trash" /> Delete
+      </button>
+      <button
+        class="u-button u-button_bleuvert"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="check" /> Validate
       </button>
-      <button class="u-button u-button_orange">
+      <button
+        class="u-button u-button_orange"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="exclamation-triangle" /> Warning
       </button>
-      <button class="u-button u-button_red u-button_floating">
+      <button
+        class="u-button u-button_red u-button_floating"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" /> Delete (Floating)
       </button>
     </div>
 
     <h3>Icon-Only Buttons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="plus" />
       </button>
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" />
       </button>
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="pencil" />
       </button>
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="star" />
       </button>
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="x-lg" />
       </button>
-      <button class="u-button u-button_icon">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="play-circle-fill" />
       </button>
-      <button class="u-button u-button_icon" :class="{ 'is--active': true }">
+      <button
+        class="u-button u-button_icon"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="x-lg" />
       </button>
     </div>
 
     <h3>Small Buttons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_small">Small</button>
-      <button class="u-button u-button_small u-button_red">Small Red</button>
-      <button class="u-button u-button_small u-button_bleuvert">
+      <button
+        class="u-button u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Small
+      </button>
+      <button
+        class="u-button u-button_small u-button_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Small Red
+      </button>
+      <button
+        class="u-button u-button_small u-button_bleuvert"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small Bleuvert
       </button>
-      <button class="u-button u-button_small u-button_orange">
+      <button
+        class="u-button u-button_small u-button_orange"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small Orange
       </button>
-      <button class="u-button u-button_small u-button_bleumarine">
+      <button
+        class="u-button u-button_small u-button_bleumarine"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small Bleumarine
       </button>
-      <button class="u-button u-button_small u-button_black">
+      <button
+        class="u-button u-button_small u-button_black"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small Black
       </button>
-      <button class="u-button u-button_small u-button_white">
+      <button
+        class="u-button u-button_small u-button_white"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small White
       </button>
-      <button class="u-button u-button_small u-button_transparent">
+      <button
+        class="u-button u-button_small u-button_transparent"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Small Transparent
       </button>
-      <button class="u-button u-button_small" disabled>Small Disabled</button>
+      <button
+        class="u-button u-button_small"
+        disabled
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Small Disabled
+      </button>
     </div>
 
     <h3>Small Buttons with Icons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_small">
+      <button
+        class="u-button u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="plus" /> Add
       </button>
-      <button class="u-button u-button_small">
+      <button
+        class="u-button u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" /> Delete
       </button>
-      <button class="u-button u-button_small">
+      <button
+        class="u-button u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="pencil" /> Edit
       </button>
-      <button class="u-button u-button_small u-button_red">
+      <button
+        class="u-button u-button_small u-button_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" /> Delete
       </button>
-      <button class="u-button u-button_small u-button_bleuvert">
+      <button
+        class="u-button u-button_small u-button_bleuvert"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="check" /> Validate
       </button>
-      <button class="u-button u-button_small u-button_orange">
+      <button
+        class="u-button u-button_small u-button_orange"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="download" /> Download
       </button>
     </div>
 
     <h3>Small Icon-Only Buttons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="plus" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="pencil" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="star" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="play-circle-fill" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="x-lg" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="globe" />
       </button>
-      <button class="u-button u-button_icon u-button_small">
+      <button
+        class="u-button u-button_icon u-button_small"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="file-earmark-arrow-down" />
       </button>
     </div>
 
     <h3>Very Small Buttons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_verysmall">Very Small</button>
-      <button class="u-button u-button_verysmall u-button_red">
+      <button
+        class="u-button u-button_verysmall"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Very Small
+      </button>
+      <button
+        class="u-button u-button_verysmall u-button_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Very Small Red
       </button>
-      <button class="u-button u-button_verysmall u-button_bleuvert">
+      <button
+        class="u-button u-button_verysmall u-button_bleuvert"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Very Small Bleuvert
       </button>
-      <button class="u-button u-button_verysmall u-button_orange">
+      <button
+        class="u-button u-button_verysmall u-button_orange"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Very Small Orange
       </button>
-      <button class="u-button u-button_verysmall u-button_bleumarine">
+      <button
+        class="u-button u-button_verysmall u-button_bleumarine"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         Very Small Bleumarine
       </button>
     </div>
 
     <h3>Very Small Buttons with Icons</h3>
     <div class="_buttonsDemo">
-      <button class="u-button u-button_verysmall">
+      <button
+        class="u-button u-button_verysmall"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="plus" /> Add
       </button>
-      <button class="u-button u-button_verysmall">
+      <button
+        class="u-button u-button_verysmall"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="trash" /> Delete
       </button>
-      <button class="u-button u-button_verysmall u-button_red">
+      <button
+        class="u-button u-button_verysmall u-button_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="x" /> Close
       </button>
-      <button class="u-button u-button_verysmall u-button_bleuvert">
+      <button
+        class="u-button u-button_verysmall u-button_bleuvert"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
         <b-icon icon="check" /> OK
       </button>
     </div>
@@ -273,11 +508,42 @@
 
     <h3>Standard Button Links</h3>
     <div class="_buttonsDemo">
-      <button class="u-buttonLink">Default Button Link</button>
-      <button class="u-buttonLink" disabled>Disabled Button Link</button>
-      <button class="u-buttonLink u-buttonLink_white">White Button Link</button>
-      <button class="u-buttonLink u-buttonLink_red">Red Button Link</button>
-      <button class="u-buttonLink has--whitebg">With White Background</button>
+      <button
+        class="u-buttonLink"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Default Button Link
+      </button>
+      <button
+        class="u-buttonLink"
+        disabled
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Disabled Button Link
+      </button>
+      <button
+        class="u-buttonLink u-buttonLink_white"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        White Button Link
+      </button>
+      <button
+        class="u-buttonLink u-buttonLink_red"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        Red Button Link
+      </button>
+      <button
+        class="u-buttonLink has--whitebg"
+        :class="{ 'is--active': all_active }"
+        @click="toggleAllActive"
+      >
+        With White Background
+      </button>
     </div>
 
     <h3>Active Button Links</h3>
