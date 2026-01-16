@@ -199,8 +199,8 @@ export default {
   flex: 0 0 auto;
 
   &.is--active {
-    background-color: var(--active-color);
-    color: white;
+    // background-color: var(--active-color);
+    // color: white;
   }
 }
 
