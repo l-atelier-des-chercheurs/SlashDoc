@@ -23,12 +23,6 @@
       <div ref="bookpreview" />
     </template>
     <LoaderSpinner v-if="is_loading" />
-    <ShowSourceHTML
-      v-if="show_source_html"
-      :content_html="content_html"
-      :css_styles="css_styles"
-      :opened_chapter_meta_filename="opened_chapter_meta_filename"
-    />
   </div>
 </template>
 <script>
@@ -53,14 +47,15 @@ export default {
       type: String,
       required: true,
     },
-    show_source_html: Boolean,
+    content_html: {
+      type: String,
+      required: true,
+    },
     can_edit: Boolean,
     opened_chapter_meta_filename: String,
   },
   components: {
     InfiniteViewer,
-    ShowSourceHTML: () =>
-      import("@/components/publications/edition/ShowSourceHTML.vue"),
   },
   data() {
     return {
@@ -124,62 +119,6 @@ export default {
     },
   },
   computed: {
-    content_html() {
-      const nodes = this.content_nodes;
-
-      // if (this.opened_chapter) {
-      //   delete nodes.chapters
-      //   nodes.chapters = [this.opened_chapter];
-      // }
-
-      let html = "";
-
-      if (nodes.cover) {
-        html = `<!-- ${this.$t("cover")} -->`;
-        html += `<section class="cover" id="cover" data-layout-mode="${nodes.cover.layout_mode}">`;
-        if (nodes.cover.title)
-          html += `<hgroup class="coverTitle">${nodes.cover.title}</hgroup>`;
-        if (nodes.cover.image_url)
-          html += `<div class="coverImage"><img src="${nodes.cover.image_url}" /></div>`;
-        html += `</section>\n\n`;
-      }
-
-      nodes.chapters.forEach((chapter) => {
-        let starts_on_page = chapter.starts_on_page;
-        if (
-          !starts_on_page &&
-          (chapter.section_type === "gallery" ||
-            chapter.section_type === "grid")
-        ) {
-          starts_on_page = "page";
-        }
-
-        html += `
-          <!-- ${chapter.title} -->`;
-        html += `<section class="chapter"
-          data-starts-on-page="${starts_on_page}"
-          data-chapter-meta-filename="${chapter.meta_filename}"
-          data-chapter-title="${chapter.title}"
-          data-chapter-type="${chapter.section_type}"
-        >`;
-        if (
-          chapter.title &&
-          chapter.section_type !== "gallery" &&
-          chapter.section_type !== "grid"
-        )
-          html += `<h1 class="chapterTitle">${chapter.title}</h1>`;
-        if (chapter.content)
-          html += `
-        <div class="chapterContent"
-          style="--column-count: ${chapter.column_count};"
-        >${chapter.content}</div>`;
-        html += `</section>`;
-      });
-
-      html += ``;
-
-      return html;
-    },
     pages_to_show() {
       const pages_to_display = this.$route.query?.page;
       if (pages_to_display && pages_to_display.includes("-")) {

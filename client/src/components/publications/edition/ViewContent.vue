@@ -57,7 +57,7 @@
         :format_mode="format_mode"
         :viewer_type="viewer_type"
         :css_styles="css_styles"
-        :show_source_html="show_source_html"
+        :content_html="content_html"
         :opened_chapter_meta_filename="opened_chapter_meta_filename"
         :can_edit="can_edit"
         @openChapter="$emit('openChapter', $event)"
@@ -71,6 +71,12 @@
         @openChapter="$emit('openChapter', $event)"
       />
     </div>
+    <ShowSourceHTML
+      v-if="show_source_html"
+      :content_html="content_html"
+      :css_styles="css_styles"
+      :opened_chapter_meta_filename="opened_chapter_meta_filename"
+    />
     <LoaderSpinner v-if="is_loading" />
   </div>
 </template>
@@ -109,6 +115,8 @@ export default {
   components: {
     PagedViewer,
     DocViewer,
+    ShowSourceHTML: () =>
+      import("@/components/publications/edition/ShowSourceHTML.vue"),
   },
   data() {
     return {
@@ -249,6 +257,57 @@ export default {
         `/******************************* custom styles ${this.opened_style_file_meta || "default"} *******************************/` +
         (this.custom_styles_unnested || "")
       );
+    },
+    content_html() {
+      const nodes = this.content_nodes;
+
+      let html = "";
+
+      if (nodes.cover) {
+        html = `<!-- ${this.$t("cover")} -->`;
+        html += `<section class="cover" id="cover" data-layout-mode="${nodes.cover.layout_mode}">`;
+        if (nodes.cover.title)
+          html += `<hgroup class="coverTitle">${nodes.cover.title}</hgroup>`;
+        if (nodes.cover.image_url)
+          html += `<div class="coverImage"><img src="${nodes.cover.image_url}" /></div>`;
+        html += `</section>\n\n`;
+      }
+
+      nodes.chapters.forEach((chapter) => {
+        let starts_on_page = chapter.starts_on_page;
+        if (
+          !starts_on_page &&
+          (chapter.section_type === "gallery" ||
+            chapter.section_type === "grid")
+        ) {
+          starts_on_page = "page";
+        }
+
+        html += `
+          <!-- ${chapter.title} -->`;
+        html += `<section class="chapter"
+          data-starts-on-page="${starts_on_page}"
+          data-chapter-meta-filename="${chapter.meta_filename}"
+          data-chapter-title="${chapter.title}"
+          data-chapter-type="${chapter.section_type}"
+        >`;
+        if (
+          chapter.title &&
+          chapter.section_type !== "gallery" &&
+          chapter.section_type !== "grid"
+        )
+          html += `<h1 class="chapterTitle">${chapter.title}</h1>`;
+        if (chapter.content)
+          html += `
+        <div class="chapterContent"
+          style="--column-count: ${chapter.column_count};"
+        >${chapter.content}</div>`;
+        html += `</section>`;
+      });
+
+      html += ``;
+
+      return html;
     },
   },
   methods: {
@@ -526,7 +585,7 @@ export default {
           return;
         }
 
-        html += `<div class="grid-cell" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
+        html += `<div class="grid-cell" data-grid-area-id="${area.id}" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
 
         if (media?.$content) {
           const text = this.parseMarkdownWithMarkedownIt(

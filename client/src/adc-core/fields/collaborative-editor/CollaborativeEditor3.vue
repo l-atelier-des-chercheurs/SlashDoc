@@ -344,7 +344,9 @@ export default {
         },
         bounds: this.$refs.editor,
         theme: "snow",
-        formats: this.custom_formats || default_formats,
+        formats: (this.custom_formats || default_formats).filter(
+          (f) => f !== "emoji"
+        ),
         placeholder: this.capitalize(this.placeholder),
         readOnly: !this.editor_is_enabled,
         scrollingContainer: this.scrollingContainer,
@@ -557,7 +559,7 @@ export default {
 
       if (this.is_collaborative) await this.startCollaborative();
       this.editor.enable();
-      this.editor.focus();
+      // this.editor.focus();
 
       // if (this.editor.getLength() <= 1) {
       //   const fontLastUsed = localStorage.getItem("fontLastUsed");
