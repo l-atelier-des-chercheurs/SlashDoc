@@ -91,11 +91,8 @@ export default {
     this.authors = await this.$api.getFolders({
       path: this.path,
     });
-    this.$api.join({ room: this.path });
   },
-  beforeDestroy() {
-    this.$api.leave({ room: this.path });
-  },
+  beforeDestroy() {},
   watch: {},
   computed: {
     // Helper to get count from child component if needed,
