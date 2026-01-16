@@ -122,12 +122,14 @@ export default {
       this.$emit("input", value);
     },
     onSave(value) {
+      this.stopEditing();
       this.$emit("save", value);
     },
     onContentIsEdited(event) {
       this.$emit("contentIsEdited", event);
     },
     onContentIsNotEdited() {
+      this.stopEditing();
       this.$emit("contentIsNotEdited");
       // Optionally stop editing when content is not being edited anymore
       // Uncomment if you want to return to read-only mode after disabling editor
