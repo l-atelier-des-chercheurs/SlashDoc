@@ -580,29 +580,14 @@ export default {
           });
         }
 
-        const content_meta = area.content_meta || area.main_text_meta;
-        if (!media && content_meta) {
-          media = this.publication.$files.find((f) =>
-            f.$path.endsWith("/" + content_meta)
-          );
-        } else if (!media) {
-          media = this.publication.$files.find(
-            (f) => f.grid_area_id === area.id
-          );
-        }
-
-        if (!media) {
-          return;
-        }
-
         html += `<div class="grid-cell" data-grid-area-id="${area.id}" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
 
-        if (media?.$content) {
+        if (media?.$type === "text") {
+          const content = media.$content || "";
           const text = this.parseMarkdownWithMarkedownIt(
             media.$content,
             media.source_medias
           );
-
           html += text;
         } else if (media?.$type === "image") {
           html += `<img src="${this.makeMediaFileURL({

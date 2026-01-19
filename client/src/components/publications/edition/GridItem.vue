@@ -147,22 +147,8 @@ export default {
         folder_path: this.publication.$path,
       });
     },
-    area_file_from_content_meta() {
-      const content_meta = this.area.content_meta || this.area.main_text_meta;
-      if (!content_meta) return;
-      return this.publication.$files.find((f) =>
-        f.$path.endsWith("/" + content_meta)
-      );
-    },
-    area_file_from_grid_area_id() {
-      return this.publication.$files.find((f) => f.grid_area_id === this.area.id);
-    },
     area_current_file() {
-      return (
-        this.area_file_from_source_medias ||
-        this.area_file_from_content_meta ||
-        this.area_file_from_grid_area_id
-      );
+      return this.area_file_from_source_medias;
     },
     area_is_text() {
       return (
@@ -189,7 +175,6 @@ export default {
         content: "",
         additional_meta: {
           content_type: "markdown",
-          grid_area_id: areaId,
         },
       });
 
@@ -198,9 +183,8 @@ export default {
         if (area.id === areaId) {
           return {
             ...area,
-            content_meta: meta_filename,
-            // ensure media isn't also set for this area
-            source_medias: [],
+            // canonical: everything is referenced via `source_medias`
+            source_medias: [{ meta_filename }],
           };
         }
         return area;
@@ -234,9 +218,6 @@ export default {
             // default fit options for medias in grid areas
             objectFit: "cover",
             objectPosition: "center",
-            // clear text-specific references so the area has one source of truth
-            content_meta: null,
-            main_text_meta: null,
           };
         }
         return area;
@@ -254,17 +235,13 @@ export default {
 
     async removeAreaText() {
       const areaId = this.area.id;
-
-      // prefer the meta-referenced file, fallback to legacy grid_area_id match
-      const file_to_delete =
-        this.area_file_from_content_meta || this.area_file_from_grid_area_id;
+      const file_to_delete = this.area_current_file;
 
       const new_grid_areas = this.chapter.grid_areas.map((area) => {
         if (area.id === areaId) {
           return {
             ...area,
-            content_meta: null,
-            main_text_meta: null,
+            source_medias: [],
           };
         }
         return area;
@@ -277,7 +254,12 @@ export default {
         },
       });
 
-      if (file_to_delete?.$path) {
+      // Only delete the actual text file when it's local to the publication
+      if (
+        file_to_delete?.$path &&
+        file_to_delete.$type === "text" &&
+        file_to_delete.$path.startsWith(this.publication.$path + "/")
+      ) {
         await this.$api.deleteItem({
           path: file_to_delete.$path,
         });
@@ -332,15 +314,14 @@ export default {
       // Only handle deletion if this is our area
       if (areaId !== this.area.id) return;
 
-      // Clean up associated files
-      const file_to_delete =
-        this.area_file_from_content_meta || this.area_file_from_grid_area_id;
-
-      if (file_to_delete?.$path) {
-        await this.$api.deleteItem({
-          path: file_to_delete.$path,
-        });
-      }
+      // Clean up associated files (only local text; don't delete project medias)
+      const file_to_delete = this.area_current_file;
+      if (
+        file_to_delete?.$path &&
+        file_to_delete.$type === "text" &&
+        file_to_delete.$path.startsWith(this.publication.$path + "/")
+      )
+        await this.$api.deleteItem({ path: file_to_delete.$path });
 
       // Remove area from grid_areas
       const grid_areas = this.chapter.grid_areas.filter(
