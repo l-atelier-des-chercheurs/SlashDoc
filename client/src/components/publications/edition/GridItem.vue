@@ -19,14 +19,16 @@
           class="u-button u-button_bleuvert"
           @click="createText"
         >
+          <b-icon icon="fonts" style="font-size: var(--icon-size)" />
           {{ $t("add_text") }}
         </button>
         <button
           type="button"
-          class="u-button u-button_bleuvert"
+          class="u-button u-button_orange"
           @click="show_media_picker = true"
         >
-          {{ $t("add_medias") }}
+          <b-icon icon="image" style="font-size: var(--icon-size)" />
+          {{ $t("add_media") }}
         </button>
       </div>
 
@@ -42,6 +44,7 @@
             class="u-button u-button_red u-button_small"
             @click="removeAreaText"
           >
+            <b-icon icon="trash" style="font-size: var(--icon-size)" />
             {{ $t("remove") }}
           </button>
 
@@ -76,9 +79,10 @@
           </button>
           <button
             type="button"
-            class="u-button u-button_bleuvert u-button_small"
+            class="u-button u-button_orange u-button_small"
             @click="show_media_picker = true"
           >
+            <b-icon icon="image" style="font-size: var(--icon-size)" />
             {{ $t("change") }}
           </button>
           <button
@@ -86,6 +90,7 @@
             class="u-button u-button_red u-button_small"
             @click="removeAreaMedia"
           >
+            <b-icon icon="trash" style="font-size: var(--icon-size)" />
             {{ $t("remove") }}
           </button>
         </div>
@@ -344,6 +349,8 @@ export default {
   border: 1px solid var(--c-gris);
   padding: calc(var(--spacing) / 4) calc(var(--spacing) / 2);
   border-radius: var(--input-border-radius);
+
+  --icon-size: 1.2rem;
 }
 
 ._gridItem--header {
@@ -368,7 +375,9 @@ export default {
 ._gridItem--actions {
   display: flex;
   flex-flow: row wrap;
-  gap: calc(var(--spacing) / 2);
+  justify-content: flex-start;
+  align-items: center;
+  gap: calc(var(--spacing) / 4);
 }
 
 ._gridItem--media {
