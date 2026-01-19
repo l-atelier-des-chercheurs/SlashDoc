@@ -923,7 +923,7 @@ export default {
   thirds: "Thirds",
   fourths: "Quarters",
   reload: "Reload",
-  add_media: "Add media",
+  add_image: "Add image",
   add_medias: "Add media",
   add_grid_area: "Add grid area",
   click_empty_cell_to_add_area: "Click on an empty cell to add an area",

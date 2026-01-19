@@ -28,7 +28,7 @@
           @click="show_media_picker = true"
         >
           <b-icon icon="image" style="font-size: var(--icon-size)" />
-          {{ $t("add_media") }}
+          {{ $t("add_image") }}
         </button>
       </div>
 

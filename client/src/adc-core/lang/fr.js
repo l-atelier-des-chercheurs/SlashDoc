@@ -871,7 +871,7 @@ export default {
   create_an_event: "Créer un événement",
   create_a_publication: "Créer une publication",
 
-  add_media: "Ajouter un média",
+  add_image: "Ajouter une image",
   add_medias: "Ajouter des médias",
   add_grid_area: "Ajouter une zone de grille",
   click_empty_cell_to_add_area:

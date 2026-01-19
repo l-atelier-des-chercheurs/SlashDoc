@@ -833,7 +833,7 @@ Lascia il campo vuoto per rendere l'accesso aperto a tuttə. `,
   create_an_event: "Crea un evento",
   create_a_publication: "Crea una pubblicazione",
 
-  add_media: "Aggiungi media",
+  add_image: "Aggiungi immagine",
   add_medias: "Aggiungi più media",
   add_link: "Aggiungi un link",
   add_text: "Aggiungi un testo",

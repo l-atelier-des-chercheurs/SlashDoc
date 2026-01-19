@@ -60,8 +60,7 @@
           </div>
 
           <!-- Area label -->
-          <div class="_gridArea--label">
-            {{ area.id }}
+          <div class="_gridArea--label" v-html="getAreaLabel(area)">
           </div>
 
           <!-- Resize handle -->
@@ -417,6 +416,33 @@ export default {
       document.removeEventListener("mousemove", this.handleResize);
       document.removeEventListener("mouseup", this.stopResize);
     },
+    getAreaLabel(area) {
+      const source_media = area?.source_medias?.[0];
+      if (!source_media) {
+        return area.id;
+      }
+
+      const file = this.getSourceMedia({
+        source_media,
+        folder_path: this.publication.$path,
+      });
+
+      if (!file) {
+        return area.id;
+      }
+
+      const is_text =
+        file.$type === "text" || file.content_type === "markdown";
+      const is_image = file.$type === "image";
+
+      if (is_text) {
+        return `<b>${area.id}</b> (${this.$t("text")})`;
+      } else if (is_image) {
+        return `<b>${area.id}</b> (${this.$t("image")})`;
+      }
+
+      return `<b>${area.id}</b>`;
+    },
   },
   beforeDestroy() {
     document.removeEventListener("mousemove", this.handleResize);
@@ -528,7 +554,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 600;
+    // font-weight: 600;
     user-select: none;
     pointer-events: none;
   }
