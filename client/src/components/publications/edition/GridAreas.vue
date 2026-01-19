@@ -161,7 +161,7 @@ export default {
       });
     },
     deleteArea(areaId) {
-      this.$emit("deleteArea", areaId);
+      this.$eventHub.$emit("gridArea.delete", areaId);
     },
     selectArea(areaId) {
       this.selected_area_id = areaId;

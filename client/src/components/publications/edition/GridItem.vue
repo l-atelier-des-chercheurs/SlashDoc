@@ -37,6 +37,14 @@
           :publication_path="publication.$path"
           :show_label="false"
         />
+        <button
+            type="button"
+            class="u-button u-button_red u-button_small"
+            @click="removeAreaText"
+          >
+            {{ $t("remove") }}
+          </button>
+
       </div>
 
       <div
@@ -121,8 +129,12 @@ export default {
     };
   },
   created() {},
-  mounted() {},
-  beforeDestroy() {},
+  mounted() {
+    this.$eventHub.$on("gridArea.delete", this.handleAreaDeletion);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("gridArea.delete", this.handleAreaDeletion);
+  },
   watch: {},
   computed: {
     area_source_media() {
@@ -240,6 +252,38 @@ export default {
       this.show_media_picker = false;
     },
 
+    async removeAreaText() {
+      const areaId = this.area.id;
+
+      // prefer the meta-referenced file, fallback to legacy grid_area_id match
+      const file_to_delete =
+        this.area_file_from_content_meta || this.area_file_from_grid_area_id;
+
+      const new_grid_areas = this.chapter.grid_areas.map((area) => {
+        if (area.id === areaId) {
+          return {
+            ...area,
+            content_meta: null,
+            main_text_meta: null,
+          };
+        }
+        return area;
+      });
+
+      await this.$api.updateMeta({
+        path: this.chapter.$path,
+        new_meta: {
+          grid_areas: new_grid_areas,
+        },
+      });
+
+      if (file_to_delete?.$path) {
+        await this.$api.deleteItem({
+          path: file_to_delete.$path,
+        });
+      }
+    },
+
     removeAreaMedia() {
       const areaId = this.area.id;
 
@@ -280,6 +324,33 @@ export default {
         path: this.chapter.$path,
         new_meta: {
           grid_areas: new_grid_areas,
+        },
+      });
+    },
+
+    async handleAreaDeletion(areaId) {
+      // Only handle deletion if this is our area
+      if (areaId !== this.area.id) return;
+
+      // Clean up associated files
+      const file_to_delete =
+        this.area_file_from_content_meta || this.area_file_from_grid_area_id;
+
+      if (file_to_delete?.$path) {
+        await this.$api.deleteItem({
+          path: file_to_delete.$path,
+        });
+      }
+
+      // Remove area from grid_areas
+      const grid_areas = this.chapter.grid_areas.filter(
+        (area) => area.id !== areaId
+      );
+
+      await this.$api.updateMeta({
+        path: this.chapter.$path,
+        new_meta: {
+          grid_areas,
         },
       });
     },
