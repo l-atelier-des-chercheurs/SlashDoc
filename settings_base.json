@@ -169,6 +169,9 @@
                 "caption": {
                   "type": "string"
                 },
+                "bibliography": {
+                  "type": "string"
+                },
                 "date_created_corrected": {
                   "type": "string"
                 }
@@ -277,6 +280,9 @@
               "type": "string"
             },
             "caption": {
+              "type": "string"
+            },
+            "bibliography": {
               "type": "string"
             },
             "on_click": {

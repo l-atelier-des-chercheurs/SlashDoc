@@ -118,24 +118,38 @@
                 </div>
               </div>
 
-              <DLabel :str="$t('caption')" icon_name="text-left" />
+              <div class="u-spacingBottom">
+                <DLabel :str="$t('caption')" icon_name="text-left" />
+                <TextEditor
+                  :field_to_edit="'caption'"
+                  :content="file.caption"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="can_edit"
+                />
+              </div>
+            </div>
+
+            <div class="_captionCreditItem">
+              <h3 v-text="$t('origin_of_media')" />
+
+              <DLabel :str="$t('credit/reference')" icon_name="c-circle" />
               <TextEditor
-                :field_to_edit="'caption'"
-                :content="file.caption"
+                :field_to_edit="'$credits'"
+                :content="file.$credits"
                 :path="file.$path"
                 :placeholder="''"
                 :custom_formats="['bold', 'italic', 'link']"
                 :maxlength="1280"
                 :can_edit="can_edit"
               />
-            </div>
 
-            <div class="_captionCreditItem">
-              <h3 v-text="$t('origin_of_media')" />
-              <DLabel :str="$t('credit/reference')" icon_name="c-circle" />
+              <DLabel :str="$t('bibliography')" icon_name="bookmark" />
               <TextEditor
-                :field_to_edit="'$credits'"
-                :content="file.$credits"
+                :field_to_edit="'bibliography'"
+                :content="file.bibliography"
                 :path="file.$path"
                 :placeholder="''"
                 :custom_formats="['bold', 'italic', 'link']"

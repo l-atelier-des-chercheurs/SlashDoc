@@ -30,4 +30,5 @@ export default {
   remove_select: "Remove selection",
   keyword_materials_etc: "Keywords, materials, etc.",
   stack_was_removed: "The document has been removed",
+  bibliography: "Bibliography",
 };
