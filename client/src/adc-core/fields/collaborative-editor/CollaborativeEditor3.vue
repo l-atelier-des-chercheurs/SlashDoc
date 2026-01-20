@@ -82,7 +82,7 @@
               </span> -->
             <button
               type="button"
-              class="u-button _archivesBtn"
+              class="u-button u-button_white _archivesBtn"
               v-else-if="field_to_edit === '$content' && path"
               @click="show_archives = !show_archives"
             >
@@ -1004,7 +1004,7 @@ export default {
   ._savedStatus,
   ._archivesBtn {
     // min-width: 8.5rem;
-    background-color: white;
+    background-color: inherit;
   }
   ._savedStatus {
     background-color: var(--c-vert);

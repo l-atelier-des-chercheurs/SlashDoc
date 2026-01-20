@@ -47,7 +47,6 @@
         <GridAreas
           :chapter="chapter"
           :publication="publication"
-          @deleteArea="deleteArea"
         />
       </div>
     </fieldset>
@@ -126,28 +125,6 @@ export default {
         path: this.chapter.$path,
         new_meta,
       });
-    },
-
-    async deleteArea(areaId) {
-      const area = this.chapter.grid_areas.find((a) => a.id === areaId);
-
-      // Find and delete associated text file if it exists
-      const content_meta = area.content_meta || area.main_text_meta;
-
-      const media = this.publication.$files.find((f) =>
-        f.$path.endsWith("/" + content_meta)
-      );
-      if (media) {
-        await this.$api.deleteItem({
-          path: media.$path,
-        });
-      }
-
-      // Remove area from grid_areas
-      const grid_areas = this.chapter.grid_areas.filter(
-        (area) => area.id !== areaId
-      );
-      this.updateChapterMeta({ grid_areas });
     },
   },
 };

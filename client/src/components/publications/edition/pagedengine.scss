@@ -228,9 +228,16 @@ hr {
 .book .grid-content {
   padding: calc(var(--spacing) * 1) !important;
 }
+.book .grid-cell {
+  overflow: hidden;
+}
 
-.web .gallery-content {
+.web .gallery-content,
+.web .grid-content {
   height: 80vh;
+}
+.web .grid-cell {
+  overflow: auto;
 }
 
 /* GRID LAYOUT */
@@ -249,7 +256,6 @@ hr {
 .edition .grid-cell {
   /* Grid positioning is set via inline styles */
   /* e.g. grid-column-start, grid-column-end, grid-row-start, grid-row-end */
-  overflow: hidden;
   min-height: 0;
   min-width: 0;
 }

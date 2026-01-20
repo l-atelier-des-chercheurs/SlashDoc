@@ -36,60 +36,21 @@
         }"
       >
         <!-- Grid areas (absolutely positioned on grid) -->
-        <div
+        <GridArea
           v-for="(area, index) in grid_areas"
           :key="area.id"
-          class="_gridArea"
-          :class="{
-            '_gridArea--selected': selected_area_id === area.id,
-            '_gridArea--dragging': dragging_area_id === area.id,
-            '_gridArea--updating': updating_area_id === area.id,
-          }"
-          :style="{
-            gridColumnStart: area.column_start,
-            gridColumnEnd: area.column_end,
-            gridRowStart: area.row_start,
-            gridRowEnd: area.row_end,
-          }"
-          @click="selectArea(area.id)"
-          @mousedown="startDrag(area.id, $event)"
-        >
-          <!-- Loading overlay -->
-          <div v-if="updating_area_id === area.id" class="_loadingOverlay">
-            <div class="_spinner"></div>
-          </div>
-
-          <!-- Area label -->
-          <div class="_gridArea--label">
-            {{ area.id }}
-          </div>
-
-          <!-- Resize handle -->
-          <div
-            class="_resizeHandle"
-            @mousedown.stop="startResize(area.id, $event)"
-          >
-            <svg width="24" height="24" viewBox="0 0 12 12">
-              <path d="M12 0 L12 12 L0 12 Z" fill="currentColor" />
-            </svg>
-          </div>
-
-          <!-- Delete area button -->
-          <div class="_deleteArea" @click.stop>
-            <RemoveMenu
-              :show_button_text="false"
-              :modal_title="$t('remove_area')"
-              :modal_expl="$t('remove_area_confirm')"
-              @remove="deleteArea(area.id)"
-            >
-              <template v-slot:trigger>
-                <button type="button" class="_deleteAreaBtn">
-                  <b-icon icon="trash" scale="1" />
-                </button>
-              </template>
-            </RemoveMenu>
-          </div>
-        </div>
+          :area="area"
+          :selected-area-id="selected_area_id"
+          :dragging-area-id="dragging_area_id"
+          :updating-area-id="updating_area_id"
+          :publication="publication"
+          :column-count="column_count"
+          :row-count="row_count"
+          @select="selectArea"
+          @drag-start="startDrag"
+          @resize-start="startResize"
+          @delete="deleteArea"
+        />
       </div>
     </div>
 
@@ -103,6 +64,8 @@
 </template>
 
 <script>
+import GridArea from "./GridArea.vue";
+
 export default {
   props: {
     chapter: {
@@ -114,7 +77,9 @@ export default {
       required: true,
     },
   },
-  components: {},
+  components: {
+    GridArea,
+  },
   data() {
     return {
       selected_area_id: null,
@@ -136,7 +101,9 @@ export default {
     },
     grid_areas() {
       // Use temporary grid_areas during drag/resize operations
-      return this.temp_grid_areas || this.chapter.grid_areas || [];
+      const areas = this.temp_grid_areas || this.chapter.grid_areas || [];
+      // Clamp all areas to grid bounds
+      return areas.map((area) => this.clampAreaToBounds(area));
     },
   },
   methods: {
@@ -161,7 +128,7 @@ export default {
       });
     },
     deleteArea(areaId) {
-      this.$emit("deleteArea", areaId);
+      this.$eventHub.$emit("gridArea.delete", areaId);
     },
     selectArea(areaId) {
       this.selected_area_id = areaId;
@@ -185,6 +152,48 @@ export default {
       const col = ((cellIndex - 1) % this.column_count) + 1;
       return { col, row };
     },
+    clampAreaToBounds(area) {
+      // Ensure area stays within grid bounds
+      const col_span = area.column_end - area.column_start;
+      const row_span = area.row_end - area.row_start;
+
+      // Clamp start positions
+      let column_start = Math.max(1, Math.min(area.column_start, this.column_count));
+      let row_start = Math.max(1, Math.min(area.row_start, this.row_count));
+
+      // Ensure end positions don't exceed grid bounds
+      let column_end = Math.min(
+        column_start + col_span,
+        this.column_count + 1
+      );
+      let row_end = Math.min(row_start + row_span, this.row_count + 1);
+
+      // Ensure minimum size of 1x1
+      if (column_end <= column_start) {
+        column_end = column_start + 1;
+      }
+      if (row_end <= row_start) {
+        row_end = row_start + 1;
+      }
+
+      // Adjust start if end would exceed bounds
+      if (column_end > this.column_count + 1) {
+        column_start = Math.max(1, this.column_count + 1 - col_span);
+        column_end = this.column_count + 1;
+      }
+      if (row_end > this.row_count + 1) {
+        row_start = Math.max(1, this.row_count + 1 - row_span);
+        row_end = this.row_count + 1;
+      }
+
+      return {
+        ...area,
+        column_start,
+        column_end,
+        row_start,
+        row_end,
+      };
+    },
     isCellOccupied(cellIndex) {
       const { col, row } = this.getCellPosition(cellIndex);
       return this.grid_areas.some((area) => {
@@ -200,35 +209,19 @@ export default {
       if (this.isCellOccupied(cellIndex)) return;
 
       const { col, row } = this.getCellPosition(cellIndex);
+      
+      // Ensure the cell is within bounds
+      if (col > this.column_count || row > this.row_count) return;
+
       const new_area_id = this.generateNextLetterId();
 
       const new_area = {
         id: new_area_id,
-        column_start: col,
-        column_end: col + 1,
-        row_start: row,
-        row_end: row + 1,
+        column_start: Math.min(col, this.column_count),
+        column_end: Math.min(col + 1, this.column_count + 1),
+        row_start: Math.min(row, this.row_count),
+        row_end: Math.min(row + 1, this.row_count + 1),
       };
-
-      if (this.publication) {
-        const chapter_name = this.chapter.$path.split("/").pop();
-        const filename = `${chapter_name}-${new_area_id}_text.md`;
-
-        try {
-          const { meta_filename } = await this.$api.uploadText({
-            path: this.publication.$path,
-            filename,
-            content: "",
-            additional_meta: {
-              content_type: "markdown",
-              grid_area_id: new_area_id,
-            },
-          });
-          new_area.content_meta = meta_filename;
-        } catch (e) {
-          console.error(e);
-        }
-      }
 
       const grid_areas = [...this.grid_areas, new_area];
       this.updateChapter({ grid_areas });
@@ -276,18 +269,18 @@ export default {
       let new_col_start = this.initial_area_position.column_start + colChange;
       let new_row_start = this.initial_area_position.row_start + rowChange;
 
-      // Constrain to grid bounds
+      // Constrain to grid bounds - ensure area doesn't go outside grid
       new_col_start = Math.max(
         1,
-        Math.min(new_col_start, this.column_count - col_span + 1)
+        Math.min(new_col_start, Math.max(1, this.column_count - col_span + 1))
       );
       new_row_start = Math.max(
         1,
-        Math.min(new_row_start, this.row_count - row_span + 1)
+        Math.min(new_row_start, Math.max(1, this.row_count - row_span + 1))
       );
 
-      const new_col_end = new_col_start + col_span;
-      const new_row_end = new_row_start + row_span;
+      const new_col_end = Math.min(new_col_start + col_span, this.column_count + 1);
+      const new_row_end = Math.min(new_row_start + row_span, this.row_count + 1);
 
       if (
         new_col_start !== area.column_start ||
@@ -382,6 +375,7 @@ export default {
       let new_row_end = this.initial_area_position.row_end + rowChange;
 
       // Constrain to grid bounds and minimum size
+      // Ensure end doesn't exceed grid bounds
       new_col_end = Math.max(
         area.column_start + 1,
         Math.min(new_col_end, this.column_count + 1)
@@ -390,6 +384,14 @@ export default {
         area.row_start + 1,
         Math.min(new_row_end, this.row_count + 1)
       );
+      
+      // If resize would exceed bounds, clamp it
+      if (new_col_end > this.column_count + 1) {
+        new_col_end = this.column_count + 1;
+      }
+      if (new_row_end > this.row_count + 1) {
+        new_row_end = this.row_count + 1;
+      }
 
       if (new_col_end !== area.column_end || new_row_end !== area.row_end) {
         // Update temp_grid_areas instead of calling updateChapter
@@ -468,7 +470,7 @@ export default {
   background: var(--c-gris_clair);
   color: var(--c-gris_fonce);
   outline-offset: -1px;
-  height: 80px;
+  height: 60px;
   border-radius: var(--input-border-radius);
   cursor: pointer;
   position: relative;
@@ -511,140 +513,6 @@ export default {
   pointer-events: none;
 }
 
-._gridArea {
-  position: relative;
-  border: 2px solid var(--c-gris);
-  border-radius: var(--input-border-radius);
-  background: white;
-  cursor: move;
-  transition: border-color 0.15s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  pointer-events: auto;
-  box-sizing: border-box;
-
-  &:hover {
-    border-color: var(--active-color);
-  }
-
-  &._gridArea--selected {
-    border-color: var(--c-bleuvert);
-    // box-shadow: 0 0 0 2px rgba(94, 185, 196, 0.15);
-  }
-
-  &._gridArea--dragging {
-    opacity: 0.8;
-    cursor: move !important;
-    border-style: dashed;
-  }
-
-  &._gridArea--updating {
-    pointer-events: none;
-  }
-
-  ._gridArea--label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    user-select: none;
-    pointer-events: none;
-  }
-}
-
-._loadingOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-._spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--c-gris);
-  border-top-color: var(--active-color);
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-._resizeHandle {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  cursor: nwse-resize;
-  color: var(--c-gris);
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 2px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 10;
-
-  ._gridArea:hover &,
-  ._gridArea._gridArea--selected & {
-    opacity: 0.5;
-  }
-
-  &:hover {
-    opacity: 1 !important;
-    color: var(--c-noir);
-  }
-
-  svg {
-    pointer-events: none;
-  }
-}
-
-._deleteArea {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 10;
-
-  ._gridArea:hover &,
-  ._gridArea._gridArea--selected & {
-    opacity: 1;
-  }
-}
-
-._deleteAreaBtn {
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--c-gris);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-
-  &:hover {
-    color: var(--c-rouge);
-    transform: scale(1.1);
-  }
-}
 
 ._addAreaButton {
   margin-top: calc(var(--spacing) * 1);

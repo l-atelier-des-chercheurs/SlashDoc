@@ -569,36 +569,31 @@ export default {
 
       chapter.grid_areas.forEach((area) => {
         let media;
+        const objectFit = area?.objectFit || "cover";
+        const objectPosition = area?.objectPosition || "center";
 
-        const content_meta = area.content_meta || area.main_text_meta;
-        if (content_meta) {
-          media = this.publication.$files.find((f) =>
-            f.$path.endsWith("/" + content_meta)
-          );
-        } else {
-          media = this.publication.$files.find(
-            (f) => f.grid_area_id === area.id
-          );
-        }
-
-        if (!media) {
-          return;
+        const source_media = area?.source_medias?.[0];
+        if (source_media) {
+          media = this.getSourceMedia({
+            source_media,
+            folder_path: this.publication.$path,
+          });
         }
 
         html += `<div class="grid-cell" data-grid-area-id="${area.id}" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
 
-        if (media?.$content) {
+        if (media?.$type === "text") {
+          const content = media.$content || "";
           const text = this.parseMarkdownWithMarkedownIt(
             media.$content,
             media.source_medias
           );
-
           html += text;
         } else if (media?.$type === "image") {
           html += `<img src="${this.makeMediaFileURL({
             $path: media.$path,
             $media_filename: media.$media_filename,
-          })}" />`;
+          })}" style="width: 100%; height: 100%; object-fit: ${objectFit}; object-position: ${objectPosition};" />`;
         } else if (media?.$type === "video") {
         }
 

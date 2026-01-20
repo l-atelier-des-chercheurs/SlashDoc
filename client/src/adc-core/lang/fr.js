@@ -800,6 +800,7 @@ export default {
   video: "Vidéo",
   audio: "Son",
   text: "Texte",
+  text_overflow: "texte en excès",
   lines: "Lignes",
   vecto: "Formes",
   pdf: "PDF",
@@ -871,9 +872,11 @@ export default {
   create_an_event: "Créer un événement",
   create_a_publication: "Créer une publication",
 
-  add_media: "Ajouter un média",
+  add_image: "Ajouter une image",
   add_medias: "Ajouter des médias",
+  add_media: "Ajouter un média",
   add_grid_area: "Ajouter une zone de grille",
+  areas_used: "{count} zones utilisées",
   click_empty_cell_to_add_area:
     "Cliquez sur une cellule vide pour ajouter une zone",
   add_link: "Ajouter un lien",
@@ -1575,4 +1578,5 @@ export default {
   no_notes_to_show: "Aucune note à afficher",
   note_content: "Contenu de la note…",
   linked_project: "Projet en lien",
+  object_fit: "Remplissage",
 };
