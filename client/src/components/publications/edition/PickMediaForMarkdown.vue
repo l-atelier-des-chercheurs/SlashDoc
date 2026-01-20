@@ -166,7 +166,7 @@ export default {
   },
   data() {
     return {
-      show_media_picker: false,
+      show_media_picker: true,
       medias_were_picked: false,
       isCopied: false,
       pick_medias_list: [],

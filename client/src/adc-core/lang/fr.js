@@ -874,6 +874,7 @@ export default {
 
   add_image: "Ajouter une image",
   add_medias: "Ajouter des médias",
+  add_media: "Ajouter un média",
   add_grid_area: "Ajouter une zone de grille",
   areas_used: "{count} zones utilisées",
   click_empty_cell_to_add_area:
