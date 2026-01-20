@@ -2,7 +2,7 @@
   <div class="_dLabel">
     <div class="_labelLine" @click.stop="toggleInstructions">
       <span v-if="icon_name" class="_labelIcon">
-        <b-icon:icon ="icon_name" />
+        <b-icon :icon="icon_name" />
       </span>
       <component
         :is="tag"
@@ -99,7 +99,7 @@ export default {
 ._icon {
   font-size: var(--sl-font-size-x-small);
   padding: 0;
-  margin-left: calc(var(--spacing) / 4);
+  margin-left: calc(var(--spacing) / 2);
 }
 ._instr {
   // margin-bottom: calc(var(--spacing) / 2);
