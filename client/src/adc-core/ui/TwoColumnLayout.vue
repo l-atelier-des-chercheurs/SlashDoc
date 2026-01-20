@@ -60,7 +60,7 @@ export default {
     },
     showToggleButton: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 };

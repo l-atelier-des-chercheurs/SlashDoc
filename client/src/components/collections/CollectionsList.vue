@@ -1,5 +1,5 @@
 <template>
-  <TwoColumnLayout :show-toggle-button="false">
+  <TwoColumnLayout>
     <template #sidebar>
       <div class="_sidebarContent">
         <h3 class="_dashboard--label">{{ $t("publications") }}</h3>

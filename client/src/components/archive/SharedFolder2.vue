@@ -27,7 +27,6 @@
     <transition name="fade_fast" mode="out-in">
       <TwoColumnLayout
         :show-sidebar.sync="show_filter_bar"
-        :show-toggle-button="false"
         class="_sharedFolder--content"
       >
         <template #sidebar>

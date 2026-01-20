@@ -1,9 +1,5 @@
 <template>
-  <TwoColumnLayout
-    :show-sidebar.sync="show_sidebar"
-    :show-toggle-button="true"
-    @click="last_clicked = false"
-  >
+  <TwoColumnLayout :show-sidebar.sync="show_sidebar" @click="last_clicked = false">
     <template #sidebar>
       <div class="_sidebarContent">
         <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>

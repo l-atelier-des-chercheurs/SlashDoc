@@ -1,6 +1,6 @@
 <template>
   <div class="_corpusSelection">
-    <TwoColumnLayout :show-toggle-button="false" class="_corpusLayout">
+    <TwoColumnLayout class="_corpusLayout">
       <template #sidebar>
         <div class="_sidebarContent">
           <div class="_header">
