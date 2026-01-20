@@ -108,6 +108,7 @@
         <div class="_infos--content">
           <div class="_captionCreditContainer">
             <div class="_captionCreditItem">
+              <h3 v-text="$t('description_of_media')" />
               <div class="u-spacingBottom" v-if="file.$type === 'url'">
                 <DLabel class="_label" :str="$t('link')" />
                 <div>
@@ -130,6 +131,7 @@
             </div>
 
             <div class="_captionCreditItem">
+              <h3 v-text="$t('origin_of_media')" />
               <DLabel :str="$t('credit/reference')" icon_name="c-circle" />
               <TextEditor
                 :field_to_edit="'$credits'"
@@ -191,8 +193,14 @@ export default {
   },
   i18n: {
     messages: {
-      fr: {},
-      en: {},
+      fr: {
+        description_of_media: "Description du média",
+        origin_of_media: "Provenance du média",
+      },
+      en: {
+        description_of_media: "Media description",
+        origin_of_media: "Media origin",
+      },
     },
   },
   created() {
@@ -330,7 +338,7 @@ export default {
 
 ._infos--content {
   margin: 0 auto;
-  max-width: 100ch;
+  max-width: 150ch;
 }
 
 ._dragEditBtn {
@@ -377,7 +385,7 @@ export default {
 ._captionCreditContainer {
   display: flex;
   flex-flow: row wrap;
-  gap: calc(var(--spacing) / 2);
+  gap: calc(var(--spacing) * 2);
 }
 
 ._captionCreditItem {
