@@ -20,7 +20,6 @@ import {
   BIconChevronRight,
   BIconChevronDoubleRight,
   BIconTrash,
-  BIconArrowLeft,
   BIconPlusCircle,
   BIconXCircle,
   BIconBoxArrowInRight,
@@ -105,7 +104,6 @@ import {
   BIconXSquare,
   BIconPlusSquare,
   BIconListOl,
-  BIconGrid,
   BIconListCheck,
   BIconGrid3x2GapFill,
   BIconGridFill,
@@ -146,19 +144,12 @@ import {
   BIconInfoSquare,
   BIconFront,
   BIconBack,
-  BIconFileText,
-  BIconQuestionSquare,
-  BIconLink45deg,
-  BIconGrid3x3Gap,
-  BIconGrid3x3,
-  BIconFilter,
-  BIconTextLeft,
-  BIconListUl,
   BIconEyeFill,
   BIconEyeSlashFill,
   BIconBoundingBox,
   BIconRulers,
   BIconClock,
+  BIconFilter,
   BIconThreeDots,
   BIconThreeDotsVertical,
   BIconFilePlayFill,
@@ -170,7 +161,6 @@ import {
   BIconList,
   BIconFileCode,
   BIconFolderSymlink,
-  BIconCalendarWeek,
   BIconChatDots,
   BIconChatDotsFill,
   BIconArrowUpRightSquare,
@@ -180,7 +170,6 @@ import {
   BIconCollection,
   BIconEnvelope,
   BIconArrowRepeat,
-  BIconSliders,
   BIconFileEarmarkText,
   BIconLayoutSidebar,
   BIconLayoutSidebarInset,
@@ -194,7 +183,6 @@ Vue.component("BIconExclamationTriangleFill", BIconExclamationTriangleFill);
 Vue.component("BIconArrowLeftShort", BIconArrowLeftShort);
 Vue.component("BIconX", BIconX);
 Vue.component("BIconXLg", BIconXLg);
-Vue.component("BIconX", BIconX);
 Vue.component("BIconPinMap", BIconPinMap);
 Vue.component("BIconPinMapFill", BIconPinMapFill);
 Vue.component("BIconStar", BIconStar);
@@ -213,6 +201,7 @@ Vue.component("BIconXCircleFill", BIconXCircleFill);
 Vue.component("BIconDiscFill", BIconDiscFill);
 Vue.component("BIconPlus", BIconPlus);
 Vue.component("BIconDash", BIconDash);
+Vue.component("BIconDashCircle", BIconDashCircle);
 Vue.component("BIconSearch", BIconSearch);
 Vue.component("BIconHandIndex", BIconHandIndex);
 Vue.component("BIconPrinter", BIconPrinter);
@@ -287,7 +276,6 @@ Vue.component("BIconPlusCircleFill", BIconPlusCircleFill);
 Vue.component("BIconXSquare", BIconXSquare);
 Vue.component("BIconPlusSquare", BIconPlusSquare);
 Vue.component("BIconListOl", BIconListOl);
-Vue.component("BIconGrid", BIconGrid);
 Vue.component("BIconListCheck", BIconListCheck);
 Vue.component("BIconGrid3x2GapFill", BIconGrid3x2GapFill);
 Vue.component("BIconGridFill", BIconGridFill);
@@ -330,22 +318,12 @@ Vue.component("BIconInfoSquare", BIconInfoSquare);
 Vue.component("BIconImages", BIconImages);
 Vue.component("BIconFront", BIconFront);
 Vue.component("BIconBack", BIconBack);
-Vue.component("BIconFileText", BIconFileText);
-Vue.component("BIconQuestionSquare", BIconQuestionSquare);
-Vue.component("BIconLink45deg", BIconLink45deg);
-Vue.component("BIconGrid3x3Gap", BIconGrid3x3Gap);
-Vue.component("BIconArrowLeft", BIconArrowLeft);
-Vue.component("BIconGrid3x3", BIconGrid3x3);
-Vue.component("BIconFilter", BIconFilter);
-Vue.component("BIconTextLeft", BIconTextLeft);
-Vue.component("BIconChevronDown", BIconChevronDown);
-Vue.component("BIconListUl", BIconListUl);
-Vue.component("BIconDashCircle", BIconDashCircle);
 Vue.component("BIconEyeFill", BIconEyeFill);
 Vue.component("BIconEyeSlashFill", BIconEyeSlashFill);
 Vue.component("BIconBoundingBox", BIconBoundingBox);
 Vue.component("BIconRulers", BIconRulers);
 Vue.component("BIconClock", BIconClock);
+Vue.component("BIconFilter", BIconFilter);
 Vue.component("BIconThreeDots", BIconThreeDots);
 Vue.component("BIconThreeDotsVertical", BIconThreeDotsVertical);
 Vue.component("BIconFilePlayFill", BIconFilePlayFill);
@@ -358,7 +336,6 @@ Vue.component("BIconBook", BIconBook);
 Vue.component("BIconList", BIconList);
 Vue.component("BIconFileCode", BIconFileCode);
 Vue.component("BIconFolderSymlink", BIconFolderSymlink);
-Vue.component("BIconCalendarWeek", BIconCalendarWeek);
 Vue.component("BIconChatDots", BIconChatDots);
 Vue.component("BIconChatDotsFill", BIconChatDotsFill);
 Vue.component("BIconArrowUpRightSquare", BIconArrowUpRightSquare);
@@ -368,7 +345,6 @@ Vue.component("BIconPaletteFill", BIconPaletteFill);
 Vue.component("BIconCollection", BIconCollection);
 Vue.component("BIconEnvelope", BIconEnvelope);
 Vue.component("BIconArrowRepeat", BIconArrowRepeat);
-Vue.component("BIconSliders", BIconSliders);
 Vue.component("BIconFileEarmarkText", BIconFileEarmarkText);
 Vue.component("BIconLayoutSidebar", BIconLayoutSidebar);
 Vue.component("BIconLayoutSidebarInset", BIconLayoutSidebarInset);

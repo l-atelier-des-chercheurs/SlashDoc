@@ -1,7 +1,9 @@
 <template>
   <div class="_dLabel">
     <div class="_labelLine" @click.stop="toggleInstructions">
-      <b-icon v-if="icon_name" :icon="icon_name" class="_labelIcon" />
+      <span class="_labelIcon">
+      <b-icon v-if="icon_name" :icon="icon_name" />
+      </span>
       <component
         :is="tag"
         :class="tag === 'label' ? 'u-label' : ''"

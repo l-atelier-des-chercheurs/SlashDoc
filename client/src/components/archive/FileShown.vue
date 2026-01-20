@@ -106,7 +106,10 @@
     <transition name="pagechange" mode="out-in">
       <div class="_infos" :data-hide="!show_infos" :key="file.$path">
         <div class="_infos--content">
-          <div class="u-spacingBottom" v-if="file.$type === 'url'">
+
+          <div class="_captionCreditContainer">
+            <div class="_captionCreditItem">
+              <div class="u-spacingBottom" v-if="file.$type === 'url'">
             <DLabel class="_label" :str="$t('link')" />
             <div>
               <a :href="file.$content" target="_blank">
@@ -115,8 +118,7 @@
             </div>
           </div>
 
-          <div class="_captionCreditContainer">
-            <div class="_captionCreditItem">
+
               <TextEditor
                 :label="$t('caption')"
                 :field_to_edit="'caption'"
@@ -130,8 +132,11 @@
             </div>
 
             <div class="_captionCreditItem">
-              <TextEditor
-                :label="$t('credit/reference')"
+              <DLabel
+                :str="$t('credit/reference')"
+                icon_name="c-circle"
+              />
+    <TextEditor
                 :field_to_edit="'$credits'"
                 :content="file.$credits"
                 :path="file.$path"
