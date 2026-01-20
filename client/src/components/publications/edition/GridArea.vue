@@ -16,7 +16,9 @@
     </div>
 
     <!-- Area label -->
-    <div class="_gridArea--label" v-html="areaLabel">
+    <div class="_gridArea--label">
+      <strong>{{ area.id }}</strong>
+      <span v-if="area_type" class="_gridArea--type">({{ $t(area_type) }})</span>
     </div>
 
     <!-- Resize handle -->
@@ -103,11 +105,8 @@ export default {
     isUpdating() {
       return this.updatingAreaId === this.area.id;
     },
-    areaLabel() {
+    area_type() {
       const source_media = this.area?.source_medias?.[0];
-      if (!source_media) {
-        return this.area.id;
-      }
 
       const file = this.getSourceMedia({
         source_media,
@@ -115,20 +114,16 @@ export default {
       });
 
       if (!file) {
-        return this.area.id;
+        return null;
       }
 
-      const is_text =
-        file.$type === "text" || file.content_type === "markdown";
-      const is_image = file.$type === "image";
-
-      if (is_text) {
-        return `<b>${this.area.id}</b> (${this.$t("text")})`;
-      } else if (is_image) {
-        return `<b>${this.area.id}</b> (${this.$t("image")})`;
+      if (file.$type === "text" || file.content_type === "markdown") {
+        return "text";
+      } else if (file.$type === "image") {
+        return "image";
       }
 
-      return `<b>${this.area.id}</b>`;
+      return null;
     },
   },
 };
@@ -178,6 +173,12 @@ export default {
   }
 }
 
+._gridArea--type {
+  font-size: var(--input-font-size-small);
+  color: var(--c-gris_fonce);
+  text-transform: lowercase;
+  margin-left: 0.5em;
+}
 ._loadingOverlay {
   position: absolute;
   top: 0;
@@ -190,6 +191,7 @@ export default {
   justify-content: center;
   z-index: 100;
 }
+
 
 ._spinner {
   width: 20px;

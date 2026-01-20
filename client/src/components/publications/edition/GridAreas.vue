@@ -470,7 +470,7 @@ export default {
   background: var(--c-gris_clair);
   color: var(--c-gris_fonce);
   outline-offset: -1px;
-  height: 80px;
+  height: 60px;
   border-radius: var(--input-border-radius);
   cursor: pointer;
   position: relative;
