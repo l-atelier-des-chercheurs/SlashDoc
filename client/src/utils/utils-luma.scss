@@ -15,16 +15,18 @@
 
 .u-button {
   text-transform: initial;
-  font-weight: 400;
-  color: var(--g-700);
+  // font-weight: 400;
+  font-weight: 500;
 
   &.is--active.is--active {
     // outline: 0;
     // color: var(--r-500);
-    color: var(--g-700);
-    background-color: var(--g-200);
+    color: var(--g-900);
+    background-color: var(--g-300);
     box-shadow: none;
   }
+
+
 }
 
 .u-button_icon {
