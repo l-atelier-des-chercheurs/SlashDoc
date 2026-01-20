@@ -7,7 +7,7 @@
         class="_single"
         :data-type="file.$type"
       >
-        <div v-if="file.$type === 'text'" class="_textEditor">
+        <div v-if="file.$type === 'text'" class="_textEditor2">
           <CollaborativeEditor3
             :path="file.$path"
             :content="file.$content"
@@ -106,21 +106,19 @@
     <transition name="pagechange" mode="out-in">
       <div class="_infos" :data-hide="!show_infos" :key="file.$path">
         <div class="_infos--content">
-
           <div class="_captionCreditContainer">
             <div class="_captionCreditItem">
               <div class="u-spacingBottom" v-if="file.$type === 'url'">
-            <DLabel class="_label" :str="$t('link')" />
-            <div>
-              <a :href="file.$content" target="_blank">
-                {{ file.$content }}
-              </a>
-            </div>
-          </div>
+                <DLabel class="_label" :str="$t('link')" />
+                <div>
+                  <a :href="file.$content" target="_blank">
+                    {{ file.$content }}
+                  </a>
+                </div>
+              </div>
 
-
+              <DLabel :str="$t('caption')" icon_name="text-left" />
               <TextEditor
-                :label="$t('caption')"
                 :field_to_edit="'caption'"
                 :content="file.caption"
                 :path="file.$path"
@@ -132,11 +130,8 @@
             </div>
 
             <div class="_captionCreditItem">
-              <DLabel
-                :str="$t('credit/reference')"
-                icon_name="c-circle"
-              />
-    <TextEditor
+              <DLabel :str="$t('credit/reference')" icon_name="c-circle" />
+              <TextEditor
                 :field_to_edit="'$credits'"
                 :content="file.$credits"
                 :path="file.$path"
@@ -344,7 +339,7 @@ export default {
   right: 0;
 }
 
-._textEditor {
+._textEditor2 {
   padding: 0 calc(var(--spacing) / 1);
 
   ::v-deep .ql-editor {

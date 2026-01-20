@@ -283,7 +283,7 @@ export default {
     // pointer-events: none;
 
     ._preview--media {
-      opacity: 0.5;
+      opacity: 0.2;
       transform: scale(0.8) rotate(0deg);
     }
   }

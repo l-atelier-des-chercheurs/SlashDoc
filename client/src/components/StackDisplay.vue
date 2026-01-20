@@ -51,10 +51,11 @@
               <hr />
 
               <div>
-                <CollaborativeEditor3
+                <TextEditor
                   :label="$t('description')"
                   :field_to_edit="'description'"
                   :content="stack.description"
+                  :placeholder="''"
                   :path="stack.$path"
                   :custom_formats="['bold', 'italic', 'link']"
                   :is_collaborative="false"
@@ -90,7 +91,7 @@
               <div class="_dateFields">
                 <div class="">
                   <DateField
-                    :label="$t('created')"
+                    :label="$t('date_created')"
                     :field_name="'date_created_corrected'"
                     :date="date_created_corrected"
                     :path="stack.$path"

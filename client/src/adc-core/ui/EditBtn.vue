@@ -133,7 +133,7 @@ export default {
         };
       return {
         label: this.$t("edit"),
-        icon: "pencil",
+        icon: "pencil-fill",
         icon_size: 0.8,
       };
     },

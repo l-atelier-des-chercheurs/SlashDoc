@@ -219,7 +219,7 @@ export default {
   --color-publish: var(--c-bleuvert);
 
   --indicator-color: var(--c-vert) !important;
-  --active-color: var(--g-900);
+  --active-color: var(--g-600);
 
   --sl-font-sans: "Archivo", sans-serif;
   --sl-font-serif: "IBM Plex Serif", serif;

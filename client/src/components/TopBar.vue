@@ -552,6 +552,7 @@ export default {
   padding-right: calc(var(--spacing));
   gap: calc(var(--spacing) / 2);
   // margin: calc(var(--spacing) / 1) calc(var(--spacing) / 1) 0;
+  flex: 0 0 auto;
   color: currentColor;
   overflow: hidden;
 
