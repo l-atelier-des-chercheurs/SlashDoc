@@ -98,7 +98,7 @@ export default {
       width: 100%;
       height: auto;
       border-right: none;
-      border-bottom: 1px solid var(--h-200);
+      border-bottom: 1px solid var(--g-200);
       overflow: visible;
       position: static;
     }
@@ -144,7 +144,7 @@ export default {
     left: 0;
     // color: black;
     // color: white;
-    // background-color: var(--h-900);
+    // background-color: var(--g-900);
     border-radius: 0;
     width: 2rem;
     height: 2rem;
@@ -171,7 +171,7 @@ export default {
   max-width: v-bind(sidebarWidth);
   background-color: var(--body-bg);
   margin: 0;
-  border-right: 1px solid var(--h-200);
+  border-right: 1px solid var(--g-200);
   overflow-y: auto;
   overflow-x: hidden;
   position: sticky;

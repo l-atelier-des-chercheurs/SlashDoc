@@ -385,7 +385,7 @@ export default {
 
   // padding: calc(var(--spacing) * 2);
   // background-color: white;
-  // background-color: var(--h-50);
+  // background-color: var(--g-50);
 }
 
 ._content {
@@ -414,16 +414,16 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  color: var(--h-200);
+  color: var(--g-200);
   margin-top: var(--spacing);
   pointer-events: none;
 
   &.active {
-    color: var(--h-500);
+    color: var(--g-500);
   }
 
   &.completed {
-    color: var(--h-500);
+    color: var(--g-500);
     pointer-events: auto;
   }
 }
@@ -467,7 +467,7 @@ export default {
 
   .step.completed:not(:hover) & {
     opacity: 0;
-    // color: var(--h-500);
+    // color: var(--g-500);
   }
 }
 
@@ -515,6 +515,6 @@ export default {
 </style>
 <style lang="scss">
 ._baseModal--content:has(._createNewMediastackModal) {
-  // background-color: var(--h-50) !important;
+  // background-color: var(--g-50) !important;
 }
 </style>

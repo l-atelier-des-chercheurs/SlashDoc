@@ -233,7 +233,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   // margin-bottom: calc(var(--spacing));
-  border-bottom: 1px solid var(--h-200);
+  border-bottom: 1px solid var(--g-200);
   padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
 
   h3 {
@@ -290,7 +290,7 @@ export default {
 ._noCommunities {
   padding: calc(var(--spacing) * 2);
   text-align: center;
-  color: var(--h-600);
+  color: var(--g-700);
   font-style: italic;
 }
 </style>

@@ -163,7 +163,7 @@ export default {
   ._baseModal--overlay {
     position: absolute;
     inset: 0;
-    background-color: var(--h-50);
+    background-color: var(--g-50);
     background: rgba(231, 231, 231, 0.87);
     backdrop-filter: blur(3px);
     cursor: pointer;

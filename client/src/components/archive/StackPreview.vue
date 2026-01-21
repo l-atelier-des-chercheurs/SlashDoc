@@ -209,7 +209,7 @@ export default {
     background-color: var(--active-color);
   }
   &.is--slider {
-    background: var(--h-200);
+    background: var(--g-200);
   }
 
   &:hover,
@@ -261,7 +261,7 @@ export default {
 
       &._mediaContent[data-novisual] {
         align-items: flex-start;
-        color: var(--h-600);
+        color: var(--g-700);
         padding: calc(var(--spacing) / 4);
       }
     }

@@ -293,7 +293,7 @@ export default {
 ._preview {
   position: relative;
 
-  --thumb-size: 15vh;
+  --thumb-size: 20vmin;
   width: var(--thumb-size);
   height: var(--thumb-size);
   flex: 0 0 var(--thumb-size);

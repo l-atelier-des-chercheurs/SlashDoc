@@ -635,7 +635,7 @@ export default {
 
   &:hover,
   &:focus-visible {
-    color: var(--h-500);
+    color: var(--g-500);
   }
 
   &.is--fullySelected {

@@ -625,8 +625,8 @@ hr {
   gap: calc(var(--spacing) / 2);
 
   z-index: 100;
-  background-color: var(--h-500);
-  // border-top: 1px solid var(--h-50);
+  background-color: var(--g-500);
+  // border-top: 1px solid var(--g-50);
 
   padding: calc(var(--spacing) * 1);
   text-align: center;

@@ -181,7 +181,7 @@ export default {
   --c-thumbcolor: black;
   --label-color: var(--c-gris_fonce);
   --border-radius: 6px;
-  --border-color: var(--h-200);
+  --border-color: var(--g-200);
 
   --input-font-family: inherit;
   --input-font-size: var(--sl-font-size-normal);
@@ -267,24 +267,9 @@ export default {
   --r-600: #e8ab00;
   --r-900: #6b4f00;
 
-  --h-50: hsl(240, 29%, 97%);
-  --h-100: hsl(240, 29%, 95%);
-  --h-200: hsl(240, 29%, 87%);
-  --h-300: hsl(240, 29%, 82%);
-  --h-400: hsl(240, 29%, 77%);
-  --h-500: hsl(240, 29%, 70%);
-  --h-600: hsl(240, 29%, 60%);
-  --h-700: hsl(240, 29%, 51%);
-  --h-900: hsl(240, 29%, 30%);
-  // --h-50: var(--g-50);
-  // --h-200: var(--g-200);
-  // --h-500: var(--g-500);
-  // --h-700: var(--g-700);
-  // --h-900: var(--g-900);
-
   // --g-50: #f6f6fa;
 
-  --chutier-bg: var(--h-900);
+  --chutier-bg: var(--g-900);
 
   --c-orange: var(--r-200);
 }
@@ -476,7 +461,7 @@ ol {
 ._importFileZone {
   .u-button {
     background-color: var(--r-200);
-    color: var(--h-900);
+    color: var(--g-900);
     gap: calc(var(--spacing) / 4);
   }
 }

@@ -105,7 +105,7 @@
     </div>
 
     <transition name="pagechange" mode="out-in">
-      <div class="_infos" :data-hide="!show_infos" :key="file.$path">
+      <div class="_infos" v-if="show_infos" :key="file.$path">
         <div class="_infos--content">
           <div class="_captionCreditContainer">
             <div class="_captionCreditItem">
@@ -293,6 +293,7 @@ export default {
 ._single {
   position: relative;
   flex: 1 0 20vh;
+  min-height: 140px;
   overflow: hidden;
   background-color: var(--g-50);
 

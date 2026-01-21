@@ -305,7 +305,7 @@ export default {
   // gap: calc(var(--spacing) / 2);
   // padding-left: 1px;
   // padding: 0 calc(var(--spacing) / 4);
-  // border: 1px solid var(--h-50);
+  // border: 1px solid var(--g-50);
   width: 100%;
 
   ._titleDateField {
@@ -352,10 +352,10 @@ export default {
   &.can--toggleSelect {
     @media (hover: hover) and (pointer: fine) {
       &:hover:not(.is--selected) {
-        background-color: var(--h-100);
+        background-color: var(--g-50);
       }
       &.is--selected:hover {
-        background-color: var(--h-100);
+        background-color: var(--g-50);
       }
     }
   }
@@ -366,8 +366,8 @@ export default {
   }
 
   &.is--selected {
-    background-color: var(--h-50);
-    color: var(--h-900);
+    background-color: var(--g-50);
+    color: var(--g-900);
     // transform: scale(0.98);
 
     &:hover {
@@ -379,7 +379,7 @@ export default {
     display: block;
     cursor: pointer;
     // margin-right: calc(var(--spacing) / 2);
-    // background-color: var(--h-200);
+    // background-color: var(--g-200);
     transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 
     &:hover {
@@ -404,8 +404,8 @@ export default {
     overflow: hidden;
     // color: white;
     // background: black;
-    background: var(--h-100);
-    color: var(--h-200);
+    background: var(--g-50);
+    color: var(--g-200);
 
     display: block !important;
     text-align: left;
@@ -476,11 +476,11 @@ export default {
 }
 
 ._checkbox {
-  // color: var(--h-500);
+  // color: var(--g-500);
   // width: 20px;
   // height: 20px;
   border-radius: 4px;
-  border: 1px solid var(--h-500);
+  border: 1px solid var(--g-500);
   background-color: transparent;
   margin: 0;
   cursor: pointer;

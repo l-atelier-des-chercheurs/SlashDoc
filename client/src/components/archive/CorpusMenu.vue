@@ -163,7 +163,7 @@ export default {
   margin: var(--spacing) auto;
 
   > div {
-    // background: var(--h-100);
+    // background: var(--g-50);
     // border-radius: 4px;
     // padding: 0 calc(var(--spacing) / 2) calc(var(--spacing) / 2);
 

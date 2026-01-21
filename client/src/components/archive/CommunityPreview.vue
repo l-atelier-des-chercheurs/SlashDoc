@@ -310,7 +310,7 @@ export default {
 }
 
 ._subTitle {
-  color: var(--h-600);
+  color: var(--g-700);
   font-size: var(--sl-font-size-small);
   font-style: italic;
   display: flex;
@@ -356,7 +356,7 @@ export default {
   align-items: center;
   gap: 0.5em;
   font-size: var(--sl-font-size-small);
-  color: var(--h-900);
+  color: var(--g-900);
 }
 
 ._actionsSection {
@@ -385,7 +385,7 @@ export default {
 ._peopleTitle {
   margin: 0;
   font-size: var(--sl-font-size-small);
-  color: var(--h-600);
+  color: var(--g-700);
   font-weight: normal;
 }
 
@@ -407,7 +407,7 @@ export default {
 }
 
 .u-tag {
-  border: 1px solid var(--h-400);
+  border: 1px solid var(--g-500);
   padding: 0.2em 0.5em;
   border-radius: 2px;
   font-size: 0.8em;

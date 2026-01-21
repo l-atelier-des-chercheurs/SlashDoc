@@ -491,7 +491,7 @@ export default {
 
   a {
     text-decoration: none;
-    // color: var(--h-900);
+    // color: var(--g-900);
     font-weight: normal;
   }
 }
@@ -626,7 +626,7 @@ export default {
 // ._mobileNavLinks a {
 //   font-size: var(--topbar-font-size);
 //   text-decoration: none;
-//   color: var(--h-900);
+//   color: var(--g-900);
 //   padding: 10px 0;
 //   border-bottom: 1px solid var(--border-color);
 // }
@@ -653,12 +653,12 @@ export default {
   border-radius: 8px;
   font-size: var(--topbar-font-size);
   cursor: pointer;
-  color: var(--h-900);
+  color: var(--g-900);
   text-align: left;
 }
 
 ._mobileActions button:hover {
-  background-color: var(--h-200);
+  background-color: var(--g-200);
 }
 
 ._mobileCurrentUser {
@@ -679,12 +679,12 @@ export default {
   border-radius: 8px;
   font-size: var(--topbar-font-size);
   cursor: pointer;
-  color: var(--h-900);
+  color: var(--g-900);
   text-align: left;
 }
 
 ._mobileAuthorBtn:hover {
-  background-color: var(--h-200);
+  background-color: var(--g-200);
 }
 
 ._hamburgerBtn {
@@ -693,7 +693,7 @@ export default {
   border: none;
   cursor: pointer;
   flex: 0 0 auto;
-  color: var(--h-900);
+  color: var(--g-900);
 }
 
 ._hamburgerIcon {
@@ -708,7 +708,7 @@ export default {
   display: block;
   height: 2px;
   width: 100%;
-  background-color: var(--h-900);
+  background-color: var(--g-900);
   border-radius: 2px;
   transition: all 0.3s ease-in-out;
 }

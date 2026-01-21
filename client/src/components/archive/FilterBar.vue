@@ -508,11 +508,11 @@ export default {
   gap: calc(var(--spacing) / 4);
   margin-top: calc(var(--spacing) / 4);
   font-size: var(--sl-font-size-small);
-  color: var(--h-600);
+  color: var(--g-700);
   cursor: pointer;
 
   &:hover {
-    color: var(--h-700);
+    color: var(--g-700);
   }
 }
 

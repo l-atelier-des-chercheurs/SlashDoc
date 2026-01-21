@@ -599,7 +599,7 @@ export default {
     display: block;
     width: 100%;
     height: calc(var(--scroll-progress) * 100%);
-    background: var(--h-500);
+    background: var(--g-500);
   }
 }
 
