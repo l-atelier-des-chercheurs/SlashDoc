@@ -37,4 +37,6 @@ export default {
   add_title_to_continue: "Indiquez un titre pour continuer",
   add_keywords_to_continue: "Ajoutez des mots-clés pour continuer",
   add_authors_to_continue: "Ajoutez des auteurs pour continuer",
+  general_credit: "Crédit général",
+  general_credit_instructions: "Appliqué par défaut si le champ crédit d'un média est vide.",
 };

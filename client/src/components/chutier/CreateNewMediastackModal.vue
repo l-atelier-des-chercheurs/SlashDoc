@@ -60,7 +60,7 @@
                       :key="file.$path"
                       :file="file"
                       :context="'show_only_thumbs'"
-                      :is_selected="true"
+                      :is_selected="false"
                       class="_thumbCell"
                     />
                   </div>
@@ -68,27 +68,24 @@
               </template>
             </MediastackStepTitle>
 
-            <!-- <DLabel :str="$t('content')" /> -->
-            <!-- <p class="u-spacingBottom">
-              Renseignez les légendes et crédits de vos fichiers.
-              <button type="button" class="u-buttonLink">
-                Crédit unique pour tous les fichiers
-              </button>
-            </p> -->
+            <MediastackStepCredits
+              v-if="current_step === 1"
+              :selected_items="selected_items"
+            />
 
             <MediastackStepKeywords
-              v-if="current_step === 1"
+              v-if="current_step === 2"
               :keywords.sync="stack_tags"
             >
             </MediastackStepKeywords>
 
             <MediastackStepAuthors
-              v-if="current_step === 2"
+              v-if="current_step === 3"
               :authors.sync="stack_authors"
             />
 
             <MediastackStepReview
-              v-if="current_step === 3"
+              v-if="current_step === 4"
               :title="stack_title"
               :description="stack_description"
               :keywords="stack_tags"
@@ -139,10 +136,10 @@
         <template v-if="current_step === 0">
           {{ $t("add_title_to_continue") }}
         </template>
-        <template v-if="current_step === 1">
+        <template v-if="current_step === 2">
           {{ $t("add_keywords_to_continue") }}
         </template>
-        <template v-if="current_step === 2">
+        <template v-if="current_step === 3">
           {{ $t("add_authors_to_continue") }}
         </template>
       </div>
@@ -152,6 +149,7 @@
 <script>
 import ChutierItem from "@/components/chutier/ChutierItem.vue";
 import MediastackStepTitle from "@/components/chutier/MediastackStepTitle.vue";
+import MediastackStepCredits from "@/components/chutier/MediastackStepCredits.vue";
 import MediastackStepKeywords from "@/components/chutier/MediastackStepKeywords.vue";
 import MediastackStepAuthors from "@/components/chutier/MediastackStepAuthors.vue";
 import MediastackStepReview from "@/components/chutier/MediastackStepReview.vue";
@@ -163,6 +161,7 @@ export default {
   components: {
     ChutierItem,
     MediastackStepTitle,
+    MediastackStepCredits,
     MediastackStepKeywords,
     MediastackStepAuthors,
     MediastackStepReview,
@@ -176,6 +175,9 @@ export default {
         },
         {
           label: this.$t("keywords"),
+        },
+        {
+          label: this.$t("credits"),
         },
         {
           label: this.$t("team"),
@@ -219,7 +221,7 @@ export default {
       return true;
     },
     show_only_thumbs() {
-      return this.current_step > 0 && this.current_step !== 3;
+      return this.current_step > 0 && this.current_step !== 4;
     },
   },
   methods: {
@@ -387,7 +389,7 @@ export default {
 }
 
 .step-line {
-  width: 60px;
+  width: 50px;
   height: 2px;
   background-color: currentColor;
   transition: background-color 0.25s cubic-bezier(0.19, 1, 0.22, 1);

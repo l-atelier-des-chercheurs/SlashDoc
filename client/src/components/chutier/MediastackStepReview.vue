@@ -21,7 +21,7 @@
     <div class="">
       <DLabel :str="$t('destination_corpus')" />
       <DestinationCorpusSelector
-        :selected_destination_folder_path.sync="destinationFolderPath"
+        :selected_destination_folder_path.sync="localDestinationFolderPath"
       />
     </div>
   </div>
@@ -55,8 +55,16 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      localDestinationFolderPath: this.destinationFolderPath,
+    };
+  },
   watch: {
     destinationFolderPath(newVal) {
+      this.localDestinationFolderPath = newVal;
+    },
+    localDestinationFolderPath(newVal) {
       this.$emit("update:destinationFolderPath", newVal);
     },
   },

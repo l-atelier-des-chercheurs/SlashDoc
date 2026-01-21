@@ -73,7 +73,7 @@ export default {
     content: String,
     placeholder: {
       type: String,
-      default: "…",
+      default: "–",
     },
     field_to_edit: {
       type: String,
