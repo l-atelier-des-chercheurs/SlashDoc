@@ -197,7 +197,7 @@ export default {
   --input-border-color: var(--c-gris_fonce);
   --input-border-color-focus: var(--active-color);
   --input-border-width: 3px;
-  --input-border-radius: 3px;
+  --input-border-radius: 8px;
   --input-bg-color: var(--color-white);
   --input-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
   --input-readonly-bg-color: var(--component-bg-color);
@@ -285,6 +285,8 @@ export default {
   // --g-50: #f6f6fa;
 
   --chutier-bg: var(--h-900);
+
+  --c-orange: var(--r-200);
 }
 
 *,
@@ -325,7 +327,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--g-900);
-  color: black;
+  // color: black;
 }
 body {
   min-height: 100%;
@@ -333,7 +335,7 @@ body {
 }
 
 a {
-  color: var(--h-900);
+  color: var(--g-900);
   text-underline-offset: 0.1em;
 
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
@@ -341,7 +343,7 @@ a {
   &:hover,
   &:focus-visible {
     text-decoration: none;
-    color: var(--h-600);
+    color: var(--g-700);
   }
 }
 
