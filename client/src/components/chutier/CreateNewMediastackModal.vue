@@ -440,6 +440,7 @@ export default {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 6px;
+  background-color: var(--g-50);
 
   /* Force ChutierItem thumb to fill the cell */
   :deep(._chutierRow) {

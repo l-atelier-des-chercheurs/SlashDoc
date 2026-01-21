@@ -97,7 +97,6 @@
                   :field_to_edit="'caption'"
                   :content="file.caption"
                   :path="file.$path"
-                  :placeholder="''"
                   :custom_formats="['bold', 'italic', 'link']"
                   :maxlength="1280"
                   :can_edit="true"
