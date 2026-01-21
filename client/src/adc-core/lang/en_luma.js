@@ -31,4 +31,10 @@ export default {
   keyword_materials_etc: "Keywords, materials, etc.",
   stack_was_removed: "The document has been removed",
   bibliography: "Bibliography",
+  destination_corpus: "Destination corpus",
+  document_title: "Document title",
+  create_document: "New document",
+  add_title_to_continue: "Add title to continue",
+  add_keywords_to_continue: "Add keywords to continue",
+  add_authors_to_continue: "Add authors to continue",
 };

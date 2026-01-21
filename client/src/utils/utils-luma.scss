@@ -20,6 +20,13 @@ textarea,
   background-color: white;
   border: solid 1px var(--g-200);
   border-radius: 1px;
+
+  &:hover {
+    background-color: white;
+  }
+  &:focus-visible {
+    background-color: white;
+  }
 }
 
 ._editBtn._editBtn {
@@ -92,8 +99,9 @@ textarea,
 label,
 .u-label {
   // font-weight: 500;
-  font-size: var(--sl-font-size-large);
+  font-size: var(--sl-font-size-normal);
   font-weight: 500;
+  color: var(--g-700);
 }
 
 .u-displayAsPublic {

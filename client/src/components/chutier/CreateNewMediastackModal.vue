@@ -98,7 +98,7 @@
     <template #footer>
       <div>
         <button
-          class="u-button u-button_white"
+          class="u-button u-button_transparent"
           v-if="status === 'idle'"
           @click="backStep"
         >
@@ -108,7 +108,7 @@
       </div>
 
       <button
-        class="u-button u-button_primary u-button_pill"
+        class="u-button"
         v-if="current_step < steps.length - 1"
         :disabled="!allow_next_step"
         @click="nextStep"
@@ -117,7 +117,7 @@
         <b-icon icon="arrow-right" />
       </button>
       <button
-        class="u-button u-button_primary"
+        class="u-button"
         v-else-if="current_step === steps.length - 1 && status === 'idle'"
         :disabled="!selected_destination_folder_path"
         @click="publishMediastack"
@@ -162,26 +162,6 @@ export default {
     MediastackStepKeywords,
     MediastackStepAuthors,
     MediastackStepReview,
-  },
-  i18n: {
-    messages: {
-      fr: {
-        destination_corpus: "Corpus de destination",
-        document_title: "Titre du document",
-        create_document: "Nouveau document",
-        add_title_to_continue: "Indiquez un titre pour continuer",
-        add_keywords_to_continue: "Ajoutez des mots-clés pour continuer",
-        add_authors_to_continue: "Ajoutez des auteurs pour continuer",
-      },
-      en: {
-        destination_corpus: "Destination corpus",
-        document_title: "Document title",
-        create_document: "New document",
-        add_title_to_continue: "Add title to continue",
-        add_keywords_to_continue: "Add keywords to continue",
-        add_authors_to_continue: "Add authors to continue",
-      },
-    },
   },
   data() {
     return {

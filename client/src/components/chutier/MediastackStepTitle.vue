@@ -4,23 +4,23 @@
 
     <div class="_form-title">
       <div class="u-spacingBottom">
-        <h1>
-          <DLabel :str="$t('title')" />
-          <TextInput
-            :content="title"
-            :required="true"
-            :autofocus="true"
-            :can_edit="true"
-            @update:content="onTitleChange"
-            @toggleValidity="onTitleValidityChange"
-          />
-        </h1>
+        <DLabel :str="$t('title')" />
+        <TextInput
+          :content="title"
+          :required="true"
+          :placeholder="$t('document_title')"
+          :autofocus="true"
+          :can_edit="true"
+          @update:content="onTitleChange"
+          @toggleValidity="onTitleValidityChange"
+        />
       </div>
       <div class="u-spacingBottom _description">
         <DLabel :str="$t('description')" />
         <TextInput
           :content="description"
           :input_type="'editor'"
+          :placeholder="$t('description_placeholder')"
           :can_edit="true"
           @update:content="onDescriptionChange"
         />
