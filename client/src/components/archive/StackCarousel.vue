@@ -86,8 +86,9 @@
         </transition>
 
         <div class="_credits">
-          <b-icon v-if="file.caption" icon="text-left" />
-          <b-icon v-if="file.$credits" icon="info-circle" />
+          <b-icon v-if="hasText(file.caption)" icon="text-left" />
+          <b-icon v-if="hasText(file.$credits)" icon="c-circle" />
+          <b-icon v-if="hasText(file.bibliography)" icon="bookmark" />
         </div>
       </div>
     </transition-group>
@@ -204,6 +205,10 @@ export default {
     },
   },
   methods: {
+    hasText(value) {
+      if (value === undefined || value === null) return false;
+      return String(value).trim().length > 0;
+    },
     toggleFile(index) {
       if (this.active_file_index === index) this.active_file_index = false;
       else this.active_file_index = index;
@@ -243,7 +248,7 @@ export default {
   gap: 2px;
   overflow: auto;
   overscroll-behavior-x: contain;
-  padding: 2px;
+  // padding: 2px;
   border-top: 1px solid var(--sd-separator);
 }
 ._preview {
@@ -253,11 +258,12 @@ export default {
   width: var(--thumb-size);
   height: var(--thumb-size);
   flex: 0 0 var(--thumb-size);
+  border-right: 1px solid var(--sd-separator);
 
   // background-color: var(--c-gris);
 
   overflow: hidden;
-  border-radius: 4px;
+  // border-radius: 4px;
 
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 

@@ -91,14 +91,19 @@
         <b-icon v-else icon="chevron-up" :aria-label="$t('open')" />
 
         <b-icon
-          v-if="file.caption"
+          v-if="has_caption"
           icon="text-left"
           :aria-label="$t('caption')"
         />
         <b-icon
-          v-if="file.$credits"
-          icon="info-circle"
+          v-if="has_credits"
+          icon="c-circle"
           :aria-label="$t('credit/reference')"
+        />
+        <b-icon
+          v-if="has_bibliography"
+          icon="bookmark"
+          :aria-label="$t('bibliography')"
         />
       </button>
     </div>
@@ -222,7 +227,10 @@ export default {
       this.show_infos = localStorage.getItem("show_infos") !== "false";
     else
       this.show_infos =
-        this.can_edit || this.file.caption || this.file.$credits;
+        this.can_edit ||
+        this.has_caption ||
+        this.has_credits ||
+        this.has_bibliography;
   },
   mounted() {
     this.$eventHub.$on("fileshown.showInfos", this.showInfos);
@@ -238,6 +246,15 @@ export default {
     },
   },
   computed: {
+    has_caption() {
+      return this.hasText(this.file?.caption);
+    },
+    has_credits() {
+      return this.hasText(this.file?.$credits);
+    },
+    has_bibliography() {
+      return this.hasText(this.file?.bibliography);
+    },
     optimization_possible() {
       return this.fileCanBeOptimized({ path: this.file.$media_filename });
     },
@@ -252,6 +269,10 @@ export default {
     },
   },
   methods: {
+    hasText(value) {
+      if (value === undefined || value === null) return false;
+      return String(value).trim().length > 0;
+    },
     async regenerateThumbs() {
       this.is_regenerating = true;
       await this.$api.regenerateThumbs({ path: this.file.$path });

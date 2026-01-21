@@ -25,8 +25,8 @@ const BIconCCircle = {
   name: "BIconCCircle",
   functional: true,
   props: {
-    width: { type: [Number, String], default: 10 },
-    height: { type: [Number, String], default: 10 },
+    width: { type: [Number, String], default: 12 },
+    height: { type: [Number, String], default: 12 },
     fill: { type: String, default: "currentColor" },
   },
   render(h, { props }) {
