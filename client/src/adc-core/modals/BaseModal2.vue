@@ -241,7 +241,7 @@ header {
   padding: calc(var(--spacing) * 1);
 
   border-bottom: 1px solid var(--border-color);
-  text-transform: uppercase;
+  // text-transform: uppercase;
 
   // h2 {
   //   font-weight: 600;
