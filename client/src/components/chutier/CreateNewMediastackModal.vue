@@ -218,8 +218,9 @@ export default {
       // ")"
     },
     allow_next_step() {
+      debugger;
       if (this.current_step === 0) return this.has_valid_title;
-      if (this.current_step === 1) return this.stack_tags.length > 0;
+      if (this.current_step === 2) return this.stack_tags.length > 0;
       return true;
     },
     show_only_thumbs() {
