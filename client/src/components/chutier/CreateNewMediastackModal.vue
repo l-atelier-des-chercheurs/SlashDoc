@@ -71,6 +71,7 @@
             <MediastackStepCredits
               v-if="current_step === 1"
               :selected_items="selected_items"
+              :general_credit.sync="stack_general_credit"
             />
 
             <MediastackStepKeywords
@@ -191,6 +192,7 @@ export default {
       has_valid_title: false,
       stack_description: "",
       stack_common_credit: "",
+      stack_general_credit: "",
       stack_tags: [],
       stack_authors: [],
 
@@ -229,8 +231,31 @@ export default {
       if (this.current_step > 0) this.current_step--;
       else this.$emit("close");
     },
-    nextStep() {
+    async nextStep() {
+      // If leaving the credits step (step 1), apply general credit to items with empty credits
+      if (this.current_step === 1 && this.stack_general_credit) {
+        await this.applyGeneralCreditToItems();
+      }
       this.current_step++;
+    },
+    async applyGeneralCreditToItems() {
+      // Apply general credit to all selected items that have empty credits
+      for (const file of this.selected_items) {
+        if (!file.$credits || file.$credits.trim() === "") {
+          try {
+            await this.$api.updateMeta({
+              path: file.$path,
+              new_meta: {
+                $credits: this.stack_general_credit,
+              },
+            });
+            // Update the local file object to reflect the change
+            file.$credits = this.stack_general_credit;
+          } catch (error) {
+            console.error(`Failed to update credit for ${file.$path}:`, error);
+          }
+        }
+      }
     },
     async publishMediastack() {
       this.status = "publishing";

@@ -1,7 +1,7 @@
 <template>
   <div class="u-spacingBottom _form-credits">
     <DLabel :str="$t('general_credit')" icon_name="c-circle" />
-    <input type="text" v-model="general_credit" />
+    <input type="text" v-model="localGeneralCredit" />
     <div class="u-spacingBottom u-instructions">
       {{ $t("general_credit_instructions") }}
     </div>
@@ -27,14 +27,20 @@ export default {
       type: Array,
       default: () => [],
     },
+    general_credit: {
+      type: String,
+      default: "",
+    },
   },
-  data() {
-    return {
-      general_credit: "",
-    };
-  },
-  watch: {
-    general_credit(newVal) {},
+  computed: {
+    localGeneralCredit: {
+      get() {
+        return this.general_credit;
+      },
+      set(newVal) {
+        this.$emit("update:general_credit", newVal);
+      },
+    },
   },
   components: {
     ChutierItem,
