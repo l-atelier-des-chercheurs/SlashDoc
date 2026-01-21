@@ -3,6 +3,7 @@
     <select
       class="u-select"
       :value="selected_destination_folder_path"
+      :key="folders.length"
       @change="
         $emit('update:selected_destination_folder_path', $event.target.value)
       "
@@ -30,7 +31,7 @@ export default {
     };
   },
   watch: {},
-  async mounted() {
+  async created() {
     await this.listDestinationFolders();
   },
   methods: {
@@ -48,7 +49,9 @@ export default {
         });
 
       if (destination_folders?.length > 0) {
-        this.folders = destination_folders;
+        this.folders = destination_folders.filter((f) =>
+          this.canLoggedinContributeToFolder({ folder: f })
+        );
 
         if (!this.selected_destination_folder_path) {
           if (localStorage.getItem("last_opened_folder_slug")) {

@@ -17,25 +17,16 @@
       </div>
       <div v-else>{{ $t("none") }}</div>
     </div>
-
-    <div class="">
-      <DLabel :str="$t('destination_corpus')" />
-      <DestinationCorpusSelector
-        :selected_destination_folder_path.sync="localDestinationFolderPath"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 import KeywordsField from "@/components/KeywordsField.vue";
-import DestinationCorpusSelector from "@/components/DestinationCorpusSelector.vue";
 
 export default {
   name: "MediastackStepReview",
   components: {
     KeywordsField,
-    DestinationCorpusSelector,
   },
   props: {
     title: {
@@ -49,23 +40,6 @@ export default {
     keywords: {
       type: Array,
       default: () => [],
-    },
-    destinationFolderPath: {
-      type: [String, undefined],
-      default: undefined,
-    },
-  },
-  data() {
-    return {
-      localDestinationFolderPath: this.destinationFolderPath,
-    };
-  },
-  watch: {
-    destinationFolderPath(newVal) {
-      this.localDestinationFolderPath = newVal;
-    },
-    localDestinationFolderPath(newVal) {
-      this.$emit("update:destinationFolderPath", newVal);
     },
   },
 };

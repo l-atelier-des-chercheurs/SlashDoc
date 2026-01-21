@@ -83,6 +83,7 @@
             <MediastackStepAuthors
               v-if="current_step === 3"
               :authors.sync="stack_authors"
+              :destination_folder_path.sync="selected_destination_folder_path"
             />
 
             <MediastackStepReview
@@ -90,7 +91,6 @@
               :title="stack_title"
               :description="stack_description"
               :keywords="stack_tags"
-              :destination-folder-path.sync="selected_destination_folder_path"
             />
           </div>
         </transition>
@@ -218,7 +218,6 @@ export default {
       // ")"
     },
     allow_next_step() {
-      debugger;
       if (this.current_step === 0) return this.has_valid_title;
       if (this.current_step === 2) return this.stack_tags.length > 0;
       return true;
@@ -348,6 +347,12 @@ export default {
   align-items: center;
   list-style: none;
   padding: 0;
+
+  > * {
+    &:last-child {
+      display: none;
+    }
+  }
   // margin-bottom: var(--spacing);
 }
 

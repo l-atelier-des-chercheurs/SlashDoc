@@ -38,5 +38,7 @@ export default {
   add_keywords_to_continue: "Add keywords to continue",
   add_authors_to_continue: "Add authors to continue",
   general_credit: "General credit",
-  general_credit_instructions: "Applied by default if a media's credit field is empty.",
+  general_credit_instructions:
+    "Applied by default if a media's credit field is empty.",
+  archiving_community: "Archiving community",
 };
