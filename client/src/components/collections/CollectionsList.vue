@@ -408,8 +408,8 @@ export default {
 }
 
 ._content {
-  overflow: auto;
+  // overflow: auto;
   padding: calc(var(--spacing) * 2);
-  height: 100%;
+  // height: 100%;
 }
 </style>

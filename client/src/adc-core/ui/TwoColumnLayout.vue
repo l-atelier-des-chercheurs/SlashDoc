@@ -2,7 +2,7 @@
   <div
     class="_twoColumnLayout"
     :class="{
-      'is--mobile': $root.is_mobile_view,
+      'is--mobile': isMobileView,
       'is--sidebarHidden': !showSidebar,
     }"
   >
@@ -36,7 +36,7 @@
       />
     </transition>
 
-    <div class="_colRight">
+    <div class="_colRight" v-if="!singleColumnMobileMode || !showSidebar">
       <slot name="content" />
     </div>
   </div>
@@ -61,6 +61,14 @@ export default {
     showToggleButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    isMobileView() {
+      return Boolean(this.$root?.is_mobile_view);
+    },
+    singleColumnMobileMode() {
+      return this.isMobileView && this.showToggleButton;
     },
   },
 };
