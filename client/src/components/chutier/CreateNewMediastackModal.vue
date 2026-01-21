@@ -353,21 +353,19 @@ export default {
   border: 2px solid currentColor;
   border-radius: 50%;
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 3px;
-    border-radius: 50%;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity 0.25s cubic-bezier(0.19, 1, 0.22, 1);
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   inset: 0px;
+  //   border-radius: 50%;
+  //   background-color: currentColor;
+  //   opacity: 0;
+  //   transition: opacity 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  // }
 
   .step.active &,
   .step.completed & {
-    &::before {
-      opacity: 1;
-    }
+    background-color: currentColor;
   }
 }
 

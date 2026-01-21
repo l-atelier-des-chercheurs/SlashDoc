@@ -26,6 +26,7 @@ textarea,
   }
   &:focus-visible {
     background-color: white;
+    border-color: var(--g-200);
   }
 }
 
