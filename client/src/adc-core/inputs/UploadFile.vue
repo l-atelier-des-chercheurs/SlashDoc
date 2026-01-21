@@ -53,37 +53,65 @@
             <DLabel :str="$t('filename')" />
             <div class="u-filename">{{ file.name }}</div>
           </div>
-          <SizeDisplay
+          <!-- <SizeDisplay
             class="_sizeDisplay"
             v-if="file.size"
             :size="file.size"
-          />
+          /> -->
         </div>
 
         <template v-if="sent_file">
           <hr />
-          <div v-if="allow_caption_edition" class="_infos--row _captionEditor">
+          <div v-if="allow_caption_edition" class="_captionEditor">
             <div class="u-spacingBottom">
-              <TitleField
-                :label="$t('caption')"
-                :field_name="'caption'"
-                :content="sent_file.caption"
-                :path="sent_file.$path"
-                :input_type="'editor'"
-                :custom_formats="['bold', 'italic', 'link', 'emoji']"
-                :can_edit="true"
-              />
+              <DLabel :str="$t('caption')" icon_name="text-left" />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'caption'"
+                  :content="sent_file.caption"
+                  :path="sent_file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link', 'emoji']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
             </div>
+
             <div class="u-spacingBottom">
-              <TitleField
-                :label="$t('credit')"
-                :field_name="'$credits'"
-                :content="sent_file.$credits"
-                :path="sent_file.$path"
-                :input_type="'editor'"
-                :custom_formats="['bold', 'italic', 'link', 'emoji']"
-                :can_edit="true"
-              />
+              <DLabel :str="$t('credit')" icon_name="c-circle" />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'$credits'"
+                  :content="sent_file.$credits"
+                  :path="sent_file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link', 'emoji']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
+            </div>
+
+            <div class="u-spacingBottom">
+              <DLabel :str="$t('bibliography')" icon_name="bookmark" />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'bibliography'"
+                  :content="sent_file.bibliography"
+                  :path="sent_file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link', 'emoji']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
             </div>
           </div>
           <div v-if="optimization_strongly_recommended" class="u-instructions">
@@ -182,6 +210,10 @@ export default {
       file_credits: "",
 
       show_optimize_modal: false,
+
+      date_created_corrected: this.datetimeLocal(
+        this.file.lastModified || new Date()
+      ),
     };
   },
   created() {
@@ -398,7 +430,7 @@ export default {
 ._infos--row {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: stretch;
+  justify-content: space-between;
   align-items: flex-start;
   gap: calc(var(--spacing) / 2);
 
