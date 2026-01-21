@@ -19,6 +19,7 @@ export default {
   date_uploaded: "Date d’envoi",
   cancel: "Annuler",
   select: "Sélectionner",
+  select_media: "Sélectionner un média",
   select_all: "Sélectionner tout",
   back: "Retour",
   save: "Enregistrer",

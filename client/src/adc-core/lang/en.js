@@ -21,6 +21,7 @@ export default {
   date_uploaded: "Uploaded on",
   cancel: "Cancel",
   select: "Select",
+  select_media: "Select media",
   back: "Back",
   save: "Save",
   input_url: "URL of the website to embed",
