@@ -43,43 +43,14 @@
               </div>
             </div>
 
-            <template v-if="current_step === 0">
-              <div class="u-spacingBottom"></div>
+            <MediastackStepTitle
+              v-if="current_step === 0"
+              :title.sync="stack_title"
+              :description.sync="stack_description"
+              @title-validity-changed="has_valid_title = $event"
+            />
 
-              <div class="_form-title">
-                <div class="u-spacingBottom">
-                  <h1>
-                    <DLabel :str="$t('document_title')" />
-                    <TextInput
-                      :content.sync="stack_title"
-                      :required="true"
-                      :autofocus="true"
-                      :can_edit="true"
-                      @toggleValidity="($event) => (has_valid_title = $event)"
-                    />
-                  </h1>
-                </div>
-                <div class="u-spacingBottom _description">
-                  <DLabel :str="$t('description')" />
-                  <TextInput
-                    :content.sync="stack_description"
-                    :input_type="'editor'"
-                    :can_edit="true"
-                  />
-                </div>
-              </div>
-
-              <!-- <div class="u-spacingBottom">
-                <DLabel :str="$t('credit_unique_for_all_files')" />
-                <TextInput
-                  :content.sync="credit_unique_for_all_files"
-                  :input_type="'text'"
-                  :can_edit="true"
-                  @onEnter="nextStep"
-                />
-              </div> -->
-            </template>
-            <DLabel :str="$t('content')" />
+            <!-- <DLabel :str="$t('content')" /> -->
             <!-- <p class="u-spacingBottom">
               Renseignez les légendes et crédits de vos fichiers.
               <button type="button" class="u-buttonLink">
@@ -87,12 +58,7 @@
               </button>
             </p> -->
 
-            <div class="u-spacingBottom">
-              Crédit par défaut (si champ vide) :
-              <TextInput :content="'Atelier LUMA'" :can_edit="true" />
-            </div>
-
-            <div
+            <!-- <div
               class="u-spacingBottom _form-review-items"
               :class="{
                 'has--onlyThumbs': show_only_thumbs,
@@ -105,60 +71,25 @@
                 :context="show_only_thumbs ? 'show_only_thumbs' : ''"
                 :is_selected="true"
               />
-            </div>
+            </div> -->
 
-            <template v-if="current_step === 1">
-              <div class="u-spacingBottom _form-tags">
-                <KeywordsFieldEditor :keywords.sync="stack_tags" />
-              </div>
-            </template>
+            <MediastackStepKeywords
+              v-if="current_step === 1"
+              :keywords.sync="stack_tags"
+            />
 
-            <template v-if="current_step === 2">
-              <div class="u-spacingBottom _form-team">
-                <AuthorField
-                  :label="$t('authors')"
-                  :instructions="$t('media_editing_instructions')"
-                  :authors_paths="stack_authors"
-                  :can_edit="true"
-                  @save="
-                    (event) => {
-                      stack_authors = event;
-                    }
-                  "
-                />
-              </div>
-            </template>
+            <MediastackStepAuthors
+              v-if="current_step === 2"
+              :authors.sync="stack_authors"
+            />
 
-            <template v-if="current_step === 3">
-              <div class="_form-review">
-                <div class="u-spacingBottom">
-                  <DLabel :str="$t('title')" />
-                  <h2>
-                    {{ stack_title || $t("none") }}
-                  </h2>
-                </div>
-                <div class="u-spacingBottom">
-                  <DLabel :str="$t('description')" />
-                  <div v-html="stack_description || $t('none_f')" />
-                </div>
-                <div class="u-spacingBottom">
-                  <DLabel :str="$t('keywords')" />
-                  <div v-if="stack_tags.length > 0">
-                    <KeywordsField :keywords="stack_tags" :can_edit="false" />
-                  </div>
-                  <div v-else>{{ $t("none") }}</div>
-                </div>
-
-                <div class="">
-                  <DLabel :str="$t('destination_corpus')" />
-                  <DestinationCorpusSelector
-                    :selected_destination_folder_path.sync="
-                      selected_destination_folder_path
-                    "
-                  />
-                </div>
-              </div>
-            </template>
+            <MediastackStepReview
+              v-if="current_step === 3"
+              :title="stack_title"
+              :description="stack_description"
+              :keywords="stack_tags"
+              :destination-folder-path.sync="selected_destination_folder_path"
+            />
           </div>
         </transition>
       </div>
@@ -215,20 +146,22 @@
   </BaseModal2>
 </template>
 <script>
-import KeywordsFieldEditor from "@/components/KeywordsFieldEditor.vue";
-import KeywordsField from "@/components/KeywordsField.vue";
 import ChutierItem from "@/components/chutier/ChutierItem.vue";
-import DestinationCorpusSelector from "@/components/DestinationCorpusSelector.vue";
+import MediastackStepTitle from "@/components/chutier/MediastackStepTitle.vue";
+import MediastackStepKeywords from "@/components/chutier/MediastackStepKeywords.vue";
+import MediastackStepAuthors from "@/components/chutier/MediastackStepAuthors.vue";
+import MediastackStepReview from "@/components/chutier/MediastackStepReview.vue";
 
 export default {
   props: {
     selected_items: Array,
   },
   components: {
-    KeywordsFieldEditor,
-    KeywordsField,
     ChutierItem,
-    DestinationCorpusSelector,
+    MediastackStepTitle,
+    MediastackStepKeywords,
+    MediastackStepAuthors,
+    MediastackStepReview,
   },
   i18n: {
     messages: {
@@ -482,12 +415,6 @@ export default {
   width: 100%;
   background-color: white;
   // padding: calc(var(--spacing) * 1) 0;
-}
-
-._description {
-  // border-radius: var(--input-border-radius);
-  // background-color: var(--c-gris_clair);
-  // overflow: hidden;
 }
 
 ._cantNextInstr {

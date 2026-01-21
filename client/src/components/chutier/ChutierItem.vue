@@ -82,7 +82,6 @@
                     :href="file.$content"
                     target="_blank"
                     rel="noopener noreferrer"
-                    @click.stop
                   >
                     {{ file.$content }}
                   </a>
@@ -93,7 +92,7 @@
                 <b-icon icon="text-left" :aria-label="$t('caption')" />
                 <DLabel :str="$t('caption')" />
               </div>
-              <div @click.stop>
+              <div>
                 <TextEditor
                   :field_to_edit="'caption'"
                   :content="file.caption"
@@ -123,7 +122,7 @@
                 <b-icon icon="info-circle" :aria-label="$t('credit')" />
                 <DLabel :str="$t('credit')" />
               </div>
-              <div @click.stop>
+              <div>
                 <TextEditor
                   :field_to_edit="'$credits'"
                   :content="file.$credits"
@@ -141,7 +140,7 @@
                 <b-icon icon="bookmark" :aria-label="$t('bibliography')" />
                 <DLabel :str="$t('bibliography')" />
               </div>
-              <div @click.stop>
+              <div>
                 <TextEditor
                   :field_to_edit="'bibliography'"
                   :content="file.bibliography"
