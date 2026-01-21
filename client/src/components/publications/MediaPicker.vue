@@ -3,6 +3,7 @@
     <PickExistingMediastackModal
       :modal_title="$t('pick_medias')"
       :select_mode="select_mode"
+      :pick_from_types="pick_from_types"
       @close="$emit('close')"
       @mediasSelected="mediasSelected"
     />

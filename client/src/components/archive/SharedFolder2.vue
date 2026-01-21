@@ -10,6 +10,7 @@
         :can_be_selected="select_mode"
         :is_favorite="isFavorite(opened_stack.$path)"
         :read_only="read_only"
+        :pick_from_types="pick_from_types"
         @toggleFav="toggleFav(opened_stack.$path)"
         @selectStack="$emit('selectStack', opened_stack)"
         @selectMedias="$emit('selectMedias', $event)"
@@ -133,6 +134,7 @@ export default {
       default: false,
     },
     read_only: Boolean,
+    pick_from_types: [String, Array],
   },
   components: {
     FilterBar,

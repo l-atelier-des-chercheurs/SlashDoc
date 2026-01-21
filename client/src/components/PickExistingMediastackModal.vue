@@ -21,6 +21,7 @@
           :select_mode="select_mode"
           :read_only="true"
           :use_query="false"
+          :pick_from_types="pick_from_types"
           @communitiesSelected="onCommunitiesSelected"
           @selectStack="$emit('stackSelected', $event)"
           @selectMedias="$emit('mediasSelected', $event)"
@@ -40,6 +41,7 @@ export default {
       type: String,
       default: "single_stack",
     },
+    pick_from_types: [String, Array],
   },
   components: {
     DestinationCorpusSelector,

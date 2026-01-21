@@ -184,6 +184,7 @@
             :can_edit="can_edit"
             :can_be_selected="can_be_selected"
             :selected_files="selected_stack_files"
+            :pick_from_types="pick_from_types"
             @toggleMediaSelection="handleToggleMediaSelection"
             @selectMedia="selectMedia"
             @removeMediaFromStack="removeMediaFromStack"
@@ -248,6 +249,7 @@ export default {
     can_be_added_to_fav: Boolean,
     can_be_selected: [Boolean, String],
     read_only: Boolean,
+    pick_from_types: [String, Array],
   },
   components: {
     KeywordsField,
@@ -352,13 +354,24 @@ export default {
   },
   methods: {
     addSelectedMedia() {
-      this.$emit("selectMedias", this.selected_stack_files);
+      // Filter to only allowed types before emitting
+      const allowedFiles = this.selected_stack_files.filter((file) =>
+        this.isFileTypeAllowed(file)
+      );
+      this.$emit("selectMedias", allowedFiles);
     },
     addSelectedMedias() {
-      this.$emit("selectMedias", this.selected_stack_files);
+      // Filter to only allowed types before emitting
+      const allowedFiles = this.selected_stack_files.filter((file) =>
+        this.isFileTypeAllowed(file)
+      );
+      this.$emit("selectMedias", allowedFiles);
     },
     selectMedia($event) {
-      this.selected_stack_files = [$event];
+      // Only set if file type is allowed
+      if (this.isFileTypeAllowed($event)) {
+        this.selected_stack_files = [$event];
+      }
     },
     async changeMediaOrder(old_position, new_position) {
       let meta_filenames = this.stack_files_in_order.map((f) =>
@@ -440,6 +453,11 @@ export default {
       }
     },
     handleToggleMediaSelection(file, checked) {
+      // Only allow selection if file type is allowed
+      if (!this.isFileTypeAllowed(file)) {
+        return;
+      }
+
       if (checked) {
         if (!this.selected_stack_files.some((f) => f.$path === file.$path)) {
           this.selected_stack_files = [...this.selected_stack_files, file];
@@ -452,9 +470,40 @@ export default {
       this.$emit("updateSelectedStackMedias", this.selected_stack_files);
     },
     selectAllMedias() {
-      this.selected_stack_files = JSON.parse(
-        JSON.stringify(this.stack_files_in_order)
-      );
+      // Only select files that match allowed types
+      if (
+        this.pick_from_types &&
+        (Array.isArray(this.pick_from_types)
+          ? this.pick_from_types.length > 0
+          : this.pick_from_types)
+      ) {
+        this.selected_stack_files = this.stack_files_in_order.filter((file) =>
+          this.isFileTypeAllowed(file)
+        );
+      } else {
+        this.selected_stack_files = JSON.parse(
+          JSON.stringify(this.stack_files_in_order)
+        );
+      }
+    },
+    isFileTypeAllowed(file) {
+      // If no pick_from_types is specified, allow all files
+      if (
+        !this.pick_from_types ||
+        !Array.isArray(this.pick_from_types) ||
+        this.pick_from_types.length === 0
+      ) {
+        return true;
+      }
+
+      // Normalize pick_from_types to array of strings
+      const allowedTypes = Array.isArray(this.pick_from_types)
+        ? this.pick_from_types
+        : [this.pick_from_types];
+
+      // Check if file type matches any allowed type
+      const fileType = file?.$type || "";
+      return allowedTypes.includes(fileType);
     },
   },
 };

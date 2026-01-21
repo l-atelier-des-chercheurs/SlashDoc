@@ -15,6 +15,7 @@
         :shared_folder_paths="computed_shared_folder_paths"
         :select_mode="select_mode"
         :read_only="read_only"
+        :pick_from_types="pick_from_types"
         @toggleCorpus="toggleCorpus"
         @openCorpusSelection="show_corpus_selection = true"
         @selectStack="$emit('selectStack', $event)"
@@ -45,6 +46,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    pick_from_types: [String, Array],
   },
   components: {
     SharedFolder2,

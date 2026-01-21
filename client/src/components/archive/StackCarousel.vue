@@ -19,6 +19,9 @@
       <div
         v-for="(file, index) in files"
         class="_preview"
+        :class="{
+          '_preview--disabled': can_be_selected && !isFileTypeAllowed(file),
+        }"
         :data-iscurrent="current_file_shown.$path === file.$path"
         :key="file.$path"
         @click="openFile(index)"
@@ -39,8 +42,11 @@
                 selected_files &&
                 selected_files.some((f) => f.$path === file.$path)
               "
+              :disabled="!isFileTypeAllowed(file)"
               @change="
-                $emit('toggleMediaSelection', file, $event.target.checked)
+                if (isFileTypeAllowed(file)) {
+                  $emit('toggleMediaSelection', file, $event.target.checked);
+                }
               "
               @click.stop
             />
@@ -53,7 +59,12 @@
               :id="boxid(index)"
               :name="boxname"
               :checked="current_file_shown.$path === file.$path"
-              @change="$emit('selectMedia', file)"
+              :disabled="!isFileTypeAllowed(file)"
+              @change="
+                if (isFileTypeAllowed(file)) {
+                  $emit('selectMedia', file);
+                }
+              "
               @click.stop
             />
           </label>
@@ -103,6 +114,7 @@ export default {
     can_edit: Boolean,
     can_be_selected: [Boolean, String],
     selected_files: Array,
+    pick_from_types: [String, Array],
   },
   components: {
     FileShown,
@@ -136,8 +148,11 @@ export default {
       }
     }
 
-    if (this.can_be_selected === "single") {
-      this.$emit("selectMedia", this.current_file_shown);
+    if (this.can_be_selected === "single" && this.current_file_shown) {
+      // Only auto-select if the file type is allowed
+      if (this.isFileTypeAllowed(this.current_file_shown)) {
+        this.$emit("selectMedia", this.current_file_shown);
+      }
     }
   },
   beforeDestroy() {
@@ -228,6 +243,25 @@ export default {
       if (this.active_file_index < this.files.length - 1)
         this.active_file_index++;
     },
+    isFileTypeAllowed(file) {
+      // If no pick_from_types is specified, allow all files
+      if (
+        !this.pick_from_types ||
+        !Array.isArray(this.pick_from_types) ||
+        this.pick_from_types.length === 0
+      ) {
+        return true;
+      }
+
+      // Normalize pick_from_types to array of strings
+      const allowedTypes = Array.isArray(this.pick_from_types)
+        ? this.pick_from_types
+        : [this.pick_from_types];
+
+      // Check if file type matches any allowed type
+      const fileType = file?.$type || "";
+      return allowedTypes.includes(fileType);
+    },
   },
 };
 </script>
@@ -297,6 +331,21 @@ export default {
       opacity: 0.4;
       filter: blur(2px);
       transform: scale(0.9) rotate(0deg);
+    }
+  }
+
+  &._preview--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    ._preview--media {
+      filter: grayscale(100%);
+    }
+
+    ._selectCheckbox,
+    ._selectRadio {
+      pointer-events: none;
+      opacity: 0.5;
     }
   }
 
