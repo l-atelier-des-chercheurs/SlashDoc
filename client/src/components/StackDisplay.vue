@@ -198,7 +198,11 @@
       </button>
     </div>
     <div v-if="can_be_selected === 'single'" class="_selectBar">
-      <button class="u-button" type="button" @click="addSelectedMedia">
+      <button
+        class="u-button u-button_bleuvert"
+        type="button"
+        @click="addSelectedMedia"
+      >
         {{ $t("select_media") }}
       </button>
     </div>

@@ -520,18 +520,14 @@ img {
   // overflow: hidden;
   position: relative;
   height: auto;
-  // transition: none !important;
-}
-
-.splitpanes:not(.splitpanes--dragging) {
-  transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: none !important;
 }
 
 .splitpanes .splitpanes__splitter {
   position: relative;
   background-color: transparent;
   // border-left: 1px solid #eee;
-  z-index: 11;
+  z-index: 100;
   border: 0px;
 
   pointer-events: none;
@@ -540,20 +536,22 @@ img {
 .splitpanes--vertical > .splitpanes__splitter {
   width: 2px;
   margin-left: -1px;
-  border-right: 1px solid var(--r-600);
+  border-right: 1px solid var(--c-noir);
 }
 .splitpanes--horizontal > .splitpanes__splitter {
-  height: 1px;
-  border-bottom: 1px solid var(--r-600);
+  margin-top: -1px;
+  height: 2px;
+  border-bottom: 1px solid var(--c-noir);
 }
 
-.splitpanes__splitter::before {
+.splitpanes__splitter:before {
   content: "";
   position: absolute;
-  width: 1rem;
-  height: 100%;
-  left: calc(50% - 0.4rem);
-  top: 0;
+  width: 40px;
+  height: 40px;
+
+  left: calc(50% - 20px);
+  bottom: calc(10% - 20px);
 
   transition: opacity 0.4s;
   // background-color: rgba(255, 255, 0, 1);
@@ -583,6 +581,30 @@ img {
 }
 
 .splitpanes__splitter:after {
+  --icon-width: 1.5em;
+
+  content: "";
+  position: absolute;
+  left: calc(50% - var(--icon-width) / 2 + 1px);
+  top: auto;
+  bottom: calc(10% - var(--icon-width) / 2);
+  pointer-events: none;
+
+  width: var(--icon-width);
+  height: var(--icon-width);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 2px;
+  line-height: 1;
+  background-color: var(--c-noir);
+  color: white;
+
+  transition: transform 0.4s;
+  opacity: 1;
+  z-index: 11;
 }
 .splitpanes__splitter:hover {
   border-style: dashed;

@@ -40,14 +40,13 @@
           :show_label="false"
         />
         <button
-            type="button"
-            class="u-button u-button_red u-button_small"
-            @click="removeAreaText"
-          >
-            <b-icon icon="trash" style="font-size: var(--icon-size)" />
-            {{ $t("remove") }}
-          </button>
-
+          type="button"
+          class="u-button u-button_red u-button_small"
+          @click="removeAreaText"
+        >
+          <b-icon icon="trash" style="font-size: var(--icon-size)" />
+          {{ $t("remove") }}
+        </button>
       </div>
 
       <div
@@ -72,7 +71,9 @@
           >
             <b-icon
               :icon="
-                area_objectFit === 'contain' ? 'aspect-ratio' : 'aspect-ratio-fill'
+                area_objectFit === 'contain'
+                  ? 'aspect-ratio'
+                  : 'aspect-ratio-fill'
               "
             />
             {{ $t("object_fit") }}
@@ -392,7 +393,7 @@ export default {
       width: 100%;
       height: auto;
       height: 120px;
-      
+
       object-fit: scale-down;
     }
 
