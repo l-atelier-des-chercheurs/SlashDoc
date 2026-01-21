@@ -284,7 +284,8 @@ export default {
 
     ._preview--media {
       opacity: 0.4;
-      transform: scale(0.8) rotate(0deg);
+      filter: blur(2px);
+      transform: scale(0.9) rotate(0deg);
     }
   }
 

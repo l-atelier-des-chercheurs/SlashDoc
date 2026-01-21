@@ -270,12 +270,12 @@ export default {
 ._fileShown {
   display: flex;
   flex-flow: column nowrap;
-  overflow: hidden;
+  overflow: auto;
 }
 
 ._single {
   position: relative;
-  flex: 1 1 auto;
+  flex: 1 0 20vh;
   overflow: hidden;
   background-color: var(--g-50);
 
@@ -337,7 +337,7 @@ export default {
   border-top: 1px solid var(--sd-separator);
   // border-bottom: 1px solid var(--sd-separator);
   max-height: 50vh;
-  overflow: auto;
+  // overflow: auto;
   padding: calc(var(--spacing) / 1) calc(var(--spacing) / 1);
 
   transition: all 0.02s cubic-bezier(0.19, 1, 0.22, 1);
