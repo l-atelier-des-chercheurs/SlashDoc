@@ -30,11 +30,11 @@
           :resolution="360"
         />
         <div v-if="can_be_selected === 'multiple'" class="_selectCheckbox">
-          <label :for="boxid">
+          <label :for="boxid(index)">
             <input
               type="checkbox"
-              :id="boxid"
-              :name="boxid"
+              :id="boxid(index)"
+              :name="boxname"
               :checked="
                 selected_files &&
                 selected_files.some((f) => f.$path === file.$path)
@@ -47,11 +47,11 @@
           </label>
         </div>
         <div v-else-if="can_be_selected === 'single'" class="_selectRadio">
-          <label :for="boxid">
+          <label :for="boxid(index)">
             <input
               type="radio"
-              :id="boxid"
-              :name="boxid"
+              :id="boxid(index)"
+              :name="boxname"
               :checked="current_file_shown.$path === file.$path"
               @change="$emit('selectMedia', file)"
               @click.stop
@@ -183,8 +183,9 @@ export default {
     },
   },
   computed: {
-    boxid() {
-      return "selectinputid-" + this.files.map((f) => f.$path).join("-");
+    boxname() {
+      // Radio buttons must share the same name; ids must be unique per item.
+      return `selectinputname-${this._uid}`;
     },
     enable_drag() {
       // hacky but it works
@@ -205,6 +206,10 @@ export default {
     },
   },
   methods: {
+    boxid(index) {
+      // Unique, stable (within this component instance) id for each input.
+      return `selectinputid-${this._uid}-${index}`;
+    },
     hasText(value) {
       if (value === undefined || value === null) return false;
       return String(value).trim().length > 0;
