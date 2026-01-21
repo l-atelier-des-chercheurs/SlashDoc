@@ -53,7 +53,7 @@
 }
 
 .u-button_pill {
-  border-radius: 999px;
+  border-radius: var(--input-border-radius);
   padding: calc(var(--spacing) / 2) calc(var(--spacing) * 1);
 }
 

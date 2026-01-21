@@ -5,7 +5,7 @@
       {{ cancel_text ? cancel_text : $t("cancel") }}
     </button>
     <button
-      class="u-button u-button_bleuvert"
+      class="u-button u-button_orange"
       :loading="is_saving"
       :disabled="!allow_save"
       @click="$emit('save')"

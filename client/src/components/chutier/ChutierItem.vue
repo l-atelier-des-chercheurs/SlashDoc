@@ -72,11 +72,27 @@
             </div>
 
             <div class="_infos2">
+              <div class="u-spacingBottom" v-if="file.$type === 'url'">
+                <div class="_labelLine">
+                  <b-icon icon="link" :aria-label="$t('link')" />
+                  <DLabel :str="$t('link')" />
+                </div>
+                <div class="u-filename">
+                  <a
+                    :href="file.$content"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    @click.stop
+                  >
+                    {{ file.$content }}
+                  </a>
+                </div>
+              </div>
+
               <div class="_labelLine">
                 <b-icon icon="text-left" :aria-label="$t('caption')" />
                 <DLabel :str="$t('caption')" />
               </div>
-
               <TitleField
                 :label="$t('caption')"
                 :show_label="false"
@@ -115,6 +131,23 @@
                 :custom_formats="['bold', 'italic', 'link']"
                 :field_name="'$credits'"
                 :content="file.$credits"
+                :path="file.$path"
+                :maxlength="1280"
+                :can_edit="true"
+              />
+            </div>
+            <div class="_infos2">
+              <div class="_labelLine">
+                <b-icon icon="bookmark" :aria-label="$t('bibliography')" />
+                <DLabel :str="$t('bibliography')" />
+              </div>
+              <TitleField
+                :label="$t('bibliography')"
+                :show_label="false"
+                :input_type="'editor'"
+                :custom_formats="['bold', 'italic', 'link']"
+                :field_name="'bibliography'"
+                :content="file.bibliography"
                 :path="file.$path"
                 :maxlength="1280"
                 :can_edit="true"
