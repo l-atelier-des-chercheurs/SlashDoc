@@ -27,7 +27,7 @@
           />
         </div>
         <div class="u-spacingBottom">
-          <DLabel :str="$t('credit/reference')" />
+          <DLabel :str="$t('credit')" />
           <CollaborativeEditor3
             :field_to_edit="'$credits'"
             :content="''"

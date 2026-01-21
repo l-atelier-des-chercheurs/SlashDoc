@@ -76,7 +76,7 @@
             </div>
             <div class="u-spacingBottom">
               <TitleField
-                :label="$t('credit/reference')"
+                :label="$t('credit')"
                 :field_name="'$credits'"
                 :content="sent_file.$credits"
                 :path="sent_file.$path"

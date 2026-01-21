@@ -11,7 +11,7 @@ export default {
   description: "Description",
   keywords: "Keywords",
   show_all: "Show all",
-  "credit/reference": "Credit/reference",
+  credit: "Credit",
 
   stop_edit: "Stop editing",
   caption: "Caption",

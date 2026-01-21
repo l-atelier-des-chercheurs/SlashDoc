@@ -90,21 +90,17 @@
         />
         <b-icon v-else icon="chevron-up" :aria-label="$t('open')" />
 
-        <b-icon
+        <!-- <b-icon
           v-if="has_caption"
           icon="text-left"
           :aria-label="$t('caption')"
         />
-        <b-icon
-          v-if="has_credits"
-          icon="c-circle"
-          :aria-label="$t('credit/reference')"
-        />
+        <b-icon v-if="has_credits" icon="c-circle" :aria-label="$t('credit')" />
         <b-icon
           v-if="has_bibliography"
           icon="bookmark"
           :aria-label="$t('bibliography')"
-        />
+        /> -->
       </button>
     </div>
 
@@ -140,7 +136,7 @@
             <div class="_captionCreditItem">
               <h3 v-text="$t('origin_of_media')" />
 
-              <DLabel :str="$t('credit/reference')" icon_name="c-circle" />
+              <DLabel :str="$t('credit')" icon_name="c-circle" />
               <TextEditor
                 :field_to_edit="'$credits'"
                 :content="file.$credits"

@@ -93,17 +93,19 @@
                 <b-icon icon="text-left" :aria-label="$t('caption')" />
                 <DLabel :str="$t('caption')" />
               </div>
-              <TitleField
-                :label="$t('caption')"
-                :show_label="false"
-                :input_type="'editor'"
-                :custom_formats="['bold', 'italic', 'link']"
-                :field_name="'caption'"
-                :content="file.caption"
-                :path="file.$path"
-                :maxlength="1280"
-                :can_edit="true"
-              />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'caption'"
+                  :content="file.caption"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
 
               <!-- 
               <CollaborativeEditor3
@@ -118,40 +120,41 @@
             </div>
             <div class="_infos2">
               <div class="_labelLine">
-                <b-icon
-                  icon="info-circle"
-                  :aria-label="$t('credit/reference')"
-                />
-                <DLabel :str="$t('credit/reference')" />
+                <b-icon icon="info-circle" :aria-label="$t('credit')" />
+                <DLabel :str="$t('credit')" />
               </div>
-              <TitleField
-                :label="$t('credit/reference')"
-                :show_label="false"
-                :input_type="'editor'"
-                :custom_formats="['bold', 'italic', 'link']"
-                :field_name="'$credits'"
-                :content="file.$credits"
-                :path="file.$path"
-                :maxlength="1280"
-                :can_edit="true"
-              />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'$credits'"
+                  :content="file.$credits"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
             </div>
             <div class="_infos2">
               <div class="_labelLine">
                 <b-icon icon="bookmark" :aria-label="$t('bibliography')" />
                 <DLabel :str="$t('bibliography')" />
               </div>
-              <TitleField
-                :label="$t('bibliography')"
-                :show_label="false"
-                :input_type="'editor'"
-                :custom_formats="['bold', 'italic', 'link']"
-                :field_name="'bibliography'"
-                :content="file.bibliography"
-                :path="file.$path"
-                :maxlength="1280"
-                :can_edit="true"
-              />
+              <div @click.stop>
+                <TextEditor
+                  :field_to_edit="'bibliography'"
+                  :content="file.bibliography"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="true"
+                  :is_collaborative="false"
+                  :no_padding="true"
+                />
+              </div>
             </div>
           </div>
         </div>
