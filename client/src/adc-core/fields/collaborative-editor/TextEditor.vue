@@ -26,33 +26,33 @@
       </div>
     </div>
 
-    <!-- CollaborativeEditor3 (loaded when editing) -->
-    <CollaborativeEditor3
-      v-else
-      ref="collaborativeEditor"
-      :instructions="instructions"
-      :path="path"
-      :sharedb_id="sharedb_id"
-      :content="content"
-      :placeholder="placeholder"
-      :field_to_edit="field_to_edit"
-      :scrollingContainer="scrollingContainer"
-      :custom_formats="custom_formats"
-      :can_edit="can_edit"
-      :is_collaborative="is_collaborative"
-      :save_format="save_format"
-      :content_type="content_type"
-      :mode="mode"
-      :no_padding="no_padding"
-      @input="onInput"
-      @save="onSave"
-      @contentIsEdited="onContentIsEdited"
-      @contentIsNotEdited="onContentIsNotEdited"
-    >
-      <template #custom_buttons>
-        <slot name="custom_buttons" />
-      </template>
-    </CollaborativeEditor3>
+    <div v-else @click.stop>
+      <CollaborativeEditor3
+        ref="collaborativeEditor"
+        :instructions="instructions"
+        :path="path"
+        :sharedb_id="sharedb_id"
+        :content="content"
+        :placeholder="placeholder"
+        :field_to_edit="field_to_edit"
+        :scrollingContainer="scrollingContainer"
+        :custom_formats="custom_formats"
+        :can_edit="can_edit"
+        :is_collaborative="is_collaborative"
+        :save_format="save_format"
+        :content_type="content_type"
+        :mode="mode"
+        :no_padding="no_padding"
+        @input="onInput"
+        @save="onSave"
+        @contentIsEdited="onContentIsEdited"
+        @contentIsNotEdited="onContentIsNotEdited"
+      >
+        <template #custom_buttons>
+          <slot name="custom_buttons" />
+        </template>
+      </CollaborativeEditor3>
+    </div>
   </div>
 </template>
 
