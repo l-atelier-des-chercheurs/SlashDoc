@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="u-spacingBottom"></div>
+    <slot name="uptop"></slot>
+
+    <div class="u-spacingBottom" />
 
     <div class="_form-title">
       <div class="u-spacingBottom">

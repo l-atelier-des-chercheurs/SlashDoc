@@ -1,7 +1,7 @@
 <template>
   <BaseModal2
     class=""
-    size="large"
+    size="small"
     :confirm_before_closing="true"
     @save=""
     @close="$emit('close')"
@@ -48,7 +48,25 @@
               :title.sync="stack_title"
               :description.sync="stack_description"
               @title-validity-changed="has_valid_title = $event"
-            />
+            >
+              <template #uptop>
+                <div class="_uptopThumbs">
+                  <div
+                    class="_thumbGrid"
+                    v-if="selected_items && selected_items.length"
+                  >
+                    <ChutierItem
+                      v-for="file in selected_items"
+                      :key="file.$path"
+                      :file="file"
+                      :context="'show_only_thumbs'"
+                      :is_selected="true"
+                      class="_thumbCell"
+                    />
+                  </div>
+                </div>
+              </template>
+            </MediastackStepTitle>
 
             <!-- <DLabel :str="$t('content')" /> -->
             <!-- <p class="u-spacingBottom">
@@ -58,25 +76,11 @@
               </button>
             </p> -->
 
-            <!-- <div
-              class="u-spacingBottom _form-review-items"
-              :class="{
-                'has--onlyThumbs': show_only_thumbs,
-              }"
-            >
-              <ChutierItem
-                v-for="file in selected_items"
-                :key="file.$path"
-                :file="file"
-                :context="show_only_thumbs ? 'show_only_thumbs' : ''"
-                :is_selected="true"
-              />
-            </div> -->
-
             <MediastackStepKeywords
               v-if="current_step === 1"
               :keywords.sync="stack_tags"
-            />
+            >
+            </MediastackStepKeywords>
 
             <MediastackStepAuthors
               v-if="current_step === 2"
@@ -417,6 +421,43 @@ export default {
     > * {
       // max-width: 22em;
     }
+  }
+}
+
+._uptopThumbs {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+._thumbGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--spacing) / 2);
+}
+
+._thumbCell {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 6px;
+
+  /* Force ChutierItem thumb to fill the cell */
+  :deep(._chutierRow) {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+  :deep(._chutierRow--rows) {
+    height: 100%;
+  }
+  :deep(._chutierRow--previewMedia) {
+    height: 100%;
+  }
+  :deep(._chutierRow--preview) {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
   }
 }
 </style>
