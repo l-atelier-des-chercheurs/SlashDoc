@@ -219,7 +219,7 @@ export default {
   --color-publish: var(--c-bleuvert);
 
   --indicator-color: var(--c-vert) !important;
-  --active-color: var(--g-600);
+  --active-color: var(--g-700);
 
   --sl-font-sans: "Archivo", sans-serif;
   --sl-font-serif: "IBM Plex Serif", serif;
@@ -256,12 +256,8 @@ export default {
   --o-200: #e99072;
 
   --g-50: hsl(240, 29%, 97%);
-  --g-100: hsl(0, 0%, 95%);
   --g-200: hsl(0, 0%, 87%);
-  --g-300: hsl(0, 0%, 82%);
-  --g-400: hsl(0, 0%, 77%);
   --g-500: hsl(0, 0%, 72%);
-  --g-600: hsl(0, 0%, 60%);
   --g-700: hsl(0, 0%, 51%);
   --g-900: hsl(0, 0%, 30%);
 
@@ -281,12 +277,8 @@ export default {
   --h-700: hsl(240, 29%, 51%);
   --h-900: hsl(240, 29%, 30%);
   // --h-50: var(--g-50);
-  // --h-100: var(--g-100);
   // --h-200: var(--g-200);
-  // --h-300: var(--g-300);
-  // --h-400: var(--g-400);
   // --h-500: var(--g-500);
-  // --h-600: var(--g-600);
   // --h-700: var(--g-700);
   // --h-900: var(--g-900);
 

@@ -56,7 +56,7 @@ export default {
   gap: calc(var(--spacing) * 1);
   flex: 0 0 auto;
   min-width: 0;
-  background-color: var(--g-100);
+  background-color: var(--g-50);
   padding: 0 calc(var(--spacing) * 2);
 }
 
