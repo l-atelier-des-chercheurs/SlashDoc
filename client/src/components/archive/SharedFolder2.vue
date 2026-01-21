@@ -660,8 +660,8 @@ export default {
 }
 
 ._stackModal {
-  --sd-separator: var(--h-200);
-  --sd-textcolor: var(--h-900);
+  --sd-separator: var(--g-200);
+  --sd-textcolor: var(--g-900);
   --sd-bg: var(--body-bg);
 }
 

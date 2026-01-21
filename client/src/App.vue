@@ -432,7 +432,8 @@ strong {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: calc(var(--spacing) * 1) 0;
   font-size: var(--sl-font-size-x-large);
   // line-height: 1.2;
@@ -448,10 +449,7 @@ h3 {
 }
 
 h4 {
-  margin: 0;
   font-size: var(--sl-font-size-normal);
-  line-height: 1.2;
-  font-weight: 400;
 }
 p {
   margin: 0;

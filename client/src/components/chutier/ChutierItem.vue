@@ -132,7 +132,6 @@
                   :custom_formats="['bold', 'italic', 'link']"
                   :maxlength="1280"
                   :can_edit="true"
-                  :is_collaborative="false"
                   :no_padding="true"
                 />
               </div>
@@ -151,7 +150,6 @@
                   :custom_formats="['bold', 'italic', 'link']"
                   :maxlength="1280"
                   :can_edit="true"
-                  :is_collaborative="false"
                   :no_padding="true"
                 />
               </div>
@@ -354,7 +352,10 @@ export default {
   &.can--toggleSelect {
     @media (hover: hover) and (pointer: fine) {
       &:hover:not(.is--selected) {
-        background-color: var(--h-200);
+        background-color: var(--h-100);
+      }
+      &.is--selected:hover {
+        background-color: var(--h-100);
       }
     }
   }
@@ -365,7 +366,7 @@ export default {
   }
 
   &.is--selected {
-    background-color: var(--h-100);
+    background-color: var(--h-50);
     color: var(--h-900);
     // transform: scale(0.98);
 
@@ -434,16 +435,16 @@ export default {
   margin: calc(var(--spacing) / 4) auto;
 }
 
-._content {
+._titleDateField {
   ::v-deep {
     .ql-editor {
-      background-color: hsl(0, 0%, 21%);
-      border-color: white;
-      color: white;
+      background-color: white;
+      // border-color: white;
+      // color: white;
       padding: calc(var(--spacing) * 0.5);
     }
+    // Keep TextEditor / EditBtn clickable in chutier rows
     ._editBtn {
-      display: none;
     }
     .ql-toolbar.ql-toolbar {
       top: 50px;
@@ -492,7 +493,7 @@ export default {
   height: 100%;
   z-index: 2000;
   overflow: auto;
-  --sd-separator: var(--h-200);
+  --sd-separator: var(--g-200);
 
   // background-color: var(--chutier-bg);
   // color: white;
@@ -527,13 +528,9 @@ export default {
 }
 
 ._infos2 {
-  margin-top: calc(var(--spacing) / 1);
-  margin-bottom: calc(var(--spacing) / 1);
+  margin-top: calc(var(--spacing) / 2);
+  margin-bottom: calc(var(--spacing) / 2);
   font-size: var(--sl-font-size-small);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 
   ._collaborativeEditor {
     overflow: hidden;

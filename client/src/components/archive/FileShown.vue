@@ -109,7 +109,7 @@
         <div class="_infos--content">
           <div class="_captionCreditContainer">
             <div class="_captionCreditItem">
-              <h3 v-text="$t('description_of_media')" />
+              <h4 v-text="$t('description_of_media')" />
               <div class="u-spacingBottom" v-if="file.$type === 'url'">
                 <DLabel class="_label" :str="$t('link')" />
                 <div>
@@ -134,7 +134,7 @@
             </div>
 
             <div class="_captionCreditItem">
-              <h3 v-text="$t('origin_of_media')" />
+              <h4 v-text="$t('origin_of_media')" />
 
               <DLabel :str="$t('credit')" icon_name="c-circle" />
               <TextEditor
