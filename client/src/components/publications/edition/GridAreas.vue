@@ -1,7 +1,6 @@
 <template>
   <div class="_grid">
     <!-- Grid container wrapper -->
-
     <div class="_gridWrapper">
       <!-- Background grid for visual reference -->
       <div
@@ -131,8 +130,13 @@ export default {
         new_meta,
       });
     },
-    deleteArea(areaId) {
+    async deleteArea(areaId) {
       this.$eventHub.$emit("gridArea.delete", areaId);
+      // Remove area from grid_areas
+      const grid_areas = this.chapter.grid_areas.filter(
+        (area) => area.id !== areaId
+      );
+      this.updateChapter({ grid_areas });
     },
     selectArea(areaId) {
       this.selected_area_id = areaId;

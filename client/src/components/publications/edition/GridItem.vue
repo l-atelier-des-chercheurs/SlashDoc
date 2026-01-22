@@ -40,14 +40,13 @@
           :show_label="false"
         />
         <button
-            type="button"
-            class="u-button u-button_red u-button_small"
-            @click="removeAreaText"
-          >
-            <b-icon icon="trash" style="font-size: var(--icon-size)" />
-            {{ $t("remove") }}
-          </button>
-
+          type="button"
+          class="u-button u-button_red u-button_small"
+          @click="removeAreaText"
+        >
+          <b-icon icon="trash" style="font-size: var(--icon-size)" />
+          {{ $t("remove") }}
+        </button>
       </div>
 
       <div
@@ -72,7 +71,9 @@
           >
             <b-icon
               :icon="
-                area_objectFit === 'contain' ? 'aspect-ratio' : 'aspect-ratio-fill'
+                area_objectFit === 'contain'
+                  ? 'aspect-ratio'
+                  : 'aspect-ratio-fill'
               "
             />
             {{ $t("object_fit") }}
@@ -327,18 +328,6 @@ export default {
         file_to_delete.$path.startsWith(this.publication.$path + "/")
       )
         await this.$api.deleteItem({ path: file_to_delete.$path });
-
-      // Remove area from grid_areas
-      const grid_areas = this.chapter.grid_areas.filter(
-        (area) => area.id !== areaId
-      );
-
-      await this.$api.updateMeta({
-        path: this.chapter.$path,
-        new_meta: {
-          grid_areas,
-        },
-      });
     },
   },
 };
@@ -392,7 +381,7 @@ export default {
       width: 100%;
       height: auto;
       height: 120px;
-      
+
       object-fit: scale-down;
     }
 

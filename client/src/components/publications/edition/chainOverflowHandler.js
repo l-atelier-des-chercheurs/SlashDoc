@@ -253,18 +253,34 @@ export function moveOverflowToNextCell(currentCell, nextCell) {
     }
   }
 
-  // Now split the text node at the cut-off point
-  const beforeText = text.substring(0, cutOffPoint.offset);
-  const afterText = text.substring(cutOffPoint.offset);
-
-  // Update current node to only contain text before cut-off
-  textNode.textContent = beforeText;
-
-  // Create new text node for overflow text
-  if (afterText.trim().length > 0) {
-    const parentElement = textNode.parentElement;
-
-    // Check if the text node is inside a block-level element that should be preserved
+  // Helper function to get element hierarchy from text node up to block element
+  function getElementHierarchy(node) {
+    const inlineElements = [
+      "b",
+      "strong",
+      "i",
+      "em",
+      "u",
+      "s",
+      "strike",
+      "del",
+      "ins",
+      "mark",
+      "small",
+      "sub",
+      "sup",
+      "code",
+      "kbd",
+      "samp",
+      "var",
+      "span",
+      "a",
+      "abbr",
+      "cite",
+      "dfn",
+      "time",
+      "q",
+    ];
     const blockElements = [
       "p",
       "h1",
@@ -293,45 +309,80 @@ export function moveOverflowToNextCell(currentCell, nextCell) {
       "fieldset",
     ];
 
+    const hierarchy = [];
+    let current = node.parentElement;
+
+    while (current && current !== currentCell) {
+      const tagName = current.tagName.toLowerCase();
+      if (blockElements.includes(tagName)) {
+        hierarchy.unshift({ element: current, type: "block" });
+        break;
+      } else if (inlineElements.includes(tagName)) {
+        hierarchy.unshift({ element: current, type: "inline" });
+      }
+      current = current.parentElement;
+    }
+
+    return hierarchy;
+  }
+
+  // Now split the text node at the cut-off point
+  const beforeText = text.substring(0, cutOffPoint.offset);
+  const afterText = text.substring(cutOffPoint.offset);
+
+  // Update current node to only contain text before cut-off
+  textNode.textContent = beforeText;
+
+  // Create new node for overflow text
+  if (afterText.trim().length > 0) {
+    const hierarchy = getElementHierarchy(textNode);
     let overflowNode;
 
-    if (
-      parentElement &&
-      parentElement !== currentCell &&
-      blockElements.includes(parentElement.tagName.toLowerCase())
-    ) {
-      // Create a new element of the same type as the parent
-      const newElement = document.createElement(parentElement.tagName);
-
-      // Copy relevant attributes (class, id, style, etc.)
-      Array.from(parentElement.attributes).forEach((attr) => {
-        // Skip data attributes that might be specific to the original element
-        if (
-          !attr.name.startsWith("data-") ||
-          attr.name === "data-chapter-meta-filename"
-        ) {
-          try {
-            newElement.setAttribute(attr.name, attr.value);
-          } catch (e) {
-            // Some attributes might not be settable, skip them
-          }
-        }
-      });
-
-      // Create text node with overflow text
+    if (hierarchy.length > 0) {
+      // Recreate the element hierarchy
       const overflowTextNode = document.createTextNode(afterText);
-      newElement.appendChild(overflowTextNode);
-      overflowNode = newElement;
+      let currentContainer = overflowTextNode;
 
-      // Insert the new element after the parent element
-      if (parentElement.parentNode) {
-        parentElement.parentNode.insertBefore(
-          newElement,
-          parentElement.nextSibling
-        );
+      // Build from innermost (text) to outermost (block)
+      for (let i = hierarchy.length - 1; i >= 0; i--) {
+        const { element, type } = hierarchy[i];
+        const newElement = document.createElement(element.tagName);
+
+        // Copy relevant attributes
+        Array.from(element.attributes).forEach((attr) => {
+          // Skip data attributes that might be specific to the original element
+          if (
+            !attr.name.startsWith("data-") ||
+            attr.name === "data-chapter-meta-filename"
+          ) {
+            try {
+              newElement.setAttribute(attr.name, attr.value);
+            } catch (e) {
+              // Some attributes might not be settable, skip them
+            }
+          }
+        });
+
+        newElement.appendChild(currentContainer);
+        currentContainer = newElement;
+      }
+
+      overflowNode = currentContainer;
+
+      // Find the block element in the hierarchy to determine insertion point
+      const blockElement = hierarchy.find((h) => h.type === "block")?.element;
+      const insertParent = blockElement
+        ? blockElement.parentNode
+        : textNode.parentNode;
+      const insertBefore = blockElement
+        ? blockElement.nextSibling
+        : textNode.nextSibling;
+
+      if (insertParent) {
+        insertParent.insertBefore(overflowNode, insertBefore);
       }
     } else {
-      // Just create a plain text node
+      // No hierarchy to preserve, just create a plain text node
       overflowNode = document.createTextNode(afterText);
       // Insert after the split node
       if (textNode.parentNode) {
@@ -390,9 +441,9 @@ export function moveOverflowToNextCell(currentCell, nextCell) {
 /**
  * Show overflow warning on a cell
  * @param {HTMLElement} cell - Cell to show warning on
- * @param {Function} t - Translation function (e.g., this.$t)
+ * @param {string} warningText - Translated warning text to display
  */
-export function showOverflowWarning(cell, t) {
+export function showOverflowWarning(cell, warningText) {
   // Remove existing warning if any
   const existingWarning = cell.querySelector("._textOverflowWarning");
   if (existingWarning) {
@@ -405,7 +456,7 @@ export function showOverflowWarning(cell, t) {
   warning.className = "_textOverflowWarning";
   const warning_text = document.createElement("span");
   warning_text.className = "u-warning";
-  warning_text.textContent = t("text_overflow");
+  warning_text.textContent = warningText;
   warning.appendChild(warning_text);
   cell.appendChild(warning);
 }
@@ -414,9 +465,9 @@ export function showOverflowWarning(cell, t) {
  * Handle overflow in a chain of cells
  * @param {HTMLElement} cell - Starting cell in the chain
  * @param {HTMLElement} bookpreview - Container element to search for chain cells
- * @param {Function} t - Translation function (e.g., this.$t)
+ * @param {string} warningText - Translated warning text to display
  */
-export function handleChainOverflow(cell, bookpreview, t) {
+export function handleChainOverflow(cell, bookpreview, warningText) {
   const cell_id = cell.getAttribute("data-grid-area-id");
   const chain_cells = bookpreview.querySelectorAll(
     `.grid-cell[data-grid-area-id="${cell_id}"]`
@@ -455,7 +506,7 @@ export function handleChainOverflow(cell, bookpreview, t) {
 
     if (!nextCell) {
       // No next cell available, show overflow warning
-      showOverflowWarning(currentCell, t);
+      showOverflowWarning(currentCell, warningText);
       break;
     }
 
@@ -464,7 +515,7 @@ export function handleChainOverflow(cell, bookpreview, t) {
 
     if (!moved) {
       // Couldn't move content (might be empty or unbreakable)
-      showOverflowWarning(currentCell, t);
+      showOverflowWarning(currentCell, warningText);
       break;
     }
 
