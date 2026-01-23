@@ -41,4 +41,11 @@ export default {
   general_credit_instructions:
     "Applied by default if a media's credit field is empty.",
   archiving_community: "Archiving community",
+
+  contribute: "Contribute",
+  explore: "Explore",
+  publish: "Publish",
+  help: "Help",
+  language: "Language",
+  admin_settings: "Admin Settings",
 };

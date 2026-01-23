@@ -356,22 +356,8 @@ export default {
   },
   i18n: {
     messages: {
-      fr: {
-        contribute: "Contribuer",
-        explore: "Explorer",
-        publish: "Publier",
-        help: "Aide",
-        language: "Langue",
-        admin_settings: "Paramètres administrateur",
-      },
-      en: {
-        contribute: "Contribute",
-        explore: "Explore",
-        publish: "Publish",
-        help: "Help",
-        language: "Language",
-        admin_settings: "Admin Settings",
-      },
+      fr: {},
+      en: {},
     },
   },
   created() {},

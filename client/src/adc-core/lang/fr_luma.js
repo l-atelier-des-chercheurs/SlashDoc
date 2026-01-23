@@ -41,4 +41,11 @@ export default {
   general_credit_instructions:
     "Appliqué par défaut si le champ crédit d'un média est vide.",
   archiving_community: "Communauté d’archivage",
+
+  contribute: "Contribuer",
+  explore: "Explorer",
+  publish: "Publier",
+  help: "Aide",
+  language: "Langue",
+  admin_settings: "Paramètres administrateur",
 };
