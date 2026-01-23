@@ -120,8 +120,9 @@
               </div>
 
               <div class="u-spacingBottom">
-                <DLabel :str="$t('caption')" icon_name="text-left" />
                 <TextEditor
+                  :label="$t('caption')"
+                  :icon="'text-left'"
                   :field_to_edit="'caption'"
                   :content="file.caption"
                   :path="file.$path"
@@ -136,27 +137,33 @@
             <div class="_captionCreditItem">
               <h4 v-text="$t('origin_of_media')" />
 
-              <DLabel :str="$t('credit')" icon_name="c-circle" />
-              <TextEditor
-                :field_to_edit="'$credits'"
-                :content="file.$credits"
-                :path="file.$path"
-                :placeholder="''"
-                :custom_formats="['bold', 'italic', 'link']"
-                :maxlength="1280"
-                :can_edit="can_edit"
-              />
+              <div class="u-spacingBottom">
+                <TextEditor
+                  :label="$t('credit')"
+                  :icon="'c-circle'"
+                  :field_to_edit="'$credits'"
+                  :content="file.$credits"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="can_edit"
+                />
+              </div>
 
-              <DLabel :str="$t('bibliography')" icon_name="bookmark" />
-              <TextEditor
-                :field_to_edit="'bibliography'"
-                :content="file.bibliography"
-                :path="file.$path"
-                :placeholder="''"
-                :custom_formats="['bold', 'italic', 'link']"
-                :maxlength="1280"
-                :can_edit="can_edit"
-              />
+              <div class="u-spacingBottom">
+                <TextEditor
+                  :label="$t('bibliography')"
+                  :icon="'bookmark'"
+                  :field_to_edit="'bibliography'"
+                  :content="file.bibliography"
+                  :path="file.$path"
+                  :placeholder="''"
+                  :custom_formats="['bold', 'italic', 'link']"
+                  :maxlength="1280"
+                  :can_edit="can_edit"
+                />
+              </div>
             </div>
           </div>
 

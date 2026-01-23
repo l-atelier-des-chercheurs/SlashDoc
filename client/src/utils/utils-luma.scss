@@ -35,8 +35,6 @@ textarea,
   // --color2: currentColor !important;
 
   svg {
-    width: 1.2em !important;
-    height: 1.2em !important;
   }
 }
 
@@ -100,7 +98,7 @@ textarea,
 label,
 .u-label {
   // font-weight: 500;
-  font-size: var(--sl-font-size-normal);
+  // font-size: var(--sl-font-size-normal);
   font-weight: 500;
   color: var(--g-700);
 }

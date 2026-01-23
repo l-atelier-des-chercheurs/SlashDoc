@@ -1,10 +1,13 @@
 <template>
   <div class="u-spacingBottom _form-credits">
-    <DLabel :str="$t('general_credit')" icon_name="c-circle" />
-    <input type="text" v-model="localGeneralCredit" />
-    <div class="u-spacingBottom u-instructions">
-      {{ $t("general_credit_instructions") }}
+    <DLabel :str="$t('general_credit')" class="_label" icon_name="c-circle" />
+    <div class="u-instructions">
+      <small>
+        {{ $t("general_credit_instructions") }}
+      </small>
     </div>
+    <input type="text" v-model="localGeneralCredit" />
+    <div class="u-spacingBottom" />
 
     <div class="_thumbGrid" v-if="selected_items && selected_items.length">
       <ChutierItem
@@ -12,6 +15,7 @@
         :key="file.$path"
         :file="file"
         :is_selected="false"
+        :context="'credits'"
         class="_thumbCell"
       />
     </div>
@@ -55,6 +59,13 @@ export default {
     &:not(:last-child) {
       border-bottom: 2px solid var(--g-100);
     }
+  }
+}
+._labelLine {
+  margin-bottom: 0;
+
+  :deep(.u-label) {
+    margin-bottom: 0;
   }
 }
 </style>

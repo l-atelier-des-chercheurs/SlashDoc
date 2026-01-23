@@ -88,12 +88,10 @@
                 </div>
               </div>
 
-              <div class="_labelLine">
-                <b-icon icon="text-left" :aria-label="$t('caption')" />
-                <DLabel :str="$t('caption')" />
-              </div>
-              <div>
+              <div class="u-spacingBottom">
                 <TextEditor
+                  :label="$t('caption')"
+                  :icon="'text-left'"
                   :field_to_edit="'caption'"
                   :content="file.caption"
                   :path="file.$path"
@@ -104,51 +102,33 @@
                   :no_padding="true"
                 />
               </div>
-
-              <!-- 
-              <CollaborativeEditor3
-                :field_to_edit="'caption'"
-                :content="file.caption"
+            </div>
+            <div class="u-spacingBottom">
+              <TextEditor
+                :label="$t('credit')"
+                :icon="'c-circle'"
+                :field_to_edit="'$credits'"
+                :content="file.$credits"
                 :path="file.$path"
                 :custom_formats="['bold', 'italic', 'link']"
-                :is_collaborative="false"
                 :maxlength="1280"
                 :can_edit="true"
-              /> -->
+                :no_padding="true"
+              />
             </div>
-            <div class="_infos2">
-              <div class="_labelLine">
-                <b-icon icon="info-circle" :aria-label="$t('credit')" />
-                <DLabel :str="$t('credit')" />
-              </div>
-              <div>
-                <TextEditor
-                  :field_to_edit="'$credits'"
-                  :content="file.$credits"
-                  :path="file.$path"
-                  :custom_formats="['bold', 'italic', 'link']"
-                  :maxlength="1280"
-                  :can_edit="true"
-                  :no_padding="true"
-                />
-              </div>
-            </div>
-            <div class="_infos2">
-              <div class="_labelLine">
-                <b-icon icon="bookmark" :aria-label="$t('bibliography')" />
-                <DLabel :str="$t('bibliography')" />
-              </div>
-              <div>
-                <TextEditor
-                  :field_to_edit="'bibliography'"
-                  :content="file.bibliography"
-                  :path="file.$path"
-                  :custom_formats="['bold', 'italic', 'link']"
-                  :maxlength="1280"
-                  :can_edit="true"
-                  :no_padding="true"
-                />
-              </div>
+
+            <div class="u-spacingBottom">
+              <TextEditor
+                :label="$t('bibliography')"
+                :icon="'bookmark'"
+                :field_to_edit="'bibliography'"
+                :content="file.bibliography"
+                :path="file.$path"
+                :custom_formats="['bold', 'italic', 'link']"
+                :maxlength="1280"
+                :can_edit="true"
+                :no_padding="true"
+              />
             </div>
           </div>
         </div>
@@ -520,21 +500,6 @@ export default {
         background: var(--sd-separator);
       }
     }
-  }
-}
-
-._infos2 {
-  margin-top: calc(var(--spacing) / 2);
-  margin-bottom: calc(var(--spacing) / 2);
-  font-size: var(--sl-font-size-small);
-
-  ._collaborativeEditor {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    min-height: 1.7rem;
-
-    // height: 1.4em;
   }
 }
 
