@@ -1,5 +1,9 @@
 <template>
-  <BaseModal2 :title="modal_name || $t('create')" @close="$emit('close')">
+  <BaseModal2
+    :title="modal_name || $t('create')"
+    :confirm_before_closing="content_is_changed"
+    @close="$emit('close')"
+  >
     <form class="input-validation-required" @submit.prevent="createFolder">
       <div v-if="$slots.instructions" class="u-spacingBottom">
         <slot name="instructions" />
@@ -100,6 +104,9 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {
+    content_is_changed() {
+      return this.new_folder_title !== "";
+    },
     // modal_name() {
     //   if (this.type_of_folder === "space") return this.$t("create_a_space");
     //   else if (this.type_of_folder === "project")
