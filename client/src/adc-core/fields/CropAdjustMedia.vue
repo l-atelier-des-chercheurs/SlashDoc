@@ -50,6 +50,7 @@
               <button
                 type="button"
                 class="u-button u-button_bleuvert"
+                data-action="saveAsNew"
                 @click="buttonSaveAsNew"
               >
                 <b-icon icon="file-plus" />
@@ -58,12 +59,16 @@
               <button
                 type="button"
                 class="u-button u-button_red"
+                data-action="replaceOriginal"
                 @click="replaceOriginal"
               >
                 <b-icon icon="save2-fill" />
                 {{ $t("replace_original") }}
               </button>
-              <div class="_download_media_without_validation">
+              <div
+                data-action="download"
+                class="_download_media_without_validation"
+              >
                 <small>
                   <a
                     ref=""
