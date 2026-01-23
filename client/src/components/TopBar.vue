@@ -429,7 +429,8 @@ export default {
     flex: 1 1 auto;
 
     &._logoIcons {
-      flex: 0 0 400px;
+      flex: 0 1 400px;
+      min-width: 140px;
       border-right: 1px solid var(--border-color);
     }
 
