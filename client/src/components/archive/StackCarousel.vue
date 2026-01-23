@@ -22,7 +22,7 @@
         :class="{
           '_preview--disabled': can_be_selected && !isFileTypeAllowed(file),
         }"
-        :data-iscurrent="current_file_shown.$path === file.$path"
+        :data-iscurrent="current_file_shown?.$path === file.$path"
         :key="file.$path"
         @click="openFile(index)"
       >
@@ -58,7 +58,7 @@
               type="radio"
               :id="boxid(index)"
               :name="boxname"
-              :checked="current_file_shown.$path === file.$path"
+              :checked="current_file_shown?.$path === file.$path"
               :disabled="!isFileTypeAllowed(file)"
               @change="
                 if (isFileTypeAllowed(file)) {
@@ -71,7 +71,7 @@
         </div>
 
         <transition name="fade" mode="out-in">
-          <div class="_btnRow" v-if="current_file_shown.$path === file.$path">
+          <div class="_btnRow" v-if="current_file_shown?.$path === file.$path">
             <div class="_previewOverlay" />
             <select
               class="_changeOrderSelect"
@@ -91,7 +91,7 @@
               class="_removeBtn"
               :remove_text="$t('remove')"
               :show_button_text="false"
-              @remove="$emit('removeMediaFromStack', current_file_shown.$path)"
+              @remove="$emit('removeMediaFromStack', current_file_shown?.$path)"
             />
           </div>
         </transition>
