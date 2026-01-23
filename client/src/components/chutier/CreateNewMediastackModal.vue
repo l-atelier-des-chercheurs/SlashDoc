@@ -124,7 +124,7 @@
         :disabled="!selected_destination_folder_path"
         @click="publishMediastack"
       >
-        {{ $t("publish") }}
+        {{ $t("contribute") }}
       </button>
       <span v-else-if="status === 'publishing'">
         {{ $t("publishing") }}
