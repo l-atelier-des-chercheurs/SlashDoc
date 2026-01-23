@@ -1,7 +1,7 @@
 <template>
   <div class="_textEditor">
     <DLabel
-      v-if="label"
+      v-if="label && !is_empty"
       :str="label"
       :instructions="can_edit ? instructions : ''"
     />
@@ -14,9 +14,10 @@
     >
       <div
         class="_textEditor--content"
-        :class="{ 'is--empty': !sanitizedContent }"
+        :class="{ 'is--empty': is_empty }"
+        @click="enableEditMode"
       >
-        <span v-html="sanitizedContent || placeholder" />
+        <span v-html="sanitizedContent || label" />
         <EditBtn
           v-if="can_edit"
           class="_textEditor--edit"
@@ -33,7 +34,6 @@
         :path="path"
         :sharedb_id="sharedb_id"
         :content="content"
-        :placeholder="placeholder"
         :field_to_edit="field_to_edit"
         :scrollingContainer="scrollingContainer"
         :custom_formats="custom_formats"
@@ -111,8 +111,19 @@ export default {
       }
       return DOMPurify.sanitize(this.content);
     },
+    is_empty() {
+      return !this.sanitizedContent;
+    },
   },
   methods: {
+    enableEditMode() {
+      if (!this.can_edit) return;
+      // Don't start edit mode if user currently has a text selection
+      if (window.getSelection && window.getSelection().toString().length > 0) {
+        return;
+      }
+      this.is_editing = true;
+    },
     startEditing() {
       this.is_editing = true;
     },
@@ -173,7 +184,7 @@ export default {
     }
 
     > span {
-      display: inline;
+      display: inline-block;
     }
 
     > img {
@@ -196,7 +207,7 @@ export default {
     }
 
     &.is--empty {
-      font-style: italic;
+      color: var(--c-gris_fonce);
     }
   }
 
