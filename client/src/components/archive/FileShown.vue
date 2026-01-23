@@ -104,6 +104,13 @@
       </button>
     </div>
 
+    <CropAdjustMedia
+      v-if="show_cropadjust_modal"
+      :media="file"
+      @close="show_cropadjust_modal = false"
+      @closeParentModal="show_cropadjust_modal = false"
+    />
+
     <transition name="pagechange" mode="out-in">
       <div class="_infos" v-if="show_infos" :key="file.$path">
         <div class="_infos--content">
@@ -166,12 +173,6 @@
               </div>
             </div>
           </div>
-
-          <CropAdjustMedia
-            v-if="show_cropadjust_modal"
-            :media="file"
-            @close="$emit('close')"
-          />
 
           <OptimizeMedia
             v-if="optimization_strongly_recommended || optimization_possible"
