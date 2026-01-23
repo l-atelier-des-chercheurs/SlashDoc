@@ -5,7 +5,7 @@
       {{ cancel_text ? cancel_text : $t("cancel") }}
     </button>
     <button
-      class="u-button u-button_bleuvert"
+      :class="['u-button', save_is_destructive ? 'u-button_red' : 'u-button_bleuvert']"
       :loading="is_saving"
       :disabled="!allow_save"
       @click="$emit('save')"
@@ -28,6 +28,10 @@ export default {
     allow_save: {
       type: Boolean,
       default: true,
+    },
+    save_is_destructive: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {},

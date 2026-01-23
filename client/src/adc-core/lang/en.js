@@ -1199,6 +1199,9 @@ export default {
 
   confirm_save_changes:
     "Some changes have been made, do you want to save them?",
+  confirm_cancel_changes:
+    "Some changes have been made, are you sure you want to abandon them?",
+  continue_editing: "Continue editing",
   close_without_saving: "Close without saving",
 
   keep_existing_keywords: "Keep existing keywords",

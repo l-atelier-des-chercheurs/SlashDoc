@@ -1277,7 +1277,10 @@ export default {
   connected_currently: "Connecté actuellement",
 
   confirm_save_changes:
-    "Des modifications ont eu lieu, souhaitez-vous les enregistrer ?",
+    "Des modifications sont en cours, souhaitez-vous les enregistrer ?",
+  confirm_cancel_changes:
+    "Des modifications sont en cours, êtes-vous sûr de vouloir les abandonner ?",
+  continue_editing: "Continuer l’édition",
   close_without_saving: "Fermer sans enregistrer",
 
   start_by_uploading_images: "Commencez par importer vos images ci-dessous",
