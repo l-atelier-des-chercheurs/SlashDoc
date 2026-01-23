@@ -107,6 +107,7 @@
     <CropAdjustMedia
       v-if="show_cropadjust_modal"
       :media="file"
+      :available_save_actions="['replaceOriginal', 'download']"
       @close="show_cropadjust_modal = false"
       @closeParentModal="show_cropadjust_modal = false"
     />
