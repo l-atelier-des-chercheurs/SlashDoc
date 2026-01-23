@@ -1,10 +1,20 @@
 <template>
   <div class="_textEditor">
-    <DLabel
-      v-if="label && !is_empty"
-      :str="label"
-      :instructions="can_edit ? instructions : ''"
-    />
+    <div class="_textEditor--label" :class="{ 'is--empty': is_empty }">
+      <DLabel
+        :str="label"
+        :icon="icon"
+        :instructions="can_edit ? instructions : ''"
+        class=""
+      />
+      <EditBtn
+        v-if="can_edit && !is_editing"
+        class="_textEditor--editBtn"
+        :label="$t('edit')"
+        @click="startEditing"
+      />
+    </div>
+
     <!-- Read-only display -->
     <div
       v-if="!is_editing"
@@ -14,16 +24,16 @@
     >
       <div
         class="_textEditor--content"
-        :class="{ 'is--empty': is_empty }"
+        v-if="!is_empty"
         @click="enableEditMode"
       >
-        <span v-html="sanitizedContent || label" />
-        <EditBtn
+        <span v-html="sanitizedContent" />
+        <!-- <EditBtn
           v-if="can_edit"
           class="_textEditor--edit"
-          :label="sanitizedContent ? $t('edit') : $t('add')"
+          :label="$t('edit')"
           @click="startEditing"
-        />
+        /> -->
       </div>
     </div>
 
@@ -64,6 +74,10 @@ export default {
   name: "TextEditor",
   props: {
     label: {
+      type: String,
+      default: "",
+    },
+    icon: {
       type: String,
       default: "",
     },
@@ -216,15 +230,15 @@ export default {
     transform: translateY(calc(var(--spacing) / 4));
 
     /* Hide edit button by default on devices that support hover */
-    @media (hover: hover) {
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
+    // @media (hover: hover) {
+    //   opacity: 0;
+    //   transition: opacity 0.2s ease;
+    // }
 
-    /* Always show on touch devices */
-    @media (hover: none) {
-      opacity: 1;
-    }
+    // /* Always show on touch devices */
+    // @media (hover: none) {
+    //   opacity: 1;
+    // }
   }
 }
 
@@ -241,5 +255,22 @@ export default {
     font-family: "Fira Mono", monospace;
     white-space: pre-wrap;
   }
+}
+
+._textEditor--label {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) / 4);
+
+  &.is--empty {
+    :deep(.u-label) {
+      font-size: var(--sl-font-size-normal);
+    }
+  }
+}
+
+._textEditor--editBtn {
+  margin-top: calc(var(--spacing) / -1);
+  transform: translateY(4px);
 }
 </style>
