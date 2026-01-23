@@ -48,6 +48,7 @@
               </button>
 
               <button
+                v-if="available_save_actions.includes('saveAsNew')"
                 type="button"
                 class="u-button u-button_bleuvert"
                 data-action="saveAsNew"
@@ -57,6 +58,7 @@
                 {{ $t("save_as_new_media") }}
               </button>
               <button
+                v-if="available_save_actions.includes('replaceOriginal')"
                 type="button"
                 class="u-button u-button_red"
                 data-action="replaceOriginal"
@@ -66,6 +68,7 @@
                 {{ $t("replace_original") }}
               </button>
               <div
+                v-if="available_save_actions.includes('download')"
                 data-action="download"
                 class="_download_media_without_validation"
               >
@@ -102,6 +105,10 @@ export default {
   props: {
     media: Object,
     project_path: String,
+    available_save_actions: {
+      type: Array,
+      default: () => ["saveAsNew", "replaceOriginal", "download"],
+    },
   },
   components: {
     CropMedia,
