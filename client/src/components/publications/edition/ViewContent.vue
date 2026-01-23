@@ -565,9 +565,15 @@ export default {
       const col_count = chapter.column_count || 6;
       const row_count = chapter.row_count || 6;
 
-      let html = `<div class="grid"><div class="grid-content" style="--col-count: ${col_count}; --row-count: ${row_count};">`;
+      let html = document.createElement("div");
+      let grid_content = document.createElement("div");
+      grid_content.className = "grid-content";
+      grid_content.style.setProperty("--col-count", col_count);
+      grid_content.style.setProperty("--row-count", row_count);
 
-      chapter.grid_areas.forEach((area) => {
+      const grid_areas = chapter.grid_areas;
+
+      grid_areas.forEach((area) => {
         let media;
         const objectFit = area?.objectFit || "cover";
         const objectPosition = area?.objectPosition || "center";
@@ -580,29 +586,61 @@ export default {
           });
         }
 
-        html += `<div class="grid-cell" data-grid-area-id="${area.id}" style="grid-column-start: ${area.column_start}; grid-column-end: ${area.column_end}; grid-row-start: ${area.row_start}; grid-row-end: ${area.row_end};">`;
+        let cell = document.createElement("div");
+        cell.className = "grid-cell";
+
+        // cell ID is A, B, C, etc. even if original is A1, B2, C3, etc.
+        const cell_id = area.id.substring(0, 1);
+        cell.setAttribute("data-grid-area-id", cell_id);
+
+        if (media && media.$type) {
+          cell.setAttribute("data-grid-area-type", media.$type);
+        }
+
+        // check if the cell is part of a chain (more than 2 areas have the same first character)
+        const is_part_of_chain =
+          grid_areas.filter((a) => a.id.startsWith(cell_id)).length > 1;
+        if (is_part_of_chain) {
+          let chain_index = 0;
+          if (area.id.length > 1) {
+            // get everything after the first character
+            chain_index = area.id.substring(1);
+          }
+          // item A is cell 0, item A1 is cell 1, item A2 is cell 2, etc.
+          cell.setAttribute("data-grid-area-is-chain-index", chain_index);
+        }
+        cell.style.gridColumnStart = area.column_start;
+        cell.style.gridColumnEnd = area.column_end;
+        cell.style.gridRowStart = area.row_start;
+        cell.style.gridRowEnd = area.row_end;
 
         if (media?.$type === "text") {
           const content = media.$content || "";
           const text = this.parseMarkdownWithMarkedownIt(
-            media.$content,
+            content,
             media.source_medias
           );
-          html += text;
+          cell.innerHTML = text;
         } else if (media?.$type === "image") {
-          html += `<img src="${this.makeMediaFileURL({
+          const img = document.createElement("img");
+          img.src = this.makeMediaFileURL({
             $path: media.$path,
             $media_filename: media.$media_filename,
-          })}" style="width: 100%; height: 100%; object-fit: ${objectFit}; object-position: ${objectPosition};" />`;
+          });
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = objectFit;
+          img.style.objectPosition = objectPosition;
+          cell.appendChild(document.createTextNode("\n"));
+          cell.appendChild(img);
         } else if (media?.$type === "video") {
         }
 
-        html += "</div>";
+        grid_content.appendChild(cell);
       });
+      html.appendChild(grid_content);
 
-      html += "</div></div>";
-
-      return html;
+      return html.innerHTML;
     },
 
     getMediaSrc(meta_src, source_medias) {

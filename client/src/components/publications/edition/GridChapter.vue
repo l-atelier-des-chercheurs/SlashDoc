@@ -28,12 +28,26 @@ export default {
   },
   computed: {
     sorted_grid_areas() {
-      return this.chapter.grid_areas?.sort((a, b) => a.id.localeCompare(b.id));
+      const grid_areas = this.chapter.grid_areas;
+      if (!grid_areas || (Array.isArray(grid_areas) && grid_areas.length === 0))
+        return [];
+
+      return grid_areas
+        .filter((area) => area.id.length === 1)
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .reduce((acc, area) => {
+          const number_of_areas_in_chain = grid_areas.filter((a) =>
+            a.id.startsWith(area.id)
+          ).length;
+          acc.push({
+            ...area,
+            number_of_areas_in_chain,
+          });
+          return acc;
+        }, []);
     },
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 
