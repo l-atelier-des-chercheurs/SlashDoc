@@ -1,5 +1,5 @@
 <template>
-  <BaseModal2 :size="'full'" @close="$emit('close')">
+  <BaseModal2 :title="$t('crop_adjust')" :size="'full'" @close="$emit('close')">
     <div class="_cont">
       <div class="_steps">
         <span
@@ -43,22 +43,30 @@
             </button>
 
             <button
+              v-if="available_save_actions.includes('saveAsNew')"
               type="button"
               class="u-button u-button_bleuvert"
+              data-action="saveAsNew"
               @click="buttonSaveAsNew"
             >
               <b-icon icon="file-plus" />
               {{ $t("save_as_new_media") }}
             </button>
             <button
+              v-if="available_save_actions.includes('replaceOriginal')"
               type="button"
               class="u-button u-button_red"
+              data-action="replaceOriginal"
               @click="replaceOriginal"
             >
               <b-icon icon="save2-fill" />
               {{ $t("replace_original") }}
             </button>
-            <div class="_download_media_without_validation">
+            <div
+              v-if="available_save_actions.includes('download')"
+              data-action="download"
+              class="_download_media_without_validation"
+            >
               <small>
                 <a
                   ref=""
@@ -91,6 +99,10 @@ export default {
   props: {
     media: Object,
     project_path: String,
+    available_save_actions: {
+      type: Array,
+      default: () => ["saveAsNew", "replaceOriginal", "download"],
+    },
   },
   components: {
     CropMedia,
@@ -235,7 +247,7 @@ export default {
   justify-content: flex-start;
   gap: calc(var(--spacing) / 2);
   overflow-x: auto;
-  // padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
+  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 1);
 }
 ._step {
   display: flex;
