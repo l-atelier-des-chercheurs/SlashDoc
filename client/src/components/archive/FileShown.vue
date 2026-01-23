@@ -119,9 +119,16 @@
             <div class="_captionCreditItem">
               <h4 v-text="$t('description_of_media')" />
               <div class="u-spacingBottom" v-if="file.$type === 'url'">
-                <DLabel class="_label" :str="$t('link')" />
-                <div>
-                  <a :href="file.$content" target="_blank">
+                <div class="_labelLine">
+                  <b-icon icon="link" :aria-label="$t('link')" />
+                  <DLabel :str="$t('link')" />
+                </div>
+                <div class="u-filename">
+                  <a
+                    :href="file.$content"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {{ file.$content }}
                   </a>
                 </div>
@@ -443,5 +450,14 @@ export default {
 
 ._location {
   font-size: var(--font-verysmall);
+}
+
+._labelLine {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: calc(var(--spacing) / 4);
+  pointer-events: none;
 }
 </style>
