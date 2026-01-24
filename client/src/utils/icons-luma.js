@@ -39,6 +39,7 @@ const BIconCCircle = {
           height: props.height,
           fill: props.fill,
           viewBox: "0 0 16 16",
+          "data-icon-type": "Copyright",
         },
       },
       [

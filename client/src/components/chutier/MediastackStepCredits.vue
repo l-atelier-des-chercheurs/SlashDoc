@@ -6,7 +6,7 @@
         {{ $t("general_credit_instructions") }}
       </small>
     </div>
-    <input type="text" v-model="localGeneralCredit" />
+    <input type="text" v-model="local_general_credit" />
     <div class="u-spacingBottom" />
 
     <div class="_thumbGrid" v-if="selected_items && selected_items.length">
@@ -14,6 +14,7 @@
         v-for="file in selected_items"
         :key="file.$path"
         :file="file"
+        :credit_placeholder="local_general_credit"
         :is_selected="false"
         :context="'credits'"
         class="_thumbCell"
@@ -37,7 +38,7 @@ export default {
     },
   },
   computed: {
-    localGeneralCredit: {
+    local_general_credit: {
       get() {
         return this.general_credit;
       },

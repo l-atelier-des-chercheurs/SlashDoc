@@ -108,6 +108,7 @@
                 :label="$t('credit')"
                 :icon="'c-circle'"
                 :field_to_edit="'$credits'"
+                :placeholder="credit_placeholder"
                 :content="file.$credits"
                 :path="file.$path"
                 :custom_formats="['bold', 'italic', 'link']"
@@ -180,6 +181,7 @@ export default {
     is_selected: Boolean,
     is_clicked: Boolean,
     draggable: Boolean,
+    credit_placeholder: String,
     context: {
       type: String,
       default: "list",
