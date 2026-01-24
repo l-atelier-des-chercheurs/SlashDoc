@@ -1,7 +1,7 @@
 <template>
   <BaseModal2
     class=""
-    size="small"
+    :size="modal_size"
     :confirm_before_closing="true"
     @save=""
     @close="$emit('close')"
@@ -175,10 +175,10 @@ export default {
           label: this.$t("title"),
         },
         {
-          label: this.$t("keywords"),
+          label: this.$t("credits"),
         },
         {
-          label: this.$t("credits"),
+          label: this.$t("keywords"),
         },
         {
           label: this.$t("team"),
@@ -208,6 +208,10 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {
+    modal_size() {
+      if (this.current_step === 2) return "full";
+      else return "small";
+    },
     modal_name() {
       return this.$t("create_document");
       // +
@@ -485,6 +489,7 @@ export default {
   }
   :deep(._chutierRow--previewMedia) {
     height: 100%;
+    width: 100%;
   }
   :deep(._chutierRow--preview) {
     width: 100% !important;

@@ -6,7 +6,7 @@
         {{ $t("general_credit_instructions") }}
       </small>
     </div>
-    <input type="text" v-model="local_general_credit" />
+    <input type="text" v-model="local_general_credit" autofocus />
     <div class="u-spacingBottom" />
 
     <div class="_thumbGrid" v-if="selected_items && selected_items.length">
