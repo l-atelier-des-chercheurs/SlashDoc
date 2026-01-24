@@ -32,6 +32,14 @@
         <div class="_textEditor--content--text">
           <span v-html="sanitizedContent" />
         </div>
+        <button
+          type="button"
+          class="u-button u-button_icon u-button_small _textEditor--editBtn"
+          :label="$t('edit')"
+          @click="startEditing"
+        >
+          <b-icon icon="pencil-fill" />
+        </button>
       </div>
     </div>
 
