@@ -6,13 +6,16 @@
       'is--sidebarHidden': !showSidebar,
     }"
   >
+    <transition name="fade">
+      <div class="_colLeft" v-if="showSidebar">
+        <slot name="sidebar" />
+      </div>
+    </transition>
     <div class="_sidebarToggle" v-if="showToggleButton">
       <button
         type="button"
         class="u-button u-button_icon"
-        :class="{
-          'is--active': showSidebar,
-        }"
+        :class="{}"
         @click="$emit('update:showSidebar', !showSidebar)"
         :aria-label="showSidebar ? $t('hide_sidebar') : $t('show_sidebar')"
       >
@@ -22,11 +25,6 @@
         />
       </button>
     </div>
-    <transition name="fade">
-      <div class="_colLeft" v-if="showSidebar">
-        <slot name="sidebar" />
-      </div>
-    </transition>
 
     <transition name="fade">
       <div
@@ -36,7 +34,7 @@
       />
     </transition>
 
-    <div class="_colRight" v-if="!singleColumnMobileMode || !showSidebar">
+    <div class="_colRight">
       <slot name="content" />
     </div>
   </div>
@@ -87,80 +85,44 @@ export default {
   padding: 0;
 
   &.is--mobile {
-    flex-flow: column nowrap;
+    // flex-flow: column nowrap;
     overflow-y: auto;
     height: 100%;
 
-    ._colLeft {
-      position: relative;
-      flex: 0 0 auto;
-      max-width: 100%;
-      width: 100%;
-      height: auto;
-      border-right: none;
-      border-bottom: 1px solid var(--g-200);
-      overflow: visible;
-      position: static;
-    }
+    // ._colLeft {
+    //   position: relative;
+    //   flex: 0 0 auto;
+
+    //   // width: 100%;
+    //   height: auto;
+    //   // border-right: none;
+    //   border-bottom: 1px solid var(--g-200);
+    //   overflow: visible;
+    //   position: static;
+    // }
 
     ._colRight {
-      flex: 1 1 auto;
-      overflow: visible;
-      min-height: 0;
-    }
-
-    ._sidebarToggle {
-      position: relative;
-      width: auto;
-      height: auto;
-      z-index: 20;
-
-      > button {
-        position: relative;
-        left: auto;
-        margin: calc(var(--spacing) / 2);
-
-        &.is--active {
-          left: auto;
-        }
-      }
+      // position: absolute;
+      // inset: 0;
     }
   }
 }
 
 ._sidebarToggle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: relative;
   height: 100%;
   z-index: 20;
-  flex: 0 0 auto;
-  align-self: flex-start;
   pointer-events: none;
+  border-right: 1px solid var(--g-200);
 
   > button {
-    position: absolute;
-    left: 0;
-    // color: black;
-    // color: white;
-    // background-color: var(--g-900);
-    border-radius: 0;
-    width: 2rem;
-    height: 2rem;
+    position: relative;
+    width: calc(var(--spacing) * 2);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
     pointer-events: auto;
-
-    align-items: center;
-
-    transition: none;
-
-    &.is--active {
-      &:not(:hover) {
-        // background-color: var(--active-color);
-        // color: black;
-      }
-      left: calc(v-bind(sidebarWidth) - 2rem);
-    }
+    border-radius: 0;
   }
 }
 
@@ -168,7 +130,7 @@ export default {
   position: relative;
   z-index: 3;
   flex: 0 0 v-bind(sidebarWidth);
-  max-width: v-bind(sidebarWidth);
+  max-width: calc(100% - var(--spacing) * 2);
   background-color: var(--body-bg);
   margin: 0;
   border-right: 1px solid var(--g-200);
@@ -186,7 +148,7 @@ export default {
 
 ._twoColumnLayout.is--sidebarHidden {
   ._sidebarToggle {
-    border-right: none;
+    // border-right: none;
   }
 }
 
@@ -197,6 +159,7 @@ export default {
   overflow: auto;
   position: relative;
   min-width: 0;
+  // min-width: 20vw;
 }
 
 ._content {

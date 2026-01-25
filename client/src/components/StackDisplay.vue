@@ -136,7 +136,7 @@
                 />
               </div>
 
-              <div class="" v-if="is_instance_admin">
+              <!-- <div class="" v-if="is_instance_admin">
                 <StatusTag
                   v-if="can_edit"
                   :status="stack.$status || 'public'"
@@ -144,7 +144,7 @@
                   :path="stack.$path"
                   :can_edit="can_edit"
                 />
-              </div>
+              </div> -->
 
               <hr />
 
