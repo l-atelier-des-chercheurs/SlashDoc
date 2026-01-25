@@ -9,7 +9,7 @@
 
     <AuthorField
       :label="$t('authors')"
-      :instructions="$t('media_editing_instructions')"
+      :instructions="$t('content_editing_instructions')"
       :authors_paths="authors"
       :disable_links="true"
       :can_edit="true"

@@ -39,8 +39,8 @@
 
           <AuthorField
             class="_admins"
-            :label="$t('admins')"
-            :instructions="$t('media_editing_instructions')"
+            :label="$t('authors')"
+            :instructions="$t('content_editing_instructions')"
             :field="'$admins'"
             :authors_paths="collection.$admins"
             :path="collection.$path"

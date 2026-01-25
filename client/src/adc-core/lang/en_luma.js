@@ -40,6 +40,8 @@ export default {
   general_credit: "General credit",
   general_credit_instructions:
     "Applied by default if a media's credit field is empty.",
+  content_editing_instructions:
+    "Indicates the person(s) who can edit this content.",
   archiving_community: "Archiving community",
 
   contribute: "Contribute",
