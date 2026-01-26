@@ -50,4 +50,5 @@ export default {
   help: "Help",
   language: "Language",
   admin_settings: "Admin Settings",
+  review: "Review",
 };

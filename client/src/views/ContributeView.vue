@@ -1,5 +1,8 @@
 <template>
-  <TwoColumnLayout :show-sidebar.sync="show_sidebar" @click="last_clicked = false">
+  <TwoColumnLayout
+    :show-sidebar.sync="show_sidebar"
+    @click="last_clicked = false"
+  >
     <template #sidebar>
       <div class="_sidebarContent">
         <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
@@ -190,13 +193,11 @@
             <div class="u-sameRow _selectionBar-btns">
               <transition name="fade" mode="out-in">
                 <div :key="selected_items.length">
-                  <template v-if="selected_items.length === 1">
-                    {{ $t("selected_item") }}
-                  </template>
-                  <template v-else>
-                    {{ $t("selected_items") }}
-                  </template>
-                  {{ selected_items.length }}
+                  {{
+                    $tc("selected_items", selected_items.length, {
+                      count: selected_items.length,
+                    })
+                  }}
                 </div>
               </transition>
 

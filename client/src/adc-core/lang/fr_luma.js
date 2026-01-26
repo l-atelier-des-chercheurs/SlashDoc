@@ -24,8 +24,7 @@ export default {
 
   // Missing translations
   items_to_share: "Éléments à partager",
-  selected_item: "élément sélectionné",
-  selected_items: "éléments sélectionnés",
+  selected_items: "{count} élément sélectionné | {count} éléments sélectionnés",
   deselect_all: "Tout désélectionner",
   remove_select: "Supprimer la sélection",
   keyword_materials_etc: "Mots-clés, matériaux, etc.",
@@ -50,4 +49,5 @@ export default {
   help: "Aide",
   language: "Langue",
   admin_settings: "Paramètres administrateur",
+  review: "Récapitulatif",
 };

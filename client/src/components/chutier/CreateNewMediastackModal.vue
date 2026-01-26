@@ -3,13 +3,14 @@
     class=""
     :size="modal_size"
     :confirm_before_closing="true"
+    :title="current_step === 4 ? $t('review') : undefined"
     @save=""
     @close="$emit('close')"
   >
     <div class="_createNewMediastackModal">
       <portal-target name="largemedia" multiple />
       <div class="_content">
-        <div class="_breadcrumb">
+        <div v-if="current_step < 4" class="_breadcrumb">
           <button
             type="button"
             v-for="(step, index) in steps"
@@ -22,78 +23,78 @@
                 ? 'completed'
                 : ''
             "
+            :title="step.label"
             @click="current_step = index"
           >
             <div class="step-line" v-if="index > 0"></div>
             <div class="step-circle">
-              <!-- <div v-if="current_step >= index" class="step-label">
+              <div v-if="current_step >= index" class="step-label">
                 {{ step.label }}
-              </div> -->
+              </div>
             </div>
           </button>
         </div>
 
-        <transition name="fade" mode="out-in">
-          <div class="_form" :key="current_step">
-            <div class="_form-step" v-if="false">
-              <div class="_form-step-title">
-                <h2>
-                  {{ steps[current_step].label }}
-                </h2>
-              </div>
+        <div class="_form" :key="current_step">
+          <div class="_form-step" v-if="false">
+            <div class="_form-step-title">
+              <h2>
+                {{ steps[current_step].label }}
+              </h2>
             </div>
-
-            <MediastackStepTitle
-              v-if="current_step === 0"
-              :title.sync="stack_title"
-              :description.sync="stack_description"
-              @title-validity-changed="has_valid_title = $event"
-            >
-              <template #uptop>
-                <div class="_uptopThumbs">
-                  <div
-                    class="_thumbGrid"
-                    v-if="selected_items && selected_items.length"
-                  >
-                    <ChutierItem
-                      v-for="file in selected_items"
-                      :key="file.$path"
-                      :file="file"
-                      :context="'show_only_thumbs'"
-                      :is_selected="false"
-                      class="_thumbCell"
-                    />
-                  </div>
-                </div>
-              </template>
-            </MediastackStepTitle>
-
-            <MediastackStepCredits
-              v-if="current_step === 1"
-              :selected_items="selected_items"
-              :general_credit.sync="stack_general_credit"
-            />
-
-            <MediastackStepKeywords
-              v-if="current_step === 2"
-              :keywords.sync="stack_tags"
-            >
-            </MediastackStepKeywords>
-
-            <MediastackStepAuthors
-              v-if="current_step === 3"
-              :authors.sync="stack_authors"
-              :destination_folder_path.sync="selected_destination_folder_path"
-            />
-
-            <MediastackStepReview
-              v-if="current_step === 4"
-              :title="stack_title"
-              :description="stack_description"
-              :keywords="stack_tags"
-            />
           </div>
-        </transition>
+
+          <div class="_uptopThumbs" v-if="[0, 2, 3, 4].includes(current_step)">
+            <div
+              class="_thumbGrid"
+              v-if="selected_items && selected_items.length"
+            >
+              <ChutierItem
+                v-for="file in selected_items"
+                :key="file.$path"
+                :file="file"
+                :context="'show_only_thumbs'"
+                :is_selected="false"
+                class="_thumbCell"
+              />
+            </div>
+          </div>
+
+          <MediastackStepTitle
+            v-if="current_step === 0"
+            :title.sync="stack_title"
+            :description.sync="stack_description"
+            @title-validity-changed="has_valid_title = $event"
+          >
+          </MediastackStepTitle>
+
+          <MediastackStepCredits
+            v-if="current_step === 1"
+            :selected_items="selected_items"
+            :general_credit.sync="stack_general_credit"
+          />
+
+          <MediastackStepKeywords
+            v-if="current_step === 2"
+            :keywords.sync="stack_tags"
+          >
+          </MediastackStepKeywords>
+
+          <MediastackStepAuthors
+            v-if="current_step === 3"
+            :authors.sync="stack_authors"
+            :destination_folder_path.sync="selected_destination_folder_path"
+          />
+
+          <MediastackStepReview
+            v-if="current_step === 4"
+            :title="stack_title"
+            :description="stack_description"
+            :keywords="stack_tags"
+            :selected_destination_folder_path="selected_destination_folder_path"
+            :authors="stack_authors"
+          />
+        </div>
       </div>
     </div>
 
@@ -119,11 +120,11 @@
         <b-icon icon="arrow-right" />
       </button>
       <button
-        class="u-button"
+        class="u-button u-button_bleuvert"
         v-else-if="current_step === steps.length - 1 && status === 'idle'"
-        :disabled="!selected_destination_folder_path"
         @click="publishMediastack"
       >
+        <b-icon icon="check-circle-fill" />
         {{ $t("contribute") }}
       </button>
       <span v-else-if="status === 'publishing'">
@@ -175,13 +176,13 @@ export default {
           label: this.$t("title"),
         },
         {
-          label: this.$t("credits"),
+          label: this.$t("credit"),
         },
         {
           label: this.$t("keywords"),
         },
         {
-          label: this.$t("team"),
+          label: this.$t("archiving_community"),
         },
         {
           label: this.$t("review"),
@@ -390,16 +391,6 @@ export default {
   border: 2px solid currentColor;
   border-radius: 50%;
 
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   inset: 0px;
-  //   border-radius: 50%;
-  //   background-color: currentColor;
-  //   opacity: 0;
-  //   transition: opacity 0.25s cubic-bezier(0.19, 1, 0.22, 1);
-  // }
-
   .step.active &,
   .step.completed & {
     background-color: currentColor;
@@ -408,7 +399,7 @@ export default {
 
 .step-label {
   position: absolute;
-  top: 100%;
+  bottom: calc(100% + 8px);
   left: 0;
   font-weight: 600;
   transform: translateX(-50%);
@@ -420,6 +411,10 @@ export default {
   .step.completed:not(:hover) & {
     opacity: 0;
     // color: var(--g-500);
+  }
+
+  .step:hover & {
+    opacity: 1;
   }
 }
 
@@ -461,13 +456,14 @@ export default {
 
 ._uptopThumbs {
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
+  margin-bottom: calc(var(--spacing) * 2);
+  // max-width: 420px;
+  // margin: 0 auto;
 }
 
 ._thumbGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: calc(var(--spacing) / 2);
 }
 

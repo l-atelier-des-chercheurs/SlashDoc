@@ -184,7 +184,6 @@ export default {
     position: absolute;
     inset: 0;
     background-color: var(--g-50);
-    background: rgba(231, 231, 231, 0.87);
     backdrop-filter: blur(3px);
     cursor: pointer;
     transition: backdrop-filter 1s ease-in-out;
@@ -198,7 +197,7 @@ export default {
     position: relative;
     background: var(--panel-color);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    // border-radius: 4px;
+    border-radius: var(--border-radius);
 
     width: 100%;
     max-width: 480px;
@@ -217,7 +216,7 @@ export default {
     max-height: none;
     border: none;
 
-    --modal-margin: 0%;
+    --modal-margin: var(--spacing) * 4;
 
     width: calc(100% - var(--modal-margin));
     height: calc(100% - var(--modal-margin));
@@ -225,17 +224,6 @@ export default {
   }
   &[data-size="large"] ._baseModal--content {
     max-width: 680px;
-  }
-  &[data-size="full"] ._baseModal--content {
-    max-width: none;
-    max-height: none;
-    border: none;
-
-    --modal-margin: var(--spacing) * 4;
-
-    width: calc(100% - var(--modal-margin));
-    height: calc(100% - var(--modal-margin));
-    margin: calc(var(--modal-margin) / 2);
   }
   &[data-size="x-large"] ._baseModal--content {
     max-width: 980px;
@@ -248,8 +236,6 @@ export default {
   right: 0;
   margin: calc(var(--spacing) / 2);
   padding: calc(var(--spacing) / 3);
-  margin: var(--spacing);
-  // padding: calc(var(--spacing) / 3);
   z-index: 1;
 }
 
