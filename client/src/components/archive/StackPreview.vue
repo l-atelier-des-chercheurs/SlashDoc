@@ -224,8 +224,9 @@ export default {
 ._preview {
   position: relative;
   width: 100%;
-  // min-height: 3rem;
+  min-height: calc(var(--stack_preview_width) * 0.5);
   // aspect-ratio: 1/1;
+  background-color: var(--g-50);
   overflow: hidden;
 
   cursor: pointer;
