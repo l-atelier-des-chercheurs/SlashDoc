@@ -14,10 +14,11 @@
       <slot />
     </div>
     <button
-      class="u-button u-button_small u-button_black _showOriginBtn"
+      v-if="!isContentVisible"
+      class="u-button u-button_bleuvert _showOriginBtn"
       type="button"
       @click="scrollToOrigin"
-      :title="$t('show_origin') || 'Show origin'"
+      :title="$t('back_to_content')"
     >
       <b-icon icon="house" />
     </button>
@@ -53,8 +54,10 @@ export default {
 
       debounce_zoom: undefined,
       debounce_scroll: undefined,
+      debounce_content_visibility: undefined,
 
       contentOffset: { x: 0, y: 0 },
+      isContentVisible: true,
     };
   },
   created() {},
@@ -86,6 +89,9 @@ export default {
     if (this.verticalGuides) {
       this.verticalGuides.destroy();
     }
+    if (this.debounce_content_visibility) {
+      clearTimeout(this.debounce_content_visibility);
+    }
     window.removeEventListener("resize", this.onWindowResize);
     this.$eventHub.$off(`panzoom.panTo`, this.panTo);
     this.$root.set_new_module_offset_left = 0;
@@ -100,10 +106,16 @@ export default {
     contentWidth() {
       this.updateViewerOptions();
       this.updateGuidesResize();
+      this.$nextTick(() => {
+        this.checkContentVisibility();
+      });
     },
     contentHeight() {
       this.updateViewerOptions();
       this.updateGuidesResize();
+      this.$nextTick(() => {
+        this.checkContentVisibility();
+      });
     },
     magnification() {
       this.updateViewerOptions();
@@ -194,6 +206,13 @@ export default {
           }, 100);
         });
       }
+
+      // Initial content visibility check (debounced internally)
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.checkContentVisibility();
+        }, 200);
+      });
     },
     initGuides() {
       if (!this.$refs.horizontalGuides || !this.$refs.verticalGuides) return;
@@ -399,6 +418,8 @@ export default {
         // Update guides zoom after zoom animation completes
         setTimeout(() => {
           this.updateGuidesZoom();
+          // Check content visibility after zoom (debounced internally)
+          this.checkContentVisibility();
         }, 250);
       }
     },
@@ -412,6 +433,9 @@ export default {
         this.updateGuidesScroll();
       }
 
+      // Check if content is visible (debounced internally)
+      this.checkContentVisibility();
+
       if (this.debounce_scroll) clearTimeout(this.debounce_scroll);
       this.debounce_scroll = setTimeout(async () => {
         this.$root.set_new_module_offset_left = Math.max(
@@ -423,6 +447,82 @@ export default {
           this.infiniteviewer.getScrollTop()
         );
       }, 500);
+    },
+    checkContentVisibility() {
+      // Debounce: only execute once every 500ms
+      if (this.debounce_content_visibility) {
+        clearTimeout(this.debounce_content_visibility);
+      }
+      this.debounce_content_visibility = setTimeout(() => {
+        this._checkContentVisibility();
+      }, 200);
+    },
+    _checkContentVisibility() {
+      if (!this.infiniteviewer || !this.$refs.viewport) {
+        this.isContentVisible = true;
+        return;
+      }
+
+      const viewer = this.$refs.infiniteviewer;
+      const viewport = this.$refs.viewport;
+      const scrollLeft = this.infiniteviewer.getScrollLeft() || 0;
+      const scrollTop = this.infiniteviewer.getScrollTop() || 0;
+      const zoom = this.infiniteviewer.getZoom() || this.scale || 1;
+
+      // Get viewport visible bounds (in scroll coordinates)
+      const viewerRect = viewer.getBoundingClientRect();
+      const viewportWidth = viewerRect.width / zoom;
+      const viewportHeight = viewerRect.height / zoom;
+
+      const viewportLeft = scrollLeft;
+      const viewportRight = scrollLeft + viewportWidth;
+      const viewportTop = scrollTop;
+      const viewportBottom = scrollTop + viewportHeight;
+
+      // Check all children of the viewport (slot content)
+      // This is generic and works with any content
+      const children = Array.from(viewport.children);
+
+      if (children.length === 0) {
+        this.isContentVisible = false;
+        return;
+      }
+
+      // Check if any child element intersects with viewport
+      let hasVisibleContent = false;
+      for (let i = 0; i < children.length; i++) {
+        const element = children[i];
+        const elementRect = element.getBoundingClientRect();
+
+        // Skip if element has no dimensions
+        if (elementRect.width === 0 && elementRect.height === 0) {
+          continue;
+        }
+
+        // Convert element position to scroll coordinates
+        const elementLeft =
+          (elementRect.left - viewerRect.left) / zoom + scrollLeft;
+        const elementRight =
+          (elementRect.right - viewerRect.left) / zoom + scrollLeft;
+        const elementTop =
+          (elementRect.top - viewerRect.top) / zoom + scrollTop;
+        const elementBottom =
+          (elementRect.bottom - viewerRect.top) / zoom + scrollTop;
+
+        // Check if element intersects with viewport
+        const intersects =
+          elementLeft < viewportRight &&
+          elementRight > viewportLeft &&
+          elementTop < viewportBottom &&
+          elementBottom > viewportTop;
+
+        if (intersects) {
+          hasVisibleContent = true;
+          break;
+        }
+      }
+
+      this.isContentVisible = hasVisibleContent;
     },
     // Expose methods that might be called from parent components
     getZoom() {
@@ -476,6 +576,7 @@ export default {
       // Recalculate content offset after resize
       this.$nextTick(() => {
         this.updateGuidesScroll();
+        this.checkContentVisibility();
       });
     },
   },
@@ -532,8 +633,8 @@ export default {
 }
 ._showOriginBtn {
   position: absolute;
-  bottom: calc(var(--spacing) / 1);
-  right: calc(var(--spacing) / 1);
+  bottom: calc(var(--spacing) * 2);
+  right: calc(var(--spacing) * 2);
   z-index: 100;
   pointer-events: auto;
 }
