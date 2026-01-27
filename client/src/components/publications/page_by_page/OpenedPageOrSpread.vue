@@ -60,6 +60,7 @@
               :content-width="page_width"
               :content-height="page_height"
               :magnification="current_page_magnification"
+              :layout_mode="layout_mode"
             >
               <transition name="pagechange" mode="out-in">
                 <div

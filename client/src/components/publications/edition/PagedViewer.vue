@@ -16,6 +16,7 @@
       v-if="viewer_type === 'infinite-viewer'"
       ref="panzoom3"
       :scale="current_zoom"
+      :layout_mode="'print'"
       @update:scale="current_zoom = $event"
     >
       <div class="" ref="bookpreview" />
