@@ -93,106 +93,133 @@ export function findCutOffPoint(cell) {
   // Debug max bottom found
   let maxRelativeBottom = 0;
 
-  // Use TreeWalker to get all text nodes in document order
-  const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT, {
-    acceptNode: (node) => {
-      // Skip text nodes inside script and style elements
-      const parent = node.parentElement;
-      if (parent) {
-        const tagName = parent.tagName?.toLowerCase();
-        if (tagName === "script" || tagName === "style") {
-          return NodeFilter.FILTER_REJECT;
+  // Use TreeWalker to get all text nodes and atomic elements in document order
+  const walker = document.createTreeWalker(
+    cell,
+    NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
+    {
+      acceptNode: (node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          // Check if atomic/replaced element
+          const tagName = node.tagName.toLowerCase();
+          const isReplaced = [
+            "img",
+            "video",
+            "iframe",
+            "canvas",
+            "svg",
+            "hr",
+            "br",
+          ].includes(tagName);
+          if (isReplaced) return NodeFilter.FILTER_ACCEPT;
+          // Skip script and style
+          if (tagName === "script" || tagName === "style") {
+            return NodeFilter.FILTER_REJECT;
+          }
+          // Visit children for containers
+          return NodeFilter.FILTER_SKIP;
         }
-      }
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-
-  // Walk through all text nodes word by word
-  let textNode;
-  while ((textNode = walker.nextNode())) {
-    const text = textNode.textContent;
-    if (!text || text.trim().length === 0) {
-      continue;
+        return NodeFilter.FILTER_ACCEPT;
+      },
     }
+  );
 
-    // Split text into words (keeping whitespace)
-    // Match words and whitespace separately
-    const words = [];
-    let pos = 0;
-    const wordRegex = /\S+/g;
-    let match;
-
-    while ((match = wordRegex.exec(text)) !== null) {
-      // Add whitespace before word if any
-      if (match.index > pos) {
-        words.push({
-          text: text.substring(pos, match.index),
-          start: pos,
-          end: match.index,
-          isWord: false,
-        });
-      }
-      // Add the word
-      words.push({
-        text: match[0],
-        start: match.index,
-        end: match.index + match[0].length,
-        isWord: true,
-      });
-      pos = match.index + match[0].length;
-    }
-    // Add trailing whitespace if any
-    if (pos < text.length) {
-      words.push({
-        text: text.substring(pos),
-        start: pos,
-        end: text.length,
-        isWord: false,
-      });
-    }
-
-    // Check each word to see if it's visible
-    for (const word of words) {
-      if (!word.isWord && word.text.trim().length === 0) {
-        // Skip pure whitespace, but track position
+  // Walk through nodes
+  let node;
+  while ((node = walker.nextNode())) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      if (!text || text.trim().length === 0) {
         continue;
       }
 
-      const testRange = document.createRange();
-      try {
-        testRange.setStart(textNode, word.start);
-        testRange.setEnd(textNode, word.end);
+      // Split text into words (keeping whitespace)
+      const words = [];
+      let pos = 0;
+      const wordRegex = /\S+/g;
+      let match;
 
-        const rect = safeGetBoundingClientRect(testRange);
+      while ((match = wordRegex.exec(text)) !== null) {
+        if (match.index > pos) {
+          words.push({
+            text: text.substring(pos, match.index),
+            start: pos,
+            end: match.index,
+            isWord: false,
+          });
+        }
+        words.push({
+          text: match[0],
+          start: match.index,
+          end: match.index + match[0].length,
+          isWord: true,
+        });
+        pos = match.index + match[0].length;
+      }
+      if (pos < text.length) {
+        words.push({
+          text: text.substring(pos),
+          start: pos,
+          end: text.length,
+          isWord: false,
+        });
+      }
 
-        if (!rect) {
-          // Can't measure, assume it's cut off
-          console.warn("findCutOffPoint: Can't measure range, assuming cutoff");
-          testRange.detach();
-          return { node: textNode, offset: word.start };
+      // Check each word
+      for (const word of words) {
+        if (!word.isWord && word.text.trim().length === 0) {
+          continue;
         }
 
+        const testRange = document.createRange();
+        try {
+          testRange.setStart(node, word.start);
+          testRange.setEnd(node, word.end);
+
+          const rect = safeGetBoundingClientRect(testRange);
+
+          if (!rect) {
+            console.warn(
+              "findCutOffPoint: Can't measure range, assuming cutoff"
+            );
+            testRange.detach();
+            return { node: node, offset: word.start };
+          }
+
+          const relativeBottom = rect.bottom - cellRect.top;
+          if (relativeBottom > maxRelativeBottom)
+            maxRelativeBottom = relativeBottom;
+
+          if (relativeBottom > cellHeight + tolerance) {
+            console.log(
+              `findCutOffPoint: Found cutoff at word: "${word.text}". Word bottom: ${relativeBottom}, Cell height: ${cellHeight}, Tolerance: ${tolerance}`
+            );
+            testRange.detach();
+            return { node: node, offset: word.start };
+          }
+        } catch (e) {
+          console.error("findCutOffPoint: Error measuring range", e);
+          testRange.detach();
+          return { node: node, offset: word.start };
+        } finally {
+          if (testRange) {
+            testRange.detach();
+          }
+        }
+      }
+    } else {
+      // Element node (Image, etc)
+      const rect = safeGetBoundingClientRect(node);
+      if (rect) {
         const relativeBottom = rect.bottom - cellRect.top;
         if (relativeBottom > maxRelativeBottom)
           maxRelativeBottom = relativeBottom;
 
         if (relativeBottom > cellHeight + tolerance) {
-          // This word is cut off - found our split point
           console.log(
-            `findCutOffPoint: Found cutoff at word: "${word.text}". Word bottom: ${relativeBottom}, Cell height: ${cellHeight}, Tolerance: ${tolerance}`
+            `findCutOffPoint: Found cutoff at element <${node.tagName}>. Bottom: ${relativeBottom}, Cell height: ${cellHeight}`
           );
-          testRange.detach();
-          return { node: textNode, offset: word.start };
-        }
-      } catch (e) {
-        console.error("findCutOffPoint: Error measuring range", e);
-        // Range error, assume cut off at this point
-        testRange.detach();
-        return { node: textNode, offset: word.start };
-      } finally {
-        if (testRange) {
-          testRange.detach();
+          return { node: node, offset: 0 };
         }
       }
     }
@@ -208,26 +235,30 @@ export function findCutOffPoint(cell) {
 /**
  * Split DOM tree at textNode/offset and collect the right-hand side nodes
  * @param {HTMLElement} container
- * @param {Text} textNode
+ * @param {Node} startNode
  * @param {number} offset
  */
-function splitAndCollectNodes(container, textNode, offset) {
+function splitAndCollectNodes(container, startNode, offset) {
   const nodesToMove = [];
 
-  // 1. Split the text node
-  let rightNode;
-  if (offset < textNode.textContent.length) {
-    rightNode = textNode.splitText(offset);
+  // 1. Determine the node to move
+  let nodeToMove;
+  if (startNode.nodeType === Node.TEXT_NODE) {
+    if (offset < startNode.textContent.length) {
+      nodeToMove = startNode.splitText(offset);
+    } else {
+      // Offset at end, nothing to split in this node,
+      // but we might need to split parents if there are siblings after
+      nodeToMove = startNode.splitText(offset); // returns empty text node
+    }
   } else {
-    // Offset at end, nothing to split in this node,
-    // but we might need to split parents if there are siblings after
-    rightNode = textNode.splitText(offset); // returns empty text node
+    // It's an element, move the whole element
+    nodeToMove = startNode;
   }
 
   // 2. Walk up and split parents
-  let currentLeft = textNode;
-  let currentRight = rightNode;
-  let parent = currentLeft.parentNode;
+  let currentRight = nodeToMove;
+  let parent = currentRight.parentNode;
 
   while (parent && parent !== container) {
     // Create split parent (shallow clone)
@@ -235,8 +266,6 @@ function splitAndCollectNodes(container, textNode, offset) {
     if (rightParent.id) rightParent.removeAttribute("id"); // Remove ID to avoid duplicates
 
     // Move currentRight and all subsequent siblings to rightParent
-    // Note: splitText already inserted rightNode into parent.
-    // So we just need to move currentRight and all following siblings.
     let sibling = currentRight;
     while (sibling) {
       const next = sibling.nextSibling;
@@ -249,7 +278,6 @@ function splitAndCollectNodes(container, textNode, offset) {
       parent.parentNode.insertBefore(rightParent, parent.nextSibling);
     }
 
-    currentLeft = parent;
     currentRight = rightParent;
     parent = parent.parentNode;
   }
@@ -307,19 +335,30 @@ export function moveOverflowToNextCell(currentCell, nextCell) {
     return false;
   }
 
-  const textNode = cutOffPoint.node;
+  const startNode = cutOffPoint.node;
   const offset = cutOffPoint.offset;
-  const text = textNode.textContent;
 
-  console.log(
-    `moveOverflowToNextCell: Found cut-off at offset ${offset} in text: "${text.substring(
-      0,
-      20
-    )}..."`
-  );
+  if (startNode.nodeType === Node.TEXT_NODE) {
+    console.log(
+      `moveOverflowToNextCell: Found cut-off at offset ${offset} in text: "${startNode.textContent.substring(
+        0,
+        20
+      )}..."`
+    );
+  } else {
+    console.log(
+      `moveOverflowToNextCell: Found cut-off at element <${startNode.tagName}>`
+    );
+  }
+
+  // Capture parent for cleanup if startNode moves entirely
+  let cleanupNode = startNode;
+  if (startNode.nodeType !== Node.TEXT_NODE) {
+    cleanupNode = startNode.parentNode;
+  }
 
   // Split DOM and collect nodes to move
-  const nodesToMove = splitAndCollectNodes(currentCell, textNode, offset);
+  const nodesToMove = splitAndCollectNodes(currentCell, startNode, offset);
 
   // Move nodes to next cell
   if (nodesToMove.length > 0) {
@@ -337,7 +376,14 @@ export function moveOverflowToNextCell(currentCell, nextCell) {
     });
 
     // Cleanup empty nodes left behind in currentCell
-    cleanupEmptyPath(textNode, currentCell);
+    if (startNode.nodeType === Node.TEXT_NODE) {
+      cleanupEmptyPath(startNode, currentCell);
+    } else {
+      // If we moved an element, startNode is gone. Check its original parent.
+      if (cleanupNode && currentCell.contains(cleanupNode)) {
+        cleanupEmptyPath(cleanupNode, currentCell);
+      }
+    }
 
     // Clear any existing overflow warning from next cell
     const existingWarning = nextCell.querySelector("._textOverflowWarning");
