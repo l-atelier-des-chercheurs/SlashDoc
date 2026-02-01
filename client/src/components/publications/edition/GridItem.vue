@@ -222,7 +222,9 @@ export default {
 
       const path = this.publication.$path + "/" + meta_filename;
       // call media.enableEditor to enable editing of the new text
-      this.$eventHub.$emit("media.enableEditor." + path);
+      setTimeout(() => {
+        this.$eventHub.$emit("media.enableEditor." + path);
+      }, 150);
     },
 
     async pickMediaForArea(medias) {
