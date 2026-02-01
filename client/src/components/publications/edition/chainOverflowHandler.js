@@ -296,19 +296,30 @@ function splitAndCollectNodes(container, startNode, offset) {
   return nodesToMove;
 }
 
-/**
- * Clean up empty nodes in the path from startNode up to container
- */
+// Clean up empty nodes in the path from startNode up to container
 function cleanupEmptyPath(startNode, container) {
   let current = startNode;
   while (current && current !== container) {
     const parent = current.parentNode;
 
-    const isEmpty =
-      (current.nodeType === Node.TEXT_NODE &&
-        current.textContent.length === 0) ||
-      (current.nodeType === Node.ELEMENT_NODE &&
-        current.childNodes.length === 0);
+    // Check if node is effectively empty
+    let isEmpty = false;
+    if (current.nodeType === Node.TEXT_NODE) {
+      isEmpty = current.textContent.length === 0;
+    } else if (current.nodeType === Node.ELEMENT_NODE) {
+      // It's empty if it has no children, OR if all children are empty text nodes
+      if (current.childNodes.length === 0) {
+        isEmpty = true;
+      } else {
+        const hasContent = Array.from(current.childNodes).some((child) => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            return child.textContent.trim().length > 0;
+          }
+          return true; // Assume other elements have content
+        });
+        isEmpty = !hasContent;
+      }
+    }
 
     if (isEmpty) {
       current.remove();

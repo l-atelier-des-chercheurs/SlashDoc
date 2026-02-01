@@ -36,11 +36,6 @@
 <script>
 import { Handler, Previewer } from "pagedjs";
 import { PagedjsFlowHandler } from "./PagedjsFlowHandler.js";
-import {
-  handleChainOverflow,
-  checkCellOverflow,
-  showOverflowWarning,
-} from "./chainOverflowHandler.js";
 import PanZoom3 from "@/components/publications/page_by_page/PanZoom3.vue";
 
 export default {
@@ -193,7 +188,6 @@ export default {
 
           this.$nextTick(() => {
             this.showOnlyPages();
-            // this.handleCellOverflow(); // Handled by PagedjsFlowHandler
             if (this.can_edit) {
               this.addChapterShortcuts();
               this.reportChapterPositions();
@@ -366,43 +360,6 @@ export default {
           absolute: true,
         }
       );
-    },
-    handleCellOverflow() {
-      const bookpreview = this.$refs.bookpreview;
-      if (!bookpreview) return;
-
-      // Process each page separately
-      const pages = bookpreview.querySelectorAll(".pagedjs_page");
-      console.log("handleCellOverflow");
-
-      pages.forEach((page) => {
-        // Find all grid cells within this page
-        const gridCells = page.querySelectorAll(
-          ".grid-cell[data-grid-area-type='text']"
-        );
-
-        gridCells.forEach((cell) => {
-          // Check for overflow
-          const hasOverflow = checkCellOverflow(cell);
-
-          if (hasOverflow) {
-            if (cell.getAttribute("data-grid-area-is-chain-index")) {
-              this.handleChainOverflow(cell, page);
-            } else {
-              showOverflowWarning(cell, this.$t("text_overflow"));
-            }
-          }
-        });
-      });
-    },
-    handleChainOverflow(cell, page) {
-      if (!page) {
-        // Fallback: find the page containing the cell
-        page = cell.closest(".pagedjs_page");
-      }
-      if (!page) return;
-
-      handleChainOverflow(cell, page, this.$t("text_overflow"));
     },
     beforePrint() {
       // Handler for beforeprint event
