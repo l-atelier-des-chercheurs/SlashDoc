@@ -210,8 +210,6 @@ import ToggledSection from "@/adc-core/inputs/ToggledSection.vue";
 Vue.component("ToggledSection", ToggledSection);
 import RangeValueInput from "@/adc-core/inputs/RangeValueInput.vue";
 Vue.component("RangeValueInput", RangeValueInput);
-import AuthorPicker from "@/adc-core/inputs/AuthorPicker.vue";
-Vue.component("AuthorPicker", AuthorPicker);
 import CreateFolder from "@/adc-core/modals/CreateFolder.vue";
 Vue.component("CreateFolder", CreateFolder);
 import ImportFolder from "@/adc-core/modals/ImportFolder.vue";
