@@ -213,12 +213,16 @@ export default {
         return area;
       });
 
-      this.$api.updateMeta({
+      await this.$api.updateMeta({
         path: this.chapter.$path,
         new_meta: {
           grid_areas: new_grid_areas,
         },
       });
+
+      const path = this.publication.$path + "/" + meta_filename;
+      // call media.enableEditor to enable editing of the new text
+      this.$eventHub.$emit("media.enableEditor." + path);
     },
 
     async pickMediaForArea(medias) {
