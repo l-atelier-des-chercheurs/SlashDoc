@@ -73,6 +73,11 @@ const routes = [
     name: "UI (dev only)",
     component: () => import("@/views/UIView.vue"),
   },
+  {
+    path: "/terms",
+    name: "CGU",
+    component: () => import("@/views/TermsView.vue"),
+  },
   // {
   //   path: "/=:event_slug",
   //   name: "Événement",
