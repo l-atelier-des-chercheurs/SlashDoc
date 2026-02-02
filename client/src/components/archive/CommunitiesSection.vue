@@ -8,7 +8,7 @@
         @click="$emit('openCorpusSelection')"
         :title="$t('see_all_communities')"
       >
-        <b-icon icon="list" />
+        <b-icon icon="globe" />
       </button>
     </div>
     <div class="_corpusItems">
