@@ -31,6 +31,9 @@ export default {
     p {
       margin: calc(var(--spacing) * 1) 0;
     }
+    ._section {
+      margin-top: calc(var(--spacing) * 2);
+    }
   }
 }
 </style>

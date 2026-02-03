@@ -1,13 +1,13 @@
 <template>
   <div class="_communautesSection">
-    <div class="_communautesLabel">
-      <DLabel :str="$t('all_communities')" />
+    <div class="">
       <button
         type="button"
         class="u-button u-button_icon u-button_transparent _addCommunityButton"
         @click="$emit('openCorpusSelection')"
         :title="$t('see_all_communities')"
       >
+        {{ $t("all_communities") }}
         <b-icon icon="globe" />
       </button>
     </div>
@@ -88,6 +88,6 @@ export default {
 
 ._addCommunityButton {
   flex: 0 0 auto;
-  margin-left: calc(var(--spacing) / 2);
+  margin-left: calc(var(--spacing) / -2);
 }
 </style>
