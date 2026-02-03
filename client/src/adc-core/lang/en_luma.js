@@ -43,6 +43,8 @@ export default {
     "Applied by default if a media's credit field is empty.",
   content_editing_instructions:
     "Indicates the person(s) who can edit this content.",
+  origin_of_media_instructions:
+    "At least one field must be filled in to publish the media.",
   archiving_community: "Archiving community",
 
   contribute: "Contribute",

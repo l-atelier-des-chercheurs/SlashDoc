@@ -42,6 +42,8 @@ export default {
     "Appliqué par défaut si le champ crédit d'un média est vide.",
   content_editing_instructions:
     "Indique le(s) personne(s) qui peuvent modifier ce contenu.",
+  origin_of_media_instructions:
+    "Au moins un champ doit être renseigné afin de publier le média.",
   archiving_community: "Communauté d’archivage",
 
   contribute: "Contribuer",

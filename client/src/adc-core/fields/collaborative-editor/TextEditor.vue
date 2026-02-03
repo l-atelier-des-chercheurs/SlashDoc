@@ -271,6 +271,7 @@ export default {
   display: flex;
   align-items: center;
   gap: calc(var(--spacing) / 4);
+  color: var(--g-700);
 
   &.is--empty {
     :deep(.u-label) {

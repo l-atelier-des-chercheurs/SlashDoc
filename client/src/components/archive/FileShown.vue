@@ -120,7 +120,7 @@
               <h4 v-text="$t('description_of_media')" />
               <div class="u-spacingBottom" v-if="file.$type === 'url'">
                 <div class="_labelLine">
-                  <b-icon icon="link" :aria-label="$t('link')" />
+                  <b-icon icon="link-45deg" :aria-label="$t('link')" />
                   <DLabel :str="$t('link')" />
                 </div>
                 <div class="u-filename">
@@ -150,7 +150,12 @@
             </div>
 
             <div class="_captionCreditItem">
-              <h4 v-text="$t('origin_of_media')" />
+              <DLabel
+                :str="$t('origin_of_media')"
+                :tag="'h4'"
+                :instructions="$t('origin_of_media_instructions')"
+              />
+              <!-- <h4 v-text="$t('origin_of_media')" /> -->
 
               <div class="u-spacingBottom">
                 <TextEditor
@@ -356,12 +361,6 @@ export default {
     justify-content: flex-start;
     gap: calc(var(--spacing) / 2);
     border-radius: 0;
-
-    &:hover,
-    &:focus {
-      background: var(--sd-separator);
-      // color: white;
-    }
   }
 }
 
@@ -439,6 +438,10 @@ export default {
 ._captionCreditItem {
   flex: 1 1 20ch;
   min-width: 20ch;
+
+  :deep(h4) {
+    margin-bottom: calc(var(--spacing) / 1);
+  }
 }
 
 ._cropAdjustBtn {

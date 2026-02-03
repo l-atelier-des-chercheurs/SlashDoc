@@ -97,7 +97,7 @@ export default {
   flex-shrink: 0;
 }
 ._icon {
-  font-size: var(--sl-font-size-x-small);
+  font-size: var(--sl-font-size-xx-small);
   padding: 0;
   margin-left: calc(var(--spacing) / 2);
 }
