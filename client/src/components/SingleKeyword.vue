@@ -107,11 +107,11 @@ export default {
 }
 
 ._category {
-  font-size: 80%;
+  font-size: var(--sl-font-size-xx-small);
   // color: var(--cat-color);
 }
 ._name {
-  font-size: 110%;
+  // font-size: 110%;
 }
 
 ._clickZone {

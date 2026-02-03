@@ -17,6 +17,23 @@
         >
           <b-icon icon="sliders" />
         </button>
+        <span class="_docCount">
+          <template v-if="!is_filtered">
+            {{
+              total_count === 1
+                ? $t("archive_document")
+                : $t("archive_documents", { count: total_count })
+            }}
+          </template>
+          <template v-else>
+            {{
+              $t("archive_displayed_count", {
+                displayed: displayed_count,
+                total: total_count,
+              })
+            }}
+          </template>
+        </span>
       </div>
 
       <div class="_topBarControls">
@@ -115,6 +132,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    total_count: {
+      type: Number,
+      default: 0,
+    },
+    displayed_count: {
+      type: Number,
+      default: 0,
+    },
     stack_preview_width: {
       type: Number,
       default: 120,
@@ -126,6 +151,11 @@ export default {
   },
   components: {
     SearchInput2,
+  },
+  computed: {
+    is_filtered() {
+      return this.displayed_count !== this.total_count && this.total_count > 0;
+    },
   },
   i18n: {
     messages: {
@@ -202,6 +232,13 @@ export default {
     // background-color: var(--active-color);
     // color: white;
   }
+}
+
+._docCount {
+  flex: 0 0 auto;
+  font-size: 0.9em;
+  color: var(--muted-color, #666);
+  white-space: nowrap;
 }
 
 ._displayOptions {

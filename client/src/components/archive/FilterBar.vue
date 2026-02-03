@@ -93,16 +93,20 @@
                 :key="keyword.title"
                 class="u-keywords _keywordCheckbox"
               >
-                <input
+                <!-- <input
                   type="checkbox"
                   :checked="isKeywordSelected(keyword.title)"
                   @change="toggleKeyword(keyword.title, $event.target.checked)"
-                />
+                /> -->
                 <SingleKeyword
                   :keyword="keyword.title"
                   :show_category="false"
                   :count="keyword.count"
+                  :can_add="!keywords_filter.includes(keyword.title)"
+                  :can_remove="keywords_filter.includes(keyword.title)"
                   :cat_color="getCategoryColor(category.type)"
+                  @add="toggleKeyword(keyword.title, true)"
+                  @remove="toggleKeyword(keyword.title, false)"
                 />
               </label>
               <button

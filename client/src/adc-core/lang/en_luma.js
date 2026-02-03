@@ -21,6 +21,7 @@ export default {
   filter_by_keyword: "Filter by keyword",
   show_more: "Show more",
   show_less: "Show less",
+  reset_filters: "Reset filters",
 
   // Missing translations
   items_to_share: "Items to share",
@@ -51,4 +52,10 @@ export default {
   language: "Language",
   admin_settings: "Admin Settings",
   review: "Review",
+
+  // Archive top bar counts
+  archive_document: "1 document",
+  archive_documents: "{count} documents",
+  archive_displayed_one: "1/{total} shown",
+  archive_displayed_count: "{displayed}/{total} shown",
 };

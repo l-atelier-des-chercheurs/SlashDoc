@@ -206,7 +206,7 @@ export default {
   }
 
   &.is--selected {
-    background-color: var(--active-color);
+    background-color: var(--g-200);
   }
   &.is--slider {
     background: var(--g-200);

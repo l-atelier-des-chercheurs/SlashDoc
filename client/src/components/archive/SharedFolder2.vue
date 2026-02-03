@@ -48,12 +48,19 @@
             :show_filter_bar.sync="show_filter_bar"
             :stack_preview_width.sync="stack_preview_width"
             :view_mode.sync="view_mode"
+            :total_count="all_stacks.length"
+            :displayed_count="filtered_stacks.length"
           />
           <transition name="fade" mode="out-in">
             <div class="_loader" v-if="is_loading_folder">
               <LoaderSpinner />
             </div>
           </transition>
+
+          <ActiveFiltersBar
+            :author_path_filter.sync="author_path_filter"
+            :keywords_filter.sync="keywords_filter"
+          />
 
           <transition name="fade" mode="out-in">
             <div class="_stacksList" :key="sort_order + '-' + group_mode">
@@ -121,6 +128,7 @@ import StackDisplay from "@/components/StackDisplay.vue";
 import CorpusMenu from "@/components/archive/CorpusMenu.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 import ArchiveTopBar from "@/components/archive/ArchiveTopBar.vue";
+import ActiveFiltersBar from "@/components/archive/ActiveFiltersBar.vue";
 import CommunitiesSection from "@/components/archive/CommunitiesSection.vue";
 
 export default {
@@ -143,6 +151,7 @@ export default {
     CorpusMenu,
     TwoColumnLayout,
     ArchiveTopBar,
+    ActiveFiltersBar,
     CommunitiesSection,
     MediaMap: () => import("@/adc-core/ui/MediaMap.vue"),
   },

@@ -237,6 +237,7 @@ export default {
 
   --sl-font-size-small: 0.875rem;
   --sl-font-size-x-small: 0.75rem;
+  --sl-font-size-xx-small: 0.625rem;
 
   --font-verysmall: var(--sl-font-size-x-small);
 
