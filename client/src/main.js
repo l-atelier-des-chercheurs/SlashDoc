@@ -201,8 +201,6 @@ import TextInput from "@/adc-core/inputs/TextInput.vue";
 Vue.component("TextInput", TextInput);
 import NumberInput from "@/adc-core/inputs/NumberInput.vue";
 Vue.component("NumberInput", NumberInput);
-import PositionPicker from "@/adc-core/inputs/PositionPicker.vue";
-Vue.component("PositionPicker", PositionPicker);
 import ColorInput from "@/adc-core/inputs/ColorInput.vue";
 Vue.component("ColorInput", ColorInput);
 import SearchInput from "@/adc-core/inputs/SearchInput.vue";
@@ -214,8 +212,6 @@ import ToggledSection from "@/adc-core/inputs/ToggledSection.vue";
 Vue.component("ToggledSection", ToggledSection);
 import RangeValueInput from "@/adc-core/inputs/RangeValueInput.vue";
 Vue.component("RangeValueInput", RangeValueInput);
-import AuthorPicker from "@/adc-core/inputs/AuthorPicker.vue";
-Vue.component("AuthorPicker", AuthorPicker);
 import CreateFolder from "@/adc-core/modals/CreateFolder.vue";
 Vue.component("CreateFolder", CreateFolder);
 import ImportFolder from "@/adc-core/modals/ImportFolder.vue";
@@ -326,15 +322,13 @@ const instance = axios.create({
   // },
 });
 
-instance.interceptors.request.use((request) => {
-  // if (debug_mode)
-  //   alertify.delay(4000).log(
-  //     `⤒ — ${request.method} + ${request.url}
-  //     ${request.data ? `+ ` + JSON.stringify(request.data).slice(0, 30) : ""}
-  //     `
-  //   );
-  return request;
-});
+// Conditionally load axios debug logger only when debug_mode is enabled
+if (debug_mode) {
+  import("@/utils/axios-debug-logger.js").then(({ setupAxiosDebugLogger }) => {
+    setupAxiosDebugLogger(instance);
+  });
+}
+
 Vue.prototype.$axios = instance;
 
 new Vue({

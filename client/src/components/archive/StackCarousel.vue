@@ -160,6 +160,19 @@ export default {
     this.$eventHub.$off("carousel.prev", this.prevFile);
   },
   watch: {
+    files: {
+      handler(new_files) {
+        // When removing the last item (or any item we're viewing), go to last remaining
+        if (
+          new_files &&
+          new_files.length > 0 &&
+          this.active_file_index >= new_files.length
+        ) {
+          this.active_file_index = new_files.length - 1;
+        }
+      },
+      deep: false,
+    },
     active_file_index(newIndex) {
       // Update URL query parameter when slide index changes
       if (newIndex !== false && newIndex !== null && newIndex !== undefined) {

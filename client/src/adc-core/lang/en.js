@@ -1518,4 +1518,5 @@ export default {
   no_spaces: "No spaces to show",
 
   add_cover: "Add cover",
+  back_to_content: "Back to content",
 };

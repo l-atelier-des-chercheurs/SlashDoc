@@ -10,15 +10,23 @@
     <div
       class=""
       ref="bookrender"
-      style="opacity: 0; visibility: hidden; pointer-events: none"
+      style="
+        position: absolute;
+        top: 0;
+        left: -200vw;
+        pointer-events: none;
+        opacity: 0;
+      "
     />
-    <div
+    <PanZoom3
       v-if="viewer_type === 'infinite-viewer'"
-      ref="infiniteviewer"
-      class="_infiniteViewer"
+      ref="panzoom3"
+      :zoom="current_zoom"
+      :layout_mode="'print'"
+      @scroll-end="onScrollEnd"
     >
       <div class="" ref="bookpreview" />
-    </div>
+    </PanZoom3>
     <template v-else>
       <div ref="bookpreview" />
     </template>
@@ -26,13 +34,9 @@
   </div>
 </template>
 <script>
-import InfiniteViewer from "infinite-viewer";
 import { Handler, Previewer } from "pagedjs";
-import {
-  handleChainOverflow,
-  checkCellOverflow,
-  showOverflowWarning,
-} from "./chainOverflowHandler.js";
+import { PagedjsFlowHandler } from "./PagedjsFlowHandler.js";
+import PanZoom3 from "@/components/publications/page_by_page/PanZoom3.vue";
 
 export default {
   props: {
@@ -60,41 +64,25 @@ export default {
     opened_chapter_meta_filename: String,
   },
   components: {
-    InfiniteViewer,
+    PanZoom3,
   },
   data() {
     return {
       is_loading: true,
-      infiniteviewer: null,
       is_generating_book: false,
+      current_zoom: 0.6,
     };
   },
   created() {},
   async mounted() {
     await this.generateBook();
 
-    if (this.$refs.infiniteviewer) {
-      this.infiniteviewer = new InfiniteViewer(
-        this.$refs.infiniteviewer,
-        this.$refs.bookpreview,
-        {
-          useMouseDrag: true,
-          useWheelScroll: true,
-          useAutoZoom: true,
-
-          margin: 0,
-          zoomRange: [0.4, 10],
-          maxPinchWheel: 10,
-          displayVerticalScroll: true,
-          displayHorizontalScroll: true,
-        }
-      );
-
+    if (this.viewer_type === "infinite-viewer" && this.$refs.panzoom3) {
       this.$nextTick(() => {
         if (this.opened_chapter_meta_filename)
           this.zoomToSection(this.opened_chapter_meta_filename);
         else {
-          this.infiniteviewer.setZoom(0.6);
+          this.current_zoom = 0.6;
           this.$nextTick(() => {
             this.zoomToSection("first page");
           });
@@ -189,6 +177,10 @@ export default {
         ];
 
         const bookrender = this.$refs.bookrender;
+
+        // Register the Flow Handler
+        paged.registerHandlers(PagedjsFlowHandler);
+
         paged.preview(pagedjs_html, theme_styles, bookrender).then((flow) => {
           bookpreview.innerHTML = "";
           bookpreview.appendChild(flow.pagesArea);
@@ -196,7 +188,6 @@ export default {
 
           this.$nextTick(() => {
             this.showOnlyPages();
-            this.handleCellOverflow();
             if (this.can_edit) {
               this.addChapterShortcuts();
               this.reportChapterPositions();
@@ -320,6 +311,9 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
     },
+    onScrollEnd({ zoom }) {
+      this.current_zoom = zoom;
+    },
     async zoomToSection(meta_filename) {
       if (!meta_filename) return;
 
@@ -345,6 +339,8 @@ export default {
       this.zoomToPage(page);
     },
     zoomToPage(page) {
+      if (!this.$refs.panzoom3) return;
+
       const pages_container = this.$refs.bookpreview;
       const container_scrollLeft = pages_container.getBoundingClientRect().left;
       const container_scrollTop = pages_container.getBoundingClientRect().top;
@@ -356,7 +352,7 @@ export default {
       console.log(page_scrollLeft, page_scrollTop);
 
       const padding = 200;
-      this.infiniteviewer.scrollTo(
+      this.$refs.panzoom3.scrollTo(
         page_scrollLeft - container_scrollLeft - padding,
         page_scrollTop - container_scrollTop - padding,
         {
@@ -365,42 +361,9 @@ export default {
         }
       );
     },
-    handleCellOverflow() {
-      const bookpreview = this.$refs.bookpreview;
-      if (!bookpreview) return;
-
-      // Process each page separately
-      const pages = bookpreview.querySelectorAll(".pagedjs_page");
-      console.log("handleCellOverflow");
-
-      pages.forEach((page) => {
-        // Find all grid cells within this page
-        const gridCells = page.querySelectorAll(
-          ".grid-cell[data-grid-area-type='text']"
-        );
-
-        gridCells.forEach((cell) => {
-          // Check for overflow
-          const hasOverflow = checkCellOverflow(cell);
-
-          if (hasOverflow) {
-            if (cell.getAttribute("data-grid-area-is-chain-index")) {
-              this.handleChainOverflow(cell, page);
-            } else {
-              showOverflowWarning(cell, this.$t("text_overflow"));
-            }
-          }
-        });
-      });
-    },
-    handleChainOverflow(cell, page) {
-      if (!page) {
-        // Fallback: find the page containing the cell
-        page = cell.closest(".pagedjs_page");
-      }
-      if (!page) return;
-
-      handleChainOverflow(cell, page, this.$t("text_overflow"));
+    beforePrint() {
+      // Handler for beforeprint event
+      // Can be extended if needed for print-specific behavior
     },
   },
 };
@@ -424,14 +387,7 @@ export default {
     height: 100%;
     background-color: var(--c-gris_fonce);
   }
-  ._infiniteViewer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    cursor: move;
-  }
+  // Panzoom3 handles its own styling through .viewer class
 
   &.is--editable {
     --color-pageContent: #ff00ff;
