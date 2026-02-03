@@ -42,9 +42,12 @@
 
       <p>
         <strong>Conception et développement</strong><br />
-        Développement Web: Louis Eveillard (l’Atelier des chercheurs)<br />
-        UI-UX design: Thibéry Maillard<br />
-        Designer Atelier LUMA: Kernreuter Clara
+        Développement Web : Louis Eveillard
+        <a href="https://latelier-des-chercheurs.fr/" target="_blank"
+          >(l’Atelier des chercheurs)</a
+        ><br />
+        UI-UX design : Thibéry Maillard<br />
+        Designer Atelier LUMA : Kernreuter Clara
       </p>
 
       <p>
