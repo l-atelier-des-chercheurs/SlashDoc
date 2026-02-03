@@ -1,0 +1,1 @@
+import{n}from"../build.js";const o={name:"ContentPage",props:{},components:{},data(){return{}},created(){},mounted(){},beforeDestroy(){},watch:{},computed:{},methods:{}};var a=function(){var e=this,t=e._self._c;return t("div",{staticClass:"_contentPage"},[e._t("default")],2)},r=[],s=n(o,a,r,!1,null,"bde83b68");const d=s.exports;export{d as default};
