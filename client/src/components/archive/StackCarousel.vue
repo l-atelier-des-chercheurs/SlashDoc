@@ -284,7 +284,7 @@ export default {
 
 ._list {
   display: flex;
-  gap: 2px;
+  // gap: 2px;
   overflow: auto;
   overscroll-behavior-x: contain;
   // padding: 2px;
