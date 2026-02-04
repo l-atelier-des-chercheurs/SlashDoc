@@ -79,6 +79,11 @@ const routes = [
     component: () => import("@/views/TermsView.vue"),
   },
   {
+    path: "/confidentiality",
+    name: "Confidentiality",
+    component: () => import("@/views/ConfidentialityView.vue"),
+  },
+  {
     // route to display a single media with caption/credits and
     // with qr scan option, and to generate preview for PDF and STL server-side
     path: "/_previewmedia",

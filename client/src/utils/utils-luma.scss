@@ -218,3 +218,11 @@ input[type="range"] {
     }
   }
 }
+
+._authorCard[data-isself] {
+  background-color: var(--c-gris_clair) !important;
+  border-color: var(--c-gris_fonce) !important;
+}
+._noImage ._noImage--letter {
+  color: var(--c-gris_fonce) !important;
+}

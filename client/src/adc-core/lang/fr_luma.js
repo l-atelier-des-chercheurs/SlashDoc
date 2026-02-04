@@ -59,4 +59,14 @@ export default {
   archive_documents: "{count} documents",
   archive_displayed_one: "1/{total} affiché",
   archive_displayed_count: "{displayed}/{total} affichés",
+
+  // Cookie notice & confidentiality (Luma)
+  cookies_info: `
+    Sur cette version de SlashDoc, aucun suivi des visites n'est réalisé 
+    et les cookies servent uniquement à enregistrer des informations techniques anonymes.
+    `,
+  cookie_notice_message:
+    "Ce site utilise des cookies pour son fonctionnement et l'amélioration de votre navigation.",
+  cookie_notice_link_text: "Politique de confidentialité et cookies",
+  cookie_notice_accept: "J'ai compris",
 };

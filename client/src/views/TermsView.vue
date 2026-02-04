@@ -7,7 +7,7 @@
       <p>
         En vertu de l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la
         confiance dans l’économie numérique, il est précisé aux utilisateurs de
-        la plateforme /doc (DocSpaces) l’identité des différents intervenants
+        la plateforme /doc (SlashDoc) l’identité des différents intervenants
         dans le cadre de sa réalisation et de son suivi.
       </p>
 
@@ -34,7 +34,7 @@
       <p>
         <strong>Éditeur du site</strong><br />
         Atelier LUMA, en sa qualité d’éditeur de la plateforme /doc
-        (DocSpaces).<br />
+        (SlashDoc).<br />
         Responsable de la publication<br />
         Kernreuter, Clara, Designer, agissant pour le compte d’Atelier LUMA ou
         Mustapha BOUHAYATI, Président de la SAS Luma/Arles.
@@ -73,7 +73,7 @@
 
     <div class="_section">
       <h2>2. Objet et philosophie du service</h2>
-      <p>La plateforme /doc (DocSpaces) a pour objet de :</p>
+      <p>La plateforme /doc (SlashDoc) a pour objet de :</p>
       <ul>
         <li>
           documenter des processus de recherche, de création et de production en
@@ -89,7 +89,7 @@
         </li>
       </ul>
       <p>
-        /doc (DocSpaces) s’inscrit dans une logique de communs, considérant la
+        /doc (SlashDoc) s’inscrit dans une logique de communs, considérant la
         connaissance comme une ressource collective qui doit pouvoir circuler,
         être enrichie, critiquée et transformée, dans le respect des personnes,
         des contextes et des territoires d’origine.
@@ -99,7 +99,7 @@
     <div class="_section">
       <h2>3. Conditions générales d’utilisation</h2>
       <p>
-        L’utilisation de la plateforme /doc (DocSpaces) implique l’acceptation
+        L’utilisation de la plateforme /doc (SlashDoc) implique l’acceptation
         pleine et entière des présentes mentions légales, ainsi que des
         conditions générales d’utilisation.
       </p>
@@ -126,7 +126,7 @@
     <div class="_section">
       <h2>4. Contenus déposés et engagement open source</h2>
       <p>
-        En déposant du contenu sur /doc (DocSpaces) (textes, images, vidéos,
+        En déposant du contenu sur /doc (SlashDoc) (textes, images, vidéos,
         protocoles, données, documents de recherche, etc.), l’utilisateur ou la
         structure contributrice :
       </p>
@@ -156,7 +156,7 @@
           la transparence des processus de conception ;<br />
           la possibilité de reproduction et d’appropriation locale ;<br />
           la reconnaissance des auteur·rices et des contextes de production.<br />
-          /doc (DocSpaces) revendique une position politique claire en faveur de
+          /doc (SlashDoc) revendique une position politique claire en faveur de
           l’open source, considéré comme un levier d’émancipation, de justice
           sociale et de transition écologique. Le refus de la privatisation
           abusive des connaissances et l’encouragement à leur circulation
@@ -168,7 +168,7 @@
     <div class="_section">
       <h2>5. Propriété intellectuelle et communs</h2>
       <p>
-        La plateforme /doc (DocSpaces) ne revendique pas la propriété exclusive
+        La plateforme /doc (SlashDoc) ne revendique pas la propriété exclusive
         des contenus déposés par les utilisateurs. Les droits moraux des
         auteur·rices sont pleinement respectés. Chaque contenu reste attaché à
         ses contributeurs et à son contexte d’émergence. Toutefois, dans une
@@ -184,7 +184,7 @@
     <div class="_section">
       <h2>6. Responsabilité et modération</h2>
       <p>
-        /doc (DocSpaces) s’efforce de garantir un espace de publication
+        /doc (SlashDoc) s’efforce de garantir un espace de publication
         respectueux, inclusif et conforme à la législation en vigueur. Les
         utilisateurs s’engagent à ne pas publier de contenus :
       </p>
@@ -206,7 +206,7 @@
     <div class="_section">
       <h2>7. Données personnelles et RGPD</h2>
       <p>
-        La plateforme /doc (DocSpaces) s’engage à respecter le Règlement général
+        La plateforme /doc (SlashDoc) s’engage à respecter le Règlement général
         sur la protection des données (RGPD) et la législation française en
         vigueur. Les données personnelles collectées sont strictement limitées à
         ce qui est nécessaire au fonctionnement de la plateforme et à la mise en
@@ -219,8 +219,8 @@
     <div class="_section">
       <h2>8. Droit applicable</h2>
       <p>
-        Tout litige relatif à l’utilisation de la plateforme /doc (DocSpaces)
-        est soumis au droit français.
+        Tout litige relatif à l’utilisation de la plateforme /doc (SlashDoc) est
+        soumis au droit français.
       </p>
     </div>
 

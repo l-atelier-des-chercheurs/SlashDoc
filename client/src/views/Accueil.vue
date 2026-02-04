@@ -84,7 +84,7 @@ export default {
             this.$i18n.locale === "fr"
               ? "Importez toutes sortes de médias pour documenter vos idées, vos croquis, vos essais. <i>– Rien ne se perd, tout a de la valeur.</i>"
               : `Import all kind of medias for your ideas, sketchs, tests. <i>— Nothing gets lost, everything has value.</i>`,
-          text: `/doc a été conçu pour faciliter la documentation à tout moment. Le dépôt de fichiers est simplifié, adapté à un usage mobile à faible connexion, pour sauvegarder ce qui mérite de l’être à l’instant t.`,
+          text: `SlashDoc a été conçu pour faciliter la documentation à tout moment. Le dépôt de fichiers est simplifié, adapté à un usage mobile à faible connexion, pour sauvegarder ce qui mérite de l’être à l’instant t.`,
           img: this.$root.publicPath + "home/contribute.png",
         },
         {
@@ -123,7 +123,7 @@ export default {
       if (this.$i18n.locale === "fr") {
         return `
         <p>Documenter et partager les démarches de recherches pour participer à la <b>création de projets de design</b> qui répondent aux enjeux <b>sociaux, environnementaux et économiques</b> des acteurs des territoires.</p>
-<p>Initiée par Atelier Luma, <i>/doc</i> soutient une approche <b>interdisciplinaire</b> et <b>biorégionale</b> du design qui contribue à un réseau vivant de <b>connaissances</b>, de <b>pratiques</b> et de <b>ressources</b> à échelles locales.</p>`;
+<p>Initiée par Atelier Luma, <i>SlashDoc</i> soutient une approche <b>interdisciplinaire</b> et <b>biorégionale</b> du design qui contribue à un réseau vivant de <b>connaissances</b>, de <b>pratiques</b> et de <b>ressources</b> à échelles locales.</p>`;
       } else {
         return `<p>Share your research and design projects to contribute to a living network of knowledge, practices, and local-based resources.</p>
 <p>Initiated by Atelier Luma, this platform supports an interdisciplinary and bioregional approach to design, addressing environmental, social, and economic challenges at the local scale.

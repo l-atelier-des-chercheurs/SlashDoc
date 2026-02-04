@@ -27,6 +27,7 @@
           @close="show_authors_modal = false"
         />
         <template v-else>
+          <CookieNoticeBar />
           <div class="_fullUI--content">
             <TopBar class="_fullUI--content--topBar" />
             <transition name="pagechange" mode="out-in">
@@ -53,10 +54,12 @@ import TaskTracker from "@/adc-core/tasks/TaskTracker.vue";
 import DisconnectModal from "@/adc-core/modals/DisconnectModal.vue";
 import TopBar from "@/components/TopBar.vue";
 import AuthorList from "@/adc-core/author/AuthorList.vue";
+import CookieNoticeBar from "@/components/CookieNoticeBar.vue";
 
 export default {
   props: {},
   components: {
+    CookieNoticeBar,
     WelcomeModal,
     GeneralPasswordModal,
     TrackAuthorChanges,

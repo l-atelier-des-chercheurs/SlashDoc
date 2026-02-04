@@ -3,7 +3,7 @@
     <div class="">
       <button
         type="button"
-        class="u-button u-button_icon u-button_transparent _addCommunityButton"
+        class="u-buttonLink _addCommunityButton"
         @click="$emit('openCorpusSelection')"
         :title="$t('see_all_communities')"
       >
@@ -88,6 +88,6 @@ export default {
 
 ._addCommunityButton {
   flex: 0 0 auto;
-  margin-left: calc(var(--spacing) / -2);
+  // margin-left: calc(var(--spacing) / -2);
 }
 </style>
