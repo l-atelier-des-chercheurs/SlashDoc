@@ -396,9 +396,21 @@ export default {
 }
 
 ._textEditor2 {
-  padding: 0 calc(var(--spacing) / 1);
+  padding: calc(var(--spacing) / 1);
 
-  ::v-deep .ql-editor {
+  ::v-deep {
+    ._toolbarAndEditorContainer {
+      max-width: 90ch;
+      margin: 0 auto;
+    }
+    ._collaborativeEditor:not(.is--editing_is_enabled) {
+      .ql-editor {
+        padding: calc(var(--spacing) * 0.25) calc(var(--spacing) * 0.5);
+      }
+    }
+    .ql-editor {
+      background-color: white;
+    }
   }
 }
 

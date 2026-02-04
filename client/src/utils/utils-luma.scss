@@ -226,3 +226,8 @@ input[type="range"] {
 ._noImage ._noImage--letter {
   color: var(--c-gris_fonce) !important;
 }
+
+._author[data-imageonly][data-isself] ._cover {
+  background-color: var(--c-gris_clair) !important;
+  border-color: var(--c-gris_fonce) !important;
+}
