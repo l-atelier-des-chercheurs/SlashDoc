@@ -4,7 +4,7 @@
       <router-link to="/" class="_logo">/doc</router-link>
     </div>
     <button
-      v-if="$root.is_mobile_view"
+      v-if="$root.is_mobile_view && is_connected"
       type="button"
       class="u-button u-button_icon _hamburgerBtn"
       @click="show_mobile_menu = !show_mobile_menu"
@@ -108,7 +108,7 @@
             <span>{{ $t("share") }}</span>
           </button>
 
-          <button
+          <!-- <button
             type="button"
             class="u-button u-button_icon u-button_glass"
             @click="
@@ -118,7 +118,7 @@
           >
             <b-icon icon="question-square" />
             <span>{{ $t("help") }}</span>
-          </button>
+          </button> -->
 
           <!-- <button
             v-if="$route.path !== '/'"
@@ -180,7 +180,7 @@
       </div>
     </div>
 
-    <template v-if="!$root.is_mobile_view">
+    <template v-else>
       <div class="_menu" v-if="connected_as">
         <router-link
           to="/contribute"
@@ -200,9 +200,8 @@
         </router-link>
       </div>
       <div class="_topRow">
-        <button
+        <!-- <button
           type="button"
-          v-if="false"
           class="u-button u-button_icon u-button_glass"
           @click="show_qr_code_modal = true"
         >
@@ -222,16 +221,15 @@
             ></path>
             <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path>
           </svg>
-        </button>
+        </button> -->
 
-        <button
+        <!-- <button
           type="button"
-          v-if="false"
           class="u-button u-button_icon u-button_glass"
           @click="$eventHub.$emit(`app.show_welcome_modal`)"
         >
           <b-icon icon="question-square" />
-        </button>
+        </button> -->
 
         <!-- <button
           type="button"
@@ -307,7 +305,7 @@
         </div>
         <button
           type="button"
-          class="u-button u-button_bleumarine _authorBtn"
+          class="u-button u-button_transparent _authorBtn"
           v-else
           @click="$eventHub.$emit('showAuthorModal')"
         >
