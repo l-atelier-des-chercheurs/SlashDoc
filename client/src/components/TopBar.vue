@@ -154,28 +154,25 @@
                 show_mobile_menu = false;
               "
             />
-            <sup
+            <!-- <sup
               class="_badge"
               v-if="$api.other_devices_connected.length > 0"
               v-text="$api.other_devices_connected.length"
-            />
+            /> -->
           </div>
-          <button
-            type="button"
-            class="u-button u-button_glass _mobileAuthorBtn"
+          <router-link
             v-else
-            @click="
-              $eventHub.$emit('showAuthorModal');
-              show_mobile_menu = false;
-            "
+            to="/login"
+            class="u-button u-button_glass _mobileAuthorBtn"
+            @click.native="show_mobile_menu = false"
           >
             {{ $t("login") }}
-            <sup
+            <!-- <sup
               class="_badge"
               v-if="$api.other_devices_connected.length > 0"
               v-text="$api.other_devices_connected.length"
-            />
-          </button>
+            /> -->
+          </router-link>
         </div>
       </div>
     </div>
@@ -297,25 +294,24 @@
             :show_image_only="true"
             @click="showAuthorModal"
           />
-          <sup
+          <!-- <sup
             class="_badge"
             v-if="$api.other_devices_connected.length > 0"
             v-text="$api.other_devices_connected.length"
-          />
+          /> -->
         </div>
-        <button
-          type="button"
+        <router-link
+          to="/login"
           class="u-button u-button_transparent _authorBtn"
           v-else
-          @click="$eventHub.$emit('showAuthorModal')"
         >
           {{ $t("login") }}
-          <sup
+          <!-- <sup
             class="_badge"
             v-if="$api.other_devices_connected.length > 0"
             v-text="$api.other_devices_connected.length"
-          />
-        </button>
+          /> -->
+        </router-link>
       </div>
     </template>
 

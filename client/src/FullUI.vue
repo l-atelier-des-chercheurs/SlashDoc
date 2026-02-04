@@ -22,7 +22,7 @@
       />
       <template v-else>
         <AuthorList
-          v-if="show_authors_modal || (!connected_as && $route.path !== '/')"
+          v-if="show_authors_modal"
           :is_closable="!!connected_as"
           @close="show_authors_modal = false"
         />
@@ -116,7 +116,18 @@ export default {
     this.$eventHub.$off("socketio.disconnect", this.socketDisconnected);
     this.$eventHub.$off("socketio.connect_error", this.socketConnectError);
   },
-  watch: {},
+  watch: {
+    $route: {
+      immediate: true,
+      handler(route) {
+        if (this.connected_as) return;
+        const public_paths = ["/", "/login", "/login/create", "/reset-password", "/terms", "/confidentiality"];
+        if (public_paths.includes(route.path)) return;
+        if (route.meta && route.meta.static) return;
+        this.$router.replace("/login");
+      },
+    },
+  },
   computed: {},
   methods: {
     socketConnected() {

@@ -69,4 +69,6 @@ export default {
     "Ce site utilise des cookies pour son fonctionnement et l'amélioration de votre navigation.",
   cookie_notice_link_text: "Politique de confidentialité et cookies",
   cookie_notice_accept: "J'ai compris",
+
+  name_slashdoc: "Prénom",
 };

@@ -39,116 +39,114 @@
         class="input-validation-required"
         @submit.prevent="createAuthor"
       >
-        <fieldset>
-          <legend>{{ $t("new_account") }}</legend>
+        <!-- <fieldset>
+          <legend>{{ $t("new_account") }}</legend> -->
 
-          <TextInput
-            :content.sync="new_author_name"
-            :label_str="'name_or_pseudonym'"
-            :required="true"
-            :autofocus="true"
-            :maxlength="40"
-            :autocomplete="'username'"
-            @toggleValidity="($event) => (allow_save = $event)"
-          />
+        <TextInput
+          :content.sync="new_author_name"
+          :label_str="'name_slashdoc'"
+          :required="true"
+          :autofocus="true"
+          :maxlength="40"
+          :autocomplete="'username'"
+          @toggleValidity="($event) => (allow_save = $event)"
+        />
 
-          <div class="u-spacingBottom" />
+        <div class="u-spacingBottom" />
 
-          <TextInput
-            :content.sync="new_author_email"
-            :label_str="'email'"
-            :required="$root.app_infos.instance_meta.require_mail_to_signup"
-            :input_type="'email'"
-            :autocomplete="'email'"
-            :instructions="$t('email_instr')"
-            @toggleValidity="($event) => (allow_save = $event)"
-          />
+        <TextInput
+          :content.sync="new_author_email"
+          :label_str="'email'"
+          :required="$root.app_infos.instance_meta.require_mail_to_signup"
+          :input_type="'email'"
+          :autocomplete="'email'"
+          :instructions="$t('email_instr')"
+          @toggleValidity="($event) => (allow_save = $event)"
+        />
 
-          <div class="u-spacingBottom" />
+        <div class="u-spacingBottom" />
 
-          <div class="">
-            <DLabel :str="$t('pick_portrait')" />
-            <div>
-              <img
-                class="_imgPreview"
-                v-if="new_cover_object_url"
-                :src="new_cover_object_url"
-              />
-              <EditBtn
-                :label="!new_cover ? $t('add') : undefined"
-                :is_unfolded="true"
-                @click="select_image = true"
-              />
-              <ImageSelect
-                v-if="select_image"
-                :label="$t('pick_portrait')"
-                :ratio="'square'"
-                :preview_format="'circle'"
-                :available_options="['import', 'capture']"
-                @close="select_image = false"
-                @newPreview="
-                  (value) => {
-                    new_cover = value;
-                    select_image = false;
-                  }
-                "
-              />
-            </div>
-          </div>
-
-          <div class="u-spacingBottom" />
-
-          <TextInput
-            :content.sync="new_author_password"
-            :label_str="'password'"
-            :minlength="3"
-            :maxlength="20"
-            :required="true"
-            :input_type="'password'"
-            :autocomplete="'new-password'"
-            @toggleValidity="($event) => (allow_save = $event)"
-          />
-
-          <div class="u-spacingBottom" />
-
-          <template
-            v-if="
-              $root.app_infos.instance_meta.users_must_accept_terms_to_signup
-            "
-          >
-            <ToggleInput
-              :content.sync="terms_accepted"
-              :label="$t('i_read_and_accept_terms')"
+        <div class="">
+          <DLabel :str="$t('pick_portrait')" />
+          <div>
+            <img
+              class="_imgPreview"
+              v-if="new_cover_object_url"
+              :src="new_cover_object_url"
             />
-
-            <div class="u-instructions">
-              <router-link
-                :to="createURLFromPath('pages/terms')"
-                class="u-buttonLink"
-              >
-                {{ $t("click_here_to_read") }}
-              </router-link>
-            </div>
-
-            <div class="u-spacingBottom" />
-          </template>
-
-          <div slot="footer">
-            <div />
-            <button
-              :loading="is_creating_author"
-              :disabled="
-                $root.app_infos.instance_meta
-                  .users_must_accept_terms_to_signup === true &&
-                terms_accepted === false
+            <EditBtn
+              :label="!new_cover ? $t('add') : undefined"
+              :is_unfolded="true"
+              @click="select_image = true"
+            />
+            <ImageSelect
+              v-if="select_image"
+              :label="$t('pick_portrait')"
+              :ratio="'square'"
+              :preview_format="'circle'"
+              :available_options="['import', 'capture']"
+              @close="select_image = false"
+              @newPreview="
+                (value) => {
+                  new_cover = value;
+                  select_image = false;
+                }
               "
-              class="u-button u-button_bleuvert"
-              type="submit"
-            >
-              {{ $t("create") }}
-            </button>
+            />
           </div>
-        </fieldset>
+        </div>
+
+        <div class="u-spacingBottom" />
+
+        <TextInput
+          :content.sync="new_author_password"
+          :label_str="'password'"
+          :minlength="3"
+          :maxlength="20"
+          :required="true"
+          :input_type="'password'"
+          :autocomplete="'new-password'"
+          @toggleValidity="($event) => (allow_save = $event)"
+        />
+
+        <div class="u-spacingBottom" />
+
+        <template
+          v-if="$root.app_infos.instance_meta.users_must_accept_terms_to_signup"
+        >
+          <ToggleInput
+            :content.sync="terms_accepted"
+            :label="$t('i_read_and_accept_terms')"
+          />
+
+          <div class="u-instructions">
+            <router-link
+              :to="createURLFromPath('pages/terms')"
+              class="u-buttonLink"
+            >
+              {{ $t("click_here_to_read") }}
+            </router-link>
+          </div>
+
+          <div class="u-spacingBottom" />
+        </template>
+
+        <div slot="footer">
+          <div />
+          <button
+            :loading="is_creating_author"
+            :disabled="
+              $root.app_infos.instance_meta
+                .users_must_accept_terms_to_signup === true &&
+              terms_accepted === false
+            "
+            class="u-button u-button_bleuvert"
+            type="submit"
+          >
+            {{ $t("create") }}
+          </button>
+        </div>
+        <!-- </fieldset> -->
       </form>
       <div v-else-if="account_created_notice" class="u-successMsg">
         {{ $t("account_created") }}

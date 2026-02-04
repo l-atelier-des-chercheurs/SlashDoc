@@ -100,6 +100,20 @@ const routes = [
     component: () => import("@/views/ResetPasswordView.vue"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "LoginView" */ "../views/LoginView.vue"),
+  },
+  {
+    path: "/login/create",
+    name: "Create account",
+    component: () =>
+      import(
+        /* webpackChunkName: "CreateAccountView" */ "../views/CreateAccountView.vue"
+      ),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/NotFound.vue"),

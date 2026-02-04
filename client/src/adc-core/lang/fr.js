@@ -179,7 +179,7 @@ export default {
   admin: "Administrateur·rice",
   create: "Créer",
   existing: "Existant",
-  create_account: "créer un compte",
+  create_account: "Créer un compte",
   your_account: "Votre compte",
   new_account: "Nouveau compte",
   account_group: "Groupe (pour les comptes)",
