@@ -447,7 +447,7 @@ export default {
       const date_str = +new Date();
       const filename = "note-" + date_str + ".txt";
 
-      const meta_filename = await this.$api.uploadText({
+      const { meta_filename } = await this.$api.uploadText({
         path: this.author_path,
         filename,
         content: "",
@@ -463,7 +463,7 @@ export default {
       const date_str = +new Date();
       const filename = "url-" + date_str + ".txt";
 
-      const meta_filename = await this.$api.uploadText({
+      const { meta_filename } = await this.$api.uploadText({
         path: this.author_path,
         filename,
         content: full_url,

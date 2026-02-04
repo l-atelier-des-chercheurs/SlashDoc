@@ -164,6 +164,7 @@
           class="_fileLarge"
           :key="file.$path"
           :context="'chutier'"
+          :show_infos_on_mounted="true"
           :file="file"
           :can_edit="true"
         />

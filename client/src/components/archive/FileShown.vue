@@ -213,6 +213,7 @@ export default {
     context: String,
     position: String,
     can_edit: Boolean,
+    show_infos_on_mounted: Boolean,
   },
   components: {
     CropAdjustMedia: () => import("@/adc-core/fields/CropAdjustMedia.vue"),
@@ -220,7 +221,7 @@ export default {
   },
   data() {
     return {
-      show_infos: true,
+      show_infos: this.show_infos_on_mounted,
       is_dragged: false,
       edit_mode: false,
       is_regenerating: false,
@@ -240,7 +241,7 @@ export default {
     },
   },
   created() {
-    if (localStorage.getItem("show_infos"))
+    if (localStorage.getItem("show_infos") && !this.show_infos_on_mounted)
       this.show_infos = localStorage.getItem("show_infos") !== "false";
     else
       this.show_infos =

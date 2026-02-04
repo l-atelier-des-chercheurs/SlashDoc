@@ -49,15 +49,29 @@
     </section>
     <div class="_footer">
       <small>{{ $t("version") }} {{ $root.app_infos.version }}</small>
+      <button
+        type="button"
+        class="u-button u-button_icon u-button_glass _langButton"
+        @click="show_lang_modal = !show_lang_modal"
+      >
+        <span>{{ $t("language") }}: {{ current_lang_code }}</span>
+      </button>
     </div>
+    <LangModal v-if="show_lang_modal" @close="show_lang_modal = false" />
   </div>
 </template>
 <script>
+import LangModal from "@/adc-core/lang/LangModal.vue";
+
 export default {
   props: {},
-  components: {},
+  components: {
+    LangModal,
+  },
   data() {
-    return {};
+    return {
+      show_lang_modal: false,
+    };
   },
   created() {
     // this.$router.push("/import");
@@ -66,6 +80,9 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {
+    current_lang_code() {
+      return this.$i18n.locale;
+    },
     top_title() {
       if (this.$i18n.locale === "fr") {
         return `Une plateforme pour <span class="_partager">partager</span>, <span class="_connecter">connecter</span> et <span class="_renforcer">renforcer</span> les territoires par le <span class="_design">design</span>`;
@@ -310,5 +327,12 @@ By documenting your work, you help create assemblages, of materials, skills, and
 
 ._footer {
   justify-content: center;
+  align-items: center;
+  gap: calc(var(--spacing) * 2);
+  flex-wrap: wrap;
+}
+
+._langButton {
+  font-size: var(--sl-font-size-medium);
 }
 </style>

@@ -24,7 +24,7 @@
       @click="show_mobile_menu = false"
     >
       <div class="_mobileMenu" @click.stop>
-        <div class="_mobileNavLinks">
+        <div class="_mobileNavLinks" v-if="connected_as">
           <router-link
             class="_navButton"
             to="/contribute"
@@ -80,6 +80,7 @@
         <div class="_mobileActions">
           <button
             type="button"
+            v-if="false"
             class="u-button u-button_icon u-button_glass"
             @click="
               show_qr_code_modal = true;
@@ -119,7 +120,8 @@
             <span>{{ $t("help") }}</span>
           </button>
 
-          <button
+          <!-- <button
+            v-if="$route.path !== '/'"
             type="button"
             class="u-button u-button_icon u-button_glass"
             @click="
@@ -128,7 +130,7 @@
             "
           >
             <span>{{ $t("language") }}: {{ current_lang_code }}</span>
-          </button>
+          </button> -->
 
           <button
             v-if="is_instance_admin"
@@ -179,7 +181,7 @@
     </div>
 
     <template v-if="!$root.is_mobile_view">
-      <div class="_menu">
+      <div class="_menu" v-if="connected_as">
         <router-link
           to="/contribute"
           class="_navButton"
@@ -200,6 +202,7 @@
       <div class="_topRow">
         <button
           type="button"
+          v-if="false"
           class="u-button u-button_icon u-button_glass"
           @click="show_qr_code_modal = true"
         >
@@ -223,18 +226,19 @@
 
         <button
           type="button"
+          v-if="false"
           class="u-button u-button_icon u-button_glass"
           @click="$eventHub.$emit(`app.show_welcome_modal`)"
         >
           <b-icon icon="question-square" />
         </button>
 
-        <button
+        <!-- <button
           type="button"
           class="u-button u-button_icon u-button_glass"
           @click="show_lang_modal = !show_lang_modal"
           v-text="current_lang_code"
-        ></button>
+        ></button> -->
 
         <button
           type="button"

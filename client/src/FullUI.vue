@@ -22,7 +22,7 @@
       />
       <template v-else>
         <AuthorList
-          v-if="show_authors_modal || !connected_as"
+          v-if="show_authors_modal || (!connected_as && $route.path !== '/')"
           :is_closable="!!connected_as"
           @close="show_authors_modal = false"
         />
