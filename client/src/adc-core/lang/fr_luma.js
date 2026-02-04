@@ -71,4 +71,8 @@ export default {
   cookie_notice_accept: "J'ai compris",
 
   name_slashdoc: "Prénom",
+
+  onboarding: "Bienvenue",
+  onboarding_intro:
+    "Votre compte est prêt. Vous pouvez commencer à contribuer ou explorer la plateforme.",
 };

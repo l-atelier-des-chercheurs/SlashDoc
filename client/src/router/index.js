@@ -114,6 +114,14 @@ const routes = [
       ),
   },
   {
+    path: "/onboarding",
+    name: "Onboarding",
+    component: () =>
+      import(
+        /* webpackChunkName: "OnboardingView" */ "../views/OnboardingView.vue"
+      ),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/NotFound.vue"),

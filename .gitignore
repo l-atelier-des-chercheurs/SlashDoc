@@ -1,5 +1,8 @@
 settings.json
 
+# Cursor IDE rules (local only, not committed)
+.cursor/
+
 ####### NODE ########
 .tmp
 .sass-cache

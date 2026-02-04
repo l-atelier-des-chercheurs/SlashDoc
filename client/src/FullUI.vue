@@ -121,7 +121,15 @@ export default {
       immediate: true,
       handler(route) {
         if (this.connected_as) return;
-        const public_paths = ["/", "/login", "/login/create", "/reset-password", "/terms", "/confidentiality"];
+        const public_paths = [
+          "/",
+          "/login",
+          "/login/create",
+          "/onboarding",
+          "/reset-password",
+          "/terms",
+          "/confidentiality",
+        ];
         if (public_paths.includes(route.path)) return;
         if (route.meta && route.meta.static) return;
         this.$router.replace("/login");
