@@ -80,7 +80,7 @@ export default {
   align-items: stretch;
   justify-content: stretch;
   gap: 0;
-  min-height: 70vh;
+  min-height: 50vh;
   // height: 100%;
   padding: 0;
 

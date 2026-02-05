@@ -86,6 +86,8 @@ export default {
 
 ._stackPickerFrame {
   border: 1px solid var(--c-gris);
+  margin-top: calc(var(--spacing) * -1 - 1px);
+
   // border-radius: var(--input-border-radius);
   overflow: auto;
   height: 70dvh;
