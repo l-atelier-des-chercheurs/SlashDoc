@@ -86,6 +86,19 @@
               />
             </div>
           </div>
+          <hr />
+
+          <button
+            type="button"
+            class="u-button u-button_outline _importFolderBtn"
+            @click="show_import_slashdoc_modal = true"
+          >
+            <b-icon icon="folder-plus" />{{ $t("import_document") }}
+          </button>
+          <ImportSlashdocModal
+            v-if="show_import_slashdoc_modal"
+            @close="show_import_slashdoc_modal = false"
+          />
         </div>
       </div>
     </template>
@@ -272,6 +285,7 @@ import ImportFileZone from "@/adc-core/ui/ImportFileZone.vue";
 import EmbedPicker from "@/adc-core/modals/EmbedPicker.vue";
 import ChutierItem from "@/components/chutier/ChutierItem.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
+import ImportSlashdocModal from "@/components/slash/ImportSlashdocModal.vue";
 
 export default {
   props: {},
@@ -284,6 +298,7 @@ export default {
     PickExistingMediastackModal: () =>
       import("@/components/PickExistingMediastackModal.vue"),
     TwoColumnLayout,
+    ImportSlashdocModal,
   },
   provide() {
     return {};
@@ -329,6 +344,8 @@ export default {
       id: `image_select_${(
         Math.random().toString(36) + "00000000000000000"
       ).slice(2, 3 + 2)}`,
+
+      show_import_slashdoc_modal: false,
 
       last_clicked: undefined,
       selected_items_slugs: [],
@@ -788,5 +805,9 @@ export default {
   background-color: var(--active-color);
   border-radius: 2px;
   transition: width 0.3s ease-out;
+}
+
+._importFolderBtn {
+  width: 100%;
 }
 </style>

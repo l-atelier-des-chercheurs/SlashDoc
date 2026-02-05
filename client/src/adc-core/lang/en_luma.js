@@ -75,4 +75,7 @@ export default {
   onboarding: "Onboarding",
   onboarding_intro:
     "Your account is ready. You can start contributing or explore the platform.",
+  import_document: "Import document",
+  import_document_instructions:
+    "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
 };

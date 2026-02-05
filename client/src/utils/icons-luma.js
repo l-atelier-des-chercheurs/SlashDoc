@@ -18,6 +18,7 @@ import {
   BIconSliders,
   BIconTextLeft,
   BIconBookmark,
+  BIconFolderPlus,
 } from "bootstrap-vue";
 
 // Custom copyright icon component (not available in bootstrap-vue)
@@ -66,3 +67,4 @@ Vue.component("BIconQuestionSquare", BIconQuestionSquare);
 Vue.component("BIconSliders", BIconSliders);
 Vue.component("BIconTextLeft", BIconTextLeft);
 Vue.component("BIconBookmark", BIconBookmark);
+Vue.component("BIconFolderPlus", BIconFolderPlus);
