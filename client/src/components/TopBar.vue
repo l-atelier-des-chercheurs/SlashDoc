@@ -4,7 +4,7 @@
       <router-link to="/" class="_logo">/doc</router-link>
     </div>
     <button
-      v-if="$root.is_mobile_view && is_connected"
+      v-if="$root.is_mobile_view && connected_as"
       type="button"
       class="u-button u-button_icon _hamburgerBtn"
       @click="show_mobile_menu = !show_mobile_menu"
