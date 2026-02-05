@@ -5,7 +5,18 @@
       class="u-instructions u-spacingBottom"
       v-html="$t('import_document_instructions')"
     />
-    <div class="_importZone" v-if="!folder_to_import">
+    <div class="u-spacingBottom" v-if="!folder_to_import">
+      <DLabel :str="$t('destination_corpus')" />
+      <DestinationCorpusSelector
+        :selected_destination_folder_path.sync="
+          selected_destination_folder_path
+        "
+      />
+    </div>
+    <div
+      class="_importZone"
+      v-if="!folder_to_import && selected_destination_folder_path"
+    >
       <ImportFileZone
         :accepts="'.zip'"
         :files_to_import.sync="files_to_import"
@@ -36,13 +47,14 @@
 </template>
 <script>
 import ImportFileZone from "@/adc-core/ui/ImportFileZone.vue";
+import DestinationCorpusSelector from "@/components/DestinationCorpusSelector.vue";
 
 export default {
   props: {
     modal_name: String,
     path: String,
   },
-  components: { ImportFileZone },
+  components: { ImportFileZone, DestinationCorpusSelector },
   data() {
     return {
       error_msg: "",
@@ -50,6 +62,8 @@ export default {
       id: `admin_images_upload_${(
         Math.random().toString(36) + "00000000000000000"
       ).slice(2, 3 + 2)}`,
+
+      selected_destination_folder_path: this.path || "",
 
       folder_to_import: undefined,
       transfer_percent: undefined,
@@ -74,9 +88,14 @@ export default {
         $contributors: [],
       };
 
+      const import_path = this.selected_destination_folder_path || this.path;
+      if (!import_path) {
+        this.err_message = this.$t("no_communities_available");
+        return;
+      }
       const new_folder_meta = await this.$api
         .importFolder({
-          path: this.path,
+          path: import_path,
           filename: this.folder_to_import.name,
           file: this.folder_to_import,
           additional_meta,
