@@ -49,7 +49,6 @@ import DestinationCorpusSelector from "@/components/DestinationCorpusSelector.vu
 export default {
   props: {
     modal_name: String,
-    path: String,
   },
   components: { ImportFileZone, DestinationCorpusSelector },
   data() {
@@ -60,7 +59,7 @@ export default {
         Math.random().toString(36) + "00000000000000000"
       ).slice(2, 3 + 2)}`,
 
-      selected_destination_folder_path: this.path || "",
+      selected_destination_folder_path: "",
 
       folder_to_import: undefined,
       transfer_percent: undefined,
@@ -151,7 +150,7 @@ export default {
 <style lang="scss" scoped>
 ._importZone {
   --dropzone-color1: transparent;
-  --dropzone-color2: var(--c-rouge);
+  --dropzone-color2: var(--g-500);
   color: var(--c-noir);
 }
 </style>
