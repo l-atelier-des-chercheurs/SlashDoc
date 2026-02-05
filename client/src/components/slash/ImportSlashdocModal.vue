@@ -34,10 +34,7 @@
         </template>
         <template v-else>
           {{ $t("import_finished") }}
-          <router-link
-            v-if="imported_project_path"
-            :to="{ path: createURLFromPath(imported_project_path) }"
-          >
+          <router-link v-if="imported_project_path" :to="explorerLink">
             {{ imported_project_title }}
           </router-link>
         </template>
@@ -77,8 +74,33 @@ export default {
   mounted() {},
   beforeDestroy() {},
   watch: {},
-  computed: {},
+  computed: {
+    explorerLink() {
+      if (!this.imported_project_path) return null;
+
+      const community = this.getCommunity(this.imported_project_path);
+      const stack_slug = this.getFilename(this.imported_project_path);
+
+      if (!community || !stack_slug) return null;
+
+      return {
+        path: "/explore",
+        query: {
+          communities: community,
+          stack: `${community}_${stack_slug}`,
+        },
+      };
+    },
+  },
   methods: {
+    getCommunity(path) {
+      // Extract community name from path (folders/{community}/stacks/{stack-slug})
+      const pathParts = path.split("/");
+      const communityIndex = pathParts.indexOf("folders");
+      return communityIndex !== -1 && pathParts[communityIndex + 1]
+        ? pathParts[communityIndex + 1]
+        : null;
+    },
     async importSlashdoc(files) {
       this.folder_to_import = files.at(0);
       this.transfer_percent = 0;
@@ -88,11 +110,13 @@ export default {
         $contributors: [],
       };
 
-      const import_path = this.selected_destination_folder_path || this.path;
+      const folder_type = "/stacks";
+      const import_path = this.selected_destination_folder_path + folder_type;
       if (!import_path) {
         this.err_message = this.$t("no_communities_available");
         return;
       }
+
       const new_folder_meta = await this.$api
         .importFolder({
           path: import_path,
