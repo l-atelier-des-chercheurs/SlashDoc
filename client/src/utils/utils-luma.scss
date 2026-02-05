@@ -121,6 +121,7 @@ label,
 
 input[type="checkbox"] {
   border-width: 1px;
+  border-radius: 50%;
   background-color: white;
 }
 
@@ -230,4 +231,8 @@ input[type="range"] {
 ._author[data-imageonly][data-isself] ._cover {
   background-color: var(--c-gris_clair) !important;
   border-color: var(--c-gris_fonce) !important;
+}
+
+.u-button_orange {
+  color: black;
 }
