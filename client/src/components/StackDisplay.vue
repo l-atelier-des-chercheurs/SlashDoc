@@ -231,6 +231,7 @@ import KeywordsField from "@/components/KeywordsField.vue";
 import StackCarousel from "@/components/archive/StackCarousel.vue";
 import DuplicateStackModal from "@/components/archive/DuplicateStackModal.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
+import PositionPicker from "@/adc-core/inputs/PositionPicker.vue";
 
 export default {
   props: {
@@ -246,6 +247,7 @@ export default {
     StackCarousel,
     DuplicateStackModal,
     TwoColumnLayout,
+    PositionPicker,
   },
   inject: {},
   data() {
