@@ -7,6 +7,7 @@
       <component
         :is="tag"
         :class="tag === 'label' ? 'u-label' : ''"
+        class="_labelContent"
         :for="for_input"
       >
         {{ str }}
@@ -84,7 +85,8 @@ export default {
   // align-items: flex-start;
   font-size: var(--sl-font-size-small);
 
-  .u-label {
+  :deep(._labelContent) {
+    margin-bottom: 0;
     // color: currentColor;
     // margin-bottom: 0;
     // color: currentColor;

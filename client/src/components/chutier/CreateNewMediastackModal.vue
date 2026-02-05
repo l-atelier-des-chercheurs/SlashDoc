@@ -4,7 +4,6 @@
     :size="modal_size"
     :confirm_before_closing="true"
     :title="current_step === 4 ? $t('review') : undefined"
-    @save=""
     @close="$emit('close')"
   >
     <div class="_createNewMediastackModal">
@@ -283,7 +282,11 @@ export default {
         keywords: this.stack_tags,
       };
 
-      if (this.stack_location && this.stack_location.latitude && this.stack_location.longitude) {
+      if (
+        this.stack_location &&
+        this.stack_location.latitude &&
+        this.stack_location.longitude
+      ) {
         additional_meta.$location = this.stack_location;
       }
 

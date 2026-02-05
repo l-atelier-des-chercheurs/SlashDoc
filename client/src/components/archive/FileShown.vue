@@ -155,7 +155,8 @@
                 :tag="'h4'"
                 :instructions="$t('origin_of_media_instructions')"
               />
-              <!-- <h4 v-text="$t('origin_of_media')" /> -->
+
+              <div class="u-spacingBottom" />
 
               <div class="u-spacingBottom">
                 <TextEditor
