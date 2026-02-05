@@ -120,24 +120,37 @@ export default {
     $route: {
       immediate: true,
       handler(route) {
-        if (this.connected_as) return;
-        const public_paths = [
-          "/",
-          "/login",
-          "/login/create",
-          "/onboarding",
-          "/reset-password",
-          "/terms",
-          "/confidentiality",
-        ];
-        if (public_paths.includes(route.path)) return;
-        if (route.meta && route.meta.static) return;
-        this.$router.replace("/login");
+        this.checkRouteAccess(route);
+      },
+    },
+    "$root.is_loading": {
+      handler(is_loading) {
+        // Re-check route access when loading completes
+        if (!is_loading) {
+          this.checkRouteAccess(this.$route);
+        }
       },
     },
   },
   computed: {},
   methods: {
+    checkRouteAccess(route) {
+      // Don't redirect if still loading - wait for API initialization to complete
+      if (this.$root.is_loading) return;
+      if (this.connected_as) return;
+      const public_paths = [
+        "/",
+        "/login",
+        "/login/create",
+        "/onboarding",
+        "/reset-password",
+        "/terms",
+        "/confidentiality",
+      ];
+      if (public_paths.includes(route.path)) return;
+      if (route.meta && route.meta.static) return;
+      this.$router.replace("/login");
+    },
     socketConnected() {
       // if (this.$root.debug_mode)
       //   this.$alertify
