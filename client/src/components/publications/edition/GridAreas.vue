@@ -178,7 +178,7 @@ export default {
     },
     getAreaFileType(area) {
       // if area is part of a text chain, return text
-      if (this.isLastOfTextChain(area)) {
+      if (this.isPartOfTextChain(area)) {
         return "text";
       }
 
@@ -543,6 +543,9 @@ export default {
       });
 
       return this.getAreaMediaFileType(chain[0]);
+    },
+    isPartOfTextChain(area) {
+      return this.getFirstAreaTypeInChain(area) === "text";
     },
     isLastOfTextChain(area) {
       if (this.getFirstAreaTypeInChain(area) !== "text") return false;
