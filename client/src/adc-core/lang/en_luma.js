@@ -75,6 +75,33 @@ export default {
   onboarding: "Onboarding",
   onboarding_intro:
     "Your account is ready. You can start contributing or explore the platform.",
+
+  // Onboarding 3 espaces (collective, connaissance, transmission) — FR copy, translate later
+  onboarding_space_step: "Espace {current} sur {total}",
+  onboarding_next_space: "Espace suivant →",
+  onboarding_finish: "3 espaces en 1 →",
+  onboarding_skip_demo: "Passer la démo",
+  onboarding_title_collective:
+    "Bienvenue dans /doc, votre espace de documentation collective",
+  onboarding_highlight_collective: "collective",
+  onboarding_subtitle_collective:
+    "Documenter, c'est participer à une construction commune de savoirs.",
+  onboarding_body_collective:
+    "Les contenus que vous publiez s'inscrivent dans un espace commun, où chaque contribution dialogue avec celles des autres afin d'être partagée, discutée et enrichie, au-delà de chaque projet individuel.",
+  onboarding_title_connaissance:
+    "Bienvenue dans /doc, votre espace de connaissance situé",
+  onboarding_highlight_connaissance: "connaissance",
+  onboarding_body_connaissance_1:
+    "La connaissance s'inscrit dans une chaîne de références et d'expériences.",
+  onboarding_body_connaissance_2:
+    "Contextualiser, sourcer et expliciter chaque document permet à d'autres chercheurs de comprendre et de réutiliser ces savoirs de manière critique et responsable.",
+  onboarding_title_transmission:
+    "Bienvenue dans /doc, votre espace de transmission",
+  onboarding_highlight_transmission: "transmission",
+  onboarding_body_transmission_1:
+    "Le partage commence au sein d'une communauté de recherche, dans un cadre de confiance.",
+  onboarding_body_transmission_2:
+    "Ici, les contenus sont pensés pour être diffusés, transmis et réutilisés de manière vertueuse, au service de pratiques ouvertes, des initiatives locales et de la souveraineté des territoires.",
   import_document: "Import document",
   import_document_instructions:
     "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
