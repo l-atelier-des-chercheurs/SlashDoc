@@ -78,4 +78,5 @@ export default {
   import_document: "Importer un document",
   import_document_instructions:
     "Vous pouvez importer un document avec tous ses médias en cliquant sur le bouton ci-dessous. Il sera automatiquement ajouté à l'espace sélectionné avec votre compte comme administrateur.",
+  use_location_from_media: "Utiliser la localisation d'un média",
 };

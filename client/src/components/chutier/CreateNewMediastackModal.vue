@@ -64,6 +64,8 @@
             v-if="current_step === 0"
             :title.sync="stack_title"
             :description.sync="stack_description"
+            :selected_items="selected_items"
+            :location.sync="stack_location"
             @title-validity-changed="has_valid_title = $event"
           >
           </MediastackStepTitle>
@@ -93,6 +95,7 @@
             :keywords="stack_tags"
             :selected_destination_folder_path="selected_destination_folder_path"
             :authors="stack_authors"
+            :location="stack_location"
           />
         </div>
       </div>
@@ -196,6 +199,7 @@ export default {
       stack_general_credit: "",
       stack_tags: [],
       stack_authors: [],
+      stack_location: null,
 
       status: "idle",
       selected_destination_folder_path: undefined,
@@ -278,6 +282,10 @@ export default {
         description: this.stack_description,
         keywords: this.stack_tags,
       };
+
+      if (this.stack_location && this.stack_location.latitude && this.stack_location.longitude) {
+        additional_meta.$location = this.stack_location;
+      }
 
       const new_stack_slug = await this.$api.createFolder({
         path: path_to_destination,

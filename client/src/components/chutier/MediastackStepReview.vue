@@ -6,10 +6,12 @@
         {{ title || $t("none") }}
       </h1>
     </div>
+
     <div class="u-spacingBottom">
       <DLabel :str="$t('description')" />
       <div v-html="description || $t('none_f')" />
     </div>
+
     <div class="u-spacingBottom">
       <DLabel :str="$t('keywords')" />
       <div v-if="keywords.length > 0">
@@ -17,6 +19,15 @@
       </div>
       <div v-else>{{ $t("none") }}</div>
     </div>
+
+    <div class="u-spacingBottom">
+      <DLabel :str="$t('location')" />
+      <div v-if="location && location.latitude && location.longitude">
+        <PositionPicker :content="location" :can_edit="false" />
+      </div>
+      <div v-else>{{ $t("none") }}</div>
+    </div>
+
     <div class="u-spacingBottom">
       <DLabel :str="$t('destination_corpus')" />
       <b v-if="selected_folder">
@@ -24,6 +35,7 @@
       </b>
       <div v-else>{{ $t("none") }}</div>
     </div>
+
     <div class="">
       <DLabel :str="$t('authors')" />
       <div v-if="authors.length > 0">
@@ -45,6 +57,7 @@ export default {
   name: "MediastackStepReview",
   components: {
     KeywordsField,
+    PositionPicker: () => import("@/adc-core/inputs/PositionPicker.vue"),
   },
   props: {
     title: {
@@ -66,6 +79,10 @@ export default {
     authors: {
       type: Array,
       default: () => [],
+    },
+    location: {
+      type: Object,
+      default: () => null,
     },
   },
   data() {
