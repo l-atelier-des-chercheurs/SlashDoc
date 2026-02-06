@@ -292,7 +292,6 @@ export default {
     margin: 0 auto;
   }
 }
-
 ._onboardingView--title {
   padding-bottom: calc(var(--spacing) * 2);
   margin-bottom: calc(var(--spacing) * 2);
@@ -395,7 +394,16 @@ export default {
   margin-bottom: calc(var(--spacing) * 2);
   flex-wrap: wrap;
 }
-
+._navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--spacing) / 2);
+  border: 1px solid var(--g-200);
+  padding: calc(var(--spacing) / 2);
+  font-size: var(--sl-font-size-large);
+  margin-bottom: calc(var(--spacing) / 2);
+}
 ._column {
   flex: 1;
   min-width: 200px;
