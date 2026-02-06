@@ -1,0 +1,1 @@
+import{n as r,_ as t}from"../build.js";const _={components:{MarkdownContentPage:()=>t(()=>import("./MarkdownContentPage-BMsQKcHs.js"),[])}};var o=function(){var e=this,n=e._self._c;return n("MarkdownContentPage",{attrs:{page_name:"terms"}})},a=[],s=r(_,o,a,!1,null,null);const i=s.exports;export{i as default};

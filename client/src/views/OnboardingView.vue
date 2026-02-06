@@ -1,8 +1,67 @@
 <template>
   <div class="_onboardingView">
-    <div class="_onboardingView--content">
+    <div
+      class="_onboardingView--content"
+      :class="{ '_content-wide': current_step === 3 }"
+    >
       <transition name="fade" mode="out-in">
-        <div :key="current_step">
+        <!-- Step 4: Welcome overview with three columns -->
+        <div v-if="current_step === 3" :key="'welcome-4'" class="_welcomeStep">
+          <h1 class="_onboardingView--title _welcomeTitle">
+            {{ $t("onboarding_welcome_title") }}
+          </h1>
+          <p class="_onboardingView--subtitle _welcomeSubtitle">
+            {{ $t("onboarding_welcome_subtitle") }}
+          </p>
+          <div class="_threeColumns">
+            <div class="_column">
+              <div class="_navButton">
+                <b-icon icon="upload" />
+                {{ $t("onboarding_contribute_title") }}
+              </div>
+              <div class="_columnImage">
+                <img
+                  :src="
+                    $root.publicPath + 'onboarding/onboarding-contribute.png'
+                  "
+                  :alt="$t('onboarding_contribute_title')"
+                />
+              </div>
+              <p>{{ $t("onboarding_contribute_description") }}</p>
+            </div>
+            <div class="_column">
+              <div class="_navButton">
+                <b-icon icon="grid" />
+                {{ $t("onboarding_explore_title") }}
+              </div>
+              <div class="_columnImage">
+                <img
+                  :src="$root.publicPath + 'onboarding/onboarding-explore.png'"
+                  :alt="$t('onboarding_explore_title')"
+                />
+              </div>
+              <p>{{ $t("onboarding_explore_description") }}</p>
+            </div>
+            <div class="_column">
+              <div class="_navButton">
+                <b-icon icon="file-earmark" />
+                {{ $t("onboarding_publish_title") }}
+              </div>
+              <div class="_columnImage">
+                <img
+                  :src="$root.publicPath + 'onboarding/onboarding-publish.png'"
+                  :alt="$t('onboarding_publish_title')"
+                />
+              </div>
+              <p>{{ $t("onboarding_publish_description") }}</p>
+            </div>
+          </div>
+          <p class="_welcomeConclusion">
+            {{ $t("onboarding_welcome_conclusion") }}
+          </p>
+        </div>
+        <!-- Steps 1-3: Original format -->
+        <div v-else :key="`step-${current_step}`">
           <h1 class="_onboardingView--title">
             {{ current_step_data.title_before }}
             <span
@@ -68,14 +127,16 @@
           {{
             $t("onboarding_space_step", {
               current: current_step + 1,
-              total: 3,
+              total: 4,
             })
           }}
         </button>
       </span>
       <button type="button" class="u-button u-button_black" @click="goNext">
         {{
-          current_step === 2
+          current_step === 3
+            ? $t("onboarding_start")
+            : current_step === 2
             ? $t("onboarding_finish")
             : $t("onboarding_next_space")
         }}
@@ -96,12 +157,12 @@ export default {
   computed: {
     current_step() {
       const step = parseInt(this.$route.query.step, 10);
-      // URL uses step numbers 1-3, convert to internal 0-2
-      // Validate step is between 1 and 3, default to 0 (which maps to step 1) if invalid
-      if (isNaN(step) || step < 1 || step > 3) {
+      // URL uses step numbers 1-4, convert to internal 0-3
+      // Validate step is between 1 and 4, default to 0 (which maps to step 1) if invalid
+      if (isNaN(step) || step < 1 || step > 4) {
         return 0;
       }
-      return step - 1; // Convert URL step (1-3) to internal step (0-2)
+      return step - 1; // Convert URL step (1-4) to internal step (0-3)
     },
     steps() {
       const splitTitle = (titleKey, highlightKey) => {
@@ -162,7 +223,7 @@ export default {
     }
     // If no step query parameter or invalid step, redirect to step 1
     const step = parseInt(this.$route.query.step, 10);
-    if (isNaN(step) || step < 1 || step > 3) {
+    if (isNaN(step) || step < 1 || step > 4) {
       this.$router.push({
         path: "/onboarding",
         query: { step: 1 },
@@ -171,10 +232,10 @@ export default {
   },
   methods: {
     goNext() {
-      if (this.current_step === 2) {
+      if (this.current_step === 3) {
         this.$router.push("/contribute");
       } else {
-        // Convert internal step (0-2) to URL step (1-3)
+        // Convert internal step (0-3) to URL step (1-4)
         const url_step = this.current_step + 2;
         this.$router.push({
           path: "/onboarding",
@@ -184,7 +245,7 @@ export default {
     },
     goPrevious() {
       if (this.current_step > 0) {
-        // Convert internal step (0-2) to URL step (1-3)
+        // Convert internal step (0-3) to URL step (1-4)
         const url_step = this.current_step;
         this.$router.push({
           path: "/onboarding",
@@ -212,6 +273,10 @@ export default {
   padding: calc(var(--spacing) * 2);
   width: 100%;
   max-width: 480px;
+
+  &._content-wide {
+    max-width: 900px;
+  }
 }
 
 ._onboardingView--image {
@@ -277,6 +342,10 @@ export default {
   max-width: 480px;
 }
 
+._onboardingView--content._content-wide ~ ._onboardingView--nav {
+  max-width: 900px;
+}
+
 ._onboardingView--step {
   font-size: var(--sl-font-size-small);
   color: var(--g-600);
@@ -305,5 +374,46 @@ export default {
   display: block;
   border-radius: 0;
   padding: calc(var(--spacing) * 1);
+}
+
+// Step 4: Welcome overview styles
+._welcomeTitle {
+  text-align: center;
+  border-bottom: none;
+  padding-bottom: calc(var(--spacing) * 1);
+  margin-bottom: calc(var(--spacing) * 1);
+}
+
+._welcomeSubtitle {
+  text-align: center;
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
+._threeColumns {
+  display: flex;
+  gap: var(--spacing);
+  margin-bottom: calc(var(--spacing) * 2);
+  flex-wrap: wrap;
+}
+
+._column {
+  flex: 1;
+  min-width: 200px;
+}
+
+._columnImage {
+  margin: var(--spacing) 0;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+._welcomeConclusion {
+  text-align: center;
+  font-weight: 600;
+  margin-top: calc(var(--spacing) * 2);
 }
 </style>

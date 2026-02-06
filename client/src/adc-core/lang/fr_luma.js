@@ -102,6 +102,23 @@ export default {
     "Le partage commence au sein d'une communauté de recherche, dans un cadre de confiance.",
   onboarding_body_transmission_2:
     "Ici, les contenus sont pensés pour être diffusés, transmis et réutilisés de manière vertueuse, au service de pratiques ouvertes, des initiatives locales et de la souveraineté des territoires.",
+
+  // Onboarding step 4: Welcome overview
+  onboarding_welcome_title: "Bienvenue dans /doc",
+  onboarding_welcome_subtitle:
+    "Vous êtes prêt·es à naviguer à travers ces 3 espaces",
+  onboarding_contribute_title: "CONTRIBUER",
+  onboarding_contribute_description:
+    "Importer toutes sortes de médias, vos croquis, vos essais..., pour documenter vos idées et vos processus de recherche.",
+  onboarding_explore_title: "EXPLORER",
+  onboarding_explore_description:
+    "Parcourez les travaux de vos pairs et découvrez les liens entre les contextes et les pratiques de votre communauté.",
+  onboarding_publish_title: "PUBLIER",
+  onboarding_publish_description:
+    "Publiez vos contenus sous différents formats accessibles pour les ouvrir à la discussion et à la réutilisation.",
+  onboarding_welcome_conclusion:
+    "Trois gestes complémentaires pour tisser des savoirs et des savoir-faire en commun.",
+  onboarding_start: "Commencer",
   import_document: "Importer un document",
   import_document_instructions:
     "Vous pouvez importer un document avec tous ses médias en cliquant sur le bouton ci-dessous. Il sera automatiquement ajouté à l'espace sélectionné avec votre compte comme administrateur.",
