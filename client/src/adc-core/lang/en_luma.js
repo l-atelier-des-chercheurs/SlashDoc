@@ -82,26 +82,26 @@ export default {
   onboarding_finish: "3 espaces en 1 →",
   onboarding_skip_demo: "Passer la démo",
   onboarding_title_collective:
-    "Bienvenue dans /doc, votre espace de documentation collective",
-  onboarding_highlight_collective: "collective",
+    "Welcome to /doc, your collaborative documentation platform.",
+  onboarding_highlight_collective: "collaborative",
   onboarding_subtitle_collective:
-    "Documenter, c'est participer à une construction commune de savoirs.",
+    "Documenting means contributing to a shared body of knowledge.",
   onboarding_body_collective:
-    "Les contenus que vous publiez s'inscrivent dans un espace commun, où chaque contribution dialogue avec celles des autres afin d'être partagée, discutée et enrichie, au-delà de chaque projet individuel.",
+    "The content you publish lives in a common space, where each contribution connects with and builds upon others. Your documents are designed to be shared, discussed, and expanded beyond individual projects.",
   onboarding_title_connaissance:
-    "Bienvenue dans /doc, votre espace de connaissance situé",
-  onboarding_highlight_connaissance: "connaissance",
+    "Welcome to /doc, your platform for situated knowledge.",
+  onboarding_highlight_connaissance: "knowledge",
   onboarding_body_connaissance_1:
-    "La connaissance s'inscrit dans une chaîne de références et d'expériences.",
+    "Knowledge is embedded in a chain of references and experiences.",
   onboarding_body_connaissance_2:
-    "Contextualiser, sourcer et expliciter chaque document permet à d'autres chercheurs de comprendre et de réutiliser ces savoirs de manière critique et responsable.",
+    "By contextualizing, sourcing, and clarifying each document, /doc enables other researchers to understand and reuse this knowledge in a critical and responsible way.",
   onboarding_title_transmission:
-    "Bienvenue dans /doc, votre espace de transmission",
+    "Welcome to /doc, your platform for knowledge transmission.",
   onboarding_highlight_transmission: "transmission",
   onboarding_body_transmission_1:
-    "Le partage commence au sein d'une communauté de recherche, dans un cadre de confiance.",
+    "Sharing begins within a research community built on trust.",
   onboarding_body_transmission_2:
-    "Ici, les contenus sont pensés pour être diffusés, transmis et réutilisés de manière vertueuse, au service de pratiques ouvertes, des initiatives locales et de la souveraineté des territoires.",
+    "Here, content is designed to be shared and consciously reused, in support of open practices, local initiatives, and territorial sovereignty.",
 
   // Onboarding step 4: Welcome overview
   onboarding_welcome_title: "Welcome to /doc",
@@ -138,8 +138,7 @@ export default {
 
   // Create account view
   join_slashdoc: "Join /doc",
-  recommend_org_email:
-    "We recommend using your organization's email address.",
+  recommend_org_email: "We recommend using your organization's email address.",
   last_name: "Last name",
   first_name: "First name",
   accept_and_signup: "Accept and sign up",
