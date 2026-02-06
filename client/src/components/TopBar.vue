@@ -445,7 +445,7 @@ export default {
     }
 
     &._topRow {
-      flex: 0 1 auto;
+      flex: 0 1 250px;
     }
   }
 

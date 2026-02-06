@@ -201,7 +201,8 @@ export default {
         }
 
         if (!this.is_instance_admin) {
-          this.$router.push("/onboarding");
+          // Reload the page to ensure user is properly connected before onboarding
+          window.location.href = "/onboarding";
         }
       } catch (err) {
         if (err.code === "unique_field_taken") {

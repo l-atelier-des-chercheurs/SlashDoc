@@ -28,7 +28,7 @@ export default defineConfig({
       ),
     },
   },
-  assetsInclude: ["**/*.svg"],
+  assetsInclude: ["**/*.svg", "**/*.md"],
   server: {
     https: true,
     port: 5180,
