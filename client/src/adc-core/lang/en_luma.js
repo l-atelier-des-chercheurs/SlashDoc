@@ -120,6 +120,13 @@ export default {
     "Three complementary actions to weave shared knowledge and know-how.",
   onboarding_start: "Start",
   import_document: "Import document",
+
+  // Contribute view – floating tooltips (add your own media)
+  contribute_tooltip_add_media_title: "Add your own media",
+  contribute_tooltip_add_media_body:
+    "Upload all types of files to your personal documentation space. This is the starting point of your contribution.",
+  tooltip_next: "Next",
+  tooltip_close: "Close",
   import_document_instructions:
     "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
   use_location_from_media: "Use location from media",

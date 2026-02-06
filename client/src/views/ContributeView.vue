@@ -49,7 +49,7 @@
         </div>
 
         <div class="_importSection">
-          <div class="_importButton">
+          <div class="_importButton" ref="tooltip_1_target_el">
             <ImportFileZone
               :multiple="true"
               :files_to_import.sync="files_to_import"
@@ -98,6 +98,18 @@
           <ImportSlashdocModal
             v-if="show_import_slashdoc_modal"
             @close="show_import_slashdoc_modal = false"
+          />
+
+          <FloatingTooltip
+            v-if="show_import_tooltip"
+            class="_contributeImportTooltip"
+            :title="$t('contribute_tooltip_add_media_title')"
+            :body="$t('contribute_tooltip_add_media_body')"
+            :step_current="1"
+            :step_total="1"
+            :show_step="true"
+            :target_el="tooltip_1_target_el"
+            @next="dismissImportTooltip"
           />
         </div>
       </div>
@@ -286,10 +298,12 @@ import EmbedPicker from "@/adc-core/modals/EmbedPicker.vue";
 import ChutierItem from "@/components/chutier/ChutierItem.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 import ImportSlashdocModal from "@/components/slash/ImportSlashdocModal.vue";
+import FloatingTooltip from "@/components/FloatingTooltip.vue";
 
 export default {
   props: {},
   components: {
+    FloatingTooltip,
     ImportFileZone,
     EmbedPicker,
     ChutierItem,
@@ -360,11 +374,17 @@ export default {
 
       show_pick_existing_mediastack_modal: false,
       show_new_mediastack_modal: false,
+
+      show_import_tooltip: true,
+      tooltip_1_target_el: null,
     };
   },
   created() {},
   mounted() {
     this.listChutier();
+    this.$nextTick(() => {
+      this.tooltip_1_target_el = this.$refs.tooltip_1_target_el || null;
+    });
   },
   beforeDestroy() {},
   watch: {
@@ -443,6 +463,9 @@ export default {
     },
   },
   methods: {
+    dismissImportTooltip() {
+      this.show_import_tooltip = false;
+    },
     async listChutier() {
       this.chutier = await this.$api
         .getFolder({
@@ -578,6 +601,10 @@ export default {
 
 ._importSection {
   margin-top: calc(var(--spacing) * 2);
+}
+
+._contributeImportTooltip {
+  max-width: 100%;
 }
 
 ._importButton {
