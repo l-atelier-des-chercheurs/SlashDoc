@@ -17,98 +17,118 @@
       </div>
     </button>
 
-    <!-- Mobile Menu Overlay -->
-    <div
-      v-if="$root.is_mobile_view && show_mobile_menu"
-      class="_mobileMenuOverlay"
-      @click="show_mobile_menu = false"
-    >
-      <div class="_mobileMenu" @click.stop>
-        <div class="_mobileNavLinks" v-if="connected_as">
-          <router-link
-            class="_navButton"
-            to="/contribute"
-            active-class="is--active"
-            @click.native="show_mobile_menu = false"
-          >
-            <svg
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.75 14.85C1.16421 14.85 1.5 15.1858 1.5 15.6V19.35C1.5 20.1785 2.17157 20.85 3 20.85H21C21.8284 20.85 22.5 20.1785 22.5 19.35V15.6C22.5 15.1858 22.8358 14.85 23.25 14.85C23.6642 14.85 24 15.1858 24 15.6V19.35C24 21.0069 22.6569 22.35 21 22.35H3C1.34315 22.35 0 21.0069 0 19.35V15.6C0 15.1858 0.335786 14.85 0.75 14.85Z"
-              />
-              <path
-                d="M11.4697 1.71967C11.7626 1.42678 12.2374 1.42678 12.5303 1.71967L17.0303 6.21967C17.3232 6.51256 17.3232 6.98744 17.0303 7.28033C16.7374 7.57322 16.2626 7.57322 15.9697 7.28033L12.75 4.06066V17.25C12.75 17.6642 12.4142 18 12 18C11.5858 18 11.25 17.6642 11.25 17.25V4.06066L8.03033 7.28033C7.73744 7.57322 7.26256 7.57322 6.96967 7.28033C6.67678 6.98744 6.67678 6.51256 6.96967 6.21967L11.4697 1.71967Z"
-              />
-            </svg>
-            {{ $t("contribute") }}
-          </router-link>
-          <router-link
-            class="_navButton"
-            to="/explore"
-            active-class="is--active"
-            @click.native="show_mobile_menu = false"
-          >
-            <b-icon icon="grid" />
-            {{ $t("explore") }}
-          </router-link>
-          <router-link
-            class="_navButton"
-            to="/publish"
-            active-class="is--active"
-            @click.native="show_mobile_menu = false"
-          >
-            <svg
-              width="1em"
-              height="1em"
-              viewBox="0 0 21 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M19.5 6.75V21C19.5 22.6569 18.1569 24 16.5 24H4.5C2.84315 24 1.5 22.6569 1.5 21V3C1.5 1.34314 2.84315 0 4.5 0H12.75L19.5 6.75ZM15 6.75C13.7574 6.75 12.75 5.74264 12.75 4.5V1.5H4.5C3.67157 1.5 3 2.17157 3 3V21C3 21.8284 3.67157 22.5 4.5 22.5H16.5C17.3284 22.5 18 21.8284 18 21V6.75H15Z"
-              />
-            </svg>
-            {{ $t("publish") }}
-          </router-link>
-        </div>
+    <div v-if="!connected_as" class="_topRow">
+      <router-link
+        to="/login"
+        class="u-button u-button_transparent"
+        @click.native="show_mobile_menu = false"
+      >
+        {{ $t("login") }}
+      </router-link>
+      <router-link
+        to="/login/create"
+        class="u-button u-button_transparent"
+        @click.native="show_mobile_menu = false"
+      >
+        {{ $t("create_account") }}
+      </router-link>
+    </div>
 
-        <div class="_mobileActions">
-          <button
-            type="button"
-            v-if="false"
-            class="u-button u-button_icon u-button_glass"
-            @click="
-              show_qr_code_modal = true;
-              show_mobile_menu = false;
-            "
-          >
-            <div part="base" class="icon" aria-hidden="true">
+    <template v-else>
+      <!-- Mobile Menu Overlay -->
+      <div
+        v-if="$root.is_mobile_view && show_mobile_menu"
+        class="_mobileMenuOverlay"
+        @click="show_mobile_menu = false"
+      >
+        <div class="_mobileMenu" @click.stop>
+          <div class="_mobileNavLinks" v-if="connected_as">
+            <router-link
+              class="_navButton"
+              to="/contribute"
+              active-class="is--active"
+              @click.native="show_mobile_menu = false"
+            >
               <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-qr-code"
-                viewBox="0 0 16 16"
               >
-                <path d="M2 2h2v2H2V2Z"></path>
-                <path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"></path>
-                <path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"></path>
                 <path
-                  d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z"
-                ></path>
-                <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path>
+                  d="M0.75 14.85C1.16421 14.85 1.5 15.1858 1.5 15.6V19.35C1.5 20.1785 2.17157 20.85 3 20.85H21C21.8284 20.85 22.5 20.1785 22.5 19.35V15.6C22.5 15.1858 22.8358 14.85 23.25 14.85C23.6642 14.85 24 15.1858 24 15.6V19.35C24 21.0069 22.6569 22.35 21 22.35H3C1.34315 22.35 0 21.0069 0 19.35V15.6C0 15.1858 0.335786 14.85 0.75 14.85Z"
+                />
+                <path
+                  d="M11.4697 1.71967C11.7626 1.42678 12.2374 1.42678 12.5303 1.71967L17.0303 6.21967C17.3232 6.51256 17.3232 6.98744 17.0303 7.28033C16.7374 7.57322 16.2626 7.57322 15.9697 7.28033L12.75 4.06066V17.25C12.75 17.6642 12.4142 18 12 18C11.5858 18 11.25 17.6642 11.25 17.25V4.06066L8.03033 7.28033C7.73744 7.57322 7.26256 7.57322 6.96967 7.28033C6.67678 6.98744 6.67678 6.51256 6.96967 6.21967L11.4697 1.71967Z"
+                />
               </svg>
-            </div>
-            <span>{{ $t("share") }}</span>
-          </button>
+              {{ $t("contribute") }}
+            </router-link>
+            <router-link
+              class="_navButton"
+              to="/explore"
+              active-class="is--active"
+              @click.native="show_mobile_menu = false"
+            >
+              <b-icon icon="grid" />
+              {{ $t("explore") }}
+            </router-link>
+            <router-link
+              class="_navButton"
+              to="/publish"
+              active-class="is--active"
+              @click.native="show_mobile_menu = false"
+            >
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 21 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19.5 6.75V21C19.5 22.6569 18.1569 24 16.5 24H4.5C2.84315 24 1.5 22.6569 1.5 21V3C1.5 1.34314 2.84315 0 4.5 0H12.75L19.5 6.75ZM15 6.75C13.7574 6.75 12.75 5.74264 12.75 4.5V1.5H4.5C3.67157 1.5 3 2.17157 3 3V21C3 21.8284 3.67157 22.5 4.5 22.5H16.5C17.3284 22.5 18 21.8284 18 21V6.75H15Z"
+                />
+              </svg>
+              {{ $t("publish") }}
+            </router-link>
+          </div>
 
-          <!-- <button
+          <div class="_mobileActions">
+            <button
+              type="button"
+              v-if="false"
+              class="u-button u-button_icon u-button_glass"
+              @click="
+                show_qr_code_modal = true;
+                show_mobile_menu = false;
+              "
+            >
+              <div part="base" class="icon" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-qr-code"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2 2h2v2H2V2Z"></path>
+                  <path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"></path>
+                  <path
+                    d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"
+                  ></path>
+                  <path
+                    d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z"
+                  ></path>
+                  <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path>
+                </svg>
+              </div>
+              <span>{{ $t("share") }}</span>
+            </button>
+
+            <!-- <button
             type="button"
             class="u-button u-button_icon u-button_glass"
             @click="
@@ -120,7 +140,7 @@
             <span>{{ $t("help") }}</span>
           </button> -->
 
-          <!-- <button
+            <!-- <button
             v-if="$route.path !== '/'"
             type="button"
             class="u-button u-button_icon u-button_glass"
@@ -132,75 +152,67 @@
             <span>{{ $t("language") }}: {{ current_lang_code }}</span>
           </button> -->
 
-          <button
-            v-if="is_instance_admin"
-            type="button"
-            class="u-button u-button_icon u-button_glass"
-            @click="
-              show_admin_settings = !show_admin_settings;
-              show_mobile_menu = false;
-            "
-          >
-            <b-icon icon="gear" />
-            <span>{{ $t("admin_settings") }}</span>
-          </button>
-
-          <div v-if="connected_as" class="_mobileCurrentUser">
-            <AuthorTag
-              :path="connected_as.$path"
-              :show_image_only="false"
+            <button
+              v-if="is_instance_admin"
+              type="button"
+              class="u-button u-button_icon u-button_glass"
               @click="
-                $eventHub.$emit('showAuthorModal');
+                show_admin_settings = !show_admin_settings;
                 show_mobile_menu = false;
               "
-            />
-            <!-- <sup
+            >
+              <b-icon icon="gear" />
+              <span>{{ $t("admin_settings") }}</span>
+            </button>
+
+            <div v-if="connected_as" class="_mobileCurrentUser">
+              <AuthorTag
+                :path="connected_as.$path"
+                :show_image_only="false"
+                @click="
+                  $eventHub.$emit('showAuthorModal');
+                  show_mobile_menu = false;
+                "
+              />
+              <!-- <sup
               class="_badge"
               v-if="$api.other_devices_connected.length > 0"
               v-text="$api.other_devices_connected.length"
             /> -->
-          </div>
-          <div v-else-if="!isAuthPage" class="_mobileAuthButtons">
-            <router-link
-              to="/login"
-              class="u-button u-button_glass _mobileAuthorBtn"
-              @click.native="show_mobile_menu = false"
-            >
-              {{ $t("login") }}
-            </router-link>
-            <router-link
-              to="/login/create"
-              class="u-button u-button_glass _mobileAuthorBtn"
-              @click.native="show_mobile_menu = false"
-            >
-              {{ $t("create_account") }}
-            </router-link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <template v-if="!$root.is_mobile_view">
-      <div class="_menu" v-if="connected_as">
-        <router-link
-          to="/contribute"
-          class="_navButton"
-          active-class="is--active"
-        >
-          <b-icon icon="upload" />
-          {{ $t("contribute") }}
-        </router-link>
-        <router-link to="/explore" class="_navButton" active-class="is--active">
-          <b-icon icon="grid" />
-          {{ $t("explore") }}
-        </router-link>
-        <router-link to="/publish" class="_navButton" active-class="is--active">
-          <b-icon icon="file-earmark" />
-          {{ $t("publish") }}
-        </router-link>
-      </div>
-      <div class="_topRow">
-        <!-- <button
+      <template v-if="!$root.is_mobile_view">
+        <div class="_menu" v-if="connected_as">
+          <router-link
+            to="/contribute"
+            class="_navButton"
+            active-class="is--active"
+          >
+            <b-icon icon="upload" />
+            {{ $t("contribute") }}
+          </router-link>
+          <router-link
+            to="/explore"
+            class="_navButton"
+            active-class="is--active"
+          >
+            <b-icon icon="grid" />
+            {{ $t("explore") }}
+          </router-link>
+          <router-link
+            to="/publish"
+            class="_navButton"
+            active-class="is--active"
+          >
+            <b-icon icon="file-earmark" />
+            {{ $t("publish") }}
+          </router-link>
+        </div>
+        <div class="_topRow">
+          <!-- <button
           type="button"
           class="u-button u-button_icon u-button_glass"
           @click="show_qr_code_modal = true"
@@ -223,7 +235,7 @@
           </svg>
         </button> -->
 
-        <!-- <button
+          <!-- <button
           type="button"
           class="u-button u-button_icon u-button_glass"
           @click="$eventHub.$emit(`app.show_welcome_modal`)"
@@ -231,23 +243,23 @@
           <b-icon icon="question-square" />
         </button> -->
 
-        <!-- <button
+          <!-- <button
           type="button"
           class="u-button u-button_icon u-button_glass"
           @click="show_lang_modal = !show_lang_modal"
           v-text="current_lang_code"
         ></button> -->
 
-        <button
-          type="button"
-          class="u-button u-button_icon u-button_glass"
-          v-if="is_instance_admin"
-          @click="show_admin_settings = !show_admin_settings"
-        >
-          <b-icon icon="gear" :aria-label="$t('admin_settings')" />
-        </button>
+          <button
+            type="button"
+            class="u-button u-button_icon u-button_glass"
+            v-if="is_instance_admin"
+            @click="show_admin_settings = !show_admin_settings"
+          >
+            <b-icon icon="gear" :aria-label="$t('admin_settings')" />
+          </button>
 
-        <!-- <button
+          <!-- <button
           type="button"
           class="u-button u-button_icon _chatsBtn"
           :class="{
@@ -291,33 +303,34 @@
           />
         </button> -->
 
-        <div v-if="connected_as" class="_currentUser">
-          <AuthorTag
-            :path="connected_as.$path"
-            :show_image_only="true"
-            @click="showAuthorModal"
-          />
-          <!-- <sup
+          <div v-if="connected_as" class="_currentUser">
+            <AuthorTag
+              :path="connected_as.$path"
+              :show_image_only="true"
+              @click="showAuthorModal"
+            />
+            <!-- <sup
             class="_badge"
             v-if="$api.other_devices_connected.length > 0"
             v-text="$api.other_devices_connected.length"
           /> -->
+          </div>
+          <div v-else-if="!isAuthPage" class="_authButtons">
+            <router-link
+              to="/login"
+              class="u-button u-button_transparent _authorBtn"
+            >
+              {{ $t("login") }}
+            </router-link>
+            <router-link
+              to="/login/create"
+              class="u-button u-button_transparent _authorBtn"
+            >
+              {{ $t("create_account") }}
+            </router-link>
+          </div>
         </div>
-        <div v-else-if="!isAuthPage" class="_authButtons">
-          <router-link
-            to="/login"
-            class="u-button u-button_transparent _authorBtn"
-          >
-            {{ $t("login") }}
-          </router-link>
-          <router-link
-            to="/login/create"
-            class="u-button u-button_transparent _authorBtn"
-          >
-            {{ $t("create_account") }}
-          </router-link>
-        </div>
-      </div>
+      </template>
     </template>
 
     <LangModal v-if="show_lang_modal" @close="show_lang_modal = false" />
@@ -445,7 +458,7 @@ export default {
     }
 
     &._topRow {
-      flex: 0 1 250px;
+      flex: 1 1 auto;
     }
   }
 
@@ -551,7 +564,7 @@ export default {
   align-items: center;
   padding: calc(var(--spacing) / 2);
   padding-right: calc(var(--spacing));
-  gap: calc(var(--spacing) / 2);
+  gap: calc(var(--spacing) / 4);
   // margin: calc(var(--spacing) / 1) calc(var(--spacing) / 1) 0;
   flex: 0 0 auto;
   color: currentColor;

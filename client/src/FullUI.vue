@@ -13,7 +13,7 @@
 
     <template v-else>
       <SlashdocGeneralPasswordModal
-        v-if="show_general_password_modal"
+        v-if="show_general_password_modal && !is_public_page"
         @close="handlePasswordModalClose"
       />
       <template v-else>
@@ -123,17 +123,29 @@ export default {
       },
     },
   },
-  computed: {},
+  computed: {
+    is_public_page() {
+      const always_public_paths = ["/", "/terms", "/confidentiality"];
+      return always_public_paths.includes(this.$route.path);
+    },
+  },
   methods: {
     checkRouteAccess(route) {
       // Don't redirect if still loading - wait for API initialization to complete
       if (this.$root.is_loading) return;
 
+      // These paths are always accessible without authentication or password
+      const always_public_paths = ["/", "/terms", "/confidentiality"];
+
+      // Always allow public paths regardless of login or password status
+      if (always_public_paths.includes(route.path)) {
+        // Ensure password modal is closed for public routes
+        this.show_general_password_modal = false;
+        return;
+      }
+
       // Always allow if user is logged in
       if (this.connected_as) return;
-
-      // These paths are always accessible without authentication
-      const always_public_paths = ["/", "/terms", "/confidentiality"];
 
       // Check if general password exists
       const has_general_password =
@@ -141,15 +153,8 @@ export default {
 
       // If general password exists:
       if (has_general_password) {
-        // Allow access to public paths and auth paths
-        const allowed_paths = [
-          "/",
-          "/terms",
-          "/confidentiality",
-          "/login",
-          "/login/create",
-          "/onboarding",
-        ];
+        // Allow access to auth paths
+        const allowed_paths = ["/login", "/login/create", "/onboarding"];
         if (allowed_paths.includes(route.path)) {
           return;
         }
@@ -161,11 +166,6 @@ export default {
       }
 
       // If no general password:
-      // Allow only public paths
-      if (always_public_paths.includes(route.path)) {
-        return;
-      }
-
       // Redirect to home page if trying to access other pages
       if (route.path !== "/") {
         this.$router.replace("/");
