@@ -120,4 +120,18 @@ export default {
     "Contactez-nous à l'adresse suivante pour obtenir le mot de passe et accéder à la plateforme :",
 
   not_yet_registered: "Pas encore inscrit·e ?",
+
+  // Create account view
+  join_slashdoc: "Rejoignez /doc",
+  recommend_org_email:
+    "Nous vous recommandons d'utiliser l'adresse e-mail de votre organisation.",
+  last_name: "Nom",
+  first_name: "Prénom",
+  accept_and_signup: "Accepter et s'inscrire",
+  accept_terms_text_start: "J'accepte les",
+  accept_terms_text_middle:
+    ". Pour comprendre comment /doc traite les données personnelles, veuillez consulter la",
+  accept_terms_text_end: ".",
+  terms_of_use_of_slashdoc: "Conditions d'utilisation de /doc",
+  privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
 };
