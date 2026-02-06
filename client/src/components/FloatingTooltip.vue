@@ -219,11 +219,12 @@ export default {
     position: fixed;
     z-index: 10000;
     visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
 
     &._is-positioned {
       visibility: visible;
       opacity: 1;
-      transition: opacity 0.15s ease;
     }
   }
 }

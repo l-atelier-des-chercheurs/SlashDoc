@@ -5,6 +5,7 @@
   >
     <template #sidebar>
       <div class="_sidebarContent">
+        <div class="_sidebarMain">
         <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
         <div class="u-spacingBottom" />
         <div class="u-instructions u-spacingBottom">
@@ -113,6 +114,18 @@
             :target_el="tooltip_1_target_el"
             @next="dismissImportTooltip"
           />
+        </div>
+        </div>
+
+        <div v-if="!show_import_tooltip" class="_sidebarFooter">
+          <button
+            type="button"
+            class="u-buttonLink _usageGuideBtn"
+            @click="showImportTooltip"
+          >
+            <b-icon icon="book" />
+            {{ $t("contribute_usage_guide") }}
+          </button>
         </div>
       </div>
     </template>
@@ -377,7 +390,13 @@ export default {
       show_pick_existing_mediastack_modal: false,
       show_new_mediastack_modal: false,
 
-      show_import_tooltip: true,
+      show_import_tooltip: (() => {
+        try {
+          return !localStorage.getItem("contribute_import_tooltip_seen");
+        } catch (e) {
+          return true;
+        }
+      })(),
       tooltip_1_target_el: null,
     };
   },
@@ -467,6 +486,12 @@ export default {
   methods: {
     dismissImportTooltip() {
       this.show_import_tooltip = false;
+      try {
+        localStorage.setItem("contribute_import_tooltip_seen", "1");
+      } catch (e) {}
+    },
+    showImportTooltip() {
+      this.show_import_tooltip = true;
     },
     async listChutier() {
       this.chutier = await this.$api
@@ -598,7 +623,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._sidebarContent {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   padding: calc(var(--spacing) * 2);
+}
+
+._sidebarFooter {
+  margin-top: auto;
+  padding-top: calc(var(--spacing) * 2);
+}
+
+._usageGuideBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 0.5);
+  color: var(--g-600, #6c757d);
+  font-size: inherit;
+
+  .b-icon {
+    flex-shrink: 0;
+  }
 }
 
 ._importSection {

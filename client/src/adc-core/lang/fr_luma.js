@@ -127,6 +127,7 @@ export default {
     "Ajoutez tous types de fichiers dans votre espace personnel de documentation. C'est le point de départ de votre contribution.",
   tooltip_next: "Suivant",
   tooltip_close: "Fermer",
+  contribute_usage_guide: "Guide d'usage",
   import_document_instructions:
     "Vous pouvez importer un document avec tous ses médias en cliquant sur le bouton ci-dessous. Il sera automatiquement ajouté à l'espace sélectionné avec votre compte comme administrateur.",
   use_location_from_media: "Utiliser la localisation d'un média",
