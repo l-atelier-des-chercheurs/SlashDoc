@@ -180,7 +180,7 @@
       </div>
     </div>
 
-    <template v-else>
+    <template v-if="!$root.is_mobile_view">
       <div class="_menu" v-if="connected_as">
         <router-link
           to="/contribute"
@@ -440,9 +440,12 @@ export default {
       min-width: 140px;
       border-right: 1px solid var(--border-color);
     }
+    &._menu {
+      flex: 1 1 auto;
+    }
 
-    &._topBar_content {
-      flex: 0 1 250px;
+    &._topRow {
+      flex: 0 1 auto;
     }
   }
 
@@ -502,6 +505,10 @@ export default {
     flex: 1 1 0;
     height: 100%;
   }
+}
+
+._topBar.is--mobileView ._menu {
+  display: none;
 }
 ._navButton {
   display: flex;
@@ -582,9 +589,9 @@ export default {
 }
 
 ._authButtons {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--spacing) / 2);
+  // display: flex;
+  // align-items: center;
+  // gap: calc(var(--spacing) / 2);
 }
 
 ._mobileAuthButtons {

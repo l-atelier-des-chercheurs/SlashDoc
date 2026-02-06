@@ -12,12 +12,8 @@
     </div>
 
     <template v-else>
-      <WelcomeModal
-        v-if="show_welcome_modal"
-        @close="show_welcome_modal = false"
-      />
       <SlashdocGeneralPasswordModal
-        v-else-if="show_general_password_modal"
+        v-if="show_general_password_modal"
         @close="handlePasswordModalClose"
       />
       <template v-else>
@@ -47,7 +43,6 @@
   </div>
 </template>
 <script>
-import WelcomeModal from "@/components/WelcomeModal.vue";
 import SlashdocGeneralPasswordModal from "@/adc-core/modals/SlashdocGeneralPasswordModal.vue";
 import TrackAuthorChanges from "@/adc-core/author/TrackAuthorChanges.vue";
 import TaskTracker from "@/adc-core/tasks/TaskTracker.vue";
@@ -60,7 +55,6 @@ export default {
   props: {},
   components: {
     CookieNoticeBar,
-    WelcomeModal,
     SlashdocGeneralPasswordModal,
     TrackAuthorChanges,
     TaskTracker,
@@ -73,7 +67,6 @@ export default {
       show_general_password_modal: false,
       show_disconnect_modal: false,
       show_authors_modal: false,
-      show_welcome_modal: false,
     };
   },
   async created() {
@@ -85,7 +78,6 @@ export default {
     );
     this.$eventHub.$on(`app.notify_error`, this.notifyError);
 
-    this.$eventHub.$on(`app.show_welcome_modal`, this.showWelcomeModal);
     this.$eventHub.$on(`showAuthorModal`, this.showAuthorModal);
     await this.$api.init({ debug_mode: this.$root.debug_mode });
 
@@ -107,7 +99,6 @@ export default {
       `app.prompt_general_password`,
       this.promptGeneralPassword
     );
-    this.$eventHub.$off(`app.show_welcome_modal`, this.showWelcomeModal);
     this.$eventHub.$off(`showAuthorModal`, this.showAuthorModal);
     this.$eventHub.$off(`app.notify_error`, this.notifyError);
 
@@ -214,9 +205,6 @@ export default {
       this.$nextTick(() => {
         this.checkRouteAccess(this.$route);
       });
-    },
-    showWelcomeModal() {
-      this.show_welcome_modal = true;
     },
     showAuthorModal() {
       this.show_authors_modal = true;

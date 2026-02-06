@@ -164,7 +164,7 @@ export default {
   signup_password_users_instructions:
     "Si vous ne connaissez pas le mot de passe, vous pouvez le demander par courriel à l’adresse suivante",
 
-  login: "se connecter",
+  login: "Se Connecter",
   logout: "se déconnecter",
   logging_out: "Déconnexion en cours…",
   name_or_pseudonym: "Nom ou pseudonyme",
