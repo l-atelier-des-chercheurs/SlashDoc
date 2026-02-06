@@ -49,19 +49,21 @@
         </div>
 
         <div class="_importSection">
-          <div class="_importButton" ref="tooltip_1_target_el">
-            <ImportFileZone
-              :multiple="true"
-              :files_to_import.sync="files_to_import"
-            />
-            <UploadFiles
-              v-if="files_to_import.length > 0"
-              :files_to_import="files_to_import"
-              :path="author_path"
-              :allow_caption_edition="true"
-              @importedMedias="mediaJustImported($event)"
-              @close="files_to_import = []"
-            />
+          <div class="_importButton">
+            <div ref="tooltip_1_target_el">
+              <ImportFileZone
+                :multiple="true"
+                :files_to_import.sync="files_to_import"
+              />
+              <UploadFiles
+                v-if="files_to_import.length > 0"
+                :files_to_import="files_to_import"
+                :path="author_path"
+                :allow_caption_edition="true"
+                @importedMedias="mediaJustImported($event)"
+                @close="files_to_import = []"
+              />
+            </div>
 
             <div class="_importBtns">
               <button

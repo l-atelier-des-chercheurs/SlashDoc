@@ -101,51 +101,55 @@ export default {
       if (!this.target_el || !this.$refs.root) return;
       const pad = 16;
       const gap = 8;
-      const viewport_w = window.innerWidth;
-      const viewport_h = window.innerHeight;
-      const target_rect = this.target_el.getBoundingClientRect();
       this.$refs.root.style.visibility = "hidden";
       this.position_ready = false;
+      this.position_style = { left: "-9999px", top: "0" };
       this.$nextTick(() => {
-        const el = this.$refs.root;
-        const tw = el.offsetWidth;
-        const th = el.offsetHeight;
-        this.$refs.root.style.visibility = "";
-        const space_right = viewport_w - target_rect.right - pad;
-        const space_left = target_rect.left - pad;
-        const space_bottom = viewport_h - target_rect.bottom - pad;
-        const space_top = target_rect.top - pad;
-        let left = 0;
-        let top = 0;
-        let placement = "right";
-        if (space_right >= tw + gap) {
-          left = target_rect.right + gap;
-          top = target_rect.top + target_rect.height / 2 - th / 2;
-          placement = "right";
-        } else if (space_left >= tw + gap) {
-          left = target_rect.left - tw - gap;
-          top = target_rect.top + target_rect.height / 2 - th / 2;
-          placement = "left";
-        } else if (space_bottom >= th + gap) {
-          left = target_rect.left + target_rect.width / 2 - tw / 2;
-          top = target_rect.bottom + gap;
-          placement = "bottom";
-        } else {
-          left = target_rect.left + target_rect.width / 2 - tw / 2;
-          top = target_rect.top - th - gap;
-          placement = "top";
-        }
-        const pointer_map = {
-          right: "left",
-          left: "right",
-          bottom: "top",
-          top: "bottom",
-        };
-        this.placement = pointer_map[placement];
-        left = Math.max(pad, Math.min(viewport_w - tw - pad, left));
-        top = Math.max(pad, Math.min(viewport_h - th - pad, top));
-        this.position_style = { left: `${left}px`, top: `${top}px` };
-        this.position_ready = true;
+        requestAnimationFrame(() => {
+          if (!this.target_el || !this.$refs.root) return;
+          const el = this.$refs.root;
+          const target_rect = this.target_el.getBoundingClientRect();
+          const tw = el.offsetWidth;
+          const th = el.offsetHeight;
+          const viewport_w = window.innerWidth;
+          const viewport_h = window.innerHeight;
+          const space_right = viewport_w - target_rect.right - pad;
+          const space_left = target_rect.left - pad;
+          const space_bottom = viewport_h - target_rect.bottom - pad;
+          const space_top = target_rect.top - pad;
+          let left = 0;
+          let top = 0;
+          let placement = "right";
+          if (space_right >= tw + gap) {
+            left = target_rect.right + gap;
+            top = target_rect.top + target_rect.height / 2 - th / 2;
+            placement = "right";
+          } else if (space_left >= tw + gap) {
+            left = target_rect.left - tw - gap;
+            top = target_rect.top + target_rect.height / 2 - th / 2;
+            placement = "left";
+          } else if (space_bottom >= th + gap) {
+            left = target_rect.left + target_rect.width / 2 - tw / 2;
+            top = target_rect.bottom + gap;
+            placement = "bottom";
+          } else {
+            left = target_rect.left + target_rect.width / 2 - tw / 2;
+            top = target_rect.top - th - gap;
+            placement = "top";
+          }
+          const pointer_map = {
+            right: "left",
+            left: "right",
+            bottom: "top",
+            top: "bottom",
+          };
+          this.placement = pointer_map[placement];
+          left = Math.max(pad, Math.min(viewport_w - tw - pad, left));
+          top = Math.max(pad, Math.min(viewport_h - th - pad, top));
+          this.position_style = { left: `${left}px`, top: `${top}px` };
+          this.$refs.root.style.visibility = "";
+          this.position_ready = true;
+        });
       });
     },
   },
@@ -161,8 +165,10 @@ export default {
 
   &._pointer-left {
     ._floatingTooltip--box::before {
+      top: 50%;
       left: -8px;
       right: auto;
+      transform: translateY(-50%);
       border-width: 8px 8px 8px 0;
       border-color: transparent var(--floating-tooltip-bg) transparent
         transparent;
@@ -171,8 +177,10 @@ export default {
 
   &._pointer-right {
     ._floatingTooltip--box::before {
+      top: 50%;
       right: -8px;
       left: auto;
+      transform: translateY(-50%);
       border-width: 8px 0 8px 8px;
       border-color: transparent transparent transparent
         var(--floating-tooltip-bg);
@@ -185,8 +193,9 @@ export default {
 
     ._floatingTooltip--box::before {
       top: -8px;
-      left: 24px;
+      left: 50%;
       right: auto;
+      transform: translateX(-50%);
       border-width: 0 8px 8px 8px;
       border-color: transparent transparent var(--floating-tooltip-bg)
         transparent;
@@ -197,8 +206,9 @@ export default {
     ._floatingTooltip--box::before {
       top: auto;
       bottom: -8px;
-      left: 24px;
+      left: 50%;
       right: auto;
+      transform: translateX(-50%);
       border-width: 8px 8px 0 8px;
       border-color: var(--floating-tooltip-bg) transparent transparent
         transparent;
