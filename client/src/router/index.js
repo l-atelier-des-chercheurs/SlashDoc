@@ -50,6 +50,7 @@ const routes = [
     meta: {
       /* do not load full UI */
       static: true,
+      no_top_bar: true,
     },
     component: () =>
       import(
@@ -103,6 +104,7 @@ const routes = [
     meta: {
       /* do not load full UI */
       static: true,
+      no_top_bar: true,
     },
     component: () => import("@/views/PreviewMedia.vue"),
   },

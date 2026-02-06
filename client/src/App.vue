@@ -24,7 +24,7 @@
       <!-- export publication as standalone webpage -->
       <!-- static UI, no live update -->
       <template v-if="$route.meta?.static === true">
-        <StaticTopBar />
+        <StaticTopBar v-if="!$route.meta?.no_top_bar" />
         <router-view v-slot="{ Component }" :key="$route.path">
           <component :is="Component" />
         </router-view>

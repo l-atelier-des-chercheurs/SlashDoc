@@ -229,18 +229,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._createAccountView {
-  min-height: 100vh;
   background-color: var(--g-50);
   padding: calc(var(--spacing) * 2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-y: auto;
+  margin: 0 auto;
 }
 
 ._createAccountView--content {
   background: white;
   width: 100%;
   padding: calc(var(--spacing) * 2);
+  margin: 0 auto;
   max-width: 480px;
 }
 
