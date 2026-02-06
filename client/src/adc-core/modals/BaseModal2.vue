@@ -196,7 +196,7 @@ export default {
   ._baseModal--content {
     position: relative;
     background: var(--panel-color);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
 
     width: 100%;

@@ -390,7 +390,7 @@ export default {
 
 ._threeColumns {
   display: flex;
-  gap: var(--spacing);
+  // gap: var(--spacing);
   margin-bottom: calc(var(--spacing) * 2);
   flex-wrap: wrap;
 }
@@ -401,12 +401,17 @@ export default {
   gap: calc(var(--spacing) / 2);
   border: 1px solid var(--g-200);
   padding: calc(var(--spacing) / 2);
+  margin-right: -1px;
   font-size: var(--sl-font-size-large);
   margin-bottom: calc(var(--spacing) / 2);
 }
 ._column {
   flex: 1;
   min-width: 200px;
+
+  p {
+    margin-right: var(--spacing);
+  }
 }
 
 ._columnImage {
