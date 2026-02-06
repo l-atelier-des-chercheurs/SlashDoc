@@ -116,4 +116,6 @@ export default {
     "The password comes from the administrator in charge of your platform.",
   general_password_modal_contact_email:
     "Contact us at the following email address to obtain the password and access the platform:",
+
+  not_yet_registered: "Not yet registered?",
 };

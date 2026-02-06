@@ -1,7 +1,7 @@
 <template>
   <div class="_loginView">
     <div class="_loginView--content">
-      <h1>{{ $t("login") }}</h1>
+      <h1>{{ $t("connect") }}</h1>
 
       <form v-if="!connected_as" @submit.prevent="login">
         <transition name="pagechange" mode="out-in">
@@ -16,11 +16,7 @@
                 <b-icon icon="exclamation-triangle-fill" />
                 {{ $t("login_no_account_matches") }}
               </div>
-              <div
-                v-else
-                class="u-spacingBottom u-listOfAvatars"
-                key="list"
-              >
+              <div v-else class="u-spacingBottom u-listOfAvatars" key="list">
                 <AuthorTag
                   v-for="atpath in author_suggestions"
                   :key="atpath"
@@ -102,7 +98,10 @@
         </transition>
       </form>
 
+      <hr class="_loginView--separator" />
+
       <div class="_loginView--footer">
+        <p class="_loginView--footer-text">{{ $t("not_yet_registered") }}</p>
         <router-link to="/login/create" class="u-button u-button_outline">
           {{ $t("create_account") }}
         </router-link>
@@ -203,7 +202,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._loginView {
-  min-height: 100%;
+  min-height: 60vh;
   background-color: var(--g-50);
   padding: calc(var(--spacing) * 2);
   display: flex;
@@ -220,14 +219,28 @@ export default {
   max-width: 480px;
 
   h1 {
-    margin: 0 0 calc(var(--spacing) * 2);
-    font-size: var(--sl-font-size-xx-large);
+    margin: 0 0 calc(var(--spacing) * 2.5);
+    text-align: center;
   }
 }
 
 ._loginView--footer {
-  margin-top: calc(var(--spacing) * 2);
-  padding-top: calc(var(--spacing) * 1.5);
-  border-top: 1px solid var(--g-200);
+}
+
+._loginView--footer-text {
+  margin: 0;
+  margin: calc(var(--spacing) * 1) 0;
+}
+
+._loginView--footer .u-button_outline {
+  background-color: var(--g-200);
+  color: var(--g-900);
+  border: none;
+  width: 100%;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--g-300);
+  }
 }
 </style>

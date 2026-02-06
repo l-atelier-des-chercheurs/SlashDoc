@@ -118,4 +118,6 @@ export default {
     "Le mot de passe provient de l'administrateur·ice en charge de votre plateforme.",
   general_password_modal_contact_email:
     "Contactez-nous à l'adresse suivante pour obtenir le mot de passe et accéder à la plateforme :",
+
+  not_yet_registered: "Pas encore inscrit·e ?",
 };
