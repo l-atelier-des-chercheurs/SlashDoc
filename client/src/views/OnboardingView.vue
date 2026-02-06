@@ -13,7 +13,10 @@
           <p class="_onboardingView--subtitle _welcomeSubtitle">
             {{ $t("onboarding_welcome_subtitle") }}
           </p>
-          <div class="_threeColumns">
+          <div
+            class="_threeColumns"
+            :class="{ 'is--mobile': $root.is_mobile_view }"
+          >
             <div class="_column">
               <div class="_navButton">
                 <b-icon icon="upload" />
@@ -393,6 +396,10 @@ export default {
   // gap: var(--spacing);
   margin-bottom: calc(var(--spacing) * 2);
   flex-wrap: wrap;
+
+  &.is--mobile {
+    flex-direction: column;
+  }
 }
 ._navButton {
   display: flex;
@@ -408,6 +415,7 @@ export default {
 ._column {
   flex: 1;
   min-width: 200px;
+  margin-bottom: calc(var(--spacing) * 2);
 
   p {
     margin-right: var(--spacing);
