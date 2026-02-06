@@ -74,10 +74,7 @@
         <button
           type="submit"
           class="u-button u-button_orange _createAccountView--submitButton"
-          :disabled="
-            $root.app_infos.instance_meta.users_must_accept_terms_to_signup ===
-              true && terms_accepted === false
-          "
+          :disabled="terms_accepted === false"
           :class="{ 'is--loading': is_creating_author }"
         >
           <LoaderSpinner v-if="is_creating_author" />
