@@ -212,7 +212,7 @@ export default {
 
 ._loginView--content {
   background: var(--panel-color);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
   border-radius: var(--border-radius);
   padding: calc(var(--spacing) * 2);
   width: 100%;
