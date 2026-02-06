@@ -2,105 +2,87 @@
   <div class="_onboardingView">
     <div class="_onboardingView--content">
       <transition name="fade" mode="out-in">
-        <!-- Step 1: collective (orange) -->
         <div :key="current_step">
-          <template v-if="current_step === 0">
-            <h1 class="_onboardingView--title">
-              {{ titleCollectiveBefore }}
-              <span class="_highlight _highlight_orange">{{
-                $t("onboarding_highlight_collective")
-              }}</span>
-            </h1>
-            <p class="_onboardingView--subtitle">
-              {{ $t("onboarding_subtitle_collective") }}
-            </p>
-            <p class="_onboardingView--body">
-              {{ $t("onboarding_body_collective") }}
-            </p>
-            <div class="_onboardingView--image">
-              <img
-                :src="$root.publicPath + 'onboarding/onboarding-orange.png'"
-                :alt="$t('onboarding_highlight_collective')"
-              />
-            </div>
-          </template>
-
-          <!-- Step 2: connaissance (blue) -->
-          <template v-if="current_step === 1">
-            <h1 class="_onboardingView--title">
-              {{ titleConnaissanceBefore }}
-              <span class="_highlight _highlight_blue">{{
-                $t("onboarding_highlight_connaissance")
-              }}</span>
-              {{ titleConnaissanceAfter }}
-            </h1>
-            <h2 class="_onboardingView--body">
-              {{ $t("onboarding_body_connaissance_1") }}
-            </h2>
-            <p class="_onboardingView--body">
-              {{ $t("onboarding_body_connaissance_2") }}
-            </p>
-            <div class="_onboardingView--image">
-              <img
-                :src="$root.publicPath + 'onboarding/onboarding-blue.png'"
-                :alt="$t('onboarding_highlight_connaissance')"
-              />
-            </div>
-          </template>
-
-          <!-- Step 3: transmission (green) -->
-          <template v-if="current_step === 2">
-            <h1 class="_onboardingView--title">
-              {{ titleTransmissionBefore }}
-              <span class="_highlight _highlight_green">{{
-                $t("onboarding_highlight_transmission")
-              }}</span>
-            </h1>
-            <h2 class="_onboardingView--body">
-              {{ $t("onboarding_body_transmission_1") }}
-            </h2>
-            <p class="_onboardingView--body">
-              {{ $t("onboarding_body_transmission_2") }}
-            </p>
-            <div class="_onboardingView--image">
-              <img
-                :src="$root.publicPath + 'onboarding/onboarding-green.png'"
-                :alt="$t('onboarding_highlight_transmission')"
-              />
-            </div>
-          </template>
+          <h1 class="_onboardingView--title">
+            {{ current_step_data.title_before }}
+            <span
+              :class="['_highlight', `_highlight_${current_step_data.color}`]"
+              >{{ current_step_data.highlight }}</span
+            >
+            {{ current_step_data.title_after }}
+          </h1>
+          <p
+            v-if="current_step_data.subtitle"
+            class="_onboardingView--subtitle"
+          >
+            {{ current_step_data.subtitle }}
+          </p>
+          <h2 v-if="current_step_data.body_title" class="_onboardingView--body">
+            {{ current_step_data.body_title }}
+          </h2>
+          <p
+            v-for="(body, bodyIndex) in current_step_data.body"
+            :key="bodyIndex"
+            class="_onboardingView--body"
+          >
+            {{ body }}
+          </p>
+          <div class="_onboardingView--image">
+            <img
+              :src="current_step_data.image_src"
+              :alt="current_step_data.highlight"
+            />
+          </div>
         </div>
       </transition>
 
-      <div class="_onboardingView--nav">
-        <span class="_onboardingView--step">
-          <button
-            v-if="current_step > 0"
-            type="button"
-            class="u-buttonLink"
-            @click="goPrevious"
-          >
-            ←
-            {{
-              $t("onboarding_space_step", {
-                current: current_step + 1,
-                total: 3,
-              })
-            }}
-          </button>
-        </span>
-        <button type="button" class="u-button u-button_dark" @click="goNext">
-          {{
-            current_step === 2
-              ? $t("onboarding_finish")
-              : $t("onboarding_next_space")
-          }}
-        </button>
+      <!-- Preload all images (hidden) -->
+      <div
+        style="
+          position: absolute;
+          visibility: hidden;
+          pointer-events: none;
+          width: 0;
+          height: 0;
+          overflow: hidden;
+        "
+      >
+        <img
+          v-for="(step, index) in steps"
+          :key="`preload-${index}`"
+          :src="step.image_src"
+          :alt="step.highlight"
+        />
       </div>
     </div>
 
+    <div class="_onboardingView--nav">
+      <span class="_onboardingView--step">
+        <button
+          v-if="current_step > 0"
+          type="button"
+          class="u-buttonLink"
+          @click="goPrevious"
+        >
+          ←
+          {{
+            $t("onboarding_space_step", {
+              current: current_step + 1,
+              total: 3,
+            })
+          }}
+        </button>
+      </span>
+      <button type="button" class="u-button u-button_black" @click="goNext">
+        {{
+          current_step === 2
+            ? $t("onboarding_finish")
+            : $t("onboarding_next_space")
+        }}
+      </button>
+    </div>
     <div class="_onboardingView--skip">
-      <router-link to="/contribute" class="_skipLink">
+      <router-link to="/contribute" class="u-button u-button_black _skipLink">
         {{ $t("onboarding_skip_demo") }}
       </router-link>
     </div>
@@ -108,6 +90,9 @@
 </template>
 <script>
 export default {
+  data() {
+    return {};
+  },
   computed: {
     current_step() {
       const step = parseInt(this.$route.query.step, 10);
@@ -118,29 +103,56 @@ export default {
       }
       return step - 1; // Convert URL step (1-3) to internal step (0-2)
     },
-    titleCollectiveBefore() {
-      const title = this.$t("onboarding_title_collective");
-      const highlight = this.$t("onboarding_highlight_collective");
-      const idx = title.indexOf(highlight);
-      return idx >= 0 ? title.slice(0, idx) : title;
+    steps() {
+      const splitTitle = (titleKey, highlightKey) => {
+        const title = this.$t(titleKey);
+        const highlight = this.$t(highlightKey);
+        const idx = title.indexOf(highlight);
+        return {
+          title_before: idx >= 0 ? title.slice(0, idx) : title,
+          title_after: idx >= 0 ? title.slice(idx + highlight.length) : "",
+        };
+      };
+
+      const base_path = this.$root?.publicPath || "/_client/";
+      return [
+        {
+          color: "orange",
+          highlight: this.$t("onboarding_highlight_collective"),
+          ...splitTitle(
+            "onboarding_title_collective",
+            "onboarding_highlight_collective"
+          ),
+          subtitle: this.$t("onboarding_subtitle_collective"),
+          body: [this.$t("onboarding_body_collective")],
+          image_src: base_path + "onboarding/onboarding-orange.png",
+        },
+        {
+          color: "blue",
+          highlight: this.$t("onboarding_highlight_connaissance"),
+          ...splitTitle(
+            "onboarding_title_connaissance",
+            "onboarding_highlight_connaissance"
+          ),
+          body_title: this.$t("onboarding_body_connaissance_1"),
+          body: [this.$t("onboarding_body_connaissance_2")],
+          image_src: base_path + "onboarding/onboarding-blue.png",
+        },
+        {
+          color: "green",
+          highlight: this.$t("onboarding_highlight_transmission"),
+          ...splitTitle(
+            "onboarding_title_transmission",
+            "onboarding_highlight_transmission"
+          ),
+          body_title: this.$t("onboarding_body_transmission_1"),
+          body: [this.$t("onboarding_body_transmission_2")],
+          image_src: base_path + "onboarding/onboarding-green.png",
+        },
+      ];
     },
-    titleConnaissanceBefore() {
-      const title = this.$t("onboarding_title_connaissance");
-      const highlight = this.$t("onboarding_highlight_connaissance");
-      const idx = title.indexOf(highlight);
-      return idx >= 0 ? title.slice(0, idx) : title;
-    },
-    titleConnaissanceAfter() {
-      const title = this.$t("onboarding_title_connaissance");
-      const highlight = this.$t("onboarding_highlight_connaissance");
-      const idx = title.indexOf(highlight);
-      return idx >= 0 ? title.slice(idx + highlight.length) : "";
-    },
-    titleTransmissionBefore() {
-      const title = this.$t("onboarding_title_transmission");
-      const highlight = this.$t("onboarding_highlight_transmission");
-      const idx = title.indexOf(highlight);
-      return idx >= 0 ? title.slice(0, idx) : title;
+    current_step_data() {
+      return this.steps[this.current_step] || this.steps[0];
     },
   },
   mounted() {
@@ -185,13 +197,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._onboardingView {
-  min-height: 100%;
   background-color: var(--g-50);
-  padding: calc(var(--spacing) * 2);
+  // padding: calc(var(--spacing) * 2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
 
 ._onboardingView--content {
@@ -261,6 +273,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
+  width: 100%;
+  max-width: 480px;
 }
 
 ._onboardingView--step {
@@ -275,35 +289,21 @@ export default {
 .u-button_dark {
   background: var(--g-700);
   color: var(--panel-color);
-  border: none;
-  padding: 0.5em 1em;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: var(--sl-font-size-medium);
-
-  &:hover {
-    background: var(--g-800);
-  }
 }
 
 ._onboardingView--skip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin-top: calc(var(--spacing) * 1.5);
   width: 100%;
-  max-width: 480px;
   text-align: center;
 }
 
 ._skipLink {
   display: block;
+  border-radius: 0;
   padding: calc(var(--spacing) * 1);
-  background: var(--g-700);
-  color: var(--panel-color);
-  border-radius: var(--border-radius);
-  text-decoration: none;
-  font-size: var(--sl-font-size-medium);
-
-  &:hover {
-    background: var(--g-800);
-  }
 }
 </style>
