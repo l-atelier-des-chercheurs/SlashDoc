@@ -180,6 +180,7 @@ export default {
   mixins: [DynamicTitle],
   components: {
     AdminLumaSettings: () => import("@/components/AdminLumaSettings.vue"),
+    PositionPicker: () => import("@/adc-core/inputs/PositionPicker.vue"),
   },
   data() {
     return {
