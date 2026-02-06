@@ -1,51 +1,140 @@
-# Privacy Policy and Cookies
+# PRIVACY AND COOKIES POLICY – /doc (SlashDoc)
 
-## 1. Introduction
+## 1. Purpose and Scope
 
-The SlashDoc platform uses cookies and similar technologies to ensure its proper functioning and improve Users' browsing experience. This policy explains what cookies are, their use and the means available to Users to manage them.
+This Privacy Policy applies to any person browsing or contributing to the **/doc (SlashDoc)** platform (the “User”).
 
-## 2. What is a cookie?
+**Atelier LUMA**, as data controller, processes personal data in accordance with:
 
-A cookie is a small text file saved on the User's device when visiting a website. It allows, among other things, to recognize a user, remember their preferences or collect statistical information.
+- Regulation (EU) 2016/679 (GDPR),
+- French Law No. 78-17 of 6 January 1978 as amended.
 
-## 3. Types of cookies used
+## 2. Data Controller
 
-**a. Strictly necessary cookies**
+**Atelier LUMA – SAS Luma/Arles**  
+Registered office: 35 Avenue Victor Hugo – 13200 Arles, France  
+APE code: 93.29Z  
+Phone: +33 (0)4 65 88 10 00  
+Email: info@luma-arles.org
 
-These cookies are essential for the site's operation and cannot be disabled. They allow in particular:
+## 3. Data Protection Officer (DPO)
 
-- user authentication;
-- navigation security;
-- management of essential preferences.
+**Patricia Giuli**  
+Email: pgiuli@luma-arles.org
 
-**b. Audience measurement cookies**
+The DPO may be contacted for any data protection questions or rights requests.
 
-These cookies allow the collection of anonymous data on site traffic and use to improve its functioning. Statistics are used only for internal purposes and do not allow personal identification of Users.
+## 4. Personal Data Collected
 
-**c. Third-party cookies**
+### 4.1 Data provided by Users
 
-The platform may occasionally integrate content from third-party services (for example embedded content). These services may deposit cookies under their own responsibility.
+- name and surname;
+- email address;
+- affiliation or organization;
+- uploaded content (texts, images, documents, metadata).
 
-## 4. Consent
+### 4.2 Automatically collected data
 
-On the first visit to the platform, an information banner informs the User of the use of cookies. The User can accept, refuse or configure the use of non-essential cookies. Consent can be withdrawn at any time.
+- IP address;
+- browser and OS;
+- connection and navigation data;
+- technical logs for security and operation.
 
-## 5. Cookie Management
+## 5. Purposes of Processing
 
-The User can manage cookies:
+- platform access and functionality;
+- account and contribution management;
+- content attribution and traceability;
+- support requests;
+- security and technical operation;
+- legal compliance.
 
-- via their browser settings;
+No marketing use without explicit consent.
 
-Disabling certain cookies may affect the proper functioning of some site features.
+## 6. Legal Basis
 
-## 6. Cookie Retention Period
+- user consent;
+- performance of a service;
+- legitimate interest;
+- legal obligations.
 
-Cookies are retained for a maximum period compliant with current regulations and proportionate to their purpose.
+## 7. Published Content and Visibility
 
-## 7. User Rights
+User content is intended to be public.  
+Associated data (name, affiliation, publication date) may be publicly visible for attribution and transparency.
 
-Rights relating to personal data collected via cookies are identical to those described in the privacy policy.
+## 8. Data Retention
 
-## 8. Contact
+- account data: while account is active;
+- published content: while available on the platform;
+- technical logs: limited period per regulations.
 
-For any questions relating to the privacy policy or cookie management, the User can contact: [ckernreuter@luma-arles.org](mailto:ckernreuter@luma-arles.org).
+## 9. Data Recipients
+
+Data is accessible only to authorized personnel and technical processors.  
+No sale or transfer of personal data.
+
+## 10. Transfers Outside the EU
+
+No data is transferred outside the European Union.
+
+## 11. Cookies Policy
+
+## 11.1 What is a Cookie?
+
+A cookie is a text file stored on the User’s device.
+
+## 11.2 Types of Cookies Used
+
+### 11.2.1 Strictly Necessary Cookies
+
+Required for:
+
+- authentication;
+- security;
+- session management.
+
+No tracking or profiling.
+
+### 11.2.2 No Analytics or Marketing Cookies
+
+No analytics or advertising cookies are used.
+
+### 11.2.3 Conditional Third-Party Cookies
+
+Third-party content (e.g., videos) may set cookies only if the User loads such content.
+
+## 11.3 Consent
+
+Strictly necessary cookies do not require consent.  
+Third-party content is loaded after user action.
+
+## 11.4 Managing Cookies
+
+Cookies can be deleted via browser settings.  
+Disabling necessary cookies may affect functionality.
+
+## 11.5 Cookie Retention
+
+Cookies are kept for a period proportionate to their purpose.
+
+## 12. Users’ Rights
+
+- access;
+- rectification;
+- erasure;
+- restriction;
+- objection;
+- portability.
+
+Contact:
+
+- info@luma-arles.org
+- pgiuli@luma-arles.org
+
+Users may lodge a complaint with the CNIL or their local authority.
+
+## 13. Policy Updates
+
+This policy may be updated at any time.  
+The applicable version is the one published on the website.
