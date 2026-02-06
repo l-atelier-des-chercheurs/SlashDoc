@@ -7,16 +7,28 @@
         <transition name="pagechange" mode="out-in">
           <div v-if="!author_to_login_to" key="search">
             <transition name="pagechange" mode="out-in">
-              <div v-if="author_suggestions === false" key="none" />
               <div
-                v-else-if="author_suggestions.length === 0"
+                v-if="
+                  author_suggestions === false && !debouncing_search_author_name
+                "
+                key="none"
+              />
+              <div
+                v-else-if="
+                  author_suggestions.length === 0 &&
+                  !debouncing_search_author_name
+                "
                 class="u-instructions u-spacingBottom"
                 key="no_author"
               >
                 <b-icon icon="exclamation-triangle-fill" />
                 {{ $t("login_no_account_matches") }}
               </div>
-              <div v-else class="u-spacingBottom u-listOfAvatars" key="list">
+              <div
+                v-else-if="author_suggestions.length > 0"
+                class="u-spacingBottom u-listOfAvatars"
+                key="list"
+              >
                 <AuthorTag
                   v-for="atpath in author_suggestions"
                   :key="atpath"
@@ -24,6 +36,13 @@
                   :mode="'select'"
                   @click="checkAuthor(atpath)"
                 />
+              </div>
+              <div
+                v-if="debouncing_search_author_name"
+                class="u-instructions u-spacingBottom"
+                key="debouncing"
+              >
+                <span class="_blinking-dots">…</span>
               </div>
             </transition>
             <div class="u-spacingBottom">
@@ -123,6 +142,9 @@ export default {
     return {
       authors: [],
       search_author_name: "",
+      debounced_search_author_name: "",
+      debounce_timeout: null,
+      debouncing_search_author_name: false,
       author_to_login_to: undefined,
       input_password: "",
       show_recover_modal: false,
@@ -142,13 +164,40 @@ export default {
   },
   beforeDestroy() {
     this.$eventHub.$off("login.suggest", this.checkAuthor);
+    if (this.debounce_timeout) {
+      clearTimeout(this.debounce_timeout);
+    }
+  },
+  watch: {
+    search_author_name(new_value) {
+      if (this.debounce_timeout) {
+        clearTimeout(this.debounce_timeout);
+      }
+
+      // Immediately update if search is cleared
+      if (new_value.length === 0) {
+        this.debounced_search_author_name = "";
+        this.debouncing_search_author_name = false;
+        return;
+      }
+
+      this.debouncing_search_author_name = true;
+
+      this.debounce_timeout = setTimeout(() => {
+        this.debounced_search_author_name = new_value;
+        this.debouncing_search_author_name = false;
+      }, 500);
+    },
   },
   computed: {
     author_suggestions() {
-      if (this.search_author_name.length === 0 || this.authors.length === 0)
+      if (
+        this.debounced_search_author_name.length === 0 ||
+        this.authors.length === 0
+      )
         return false;
       const matching = this.authors.filter((a) =>
-        this.twoStringsSearch(a.name, this.search_author_name)
+        this.twoStringsSearch(a.name, this.debounced_search_author_name)
       );
       return matching.map((m) => m.$path).slice(0, 5);
     },
@@ -241,6 +290,26 @@ export default {
   &:hover,
   &:focus-visible {
     background-color: var(--g-300);
+  }
+}
+._loginView--separator {
+  margin: calc(var(--spacing) * 2) 0;
+}
+
+._blinking-dots {
+  animation: blink 1s infinite;
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
   }
 }
 </style>
