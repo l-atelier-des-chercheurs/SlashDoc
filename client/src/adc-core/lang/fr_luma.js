@@ -109,13 +109,13 @@ export default {
     "Vous êtes prêt·es à naviguer à travers ces 3 espaces",
   onboarding_contribute_title: "CONTRIBUER",
   onboarding_contribute_description:
-    "Importer toutes sortes de médias, vos croquis, vos essais..., pour documenter vos idées et vos processus de recherche.",
+    "Importer toutes sortes de médias, vos croquis, vos essais (...) pour documenter vos idées et vos processus de recherche.",
   onboarding_explore_title: "EXPLORER",
   onboarding_explore_description:
-    "Parcourez les travaux de vos pairs et découvrez les liens entre les contextes et les pratiques de votre communauté.",
+    "Parcourez les travaux de vos pairs et découvrez les liens entre les contextes et les pratiques de recherche de votre communauté.",
   onboarding_publish_title: "PUBLIER",
   onboarding_publish_description:
-    "Publiez vos contenus sous différents formats accessibles pour les ouvrir à la discussion et à la réutilisation.",
+    "Rendez vos recherches accessibles. Publiez vos contenus sous différents formats pour les ouvrir à la discussion, à la réutilisation et à de nouveaux usages.",
   onboarding_welcome_conclusion:
     "Trois gestes complémentaires pour tisser des savoirs et des savoir-faire en commun.",
   onboarding_start: "Commencer",

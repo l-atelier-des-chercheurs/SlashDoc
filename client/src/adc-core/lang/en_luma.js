@@ -109,15 +109,15 @@ export default {
     "You are ready to navigate through these 3 spaces",
   onboarding_contribute_title: "CONTRIBUTE",
   onboarding_contribute_description:
-    "Import all sorts of media, your sketches, your essays..., to document your ideas and your research processes.",
+    "Upload all kinds of media files, sketches, notes, essays (...) to document your ideas and research processes.",
   onboarding_explore_title: "EXPLORE",
   onboarding_explore_description:
-    "Browse the work of your peers and discover the links between contexts and the practices of your community.",
+    "Browse your peers' work and discover connections between the contexts and research practices within your community.",
   onboarding_publish_title: "PUBLISH",
   onboarding_publish_description:
-    "Publish your content in different accessible formats to open it up for discussion and reuse.",
+    "Make your research accessible. Share your content in multiple formats to invite discussion, reuse, and new uses.",
   onboarding_welcome_conclusion:
-    "Three complementary actions to weave knowledge and know-how in common.",
+    "Three complementary actions to weave shared knowledge and know-how.",
   onboarding_start: "Start",
   import_document: "Import document",
   import_document_instructions:
