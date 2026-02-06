@@ -13,6 +13,7 @@ This Privacy Policy applies to any person browsing or contributing to the **/doc
 
 **Atelier LUMA – SAS Luma/Arles**  
 Registered office: 35 Avenue Victor Hugo – 13200 Arles, France  
+SIRET: 812 901 700 00037  
 APE code: 93.29Z  
 Phone: +33 (0)4 65 88 10 00  
 Email: info@luma-arles.org
