@@ -109,7 +109,7 @@ export default {
     "You are ready to navigate through these 3 spaces",
   onboarding_contribute_title: "CONTRIBUTE",
   onboarding_contribute_description:
-    "Upload all kinds of media files, sketches, notes, essays (...) to document your ideas and research processes.",
+    "Upload all kinds of media files, sketches, notes, essays (...)to document your ideas and research processes.",
   onboarding_explore_title: "EXPLORE",
   onboarding_explore_description:
     "Browse your peers' work and discover connections between the contexts and research practices within your community.",
