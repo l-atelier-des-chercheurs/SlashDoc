@@ -13,7 +13,7 @@
     :style="position_style"
   >
     <div class="_floatingTooltip--box">
-      <h4 v-if="title" class="_floatingTooltip--title">{{ title }}</h4>
+      <h2 v-if="title" class="_floatingTooltip--title">{{ title }}</h2>
       <p v-if="body" class="_floatingTooltip--body">{{ body }}</p>
       <slot v-else name="body" />
       <div v-if="show_step && step_total > 1" class="_floatingTooltip--step">
@@ -22,7 +22,7 @@
       <div v-if="show_next" class="_floatingTooltip--actions">
         <button
           type="button"
-          class="_floatingTooltip--next"
+          class="u-button u-button_white u-button_small"
           @click="$emit('next')"
         >
           {{ is_last_step ? $t("tooltip_close") : $t("tooltip_next") }}
@@ -221,11 +221,11 @@ export default {
 ._floatingTooltip--box {
   --floating-tooltip-bg: #4a4a4a;
   position: relative;
-  max-width: 320px;
-  padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+  max-width: 290px;
+  padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1);
   background: var(--floating-tooltip-bg);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 18px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   &::before {
@@ -240,11 +240,7 @@ export default {
 
 ._floatingTooltip--title {
   margin: 0 0 calc(var(--spacing) * 0.75);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: #fff;
 }
 
 ._floatingTooltip--body {
