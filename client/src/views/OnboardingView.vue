@@ -78,7 +78,7 @@
             v-if="current_step > 0"
             type="button"
             class="u-buttonLink"
-            @click="current_step = current_step - 1"
+            @click="goPrevious"
           >
             ←
             {{
@@ -108,12 +108,16 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      current_step: 0,
-    };
-  },
   computed: {
+    current_step() {
+      const step = parseInt(this.$route.query.step, 10);
+      // URL uses step numbers 1-3, convert to internal 0-2
+      // Validate step is between 1 and 3, default to 0 (which maps to step 1) if invalid
+      if (isNaN(step) || step < 1 || step > 3) {
+        return 0;
+      }
+      return step - 1; // Convert URL step (1-3) to internal step (0-2)
+    },
     titleCollectiveBefore() {
       const title = this.$t("onboarding_title_collective");
       const highlight = this.$t("onboarding_highlight_collective");
@@ -142,6 +146,15 @@ export default {
   mounted() {
     if (!this.connected_as) {
       this.$router.replace("/login");
+      return;
+    }
+    // If no step query parameter or invalid step, redirect to step 1
+    const step = parseInt(this.$route.query.step, 10);
+    if (isNaN(step) || step < 1 || step > 3) {
+      this.$router.push({
+        path: "/onboarding",
+        query: { step: 1 },
+      });
     }
   },
   methods: {
@@ -149,7 +162,22 @@ export default {
       if (this.current_step === 2) {
         this.$router.push("/contribute");
       } else {
-        this.current_step += 1;
+        // Convert internal step (0-2) to URL step (1-3)
+        const url_step = this.current_step + 2;
+        this.$router.push({
+          path: "/onboarding",
+          query: { step: url_step },
+        });
+      }
+    },
+    goPrevious() {
+      if (this.current_step > 0) {
+        // Convert internal step (0-2) to URL step (1-3)
+        const url_step = this.current_step;
+        this.$router.push({
+          path: "/onboarding",
+          query: { step: url_step },
+        });
       }
     },
   },
