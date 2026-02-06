@@ -21,16 +21,14 @@
 
     <LoaderSpinner v-if="router_is_loading" />
     <template v-else>
-      <!-- export publication as standalone webpage -->
-      <!-- static UI, no live update -->
-      <template v-if="$route.meta?.static === true">
-        <StaticTopBar v-if="!$route.meta?.no_top_bar" />
+      <!-- Preview media - static UI, no topbar -->
+      <template v-if="$route.path.startsWith('/_previewmedia')">
         <router-view v-slot="{ Component }" :key="$route.path">
           <component :is="Component" />
         </router-view>
       </template>
 
-      <!-- dynamic, regular app with live updates and logging in -->
+      <!-- All other routes - dynamic, regular app with live updates and logging in -->
       <FullUI v-else />
     </template>
 
@@ -39,13 +37,11 @@
 </template>
 <script>
 import FullUI from "@/FullUI.vue";
-import StaticTopBar from "@/components/StaticTopBar.vue";
 
 export default {
   props: {},
   components: {
     FullUI,
-    StaticTopBar,
   },
   data() {
     return {

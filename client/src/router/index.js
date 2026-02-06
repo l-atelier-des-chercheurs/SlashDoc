@@ -7,10 +7,6 @@ const routes = [
   {
     path: "/",
     name: "Accueil",
-    meta: {
-      /* do not load full UI */
-      static: true,
-    },
     component: () =>
       import(/* webpackChunkName: "AccueilView" */ "../views/Accueil.vue"),
   },
@@ -47,11 +43,6 @@ const routes = [
   {
     path: "/publications/:document_slug",
     name: "Publication",
-    meta: {
-      /* do not load full UI */
-      static: true,
-      no_top_bar: true,
-    },
     component: () =>
       import(
         /* webpackChunkName: "StaticPublicationView.vue" */ "../views/StaticPublicationView.vue"
@@ -81,19 +72,11 @@ const routes = [
   {
     path: "/terms",
     name: "CGU",
-    meta: {
-      /* do not load full UI */
-      static: true,
-    },
     component: () => import("@/views/TermsView.vue"),
   },
   {
     path: "/confidentiality",
     name: "Confidentiality",
-    meta: {
-      /* do not load full UI */
-      static: true,
-    },
     component: () => import("@/views/ConfidentialityView.vue"),
   },
   {

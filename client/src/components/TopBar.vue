@@ -160,19 +160,22 @@
               v-text="$api.other_devices_connected.length"
             /> -->
           </div>
-          <router-link
-            v-else
-            to="/login"
-            class="u-button u-button_glass _mobileAuthorBtn"
-            @click.native="show_mobile_menu = false"
-          >
-            {{ $t("login") }}
-            <!-- <sup
-              class="_badge"
-              v-if="$api.other_devices_connected.length > 0"
-              v-text="$api.other_devices_connected.length"
-            /> -->
-          </router-link>
+          <div v-else-if="!isAuthPage" class="_mobileAuthButtons">
+            <router-link
+              to="/login"
+              class="u-button u-button_glass _mobileAuthorBtn"
+              @click.native="show_mobile_menu = false"
+            >
+              {{ $t("login") }}
+            </router-link>
+            <router-link
+              to="/login/create"
+              class="u-button u-button_glass _mobileAuthorBtn"
+              @click.native="show_mobile_menu = false"
+            >
+              {{ $t("create_account") }}
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -300,18 +303,20 @@
             v-text="$api.other_devices_connected.length"
           /> -->
         </div>
-        <router-link
-          to="/login"
-          class="u-button u-button_transparent _authorBtn"
-          v-else
-        >
-          {{ $t("login") }}
-          <!-- <sup
-            class="_badge"
-            v-if="$api.other_devices_connected.length > 0"
-            v-text="$api.other_devices_connected.length"
-          /> -->
-        </router-link>
+        <div v-else-if="!isAuthPage" class="_authButtons">
+          <router-link
+            to="/login"
+            class="u-button u-button_transparent _authorBtn"
+          >
+            {{ $t("login") }}
+          </router-link>
+          <router-link
+            to="/login/create"
+            class="u-button u-button_transparent _authorBtn"
+          >
+            {{ $t("create_account") }}
+          </router-link>
+        </div>
       </div>
     </template>
 
@@ -403,6 +408,10 @@ export default {
         }
         return acc;
       }, 0);
+    },
+    isAuthPage() {
+      const auth_paths = ["/login", "/login/create", "/onboarding"];
+      return auth_paths.includes(this.$route.path);
     },
   },
   methods: {
@@ -570,6 +579,19 @@ export default {
 ._currentUser {
   display: inline-flex;
   position: relative;
+}
+
+._authButtons {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) / 2);
+}
+
+._mobileAuthButtons {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) / 2);
+  width: 100%;
 }
 
 /* Mobile Menu Styles */

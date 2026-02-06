@@ -141,50 +141,44 @@ export default {
       // Always allow if user is logged in
       if (this.connected_as) return;
 
-      // These paths are always accessible without password
+      // These paths are always accessible without authentication
       const always_public_paths = ["/", "/terms", "/confidentiality"];
 
-      // Always allow truly public paths
-      if (always_public_paths.includes(route.path)) {
-        // Hide password modal if on public path
-        if (this.show_general_password_modal) {
-          this.show_general_password_modal = false;
+      // Check if general password exists
+      const has_general_password =
+        this.$root.app_infos?.instance_meta?.has_general_password === true;
+
+      // If general password exists:
+      if (has_general_password) {
+        // Allow access to public paths and auth paths
+        const allowed_paths = [
+          "/",
+          "/terms",
+          "/confidentiality",
+          "/login",
+          "/login/create",
+          "/onboarding",
+        ];
+        if (allowed_paths.includes(route.path)) {
+          return;
+        }
+        // Redirect to login for other paths
+        if (route.path !== "/login") {
+          this.$router.replace("/login");
         }
         return;
       }
 
-      // Allow static routes (like publications)
-      if (route.meta && route.meta.static) return;
-
-      // Check if general password is required
-      const has_general_password =
-        this.$root.app_infos?.instance_meta?.has_general_password === true;
-      const has_submitted_password = !!this.$api?.general_password;
-
-      // If password is required but not submitted, show password modal
-      if (has_general_password && !has_submitted_password) {
-        this.show_general_password_modal = true;
+      // If no general password:
+      // Allow only public paths
+      if (always_public_paths.includes(route.path)) {
         return;
       }
 
-      // If password is required and submitted, allow access
-      if (has_general_password && has_submitted_password) {
-        return;
+      // Redirect to home page if trying to access other pages
+      if (route.path !== "/") {
+        this.$router.replace("/");
       }
-
-      // If no password is required, allow access to login/create/onboarding/reset-password
-      const auth_paths = [
-        "/login",
-        "/login/create",
-        "/onboarding",
-        "/reset-password",
-      ];
-      if (auth_paths.includes(route.path)) {
-        return;
-      }
-
-      // Otherwise, redirect to login if not authenticated
-      this.$router.replace("/login");
     },
     socketConnected() {
       // if (this.$root.debug_mode)
