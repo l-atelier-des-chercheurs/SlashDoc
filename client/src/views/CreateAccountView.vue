@@ -283,7 +283,7 @@ export default {
 }
 
 ._createAccountView--checkbox {
-  margin-top: 0.25em;
+  margin-top: -0.1em;
   flex-shrink: 0;
   width: 1.2em;
   height: 1.2em;

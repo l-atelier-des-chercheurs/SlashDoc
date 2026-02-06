@@ -61,14 +61,6 @@
           </div>
           <div v-else key="login">
             <div class="u-spacingBottom">
-              <button
-                type="button"
-                class="u-buttonLink"
-                @click="author_to_login_to = undefined"
-              >
-                <b-icon icon="arrow-left-short" />
-                {{ $t("back") }}
-              </button>
               <AuthorTag
                 :key="author_to_login_to.$path"
                 :path="author_to_login_to.$path"
@@ -103,7 +95,18 @@
             <div v-if="msg_password_is_wrong" class="u-warning u-spacingBottom">
               {{ msg_password_is_wrong }}
             </div>
-            <div class="u-spacingBottom">
+
+            <div class="u-spacingBottom"></div>
+            <div class="_loginView--buttons">
+              <button
+                type="button"
+                class="u-buttonLink"
+                @click="author_to_login_to = undefined"
+              >
+                <b-icon icon="arrow-left-short" />
+                {{ $t("back") }}
+              </button>
+
               <button
                 type="submit"
                 class="u-button u-button_bleuvert"
@@ -117,18 +120,20 @@
         </transition>
       </form>
 
-      <hr class="_loginView--separator" />
+      <template v-if="!author_to_login_to">
+        <hr class="_loginView--separator" />
 
-      <div class="_loginView--footer">
-        <p class="_loginView--footer-text">{{ $t("not_yet_registered") }}</p>
-        <router-link to="/login/create" class="u-button u-button_outline">
-          {{ $t("create_account") }}
-        </router-link>
-      </div>
+        <div class="_loginView--footer">
+          <p class="_loginView--footer-text">{{ $t("not_yet_registered") }}</p>
+          <router-link to="/login/create" class="u-button u-button_outline">
+            {{ $t("create_account") }}
+          </router-link>
+        </div>
 
-      <p v-if="authors.length === 0" class="u-instructions">
-        <small>{{ $t("no_accounts_yet") }}</small>
-      </p>
+        <p v-if="authors.length === 0" class="u-instructions">
+          <small>{{ $t("no_accounts_yet") }}</small>
+        </p>
+      </template>
     </div>
   </div>
 </template>
@@ -311,5 +316,14 @@ export default {
   100% {
     opacity: 0;
   }
+}
+
+._loginView--buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: calc(var(--spacing) / 2);
+  padding-top: calc(var(--spacing) * 2);
+  border-top: 1px solid var(--g-200);
 }
 </style>
