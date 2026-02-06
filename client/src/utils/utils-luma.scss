@@ -233,6 +233,10 @@ input[type="range"] {
   border-color: var(--c-gris_fonce) !important;
 }
 
-.u-button_orange {
-  color: black !important;
+.u-button_orange.u-button_orange {
+  color: black;
+
+  &[disabled] {
+    color: var(--g-500);
+  }
 }

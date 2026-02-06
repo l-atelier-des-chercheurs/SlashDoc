@@ -16,9 +16,9 @@
         v-if="show_welcome_modal"
         @close="show_welcome_modal = false"
       />
-      <GeneralPasswordModal
+      <SlashdocGeneralPasswordModal
         v-else-if="show_general_password_modal"
-        @close="show_general_password_modal = false"
+        @close="handlePasswordModalClose"
       />
       <template v-else>
         <AuthorList
@@ -48,7 +48,7 @@
 </template>
 <script>
 import WelcomeModal from "@/components/WelcomeModal.vue";
-import GeneralPasswordModal from "@/adc-core/modals/GeneralPasswordModal.vue";
+import SlashdocGeneralPasswordModal from "@/adc-core/modals/SlashdocGeneralPasswordModal.vue";
 import TrackAuthorChanges from "@/adc-core/author/TrackAuthorChanges.vue";
 import TaskTracker from "@/adc-core/tasks/TaskTracker.vue";
 import DisconnectModal from "@/adc-core/modals/DisconnectModal.vue";
@@ -61,7 +61,7 @@ export default {
   components: {
     CookieNoticeBar,
     WelcomeModal,
-    GeneralPasswordModal,
+    SlashdocGeneralPasswordModal,
     TrackAuthorChanges,
     TaskTracker,
     DisconnectModal,
@@ -137,18 +137,53 @@ export default {
     checkRouteAccess(route) {
       // Don't redirect if still loading - wait for API initialization to complete
       if (this.$root.is_loading) return;
+
+      // Always allow if user is logged in
       if (this.connected_as) return;
-      const public_paths = [
-        "/",
+
+      // These paths are always accessible without password
+      const always_public_paths = ["/", "/terms", "/confidentiality"];
+
+      // Always allow truly public paths
+      if (always_public_paths.includes(route.path)) {
+        // Hide password modal if on public path
+        if (this.show_general_password_modal) {
+          this.show_general_password_modal = false;
+        }
+        return;
+      }
+
+      // Allow static routes (like publications)
+      if (route.meta && route.meta.static) return;
+
+      // Check if general password is required
+      const has_general_password =
+        this.$root.app_infos?.instance_meta?.has_general_password === true;
+      const has_submitted_password = !!this.$api?.general_password;
+
+      // If password is required but not submitted, show password modal
+      if (has_general_password && !has_submitted_password) {
+        this.show_general_password_modal = true;
+        return;
+      }
+
+      // If password is required and submitted, allow access
+      if (has_general_password && has_submitted_password) {
+        return;
+      }
+
+      // If no password is required, allow access to login/create/onboarding/reset-password
+      const auth_paths = [
         "/login",
         "/login/create",
         "/onboarding",
         "/reset-password",
-        "/terms",
-        "/confidentiality",
       ];
-      if (public_paths.includes(route.path)) return;
-      if (route.meta && route.meta.static) return;
+      if (auth_paths.includes(route.path)) {
+        return;
+      }
+
+      // Otherwise, redirect to login if not authenticated
       this.$router.replace("/login");
     },
     socketConnected() {
@@ -177,6 +212,14 @@ export default {
     },
     promptGeneralPassword() {
       this.show_general_password_modal = true;
+    },
+    handlePasswordModalClose() {
+      this.show_general_password_modal = false;
+      // Re-check route access after password is submitted
+      // This allows navigation to proceed if password was successfully entered
+      this.$nextTick(() => {
+        this.checkRouteAccess(this.$route);
+      });
     },
     showWelcomeModal() {
       this.show_welcome_modal = true;

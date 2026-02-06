@@ -7,6 +7,10 @@ const routes = [
   {
     path: "/",
     name: "Accueil",
+    meta: {
+      /* do not load full UI */
+      static: true,
+    },
     component: () =>
       import(/* webpackChunkName: "AccueilView" */ "../views/Accueil.vue"),
   },
@@ -76,11 +80,19 @@ const routes = [
   {
     path: "/terms",
     name: "CGU",
+    meta: {
+      /* do not load full UI */
+      static: true,
+    },
     component: () => import("@/views/TermsView.vue"),
   },
   {
     path: "/confidentiality",
     name: "Confidentiality",
+    meta: {
+      /* do not load full UI */
+      static: true,
+    },
     component: () => import("@/views/ConfidentialityView.vue"),
   },
   {

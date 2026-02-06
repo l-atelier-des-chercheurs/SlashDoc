@@ -106,4 +106,16 @@ export default {
   import_document_instructions:
     "Vous pouvez importer un document avec tous ses médias en cliquant sur le bouton ci-dessous. Il sera automatiquement ajouté à l'espace sélectionné avec votre compte comme administrateur.",
   use_location_from_media: "Utiliser la localisation d'un média",
+
+  "login/create_account": "Se connecter / Créer un compte",
+
+  // General password modal (protected data style)
+  general_password_modal_title: "Vos données sont protégées",
+  general_password_modal_description:
+    "Entrez le mot de passe fourni* pour accéder à l'archive de manière sécurisée",
+  general_password_placeholder: "Mot de passe",
+  general_password_modal_note:
+    "Le mot de passe provient de l'administrateur·ice en charge de votre plateforme.",
+  general_password_modal_contact_email:
+    "Contactez-nous à l'adresse suivante pour obtenir le mot de passe et accéder à la plateforme :",
 };

@@ -106,4 +106,14 @@ export default {
   import_document_instructions:
     "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
   use_location_from_media: "Use location from media",
+
+  // General password modal (protected data style) — FR copy, translate later
+  general_password_modal_title: "Your data is protected",
+  general_password_modal_description:
+    "Enter the password provided* to access the archive securely",
+  general_password_placeholder: "Password",
+  general_password_modal_note:
+    "The password comes from the administrator in charge of your platform.",
+  general_password_modal_contact_email:
+    "Contact us at the following email address to obtain the password and access the platform:",
 };
