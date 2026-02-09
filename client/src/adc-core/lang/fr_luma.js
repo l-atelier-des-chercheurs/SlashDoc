@@ -79,7 +79,6 @@ export default {
   // Onboarding 3 espaces (collective, connaissance, transmission)
   onboarding_space_step: "{current} sur {total}",
   onboarding_next_space: "suivant →",
-  onboarding_finish: "3 espaces en 1 →",
   onboarding_skip_demo: "Passer la démo",
   onboarding_title_collective:
     "Bienvenue dans /doc, votre espace de documentation collective",

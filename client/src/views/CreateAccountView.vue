@@ -45,6 +45,19 @@
               @toggleValidity="checkValidity"
             />
           </div>
+
+          <div class="_createAccountView--field">
+            <TextInput
+              :content.sync="new_author_password"
+              :label_str="'password'"
+              :minlength="5"
+              :maxlength="20"
+              :required="true"
+              :input_type="'password'"
+              :autocomplete="'new-password'"
+              @toggleValidity="($event) => (allow_save = $event)"
+            />
+          </div>
         </div>
 
         <div class="_createAccountView--terms">
@@ -152,10 +165,6 @@ export default {
     goToLogin() {
       this.$router.push("/login");
     },
-    checkValidity(is_valid) {
-      // This is called from TextInput's toggleValidity event
-      // We can use it to track field validity if needed
-    },
     async createAuthor() {
       if (!this.combined_name.trim()) {
         this.$alertify
@@ -167,12 +176,6 @@ export default {
       this.is_creating_author = true;
 
       try {
-        // Generate a simple password - users will need to reset it
-        // Or we could show a password field, but the image doesn't show one
-        const temp_password =
-          Math.random().toString(36).slice(2) +
-          Math.random().toString(36).slice(2);
-
         const author_slug = await this.$api.createFolder({
           path: "authors",
           additional_meta: {
@@ -180,7 +183,7 @@ export default {
             name: this.combined_name,
             requested_slug: this.combined_name,
             $status: "public",
-            $password: temp_password,
+            $password: this.new_author_password,
           },
         });
 
@@ -190,7 +193,7 @@ export default {
         if (!this.connected_as) {
           await this.$api.loginToFolder({
             path: "authors/" + author_slug,
-            password: temp_password,
+            password: this.new_author_password,
           });
         } else {
           // Otherwise we are instance admins

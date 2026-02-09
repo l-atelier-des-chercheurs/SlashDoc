@@ -6,115 +6,115 @@
     <template #sidebar>
       <div class="_sidebarContent">
         <div class="_sidebarMain">
-        <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
-        <div class="u-spacingBottom" />
-        <div class="u-instructions u-spacingBottom">
-          <b-icon icon="info-circle" />
-          {{ $t("imported_docs") }}
-        </div>
-
-        <hr />
-
-        <div class="_stats" v-if="chutier_items.length > 0">
-          <div class="_statLine">
-            <b-icon icon="text-left" />
-            {{
-              $t("files_with_caption", {
-                percentage: files_with_caption_percentage,
-              })
-            }}
-          </div>
-          <div class="_progressBar">
-            <div
-              class="_progressFill"
-              :style="{ width: files_with_caption_percentage + '%' }"
-            ></div>
-          </div>
-        </div>
-
-        <div class="_stats" v-if="chutier_items.length > 0">
-          <div class="_statLine">
+          <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
+          <div class="u-spacingBottom" />
+          <div class="u-instructions u-spacingBottom">
             <b-icon icon="info-circle" />
-            {{
-              $t("files_with_credits", {
-                percentage: files_with_credits_percentage,
-              })
-            }}
+            {{ $t("imported_docs") }}
           </div>
-          <div class="_progressBar">
-            <div
-              class="_progressFill"
-              :style="{ width: files_with_credits_percentage + '%' }"
-            ></div>
-          </div>
-        </div>
 
-        <div class="_importSection">
-          <div class="_importButton">
-            <div ref="tooltip_1_target_el">
-              <ImportFileZone
-                :multiple="true"
-                :files_to_import.sync="files_to_import"
-              />
-              <UploadFiles
-                v-if="files_to_import.length > 0"
-                :files_to_import="files_to_import"
-                :path="author_path"
-                :allow_caption_edition="true"
-                @importedMedias="mediaJustImported($event)"
-                @close="files_to_import = []"
-              />
-            </div>
-
-            <div class="_importBtns">
-              <button
-                type="button"
-                class="u-button u-button_outline"
-                @click="createNote"
-              >
-                <b-icon icon="file-text" />note
-              </button>
-
-              <button
-                type="button"
-                class="u-button u-button_outline"
-                @click="show_link_picker = true"
-              >
-                <b-icon icon="link-45deg" scale="1.4" />url
-              </button>
-              <EmbedPicker
-                v-if="show_link_picker"
-                @embed="createEmbed"
-                @close="show_link_picker = false"
-              />
-            </div>
-          </div>
           <hr />
 
-          <button
-            type="button"
-            class="u-button u-button_outline _importFolderBtn"
-            @click="show_import_slashdoc_modal = true"
-          >
-            <b-icon icon="folder-plus" />{{ $t("import_document") }}
-          </button>
-          <ImportSlashdocModal
-            v-if="show_import_slashdoc_modal"
-            @close="show_import_slashdoc_modal = false"
-          />
+          <div class="_stats" v-if="chutier_items.length > 0">
+            <div class="_statLine">
+              <b-icon icon="text-left" />
+              {{
+                $t("files_with_caption", {
+                  percentage: files_with_caption_percentage,
+                })
+              }}
+            </div>
+            <div class="_progressBar">
+              <div
+                class="_progressFill"
+                :style="{ width: files_with_caption_percentage + '%' }"
+              ></div>
+            </div>
+          </div>
 
-          <FloatingTooltip
-            v-if="show_import_tooltip"
-            class="_contributeImportTooltip"
-            :title="$t('contribute_tooltip_add_media_title')"
-            :body="$t('contribute_tooltip_add_media_body')"
-            :step_current="1"
-            :step_total="1"
-            :show_step="true"
-            :target_el="tooltip_1_target_el"
-            @next="dismissImportTooltip"
-          />
-        </div>
+          <div class="_stats" v-if="chutier_items.length > 0">
+            <div class="_statLine">
+              <b-icon icon="info-circle" />
+              {{
+                $t("files_with_credits", {
+                  percentage: files_with_credits_percentage,
+                })
+              }}
+            </div>
+            <div class="_progressBar">
+              <div
+                class="_progressFill"
+                :style="{ width: files_with_credits_percentage + '%' }"
+              ></div>
+            </div>
+          </div>
+
+          <div class="_importSection">
+            <div class="_importButton">
+              <div ref="tooltip_1_target_el">
+                <ImportFileZone
+                  :multiple="true"
+                  :files_to_import.sync="files_to_import"
+                />
+                <UploadFiles
+                  v-if="files_to_import.length > 0"
+                  :files_to_import="files_to_import"
+                  :path="author_path"
+                  :allow_caption_edition="true"
+                  @importedMedias="mediaJustImported($event)"
+                  @close="files_to_import = []"
+                />
+              </div>
+
+              <div class="_importBtns">
+                <button
+                  type="button"
+                  class="u-button u-button_outline"
+                  @click="createNote"
+                >
+                  <b-icon icon="file-text" />note
+                </button>
+
+                <button
+                  type="button"
+                  class="u-button u-button_outline"
+                  @click="show_link_picker = true"
+                >
+                  <b-icon icon="link-45deg" scale="1.4" />url
+                </button>
+                <EmbedPicker
+                  v-if="show_link_picker"
+                  @embed="createEmbed"
+                  @close="show_link_picker = false"
+                />
+              </div>
+            </div>
+            <hr />
+
+            <button
+              type="button"
+              class="u-button u-button_outline _importFolderBtn"
+              @click="show_import_slashdoc_modal = true"
+            >
+              <b-icon icon="folder-plus" />{{ $t("import_document") }}
+            </button>
+            <ImportSlashdocModal
+              v-if="show_import_slashdoc_modal"
+              @close="show_import_slashdoc_modal = false"
+            />
+
+            <FloatingTooltip
+              v-if="show_import_tooltip"
+              class="_contributeImportTooltip"
+              :title="$t('contribute_tooltip_add_media_title')"
+              :body="$t('contribute_tooltip_add_media_body')"
+              :step_current="1"
+              :step_total="1"
+              :show_step="true"
+              :target_el="tooltip_1_target_el"
+              @next="dismissImportTooltip"
+            />
+          </div>
         </div>
 
         <div v-if="!show_import_tooltip" class="_sidebarFooter">
@@ -492,6 +492,9 @@ export default {
     },
     showImportTooltip() {
       this.show_import_tooltip = true;
+      try {
+        localStorage.removeItem("contribute_import_tooltip_seen");
+      } catch (e) {}
     },
     async listChutier() {
       this.chutier = await this.$api

@@ -79,7 +79,6 @@ export default {
   // Onboarding 3 espaces (collective, connaissance, transmission) — FR copy, translate later
   onboarding_space_step: "{current} out of {total}",
   onboarding_next_space: "next →",
-  onboarding_finish: "3 spaces in 1 →",
   onboarding_skip_demo: "Skip the demo",
   onboarding_title_collective:
     "Welcome to /doc, your collaborative documentation platform.",

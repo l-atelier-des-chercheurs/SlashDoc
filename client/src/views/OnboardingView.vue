@@ -139,8 +139,6 @@
         {{
           current_step === 3
             ? $t("onboarding_start")
-            : current_step === 2
-            ? $t("onboarding_finish")
             : $t("onboarding_next_space")
         }}
       </button>
