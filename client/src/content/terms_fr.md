@@ -30,7 +30,7 @@ Clara Kernreuter, Designer, agissant pour le compte d’Atelier LUMA, ou Mustaph
 
 ### Conception et développement
 
-- Conception générale, UX : Louis Eveillard (l’Atelier des chercheurs), Thibéry Maillard, Clara Kernreuter (Atelier LUMA)
+- Conception générale, UX : Clara Kernreuter (Atelier LUMA), Louis Eveillard (l’Atelier des chercheurs), Thibéry Maillard
 - UI design et graphisme : Thibéry Maillard
 - Développement web : Louis Eveillard (l’Atelier des chercheurs)
 

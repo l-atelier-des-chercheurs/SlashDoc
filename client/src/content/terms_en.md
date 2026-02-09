@@ -28,7 +28,7 @@ Clara Kernreuter, Designer, acting on behalf of Atelier LUMA, or Mustapha Bouhay
 
 ### Design and Development
 
-- General design, UX: Louis Eveillard (l’Atelier des chercheurs), Thibéry Maillard, Clara Kernreuter (Atelier LUMA)
+- General design, UX: Clara Kernreuter (Atelier LUMA), Louis Eveillard (l’Atelier des chercheurs), Thibéry Maillard
 - UI design and graphics: Thibéry Maillard
 - Web development: Louis Eveillard (l’Atelier des chercheurs)
 
