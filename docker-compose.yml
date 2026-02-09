@@ -1,11 +1,11 @@
 services:
-  dodoc-node:
-    image: registry.gitlab.com/l-atelier-des-chercheurs/dodoc2-node:13.0.1-0
+  slashdoc-node:
+    image: registry.gitlab.com/l-atelier-des-chercheurs/slashdoc:latest
     ports:
       - "8080:8080"
     volumes:
-      - dodoc-data:/home/node/Documents/dodoc
+      - slashdoc-data:/home/node/Documents/slashdoc
     restart: always
 
 volumes:
-  dodoc-data:
+  slashdoc-data:
