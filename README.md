@@ -1,4 +1,4 @@
-Lumadoc, based on dodoc https://github.com/l-atelier-des-chercheurs/dodoc
+SlashDoc, based on dodoc https://github.com/l-atelier-des-chercheurs/dodoc
 
 Branches:
 

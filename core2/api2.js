@@ -693,8 +693,8 @@ module.exports = (function () {
     const { name_of_instance } = await settings.get();
     res.type("application/json");
     res.send({
-      name: name_of_instance || "lumadoc",
-      short_name: name_of_instance || "lumadoc",
+      name: name_of_instance || "slashdoc",
+      short_name: name_of_instance || "slashdoc",
       theme_color: "#ffffff",
       background_color: "#ffffff",
       display: "standalone",
@@ -1011,7 +1011,10 @@ module.exports = (function () {
       _notifyFolderUpdated(path_to_type, path_to_folder, changed_data);
 
       // 7. If password was changed, revoke all other tokens for this folder (force re-login on other devices)
-      if (changed_data && Object.prototype.hasOwnProperty.call(changed_data, "$password")) {
+      if (
+        changed_data &&
+        Object.prototype.hasOwnProperty.call(changed_data, "$password")
+      ) {
         await auth.removeAllTokensForFolderExcept({
           token_path,
           except_token: token,

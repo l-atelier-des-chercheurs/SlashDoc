@@ -1,4 +1,4 @@
-# Migration Guide: From dodoc to \_doc Repository
+# Migration Guide: From dodoc to SlashDoc Repository
 
 This guide explains how to migrate your local repository from the old `dodoc` repository to the new `_doc` repository without losing your work or starting over.
 
@@ -8,7 +8,7 @@ This guide explains how to migrate your local repository from the old `dodoc` re
 - You are currently on any branch (e.g., `lumadoc-next`, `main`, `dev`, etc.)
 - You have local changes or commits you want to preserve
 
-**Important:** The new `_doc` repository only has `main` and `dev` branches. If you're on a different branch (like `lumadoc-next`), you'll need to either push it to create it in the new repo, or switch to `main`/`dev`.
+**Important:** The new `SlashDoc` repository only has `main` and `dev` branches. If you're on a different branch (like `lumadoc-next`), you'll need to either push it to create it in the new repo, or switch to `main`/`dev`.
 
 ## Migration Steps
 

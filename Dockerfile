@@ -19,7 +19,7 @@ FROM build-base AS build-server
 ENV NODE_ENV=production
 
 # Install server dependencies
-WORKDIR /src/l-atelier-des-chercheurs/dodoc
+WORKDIR /src/l-atelier-des-chercheurs/slashdoc
 COPY package*.json ./
 COPY scripts/ ./scripts/
 RUN npm ci --only=production
@@ -38,12 +38,12 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 EXPOSE 8080
 
 USER node
-WORKDIR /src/l-atelier-des-chercheurs/dodoc
+WORKDIR /src/l-atelier-des-chercheurs/slashdoc
 
 # Configure Data Folder
-RUN mkdir -p /home/node/Documents/dodoc; chown -R node:node /home/node/Documents/dodoc
+RUN mkdir -p /home/node/Documents/slashdoc; chown -R node:node /home/node/Documents/slashdoc
 COPY . .
-COPY --from=build-server /src/l-atelier-des-chercheurs/dodoc/node_modules node_modules
+COPY --from=build-server /src/l-atelier-des-chercheurs/slashdoc/node_modules node_modules
 
 HEALTHCHECK --interval=5s \
             --timeout=5s \

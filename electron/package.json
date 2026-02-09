@@ -1,8 +1,8 @@
 {
-  "name": "lumadoc-electron",
-  "productName": "lumadoc",
+  "name": "slashdoc-electron",
+  "productName": "slashdoc",
   "version": "1.0.0-dev",
-  "description": "lumadoc Electron wrapper",
+  "description": "SlashDoc Electron wrapper",
   "main": "index.js",
   "private": true,
   "scripts": {

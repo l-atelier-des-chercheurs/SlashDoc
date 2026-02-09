@@ -104,7 +104,7 @@ module.exports = async function () {
       throw new Error("Le domaine Bonjour doit être une chaîne de caractères.");
     } else {
       await require("./bonjour").init({
-        name: "lumadoc",
+        name: "slashdoc",
         protocol: global.settings.protocol,
         port: global.appInfos.port,
         host: global.settings.bonjour_domain,
