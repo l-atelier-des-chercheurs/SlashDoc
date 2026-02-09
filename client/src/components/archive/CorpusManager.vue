@@ -71,7 +71,12 @@ export default {
       if (this.$route && this.$route.query && this.$route.query.communities) {
         const queryPaths = this.computed_shared_folder_paths;
         if (queryPaths.length > 0) {
-          this.selected_folders = queryPaths.slice();
+          const validPaths = queryPaths.filter((path) =>
+            this.filtered_folders.find((f) => f.$path === path)
+          );
+          if (validPaths.length > 0) {
+            this.selected_folders = validPaths;
+          }
           // Save to localStorage
           this.saveToLocalStorage(this.selected_folders);
         }
@@ -81,7 +86,7 @@ export default {
         if (saved && saved.length > 0) {
           // Verify that saved communities still exist
           const validPaths = saved.filter((path) =>
-            this.all_folders.find((f) => f.$path === path)
+            this.filtered_folders.find((f) => f.$path === path)
           );
           if (validPaths.length > 0) {
             this.selected_folders = validPaths;
@@ -104,7 +109,7 @@ export default {
         if (saved && saved.length > 0) {
           // Verify that saved communities still exist
           const validPaths = saved.filter((path) =>
-            this.all_folders.find((f) => f.$path === path)
+            this.filtered_folders.find((f) => f.$path === path)
           );
           if (validPaths.length > 0) {
             this.selected_folders = validPaths;
@@ -174,6 +179,11 @@ export default {
     },
   },
   computed: {
+    filtered_folders() {
+      return this.all_folders.filter((f) =>
+        this.canLoggedinSeeFolder({ folder: f })
+      );
+    },
     computed_shared_folder_paths() {
       if (this.use_query) {
         // Use route query
@@ -285,9 +295,6 @@ export default {
     },
     async onCommunityRemoved(removed_path) {
       // Remove from local list
-      this.all_folders = this.all_folders.filter(
-        (f) => f.$path !== removed_path
-      );
       this.selected_folders = this.selected_folders.filter(
         (f) => f !== removed_path
       );

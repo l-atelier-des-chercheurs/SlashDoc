@@ -18,6 +18,7 @@
             <TextInput
               :content.sync="new_author_email"
               :label_str="'email'"
+              :autofocus="true"
               :required="$root.app_infos.instance_meta.require_mail_to_signup"
               :input_type="'email'"
               :autocomplete="'email'"
@@ -40,7 +41,7 @@
               :content.sync="new_author_first_name"
               :label_str="'first_name'"
               :required="true"
-              :autofocus="true"
+              :autofocus="false"
               :autocomplete="'given-name'"
               @toggleValidity="checkValidity"
             />

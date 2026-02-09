@@ -19,7 +19,7 @@
     </transition>
 
     <CommunitiesSection
-      :all_folders="all_folders"
+      :all_folders="filtered_folders"
       :active_folder_paths="active_folder_paths"
       @toggleCorpus="toggleCorpus"
       @openCorpusSelection="$emit('openCorpusSelection')"
@@ -298,6 +298,11 @@ export default {
     },
   },
   computed: {
+    filtered_folders() {
+      return this.all_folders.filter((f) =>
+        this.canLoggedinSeeFolder({ folder: f })
+      );
+    },
     active_folder_paths() {
       return this.shared_folder_paths || [];
     },

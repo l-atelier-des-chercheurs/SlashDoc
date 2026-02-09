@@ -31,6 +31,7 @@
               <input
                 type="checkbox"
                 :checked="selected_folders.includes(folder.$path)"
+                :disabled="!canLoggedinSeeFolder({ folder })"
                 @click.stop
                 @change="updateSelected($event.target.checked, folder.$path)"
               />
