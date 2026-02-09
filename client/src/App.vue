@@ -61,6 +61,9 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {
+    page_is_standalone_html() {
+      return window.app_infos.page_is_standalone_html === true;
+    },
     custom_fonts_css() {
       const custom_fonts = this.$root.app_infos.custom_fonts;
 

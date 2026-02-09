@@ -145,7 +145,7 @@
       </button>
     </div>
     <div class="_onboardingView--skip">
-      <router-link to="/contribute" class="u-button u-button_black _skipLink">
+      <router-link to="/contribute" class="u-buttonLink">
         {{ $t("onboarding_skip_demo") }}
       </router-link>
     </div>
@@ -261,11 +261,11 @@ export default {
 <style lang="scss" scoped>
 ._onboardingView {
   background-color: var(--g-50);
-  // padding: calc(var(--spacing) * 2);
+  padding: calc(var(--spacing) * 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   overflow: auto;
 }
 
@@ -362,17 +362,18 @@ export default {
 }
 
 ._onboardingView--skip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-top: calc(var(--spacing) * 1.5);
-  width: 100%;
-  text-align: center;
+  // position: absolute;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
+  // margin-top: calc(var(--spacing) * 1.5);
+  // width: 100%;
+  // text-align: center;
+  margin-top: calc(var(--spacing) * 1);
 }
 
 ._skipLink {
-  display: block;
+  // display: block;
   border-radius: 0;
   padding: calc(var(--spacing) * 1);
 }
