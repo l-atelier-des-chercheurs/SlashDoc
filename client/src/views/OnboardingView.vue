@@ -1,10 +1,11 @@
 <template>
   <div class="_onboardingView">
-    <div
-      class="_onboardingView--content"
-      :class="{ '_content-wide': current_step === 3 }"
-    >
-      <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in">
+      <div
+        class="_onboardingView--content"
+        :class="{ '_content-wide': current_step === 3 }"
+        :key="`step-${current_step}`"
+      >
         <!-- Step 4: Welcome overview with three columns -->
         <div v-if="current_step === 3" :key="'welcome-4'" class="_welcomeStep">
           <h1 class="_onboardingView--title _welcomeTitle">
@@ -73,12 +74,12 @@
             >
             {{ current_step_data.title_after }}
           </h1>
-          <p
+          <h2
             v-if="current_step_data.subtitle"
             class="_onboardingView--subtitle"
           >
             {{ current_step_data.subtitle }}
-          </p>
+          </h2>
           <h2 v-if="current_step_data.body_title" class="_onboardingView--body">
             {{ current_step_data.body_title }}
           </h2>
@@ -96,26 +97,26 @@
             />
           </div>
         </div>
-      </transition>
-
-      <!-- Preload all images (hidden) -->
-      <div
-        style="
-          position: absolute;
-          visibility: hidden;
-          pointer-events: none;
-          width: 0;
-          height: 0;
-          overflow: hidden;
-        "
-      >
-        <img
-          v-for="(step, index) in steps"
-          :key="`preload-${index}`"
-          :src="step.image_src"
-          :alt="step.highlight"
-        />
       </div>
+    </transition>
+
+    <!-- Preload all images (hidden) -->
+    <div
+      style="
+        position: absolute;
+        visibility: hidden;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      "
+    >
+      <img
+        v-for="(step, index) in steps"
+        :key="`preload-${index}`"
+        :src="step.image_src"
+        :alt="step.highlight"
+      />
     </div>
 
     <div class="_onboardingView--nav">
@@ -196,7 +197,7 @@ export default {
             "onboarding_title_connaissance",
             "onboarding_highlight_connaissance"
           ),
-          body_title: this.$t("onboarding_body_connaissance_1"),
+          subtitle: this.$t("onboarding_body_connaissance_1"),
           body: [this.$t("onboarding_body_connaissance_2")],
           image_src: base_path + "onboarding/onboarding-blue.png",
         },
@@ -207,7 +208,7 @@ export default {
             "onboarding_title_transmission",
             "onboarding_highlight_transmission"
           ),
-          body_title: this.$t("onboarding_body_transmission_1"),
+          subtitle: this.$t("onboarding_body_transmission_1"),
           body: [this.$t("onboarding_body_transmission_2")],
           image_src: base_path + "onboarding/onboarding-green.png",
         },
