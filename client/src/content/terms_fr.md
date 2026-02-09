@@ -1,10 +1,10 @@
-# CONDITIONS GÉNÉRALES D’UTILISATION (CGU) – /doc (DocSpaces)
+# CONDITIONS GÉNÉRALES D’UTILISATION (CGU) – /doc (SlashDoc)
 
 ---
 
 ## 1. Présentation de la plateforme
 
-Conformément à l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique, il est précisé aux utilisateurs de la plateforme **/doc (DocSpaces)** l’identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
+Conformément à l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique, il est précisé aux utilisateurs de la plateforme **/doc (SlashDoc)** l’identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
 
 **Nom du site :** /doc (SlashDoc)  
 **URL :** https://documentation.atelier-luma.org/
@@ -22,7 +22,7 @@ Email : info@luma-arles.org
 
 ### Éditeur du site
 
-Atelier LUMA, en sa qualité d’éditeur de la plateforme **/doc (DocSpaces)**.
+Atelier LUMA, en sa qualité d’éditeur de la plateforme **/doc (SlashDoc)**.
 
 ### Responsable de la publication
 
@@ -48,17 +48,17 @@ Le site est hébergé par LUMA Arles.
 
 ## 2. Objet et philosophie du service
 
-La plateforme **/doc (DocSpaces)** a pour objet de :
+La plateforme **/doc (SlashDoc)** a pour objet de :
 
 - documenter des processus de recherche, de création et de production en design ;
 - favoriser le partage de savoirs situés, de méthodes, d’outils et de ressources ;
 - contribuer à un écosystème de pratiques ouvertes, reproductibles et appropriables par les acteurs des territoires.
 
-**/doc (DocSpaces)** s’inscrit dans une logique de communs, considérant la connaissance comme une ressource collective qui doit pouvoir circuler, être enrichie, critiquée et transformée, dans le respect des personnes, des contextes et des territoires d’origine.
+**/doc (SlashDoc)** s’inscrit dans une logique de communs, considérant la connaissance comme une ressource collective qui doit pouvoir circuler, être enrichie, critiquée et transformée, dans le respect des personnes, des contextes et des territoires d’origine.
 
 ## 3. Conditions générales d’utilisation
 
-L’utilisation de la plateforme **/doc (DocSpaces)** implique l’acceptation pleine et entière des présentes conditions générales d’utilisation.
+L’utilisation de la plateforme **/doc (SlashDoc)** implique l’acceptation pleine et entière des présentes conditions générales d’utilisation.
 
 Les utilisateurs reconnaissent que :
 
@@ -70,7 +70,7 @@ Les présentes conditions peuvent être modifiées à tout moment afin de garant
 
 ## 4. Contenus déposés et engagement open source
 
-En déposant du contenu sur **/doc (DocSpaces)** (textes, images, vidéos, protocoles, données, documents de recherche, etc.), l’utilisateur ou la structure contributrice :
+En déposant du contenu sur **/doc (SlashDoc)** (textes, images, vidéos, protocoles, données, documents de recherche, etc.), l’utilisateur ou la structure contributrice :
 
 - déclare être titulaire des droits nécessaires ou disposer des autorisations lui permettant de publier ces contenus ;
 - consent expressément à ce que les contenus déposés puissent être :
@@ -85,11 +85,11 @@ Les contenus publiés sur la plateforme ont vocation à être placés sous une l
 - la possibilité de reproduction et d’appropriation locale ;
 - la reconnaissance des auteur·rices et des contextes de production.
 
-**/doc (DocSpaces)** revendique une position politique en faveur de l’open source, considéré comme un levier d’émancipation, de justice sociale et de transition écologique. Le refus de la privatisation abusive des connaissances et l’encouragement à leur circulation responsable constituent un socle fondamental du projet.
+**/doc (SlashDoc)** revendique une position politique en faveur de l’open source, considéré comme un levier d’émancipation, de justice sociale et de transition écologique. Le refus de la privatisation abusive des connaissances et l’encouragement à leur circulation responsable constituent un socle fondamental du projet.
 
 ## 5. Propriété intellectuelle et communs
 
-La plateforme **/doc (DocSpaces)** ne revendique pas la propriété exclusive des contenus déposés par les utilisateurs.
+La plateforme **/doc (SlashDoc)** ne revendique pas la propriété exclusive des contenus déposés par les utilisateurs.
 
 Les droits moraux des auteur·rices sont pleinement respectés. Chaque contenu reste attaché à ses contributeurs et à son contexte d’émergence.
 
@@ -99,7 +99,7 @@ Toute exploitation des contenus en contradiction avec l’esprit des licences op
 
 ## 6. Responsabilité et modération
 
-**/doc (DocSpaces)** s’efforce de garantir un espace de publication respectueux, inclusif et conforme à la législation en vigueur.
+**/doc (SlashDoc)** s’efforce de garantir un espace de publication respectueux, inclusif et conforme à la législation en vigueur.
 
 Les utilisateurs s’engagent à ne pas publier de contenus :
 
@@ -111,7 +111,7 @@ La plateforme se réserve le droit de retirer tout contenu ne respectant pas ces
 
 ## 7. Données personnelles et RGPD
 
-La plateforme **/doc (DocSpaces)** s’engage à respecter le Règlement général sur la protection des données (RGPD) et la législation française en vigueur.
+La plateforme **/doc (SlashDoc)** s’engage à respecter le Règlement général sur la protection des données (RGPD) et la législation française en vigueur.
 
 Les données personnelles collectées sont strictement limitées à ce qui est nécessaire au fonctionnement de la plateforme et à la mise en relation des utilisateurs.
 
@@ -119,7 +119,7 @@ Les utilisateurs disposent d’un droit d’accès, de rectification, de suppres
 
 ## 8. Droit applicable
 
-Tout litige relatif à l’utilisation de la plateforme **/doc (DocSpaces)** est soumis au droit français.
+Tout litige relatif à l’utilisation de la plateforme **/doc (SlashDoc)** est soumis au droit français.
 
 ## 9. Contact
 
