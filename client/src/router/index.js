@@ -43,10 +43,11 @@ const routes = [
   {
     path: "/publications/:document_slug",
     name: "Publication",
-    component: () =>
-      import(
-        /* webpackChunkName: "StaticPublicationView.vue" */ "../views/StaticPublicationView.vue"
-      ),
+    meta: {
+      /* do not load full UI */
+      static: true,
+    },
+    component: () => import("@/views/StaticPublicationView.vue"),
   },
   {
     path: "/@",
@@ -85,9 +86,7 @@ const routes = [
     path: "/_previewmedia",
     name: "Preview media",
     meta: {
-      /* do not load full UI */
       static: true,
-      no_top_bar: true,
     },
     component: () => import("@/views/PreviewMedia.vue"),
   },

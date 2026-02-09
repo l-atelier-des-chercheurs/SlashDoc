@@ -21,12 +21,16 @@
 
     <LoaderSpinner v-if="router_is_loading" />
     <template v-else>
-      <!-- Preview media - static UI, no topbar -->
-      <template v-if="$route.path.startsWith('/_previewmedia')">
-        <router-view v-slot="{ Component }" :key="$route.path">
-          <component :is="Component" />
-        </router-view>
-      </template>
+      <!-- export publication as standalone webpage -->
+      <PublicationView v-if="page_is_standalone_html" />
+      <!-- static UI, no live update -->
+      <router-view
+        v-else-if="$route.meta && $route.meta.static === true"
+        v-slot="{ Component }"
+        :key="$route.path"
+      >
+        <component :is="Component" />
+      </router-view>
 
       <!-- All other routes - dynamic, regular app with live updates and logging in -->
       <FullUI v-else />
