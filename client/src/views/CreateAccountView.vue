@@ -70,12 +70,17 @@
             />
             <span class="_createAccountView--termsText">
               {{ $t("accept_terms_text_start") }}
-              <router-link to="/terms" class="_createAccountView--termsLink">
+              <router-link
+                to="/terms"
+                target="_blank"
+                class="_createAccountView--termsLink"
+              >
                 {{ $t("terms_of_use_of_slashdoc") }}
               </router-link>
               {{ $t("accept_terms_text_middle") }}
               <router-link
                 to="/confidentiality"
+                target="_blank"
                 class="_createAccountView--termsLink"
               >
                 {{ $t("privacy_policy_of_slashdoc") }}
