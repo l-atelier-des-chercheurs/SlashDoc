@@ -54,7 +54,6 @@
       <PagedViewer
         v-if="view_mode === 'book'"
         :content_nodes="content_nodes"
-        :format_mode="format_mode"
         :viewer_type="viewer_type"
         :css_styles="css_styles"
         :content_html="content_html"
@@ -249,14 +248,24 @@ export default {
         });
     },
     css_styles() {
-      return (
-        // prettier-ignore
-        "/******************************* paged.js engine styles (added by do•doc) *******************************/" +
-        (pagedengine || "") +
-        // prettier-ignore
-        `/******************************* custom styles ${this.opened_style_file_meta || "default"} *******************************/` +
-        (this.custom_styles_unnested || "")
-      );
+      const engine_block =
+        `/****************** paged.js engine styles (added by do•doc) ******************/\n` +
+        pagedengine;
+
+      const injected_block =
+        `\n\n/****************** page size ${this.format_mode} ******************/\n` +
+        `@page {
+          size: ${this.format_mode};
+        }`;
+
+      const user_block =
+        `\n\n/****************** custom styles ${
+          this.opened_style_file_meta || "default"
+        } ******************/\n` + (this.custom_styles_unnested || "");
+
+      const full = engine_block + injected_block + user_block;
+
+      return full;
     },
     content_html() {
       const nodes = this.content_nodes;
@@ -438,7 +447,7 @@ export default {
         },
       });
       md.use(markdownItCsc, {
-        renderMedia: ({ meta_src, alt, width, height, title, size }) =>
+        renderMedia: ({ meta_src, alt, width, height, title, size, tag }) =>
           this.renderMedia({
             meta_src,
             source_medias,
@@ -447,6 +456,7 @@ export default {
             height,
             title,
             size,
+            tag,
           }),
         transformURL: (url) => this.transformURL(url),
       });
@@ -693,6 +703,7 @@ export default {
       height,
       title,
       size,
+      tag,
     }) {
       return renderMediaFunction({
         media,
@@ -703,11 +714,13 @@ export default {
         height,
         title,
         size,
+        tag,
         context: {
           view_mode: this.view_mode,
           getMediaSrc: this.getMediaSrc.bind(this),
           makeMediaFileURL: this.makeMediaFileURL.bind(this),
           makeQREmbedForQR: this.makeQREmbedForQR.bind(this),
+          makeQREmbedForExternalURL: this.makeQREmbedForExternalURL.bind(this),
         },
       });
     },
@@ -767,6 +780,21 @@ export default {
                 >
               </div>`;
       }
+      return html;
+    },
+    makeQREmbedForExternalURL({ url, alt, width, height }) {
+      const code = generate(url);
+      const data_url = code.toDataURL({ scale: 10 });
+
+      let html = `
+        <a href="${url}" target="_blank" rel="noopener" data-url="url">
+          <img class="_qrCode" src="${data_url}" alt="QR code for link" />
+        </a>
+      `;
+      html += `<div class="mediaInfos">`;
+      html += `<div class="mediaDuration">${url}</div>`;
+      html += `<div class="mediaSourceCaption">${alt || ""}</div>`;
+      html += `</div>`;
       return html;
     },
   },

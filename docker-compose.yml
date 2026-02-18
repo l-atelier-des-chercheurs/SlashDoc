@@ -1,6 +1,6 @@
 services:
-  slashdoc-node:
-    image: registry.gitlab.com/l-atelier-des-chercheurs/slashdoc:latest
+  dodoc-node:
+    image: ghcr.io/l-atelier-des-chercheurs/SlashDoc:latest
     ports:
       - "8080:8080"
     volumes:

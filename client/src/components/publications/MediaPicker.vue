@@ -20,9 +20,19 @@ export default {
       default: "multiple",
     },
     pick_from_types: [String, Array],
+    // Caller can pass when it has the value (e.g. under EditionTemplate) so child modal gets it despite portal.
+    passed_meta_filenames_already_present: {
+      type: Array,
+      default: undefined,
+    },
   },
   components: {
     PickExistingMediastackModal,
+  },
+  inject: {
+    $getMetaFilenamesAlreadyPresent: {
+      default: false,
+    },
   },
   data() {
     return {
@@ -33,6 +43,19 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {},
+  computed: {
+    meta_filenames_already_present_from_parent() {
+      if (this.passed_meta_filenames_already_present !== undefined)
+        return this.passed_meta_filenames_already_present;
+      return this.$getMetaFilenamesAlreadyPresent
+        ? this.$getMetaFilenamesAlreadyPresent()
+        : [];
+    },
+    current_project_path() {
+      const all_publications_path = this.getParent(this.publication_path);
+      return this.getParent(all_publications_path);
+    },
+  },
   methods: {
     mediasSelected(medias) {
       this.$emit("pickMedias", medias);
