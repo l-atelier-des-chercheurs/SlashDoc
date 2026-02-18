@@ -257,11 +257,10 @@ button,
     // outline: 2px solid var(--active-color);
     box-shadow: 0 2px 4px inset rgba(0, 0, 0, 0.2);
 
-      &:hover,
-      &:active,
-      &:focus-visible {
-        background-color: var(--g-500);
-      }
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background-color: var(--g-500);
     }
   }
 }
