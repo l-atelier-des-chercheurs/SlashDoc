@@ -200,7 +200,7 @@
             v-if="selected_items.length > 0"
             key="selection"
           >
-            <div class="_dbleBtns">
+            <div class="_dbleBtns" v-if="can_contribute_to_any_community">
               <button
                 type="button"
                 class="u-button"
@@ -226,6 +226,23 @@
                 @close="show_new_mediastack_modal = false"
                 @stackCreated="moveFilesToStack"
               />
+            </div>
+            <div
+              v-if="
+                !is_checking_communities && !can_contribute_to_any_community
+              "
+              class="u-instructions _noCommunityWarning"
+            >
+              <b-icon icon="info-circle" />
+              <div>
+                <p>{{ $t("no_community_access_message") }}</p>
+                <p v-if="admin_contact_email" class="_adminContact">
+                  {{ $t("contact_admin_for_access") }}
+                  <a :href="'mailto:' + admin_contact_email">{{
+                    admin_contact_email
+                  }}</a>
+                </p>
+              </div>
             </div>
             <div class="u-sameRow _selectionBar-btns">
               <transition name="fade" mode="out-in">
@@ -394,16 +411,28 @@ export default {
         }
       })(),
       tooltip_1_target_el: null,
+
+      all_communities: [],
+      is_checking_communities: false,
     };
   },
   created() {},
   mounted() {
     this.listChutier();
+    this.listCommunities();
+    // Join "folders" room to listen for real-time updates
+    this.$api.join({ room: "folders" });
     this.$nextTick(() => {
       this.tooltip_1_target_el = this.$refs.tooltip_1_target_el || null;
     });
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    // Leave socket room and remove listener
+    this.$api.leave({ room: "folders" });
+    if (this.$api.socket) {
+      this.$api.socket.off("folderUpdated", this.onFolderUpdated);
+    }
+  },
   watch: {
     selected_items_slugs() {
       if (this.show_confirm_remove_menu) this.show_confirm_remove_menu = false;
@@ -478,6 +507,14 @@ export default {
       ).length;
       return Math.round((files_with_credits / this.chutier_items.length) * 100);
     },
+    can_contribute_to_any_community() {
+      return this.all_communities.some((f) =>
+        this.canLoggedinContributeToFolder({ folder: f })
+      );
+    },
+    admin_contact_email() {
+      return this.$root.app_infos?.instance_meta?.contactmail || null;
+    },
   },
   methods: {
     dismissImportTooltip() {
@@ -492,6 +529,11 @@ export default {
         localStorage.removeItem("contribute_import_tooltip_seen");
       } catch (e) {}
     },
+    async listCommunities() {
+      this.all_communities = await this.$api.getFolders({
+        path: "folders",
+      });
+    },
     async listChutier() {
       this.chutier = await this.$api
         .getFolder({
@@ -502,6 +544,8 @@ export default {
           this.is_loading = false;
         });
     },
+    async checkAvailableCommunities() {},
+
     toggleSelect(path) {
       if (this.selected_items_slugs.includes(path))
         this.selected_items_slugs = this.selected_items_slugs.filter(
@@ -671,11 +715,6 @@ export default {
   position: relative;
   height: 100%;
   overflow: auto;
-
-  &.is--mobile {
-    height: auto;
-    overflow: visible;
-  }
 }
 
 ._adminBtn {
@@ -697,11 +736,6 @@ export default {
   width: 100%;
   overflow: auto;
   padding: calc(var(--spacing) * 2);
-
-  ._filesList.is--mobile & {
-    height: auto;
-    overflow: visible;
-  }
 }
 
 ._items {
@@ -751,10 +785,6 @@ export default {
   background: white;
   border-top: 1px solid var(--border-color);
   padding: calc(var(--spacing) * 1);
-
-  ._filesList.is--mobile & {
-    position: fixed;
-  }
 }
 ._removeMenu {
   position: absolute;
@@ -882,5 +912,49 @@ export default {
 
 ._importFolderBtn {
   width: 100%;
+}
+
+._noCommunityWarning {
+  // margin-top: calc(var(--spacing) * 1);
+  padding: calc(var(--spacing) * 1.5);
+  background-color: var(--g-50);
+  border-radius: 6px;
+  display: flex;
+  gap: calc(var(--spacing) * 1);
+  align-items: flex-start;
+
+  .b-icon {
+    flex-shrink: 0;
+    color: var(--g-600);
+    margin-top: 2px;
+  }
+
+  > div {
+    flex: 1;
+  }
+
+  p {
+    margin: 0;
+    color: var(--g-700);
+
+    &:not(:last-child) {
+      margin-bottom: calc(var(--spacing) * 0.5);
+    }
+  }
+
+  ._adminContact {
+    margin-top: calc(var(--spacing) * 0.5);
+
+    a {
+      color: var(--active-color);
+      text-decoration: underline;
+    }
+  }
+}
+
+._dbleBtns .u-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 </style>

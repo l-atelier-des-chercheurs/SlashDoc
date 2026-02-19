@@ -158,4 +158,9 @@ export default {
   accept_terms_text_end: ".",
   terms_of_use_of_slashdoc: "Conditions d'utilisation de /doc",
   privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
+
+  // Contribute view - accès communauté
+  no_community_access_message:
+    "Vous ne pouvez pas créer de document ni en ajouter à un existant car vous n'avez pas encore été ajouté·e à une communauté. Vous devez être ajouté·e à une communauté et avoir des droits de contribution pour partager des documents.",
+  contact_admin_for_access: "Contactez l'administrateur·ice à l'adresse",
 };
