@@ -6,11 +6,15 @@
       'is--sidebarHidden': !show_sidebar,
     }"
   >
-    <transition name="slide-left">
-      <div class="_colLeft" v-if="show_sidebar">
-        <slot name="sidebar" />
-      </div>
-    </transition>
+    <!-- <transition name="slide-left"> -->
+    <div class="_colLeft" :class="{ 'is--sidebarHidden': !show_sidebar }">
+      <transition name="slide-left">
+        <div v-if="show_sidebar" class="_sidebarContent">
+          <slot name="sidebar" />
+        </div>
+      </transition>
+    </div>
+    <!-- </transition> -->
     <div class="_sidebarToggle">
       <button
         type="button"
@@ -124,7 +128,7 @@ export default {
   position: relative;
   z-index: 3;
   flex: 0 0 v-bind(sidebarWidth);
-  max-width: calc(100% - var(--spacing) * 2);
+  max-width: 100%;
   background-color: var(--body-bg);
   margin: 0;
   border-right: 1px solid var(--g-200);
@@ -134,6 +138,16 @@ export default {
   top: 0;
   align-self: flex-start;
   height: 100%;
+
+  transition: flex 0.3s ease-in-out;
+
+  &.is--sidebarHidden {
+    flex: 0 0 0;
+  }
+}
+
+._sidebarContent {
+  min-width: calc(v-bind(sidebarWidth));
 }
 
 ._twoColumnLayout ._colLeft {
