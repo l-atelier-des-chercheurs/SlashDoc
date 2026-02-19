@@ -3,25 +3,25 @@
     class="_twoColumnLayout"
     :class="{
       'is--mobile': isMobileView,
-      'is--sidebarHidden': !showSidebar,
+      'is--sidebarHidden': !show_sidebar,
     }"
   >
-    <transition name="fade">
-      <div class="_colLeft" v-if="showSidebar">
+    <transition name="slide-left">
+      <div class="_colLeft" v-if="show_sidebar">
         <slot name="sidebar" />
       </div>
     </transition>
-    <div class="_sidebarToggle" v-if="showToggleButton">
+    <div class="_sidebarToggle">
       <button
         type="button"
         class="u-button u-button_icon"
         :class="{}"
-        @click="$emit('update:showSidebar', !showSidebar)"
-        :aria-label="showSidebar ? $t('hide_sidebar') : $t('show_sidebar')"
+        @click="show_sidebar = !show_sidebar"
+        :aria-label="show_sidebar ? $t('hide_sidebar') : $t('show_sidebar')"
       >
         <b-icon
-          :icon="showSidebar ? 'arrow-left' : 'list-ul'"
-          :aria-label="showSidebar ? $t('hide') : $t('show')"
+          :icon="show_sidebar ? 'arrow-left' : 'list-ul'"
+          :aria-label="show_sidebar ? $t('hide') : $t('show')"
         />
       </button>
     </div>
@@ -29,8 +29,8 @@
     <transition name="fade">
       <div
         class="_colOverlay"
-        v-if="showSidebar && $root.is_mobile_view && false"
-        @click="$emit('update:showSidebar', false)"
+        v-if="show_sidebar && $root.is_mobile_view && false"
+        @click="show_sidebar = false"
       />
     </transition>
 
@@ -52,21 +52,15 @@ export default {
       type: String,
       default: "250px",
     },
-    showSidebar: {
-      type: Boolean,
-      default: true,
-    },
-    showToggleButton: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  data() {
+    return {
+      show_sidebar: true,
+    };
   },
   computed: {
     isMobileView() {
       return Boolean(this.$root?.is_mobile_view);
-    },
-    singleColumnMobileMode() {
-      return this.isMobileView && this.showToggleButton;
     },
   },
 };
@@ -158,8 +152,7 @@ export default {
   flex: 1 1 0;
   overflow: auto;
   position: relative;
-  min-width: 0;
-  // min-width: 20vw;
+  min-width: 50vw;
 }
 
 ._content {
@@ -176,5 +169,27 @@ export default {
   ._twoColumnLayout.is--mobile & {
     display: none;
   }
+}
+
+// Slide-left transition animation
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide-left-enter-from {
+  transform: translateX(-100%);
+}
+
+.slide-left-enter-to {
+  transform: translateX(0);
+}
+
+.slide-left-leave-from {
+  transform: translateX(0);
+}
+
+.slide-left-leave-to {
+  transform: translateX(-100%);
 }
 </style>

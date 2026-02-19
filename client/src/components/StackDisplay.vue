@@ -15,8 +15,6 @@
       </div>
       <TwoColumnLayout
         v-else
-        :show-sidebar.sync="show_sidebar"
-        :show-toggle-button="true"
         :content-padding="false"
         class="_stackDisplayLayout"
       >
@@ -255,7 +253,6 @@ export default {
       stack: undefined,
       fetch_stack_error: undefined,
       is_loading: true,
-      show_sidebar: localStorage.getItem("show_sidebar") !== "false",
       selected_stack_files: [],
       show_duplicate_stack_modal: false,
     };
@@ -328,9 +325,6 @@ export default {
       this.date_created_corrected = this.datetimeLocal(
         this.stack.date_created_corrected
       );
-    },
-    show_sidebar() {
-      localStorage.setItem("show_sidebar", this.show_sidebar);
     },
   },
   computed: {

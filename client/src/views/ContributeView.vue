@@ -1,8 +1,5 @@
 <template>
-  <TwoColumnLayout
-    :show-sidebar.sync="show_sidebar"
-    @click="last_clicked = false"
-  >
+  <TwoColumnLayout @click="last_clicked = false">
     <template #sidebar>
       <div class="_sidebarContent">
         <div class="_sidebarMain">
@@ -367,7 +364,6 @@ export default {
   data() {
     return {
       chutier: undefined,
-      show_sidebar: true,
       is_dragover: false,
       files_to_import: [],
       id: `image_select_${(
