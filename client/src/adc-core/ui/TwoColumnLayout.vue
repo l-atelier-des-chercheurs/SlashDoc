@@ -127,7 +127,7 @@ export default {
 ._colLeft {
   position: relative;
   z-index: 3;
-  flex: 0 0 v-bind(sidebarWidth);
+  flex: 0 1 v-bind(sidebarWidth);
   max-width: 100%;
   background-color: var(--body-bg);
   margin: 0;
@@ -147,7 +147,7 @@ export default {
 }
 
 ._sidebarContent {
-  min-width: calc(v-bind(sidebarWidth));
+  min-width: 320px;
 }
 
 ._twoColumnLayout ._colLeft {
@@ -166,7 +166,7 @@ export default {
   flex: 1 1 0;
   overflow: auto;
   position: relative;
-  min-width: 50vw;
+  // min-width: 50vw;
 }
 
 ._content {
