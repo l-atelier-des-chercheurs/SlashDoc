@@ -3,13 +3,16 @@
     class="_twoColumnLayout"
     :class="{
       'is--mobile': isMobileView,
-      'is--sidebarHidden': !show_sidebar,
+      'is--sidebarHidden': !show_sidebar_computed,
     }"
   >
     <!-- <transition name="slide-left"> -->
-    <div class="_colLeft" :class="{ 'is--sidebarHidden': !show_sidebar }">
+    <div
+      class="_colLeft"
+      :class="{ 'is--sidebarHidden': !show_sidebar_computed }"
+    >
       <transition name="slide-left">
-        <div v-if="show_sidebar" class="_sidebarContent">
+        <div v-if="show_sidebar_computed" class="_sidebarContent">
           <slot name="sidebar" />
         </div>
       </transition>
@@ -20,12 +23,14 @@
         type="button"
         class="u-button u-button_icon"
         :class="{}"
-        @click="show_sidebar = !show_sidebar"
-        :aria-label="show_sidebar ? $t('hide_sidebar') : $t('show_sidebar')"
+        @click="toggleSidebar"
+        :aria-label="
+          show_sidebar_computed ? $t('hide_sidebar') : $t('show_sidebar')
+        "
       >
         <b-icon
-          :icon="show_sidebar ? 'arrow-left' : 'list-ul'"
-          :aria-label="show_sidebar ? $t('hide') : $t('show')"
+          :icon="show_sidebar_computed ? 'arrow-left' : 'list-ul'"
+          :aria-label="show_sidebar_computed ? $t('hide') : $t('show')"
         />
       </button>
     </div>
@@ -33,8 +38,8 @@
     <transition name="fade">
       <div
         class="_colOverlay"
-        v-if="show_sidebar && $root.is_mobile_view && false"
-        @click="show_sidebar = false"
+        v-if="show_sidebar_computed && $root.is_mobile_view && false"
+        @click="toggleSidebar"
       />
     </transition>
 
@@ -56,15 +61,33 @@ export default {
       type: String,
       default: "250px",
     },
+    show_sidebar: {
+      type: Boolean,
+      default: undefined,
+    },
   },
   data() {
     return {
-      show_sidebar: true,
+      show_sidebar_internal: true,
     };
   },
   computed: {
     isMobileView() {
       return Boolean(this.$root?.is_mobile_view);
+    },
+    show_sidebar_computed() {
+      return this.show_sidebar !== undefined
+        ? this.show_sidebar
+        : this.show_sidebar_internal;
+    },
+  },
+  methods: {
+    toggleSidebar() {
+      if (this.show_sidebar !== undefined) {
+        this.$emit("update:show_sidebar", !this.show_sidebar);
+      } else {
+        this.show_sidebar_internal = !this.show_sidebar_internal;
+      }
     },
   },
 };
