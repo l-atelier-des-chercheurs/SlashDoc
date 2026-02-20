@@ -34,6 +34,10 @@ textarea,
   &[required] {
     background-image: radial-gradient(var(--g-500) 18%, transparent 25%);
   }
+
+  &[data-size="small"] {
+    line-height: 1;
+  }
 }
 
 ._editBtn._editBtn {
@@ -59,7 +63,7 @@ textarea,
     // outline: 0;
     // color: var(--r-500);
     color: var(--g-900);
-    background-color: var(--g-200);
+    background-color: var(--g-600);
     box-shadow: none;
   }
 }
@@ -255,4 +259,8 @@ input[type="range"] {
 }
 .u-button_black.u-button_black {
   background-color: var(--g-700);
+}
+
+._statusTag._statusTag {
+  border: none !important;
 }

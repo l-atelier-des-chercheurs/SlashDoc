@@ -53,6 +53,7 @@
     <div class="_viewContent--content">
       <PagedViewer
         v-if="view_mode === 'book'"
+        ref="pagedViewer"
         :content_nodes="content_nodes"
         :viewer_type="viewer_type"
         :css_styles="css_styles"

@@ -12,6 +12,7 @@
             </div>
 
             <ChaptersSummary
+              ref="chaptersSummaryRef"
               :publication="publication"
               :sections="all_chapters"
               :opened_section_meta_filename="opened_section_meta_filename"
@@ -65,6 +66,7 @@
       <pane v-if="show_preview_pane">
         <div class="_viewer">
           <ViewContent
+            ref="viewContentRef"
             :publication="publication"
             :opened_chapter_meta_filename="opened_section_meta_filename"
             :view_mode="view_mode"
@@ -94,6 +96,7 @@
     <!-- preview mode -->
     <div class="_previewMode" v-else>
       <ViewContent
+        ref="viewContentPreviewRef"
         :publication="publication"
         :opened_chapter_meta_filename="opened_section_meta_filename"
         :view_mode="view_mode"
@@ -105,6 +108,23 @@
         @setStyleFile="$emit('updatePane', { key: 'style', value: $event })"
       />
     </div>
+
+    <FloatingTooltip
+      v-if="
+        can_edit &&
+        edition_tooltip_step >= 1 &&
+        edition_tooltip_step <= 2 &&
+        edition_tooltip_target_el
+      "
+      :key="edition_tooltip_step"
+      class="_editionTooltip"
+      :tooltip_key="edition_tooltip_keys[edition_tooltip_step - 1]"
+      :step_current="edition_tooltip_step"
+      :step_total="2"
+      :show_step="true"
+      :target_el="edition_tooltip_target_el"
+      @next="onEditionTooltipNext"
+    />
   </div>
 </template>
 <script>
@@ -116,6 +136,9 @@ import ViewContent from "@/components/publications/edition/ViewContent.vue";
 import GraphicStyles from "@/components/publications/edition/GraphicStyles.vue";
 import PublicationSettings from "@/components/publications/PublicationSettings.vue";
 import WidthHeightField from "@/adc-core/fields/WidthHeightField.vue";
+import FloatingTooltip from "@/components/FloatingTooltip.vue";
+
+const EDITION_TOOLTIP_KEYS = ["preview_publication", "structure_content"];
 
 export default {
   props: {
@@ -132,6 +155,7 @@ export default {
     GraphicStyles,
     PublicationSettings,
     WidthHeightField,
+    FloatingTooltip,
   },
   provide() {
     return {
@@ -141,6 +165,18 @@ export default {
   },
   data() {
     return {
+      edition_tooltip_keys: EDITION_TOOLTIP_KEYS,
+      edition_tooltip_step: (() => {
+        try {
+          return localStorage.getItem("edition_publication_tooltips_seen")
+            ? 0
+            : 1;
+        } catch (e) {
+          return 1;
+        }
+      })(),
+      edition_tooltip_target_el: null,
+
       show_edit_pane: true,
       show_preview_pane: true,
       show_source_html: false,
@@ -148,11 +184,24 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    if (this.can_edit && this.edition_tooltip_step >= 1) {
+      this.$nextTick(() => this.assignEditionTooltipTarget());
+    }
+  },
   beforeDestroy() {
     this.$emit("updatePane", { key: "chapter", value: false });
   },
-  watch: {},
+  watch: {
+    edition_tooltip_step() {
+      this.$nextTick(() => this.assignEditionTooltipTarget());
+    },
+    view_mode() {
+      if (this.can_edit && this.edition_tooltip_step >= 1) {
+        this.$nextTick(() => this.assignEditionTooltipTarget());
+      }
+    },
+  },
   computed: {
     view_mode() {
       return this.$route.query?.view_mode || "book";
@@ -291,6 +340,33 @@ export default {
     },
   },
   methods: {
+    assignEditionTooltipTarget() {
+      const step = this.edition_tooltip_step;
+      if (step < 1 || step > 2) {
+        this.edition_tooltip_target_el = null;
+        return;
+      }
+      const viewContent =
+        this.$refs.viewContentRef || this.$refs.viewContentPreviewRef;
+      const chaptersSummary = this.$refs.chaptersSummaryRef;
+      let el = null;
+      if (step === 1 && viewContent?.$refs?.pagedViewer) {
+        el = viewContent.$refs.pagedViewer.$el;
+      } else if (step === 2 && chaptersSummary?.$refs?.addSection) {
+        el = chaptersSummary.$refs.addSection;
+      }
+      this.edition_tooltip_target_el = el || null;
+    },
+    onEditionTooltipNext() {
+      if (this.edition_tooltip_step < 2) {
+        this.edition_tooltip_step += 1;
+      } else {
+        this.edition_tooltip_step = 0;
+        try {
+          localStorage.setItem("edition_publication_tooltips_seen", "1");
+        } catch (e) {}
+      }
+    },
     openChapter(dir) {
       const idx = this.all_chapters.findIndex((f) =>
         f.$path.endsWith(this.opened_section_meta_filename)
