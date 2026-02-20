@@ -169,7 +169,7 @@ export default {
 
 ._sidebarContent {
   min-width: 320px;
-  // height: 100%;
+  height: 100%;
 }
 
 ._twoColumnLayout ._colLeft {

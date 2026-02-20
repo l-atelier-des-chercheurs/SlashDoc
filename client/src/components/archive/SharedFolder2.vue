@@ -40,6 +40,7 @@
             :available_keywords="valid_keywords"
             :keywords_filter.sync="keywords_filter"
             @close="show_filter_bar = false"
+            @showUsageGuide="showArchiveUsageGuide"
           >
           </FilterBar>
         </template>
@@ -542,6 +543,13 @@ export default {
           localStorage.setItem("archive_tooltips_seen", "1");
         } catch (e) {}
       }
+    },
+    showArchiveUsageGuide() {
+      this.archive_tooltip_step = 1;
+      try {
+        localStorage.removeItem("archive_tooltips_seen");
+      } catch (e) {}
+      this.$nextTick(() => this.assignArchiveTooltipTarget());
     },
     async loadAllFolders() {
       // Load all folders for the add community modal

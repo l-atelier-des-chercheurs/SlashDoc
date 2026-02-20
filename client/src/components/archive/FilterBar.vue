@@ -145,6 +145,16 @@
         {{ $t("reset") }}
       </button>
     </div>
+    <div class="_usageGuideFooter">
+      <button
+        type="button"
+        class="u-buttonLink _usageGuideBtn"
+        @click="$emit('showUsageGuide')"
+      >
+        <b-icon icon="book" />
+        {{ $t("contribute_usage_guide") }}
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -540,5 +550,24 @@ export default {
   margin-top: auto;
   background-color: white;
   border-top: 1px solid var(--c-gris);
+}
+
+._usageGuideFooter {
+  flex: 0 0 auto;
+  padding: calc(var(--spacing) * 1);
+  background-color: white;
+  border-top: 1px solid var(--c-gris);
+}
+
+._usageGuideBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 0.5);
+  color: var(--g-600, #6c757d);
+  font-size: inherit;
+
+  .b-icon {
+    flex-shrink: 0;
+  }
 }
 </style>
