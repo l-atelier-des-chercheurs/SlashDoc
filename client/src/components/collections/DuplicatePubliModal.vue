@@ -92,26 +92,28 @@ export default {
       this.is_duplicating = true;
 
       try {
-        // Create a copy of the publication with the new title
-        const new_meta = {
-          title: this.new_title.trim(),
-        };
+        const path = this.publication.$path;
+        const path_to_destination_type = path.substring(
+          0,
+          path.lastIndexOf("/")
+        );
 
-        const new_publication_path = await this.$api.copyFile({
-          path: this.publication.$path,
-          new_meta,
+        const new_folder_path = await this.$api.copyFolder({
+          path,
+          new_meta: { title: this.new_title.trim() },
+          path_to_destination_type,
+          is_copy_or_move: "copy",
         });
+
+        const new_publication_slug = new_folder_path.split("/").pop();
 
         this.$alertify
           .delay(4000)
           .success(this.$t("publication_duplicated_successfully"));
 
-        // Emit close event and optionally navigate to new publication
         this.$emit("close");
 
-        // Navigate to the new publication
-        const new_publication_slug = this.getFilename(new_publication_path);
-        this.$router.push(`/publish/${new_publication_slug}`);
+        await this.$router.push(`/publish/${new_publication_slug}`);
       } catch (err) {
         console.error("Error duplicating publication:", err);
         this.$alertify

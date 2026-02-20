@@ -49,6 +49,7 @@ export default {
   contribute: "Contribute",
   explore: "Explore",
   publish: "Publish",
+  event: "Event",
   help: "Help",
   language: "Language",
   admin_settings: "Admin Settings",

@@ -49,6 +49,7 @@ export default {
   contribute: "Contribuer",
   explore: "Explorer",
   publish: "Publier",
+  event: "Événement",
   help: "Aide",
   language: "Langue",
   admin_settings: "Paramètres administrateur",
