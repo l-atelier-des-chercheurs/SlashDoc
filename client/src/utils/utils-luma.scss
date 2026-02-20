@@ -35,7 +35,7 @@ textarea,
     background-image: radial-gradient(var(--g-500) 18%, transparent 25%);
   }
 
-  &[data-size="small"] {
+  &[size="small"] {
     line-height: 1;
   }
 }
@@ -62,7 +62,7 @@ textarea,
   &.is--active.is--active {
     // outline: 0;
     // color: var(--r-500);
-    color: var(--g-900);
+    color: white;
     background-color: var(--g-600);
     box-shadow: none;
   }
@@ -262,5 +262,15 @@ input[type="range"] {
 }
 
 ._statusTag._statusTag {
-  border: none !important;
+  select {
+    border: none !important;
+    width: 20ch !important;
+    border-radius: 4px;
+  }
+
+  &[data-status="private"] {
+    select {
+      background-color: var(--g-900) !important;
+    }
+  }
 }
