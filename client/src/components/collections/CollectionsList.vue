@@ -1,23 +1,24 @@
 <template>
-  <TwoColumnLayout>
-    <template #sidebar>
-      <div class="_sidebarContent">
-        <h3 class="_dashboard--label">{{ $t("publications") }}</h3>
-        <div class="u-spacingBottom" />
-        <div class="u-instructions u-spacingBottom">
-          <b-icon icon="info-circle" />
-          {{ $t("publication_instr") }}
-        </div>
+  <div class="_collectionsListWrapper">
+    <TwoColumnLayout>
+      <template #sidebar>
+        <div class="_sidebarContent">
+          <h3 class="_dashboard--label">{{ $t("publications") }}</h3>
+          <div class="u-spacingBottom" />
+          <div class="u-instructions u-spacingBottom">
+            <b-icon icon="info-circle" />
+            {{ $t("publication_instr") }}
+          </div>
 
-        <hr />
+          <hr />
 
-        <div class="_createActions">
-          <h3
-            class="_createActions_label"
-            v-text="$t('create_a_publication')"
-          />
+          <div ref="create_actions_el" class="_createActions">
+            <h3
+              class="_createActions_label"
+              v-text="$t('create_a_publication')"
+            />
 
-          <!-- <button
+            <!-- <button
             class="u-button u-button_glass _createAction"
             @click="show_create_collection = 'story_with_sections'"
           >
@@ -25,76 +26,91 @@
             <span v-text="$t('new_story')"></span>
             <img :src="$root.publicPath + 'picto_luma/story.svg'" alt="story" />
           </button> -->
-          <button
-            class="u-button u-button_glass _createAction"
-            @click="show_create_collection = 'edition'"
-          >
-            <b-icon icon="plus-circle" />
-            <span v-text="$t('new_booklet')"></span>
-            <img
-              :src="$root.publicPath + 'picto_luma/edition.svg'"
-              alt="booklet"
-            />
-          </button>
-          <button
-            class="u-button u-button_glass _createAction"
-            @click="show_create_collection = 'agora'"
-          >
-            <b-icon icon="plus-circle" />
-            <span v-text="$t('new_agora')"></span>
-            <img :src="$root.publicPath + 'picto_luma/agora.svg'" alt="agora" />
-          </button>
-        </div>
+            <button
+              class="u-button u-button_glass _createAction"
+              @click="show_create_collection = 'edition'"
+            >
+              <b-icon icon="plus-circle" />
+              <span v-text="$t('new_booklet')"></span>
+              <img
+                :src="$root.publicPath + 'picto_luma/edition.svg'"
+                alt="booklet"
+              />
+            </button>
+            <button
+              class="u-button u-button_glass _createAction"
+              @click="show_create_collection = 'agora'"
+            >
+              <b-icon icon="plus-circle" />
+              <span v-text="$t('new_agora')"></span>
+              <img
+                :src="$root.publicPath + 'picto_luma/agora.svg'"
+                alt="agora"
+              />
+            </button>
+          </div>
 
-        <CreateCollection
-          v-if="show_create_collection"
-          :modal_name="$t('create_a_publication')"
-          :path="'publications'"
-          :default_folder_status="'private'"
-          :selected_template="show_create_collection"
-          @close="show_create_collection = false"
-          @openNew="openNewCollection"
-        />
-      </div>
-    </template>
-
-    <template #content nopadding="true">
-      <div class="_content">
-        <div class="u-spacingBottom _actions">
-          <RadioSwitch
-            v-if="connected_as"
-            class="_switch"
-            :content.sync="show_publications_from"
-            :options="[
-              { label: $t('all_publications'), value: 'all' },
-              { label: $t('my_publications'), value: 'me' },
-            ]"
+          <CreateCollection
+            v-if="show_create_collection"
+            :modal_name="$t('create_a_publication')"
+            :path="'publications'"
+            :default_folder_status="'private'"
+            :selected_template="show_create_collection"
+            @close="show_create_collection = false"
+            @openNew="openNewCollection"
           />
-          <div class="_searchinput">
-            <SearchInput2
-              v-model="search_coll_name"
-              :search_placeholder="$t('search_in_titles')"
-            />
+
+          <div v-if="publications_tooltip_step === 0" class="_sidebarFooter">
+            <button
+              type="button"
+              class="u-buttonLink _usageGuideBtn"
+              @click="showPublicationsUsageGuide"
+            >
+              <b-icon icon="book" />
+              {{ $t("contribute_usage_guide") }}
+            </button>
           </div>
         </div>
+      </template>
 
-        <div class="u-spacingBottom" />
+      <template #content nopadding="true">
+        <div class="_content">
+          <div class="u-spacingBottom _actions">
+            <RadioSwitch
+              v-if="connected_as"
+              class="_switch"
+              :content.sync="show_publications_from"
+              :options="[
+                { label: $t('all_publications'), value: 'all' },
+                { label: $t('my_publications'), value: 'me' },
+              ]"
+            />
+            <div class="_searchinput">
+              <SearchInput2
+                v-model="search_coll_name"
+                :search_placeholder="$t('search_in_titles')"
+              />
+            </div>
+          </div>
 
-        <PinnedNonpinnedFolder
-          v-if="!is_loading"
-          class="_pinnedPublications"
-          :field_name="'publications_pinned'"
-          :label="$t('publications_pinned')"
-          :content="settings.publications_pinned"
-          :path="''"
-          :folders="filtered_collections"
-          :can_edit="is_instance_admin"
-          :direction="'grid'"
-          v-slot="slotProps"
-        >
-          <PublicationPreview :publication="slotProps.item" />
-        </PinnedNonpinnedFolder>
-        <!-- <div class="_collections">
+          <div class="u-spacingBottom" />
+
+          <PinnedNonpinnedFolder
+            v-if="!is_loading"
+            ref="all_publications_el"
+            class="_allPublications"
+            :field_name="'publications_pinned'"
+            :label="$t('publications_pinned')"
+            :content="settings.publications_pinned"
+            :path="''"
+            :folders="filtered_collections"
+            :can_edit="is_instance_admin"
+            :direction="'grid'"
+            v-slot="slotProps"
+          >
+            <PublicationPreview :publication="slotProps.item" />
+          </PinnedNonpinnedFolder>
+          <!-- <div class="_collections">
         <div
           v-if="filtered_collections.length === 0"
           class="u-instructions"
@@ -125,9 +141,22 @@
           </div>
         </router-link>
       </div>-->
-      </div>
-    </template>
-  </TwoColumnLayout>
+        </div>
+      </template>
+    </TwoColumnLayout>
+
+    <FloatingTooltip
+      v-if="publications_tooltip_step >= 1 && publications_tooltip_step <= 2"
+      :key="publications_tooltip_step"
+      class="_collectionsListTooltip"
+      :tooltip_key="publications_tooltip_keys[publications_tooltip_step - 1]"
+      :step_current="publications_tooltip_step"
+      :step_total="2"
+      :show_step="true"
+      :target_el="publications_tooltip_target_el"
+      @next="onPublicationsTooltipNext"
+    />
+  </div>
 </template>
 <script>
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
@@ -135,6 +164,12 @@ import CreateCollection from "@/components/collections/CreateCollection.vue";
 import SearchInput2 from "@/components/SearchInput2.vue";
 import PinnedNonpinnedFolder from "@/adc-core/ui/PinnedNonpinnedFolder.vue";
 import PublicationPreview from "@/components/collections/PublicationPreview.vue";
+import FloatingTooltip from "@/components/FloatingTooltip.vue";
+
+const PUBLICATIONS_TOOLTIP_KEYS = [
+  "explore_publications",
+  "create_publication",
+];
 
 export default {
   props: {},
@@ -144,9 +179,22 @@ export default {
     CreateCollection,
     PinnedNonpinnedFolder,
     PublicationPreview,
+    FloatingTooltip,
   },
   data() {
     return {
+      publications_tooltip_keys: PUBLICATIONS_TOOLTIP_KEYS,
+      publications_tooltip_step: (() => {
+        try {
+          return localStorage.getItem("collections_publications_tooltips_seen")
+            ? 0
+            : 1;
+        } catch (e) {
+          return 1;
+        }
+      })(),
+      publications_tooltip_target_el: null,
+
       settings: undefined,
       is_loading: true,
       show_create_collection: false,
@@ -192,11 +240,24 @@ export default {
     this.is_loading = false;
     this.$api.join({ room: this.path });
   },
-  mounted() {},
+  mounted() {
+    if (this.publications_tooltip_step >= 1) {
+      this.$nextTick(() => this.assignPublicationsTooltipTarget());
+    }
+  },
   beforeDestroy() {
     this.$api.leave({ room: this.path });
   },
-  watch: {},
+  watch: {
+    publications_tooltip_step() {
+      this.$nextTick(() => this.assignPublicationsTooltipTarget());
+    },
+    is_loading() {
+      if (!this.is_loading && this.publications_tooltip_step >= 1) {
+        this.$nextTick(() => this.assignPublicationsTooltipTarget());
+      }
+    },
+  },
   computed: {
     can_edit() {
       return this.canLoggedinEditFolder({ folder: this.stack });
@@ -229,6 +290,38 @@ export default {
     },
   },
   methods: {
+    assignPublicationsTooltipTarget() {
+      const step = this.publications_tooltip_step;
+      if (step < 1 || step > 2) {
+        this.publications_tooltip_target_el = null;
+        return;
+      }
+      if (step === 1 && this.$refs.all_publications_el) {
+        this.publications_tooltip_target_el =
+          this.$refs.all_publications_el.$el;
+      } else if (step === 2 && this.$refs.create_actions_el) {
+        this.publications_tooltip_target_el = this.$refs.create_actions_el;
+      } else {
+        this.publications_tooltip_target_el = null;
+      }
+    },
+    onPublicationsTooltipNext() {
+      if (this.publications_tooltip_step < 2) {
+        this.publications_tooltip_step += 1;
+      } else {
+        this.publications_tooltip_step = 0;
+        try {
+          localStorage.setItem("collections_publications_tooltips_seen", "1");
+        } catch (e) {}
+      }
+    },
+    showPublicationsUsageGuide() {
+      this.publications_tooltip_step = 1;
+      try {
+        localStorage.removeItem("collections_publications_tooltips_seen");
+      } catch (e) {}
+      this.$nextTick(() => this.assignPublicationsTooltipTarget());
+    },
     async loadSettings() {
       this.settings = await this.$api
         .getFolder({
@@ -251,8 +344,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+._collectionsListWrapper {
+  height: 100%;
+  position: relative;
+}
+
 ._sidebarContent {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   padding: calc(var(--spacing) * 2);
+}
+
+._sidebarFooter {
+  margin-top: auto;
+  padding-top: calc(var(--spacing) * 2);
+}
+
+._usageGuideBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 0.5);
+  color: var(--g-600, #6c757d);
+  font-size: inherit;
+
+  .b-icon {
+    flex-shrink: 0;
+  }
 }
 
 ._createActions {
@@ -342,7 +460,7 @@ export default {
   }
 }
 
-._pinnedPublications {
+._allPublications {
   ::v-deep ._pinSpace {
     left: auto;
     right: 0;
