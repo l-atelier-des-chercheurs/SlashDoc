@@ -12,7 +12,7 @@
       </select>
     </div>
 
-    <div class="">
+    <div class="" v-if="false">
       <div class="u-spacingBottom" />
       <button
         type="button"
@@ -325,7 +325,7 @@ export default {
         .closeLogOnClick(true)
         .delay(4000)
         .success(this.$t("lang_updated"));
-      // this.$emit("close");
+      this.$emit("close");
     },
     async loadMissingTranslations() {
       const translations = await this.$root.findMissingTranslations();

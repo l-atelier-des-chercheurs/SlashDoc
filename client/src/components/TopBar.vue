@@ -140,17 +140,16 @@
             <span>{{ $t("help") }}</span>
           </button> -->
 
-            <!-- <button
-            v-if="$route.path !== '/'"
-            type="button"
-            class="u-button u-button_icon u-button_glass"
-            @click="
-              show_lang_modal = !show_lang_modal;
-              show_mobile_menu = false;
-            "
-          >
-            <span>{{ $t("language") }}: {{ current_lang_code }}</span>
-          </button> -->
+            <button
+              type="button"
+              class="u-button u-button_icon u-button_glass"
+              @click="
+                show_lang_modal = !show_lang_modal;
+                show_mobile_menu = false;
+              "
+            >
+              <span>{{ $t("language") }}: {{ current_lang_code }}</span>
+            </button>
 
             <button
               v-if="is_instance_admin"
@@ -249,6 +248,17 @@
           @click="show_lang_modal = !show_lang_modal"
           v-text="current_lang_code"
         ></button> -->
+
+          <button
+            type="button"
+            class="u-button u-button_icon u-button_glass _langBtn"
+            @click="
+              show_lang_modal = !show_lang_modal;
+              show_mobile_menu = false;
+            "
+          >
+            <span>{{ current_lang_code }}</span>
+          </button>
 
           <button
             type="button"
@@ -757,5 +767,12 @@ export default {
 
 ._hamburgerBtn.is--active ._hamburgerIcon span:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
+}
+
+._langBtn {
+  font-size: var(--sl-font-size-medium);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--g-900);
 }
 </style>
