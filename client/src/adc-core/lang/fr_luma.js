@@ -49,7 +49,6 @@ export default {
   contribute: "Contribuer",
   explore: "Explorer",
   publish: "Publier",
-  event: "Événement",
   help: "Aide",
   language: "Langue",
   admin_settings: "Paramètres administrateur",
@@ -150,6 +149,10 @@ export default {
   privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
 
   contribute_usage_guide: "Guide d'utilisation",
+
+  // Duplicate publication modal
+  publication_duplicated_successfully: "Publication dupliquée avec succès",
+  error_duplicating_publication: "Erreur lors de la duplication de la publication",
 
   // Contribute view - accès communauté
   no_community_access_message:

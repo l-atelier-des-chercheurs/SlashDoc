@@ -49,7 +49,6 @@ export default {
   contribute: "Contribute",
   explore: "Explore",
   publish: "Publish",
-  event: "Event",
   help: "Help",
   language: "Language",
   admin_settings: "Admin Settings",
@@ -149,6 +148,10 @@ export default {
   accept_terms_text_end: ".",
   terms_of_use_of_slashdoc: "Terms of Use of /doc",
   privacy_policy_of_slashdoc: "Privacy Policy of /doc",
+
+  // Duplicate publication modal
+  publication_duplicated_successfully: "Publication duplicated successfully",
+  error_duplicating_publication: "Error duplicating publication",
 
   // Contribute view - community access
   no_community_access_message:
