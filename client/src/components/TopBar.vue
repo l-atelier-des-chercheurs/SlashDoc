@@ -475,7 +475,7 @@ export default {
     }
 
     &._topRow {
-      flex: 1 1 auto;
+      flex: 1 0 auto;
     }
   }
 
