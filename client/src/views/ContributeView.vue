@@ -103,8 +103,7 @@
             <FloatingTooltip
               v-if="show_import_tooltip"
               class="_contributeImportTooltip"
-              :title="$t('contribute_tooltip_add_media_title')"
-              :body="$t('contribute_tooltip_add_media_body')"
+              tooltip_key="import_media"
               :step_current="1"
               :step_total="1"
               :show_step="true"

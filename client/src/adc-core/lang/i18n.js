@@ -41,6 +41,7 @@ const i18n = () => {
   const loadLangageFile = async (lang) => {
     let content = null;
     let custom_content = null;
+    let tooltip_content = null;
 
     if (lang === "fr") {
       content = await import("@/adc-core/lang/fr.js");
@@ -48,6 +49,11 @@ const i18n = () => {
         custom_content = await import("@/adc-core/lang/fr_luma.js");
       } catch (e) {
         // No custom file
+      }
+      try {
+        tooltip_content = await import("@/adc-core/lang/fr_tooltip_luma.js");
+      } catch (e) {
+        // No tooltip file
       }
     } else if (lang === "it") {
       content = await import("@/adc-core/lang/it.js");
@@ -60,12 +66,21 @@ const i18n = () => {
       } catch (e) {
         // No custom file
       }
+      try {
+        tooltip_content = await import("@/adc-core/lang/en_tooltip_luma.js");
+      } catch (e) {
+        // No tooltip file
+      }
     }
 
+    let messages = content.default;
     if (custom_content) {
-      return { ...content.default, ...custom_content.default };
+      messages = { ...messages, ...custom_content.default };
     }
-    return content.default;
+    if (tooltip_content) {
+      messages = { ...messages, ...tooltip_content.default };
+    }
+    return messages;
   };
 
   const i18n = new VueI18n({

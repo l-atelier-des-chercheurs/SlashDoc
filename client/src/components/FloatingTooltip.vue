@@ -13,8 +13,12 @@
     :style="position_style"
   >
     <div class="_floatingTooltip--box">
-      <h2 v-if="title" class="_floatingTooltip--title">{{ title }}</h2>
-      <p v-if="body" class="_floatingTooltip--body">{{ body }}</p>
+      <h2 v-if="computed_title" class="_floatingTooltip--title">
+        {{ computed_title }}
+      </h2>
+      <p v-if="computed_body" class="_floatingTooltip--body">
+        {{ computed_body }}
+      </p>
       <slot v-else name="body" />
       <div v-if="show_step && step_total > 1" class="_floatingTooltip--step">
         {{ step_current }}/{{ step_total }}
@@ -25,7 +29,7 @@
           class="u-button u-button_white u-button_small"
           @click="$emit('next')"
         >
-          {{ is_last_step ? $t("tooltip_close") : $t("tooltip_next") }}
+          {{ computed_button_label }}
           <b-icon v-if="!is_last_step" icon="arrow-right" />
         </button>
       </div>
@@ -36,6 +40,7 @@
 <script>
 export default {
   props: {
+    tooltip_key: { type: String, default: "" },
     title: { type: String, default: "" },
     body: { type: String, default: "" },
     step_current: { type: Number, default: 1 },
@@ -57,6 +62,27 @@ export default {
     };
   },
   computed: {
+    computed_title() {
+      if (this.tooltip_key) {
+        return this.$t(`${this.tooltip_key}.title`);
+      }
+      return this.title;
+    },
+    computed_body() {
+      if (this.tooltip_key) {
+        return this.$t(`${this.tooltip_key}.body`);
+      }
+      return this.body;
+    },
+    computed_button_label() {
+      if (this.tooltip_key) {
+        const label = this.$t(`${this.tooltip_key}.button_label`);
+        if (label && label !== this.tooltip_key + ".button_label") return label;
+      }
+      return this.is_last_step
+        ? this.$t("tooltip_close")
+        : this.$t("tooltip_next");
+    },
     is_last_step() {
       return this.step_total <= 1 || this.step_current >= this.step_total;
     },
@@ -159,7 +185,7 @@ export default {
 <style lang="scss" scoped>
 ._floatingTooltip {
   position: absolute;
-  z-index: 20;
+  z-index: 10000;
   display: flex;
   align-items: flex-start;
 
