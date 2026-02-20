@@ -3,12 +3,14 @@
     <div class="_topBarContent">
       <div class="_searchBar">
         <SearchInput2
+          ref="searchInput"
           class="_searchInput"
           :value="search_str"
           @input="$emit('update:search_str', $event)"
           :search_placeholder="$t('search_fields')"
         />
         <button
+          ref="filterToggle"
           type="button"
           class="u-button u-button_icon u-button_transparent _filterToggle"
           :class="{ 'is--active': show_filter_bar }"
@@ -105,7 +107,8 @@
               </svg>
             </button>
             <button
-              class="u-button u-button_icon"
+              ref="viewModeButtonMap"
+              class="u-button u-button_icon _viewModeButton--map"
               type="button"
               :class="{ 'is--active': view_mode === 'map' }"
               @click="$emit('update:view_mode', 'map')"

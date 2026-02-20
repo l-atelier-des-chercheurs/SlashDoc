@@ -1,6 +1,6 @@
 <template>
   <div class="_filterBar">
-    <div class="_filterPane">
+    <div ref="filterPane" class="_filterPane">
       <div class="_topRow">
         <h2 class="_filterTitle">{{ $t("filters") }}</h2>
         <button

@@ -24,12 +24,10 @@
         v-if="(show_step && step_total > 1) || show_next"
         class="_floatingTooltip--footer"
       >
-        <span
-          v-if="show_step && step_total > 1"
-          class="_floatingTooltip--step"
-        >
+        <span v-if="show_step && step_total > 1" class="_floatingTooltip--step">
           {{ step_current }}/{{ step_total }}
         </span>
+        <span v-else></span>
         <div v-if="show_next" class="_floatingTooltip--actions">
           <button
             type="button"
@@ -60,7 +58,7 @@ export default {
       default: "left",
       validator: (v) => ["left", "right", "top", "bottom"].includes(v),
     },
-    target_el: { type: HTMLDivElement, default: null },
+    target_el: { type: [HTMLDivElement, HTMLButtonElement], default: null },
     placement_preference: {
       type: String,
       default: null,

@@ -19,6 +19,7 @@
     </transition>
 
     <CommunitiesSection
+      ref="communitiesSection"
       :all_folders="filtered_folders"
       :active_folder_paths="active_folder_paths"
       @toggleCorpus="toggleCorpus"
@@ -32,6 +33,7 @@
       >
         <template #sidebar>
           <FilterBar
+            ref="filterBar"
             :group_mode.sync="group_mode"
             :sort_order.sync="sort_order"
             :author_path_filter.sync="author_path_filter"
@@ -44,6 +46,7 @@
 
         <template #content>
           <ArchiveTopBar
+            ref="archiveTopBar"
             :search_str.sync="search_str"
             :show_filter_bar.sync="show_filter_bar"
             :stack_preview_width.sync="stack_preview_width"
@@ -119,6 +122,19 @@
         </template>
       </TwoColumnLayout>
     </transition>
+
+    <FloatingTooltip
+      v-if="archive_tooltip_step >= 1 && archive_tooltip_step <= 5"
+      :key="archive_tooltip_step"
+      class="_archiveTooltip"
+      :tooltip_key="archive_tooltip_keys[archive_tooltip_step - 1]"
+      :step_current="archive_tooltip_step"
+      :step_total="5"
+      :show_step="true"
+      :placement_preference="archive_tooltip_step === 4 ? 'right' : undefined"
+      :target_el="archive_tooltip_target_el"
+      @next="onArchiveTooltipNext"
+    />
   </div>
 </template>
 <script>
@@ -130,6 +146,15 @@ import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
 import ArchiveTopBar from "@/components/archive/ArchiveTopBar.vue";
 import ActiveFiltersBar from "@/components/archive/ActiveFiltersBar.vue";
 import CommunitiesSection from "@/components/archive/CommunitiesSection.vue";
+import FloatingTooltip from "@/components/FloatingTooltip.vue";
+
+const ARCHIVE_TOOLTIP_KEYS = [
+  "show_community_archives",
+  "search_in_archives",
+  "refine_search",
+  "filter_results",
+  "view_archives_on_map",
+];
 
 export default {
   props: {
@@ -153,10 +178,21 @@ export default {
     ArchiveTopBar,
     ActiveFiltersBar,
     CommunitiesSection,
+    FloatingTooltip,
     MediaMap: () => import("@/adc-core/ui/MediaMap.vue"),
   },
   data() {
     return {
+      archive_tooltip_keys: ARCHIVE_TOOLTIP_KEYS,
+      archive_tooltip_step: (() => {
+        try {
+          return localStorage.getItem("archive_tooltips_seen") ? 0 : 1;
+        } catch (e) {
+          return 1;
+        }
+      })(),
+      archive_tooltip_target_el: null,
+
       folder: undefined,
       all_folders: [],
       all_stacks: [],
@@ -219,6 +255,9 @@ export default {
       this.joinRoom(path);
       this.joinRoom(path + "/stacks");
     });
+    if (this.archive_tooltip_step >= 1) {
+      this.$nextTick(() => this.assignArchiveTooltipTarget());
+    }
   },
   beforeDestroy() {
     // Clear loading timeout if it exists
@@ -235,6 +274,12 @@ export default {
     });
   },
   watch: {
+    archive_tooltip_step(step) {
+      if (step === 4) {
+        this.show_filter_bar = true;
+      }
+      this.$nextTick(() => this.assignArchiveTooltipTarget());
+    },
     opened_stack() {
       if (this.opened_stack) {
         this.last_selected_stack_path = this.opened_stack.$path;
@@ -462,6 +507,42 @@ export default {
     },
   },
   methods: {
+    assignArchiveTooltipTarget() {
+      const step = this.archive_tooltip_step;
+      if (step < 1 || step > 5) {
+        this.archive_tooltip_target_el = null;
+        return;
+      }
+      const topBar = this.$refs.archiveTopBar;
+      const filterBar = this.$refs.filterBar;
+      const communities = this.$refs.communitiesSection;
+      let el = null;
+      if (step === 1 && communities) {
+        el = communities.$el;
+      } else if (step === 2 && topBar?.$refs?.searchInput) {
+        el = topBar.$refs.searchInput.$el || topBar.$refs.searchInput;
+      } else if (step === 3 && topBar?.$refs?.filterToggle) {
+        el = topBar.$refs.filterToggle;
+      } else if (step === 4 && filterBar?.$refs?.filterPane) {
+        el = filterBar.$refs.filterPane;
+      } else if (step === 5 && topBar?.$refs?.viewModeButtonMap) {
+        el = topBar.$refs.viewModeButtonMap;
+      }
+      this.archive_tooltip_target_el = el || null;
+    },
+    onArchiveTooltipNext() {
+      if (this.archive_tooltip_step < 5) {
+        if (this.archive_tooltip_step === 3) {
+          this.show_filter_bar = true;
+        }
+        this.archive_tooltip_step += 1;
+      } else {
+        this.archive_tooltip_step = 0;
+        try {
+          localStorage.setItem("archive_tooltips_seen", "1");
+        } catch (e) {}
+      }
+    },
     async loadAllFolders() {
       // Load all folders for the add community modal
       const all_folders = await this.$api.getFolders({ path: "folders" });

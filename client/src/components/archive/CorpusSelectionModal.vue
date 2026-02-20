@@ -17,7 +17,10 @@
             </button>
           </div>
 
-          <div class="_communitiesList">
+          <div
+            ref="discover_communities_tooltip_target_el"
+            class="_communitiesList"
+          >
             <div
               v-for="folder in displayed_folders"
               :key="folder.$path"
@@ -78,10 +81,28 @@
       </template>
     </TwoColumnLayout>
 
+    <FloatingTooltip
+      v-if="show_discover_communities_tooltip"
+      class="_corpusDiscoverTooltip"
+      tooltip_key="discover_communities"
+      placement_preference="right"
+      :target_el="discover_communities_tooltip_target_el"
+      @next="dismissDiscoverCommunitiesTooltip"
+    />
+    <FloatingTooltip
+      v-if="show_explore_archives_tooltip && selected_folders.length > 0"
+      class="_corpusDiscoverTooltip"
+      tooltip_key="explore_community_archives"
+      placement_preference="top"
+      :target_el="explore_archives_tooltip_target_el"
+      @next="dismissExploreArchivesTooltip"
+    />
+
     <div class="_actions">
       <button
         type="button"
-        class="u-button u-button_orange"
+        ref="explore_archives_tooltip_target_el"
+        class="u-button u-button_orange _exploreSelectedCommunitiesButton"
         :disabled="selected_folders.length === 0"
         @click="$emit('close')"
       >
@@ -117,6 +138,7 @@
 <script>
 import CommunityPreview from "@/components/archive/CommunityPreview.vue";
 import TwoColumnLayout from "@/adc-core/ui/TwoColumnLayout.vue";
+import FloatingTooltip from "@/components/FloatingTooltip.vue";
 
 export default {
   props: {
@@ -132,13 +154,40 @@ export default {
   components: {
     CommunityPreview,
     TwoColumnLayout,
+    FloatingTooltip,
   },
   data() {
     return {
       show_add_community: false,
       community_to_remove: null,
       active_folder_path: null,
+      show_discover_communities_tooltip: (() => {
+        try {
+          return !localStorage.getItem(
+            "corpus_discover_communities_tooltip_seen"
+          );
+        } catch (e) {
+          return true;
+        }
+      })(),
+      discover_communities_tooltip_target_el: null,
+      show_explore_archives_tooltip: (() => {
+        try {
+          return !localStorage.getItem("corpus_explore_archives_tooltip_seen");
+        } catch (e) {
+          return true;
+        }
+      })(),
+      explore_archives_tooltip_target_el: null,
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.discover_communities_tooltip_target_el =
+        this.$refs.discover_communities_tooltip_target_el || null;
+      this.explore_archives_tooltip_target_el =
+        this.$refs.explore_archives_tooltip_target_el || null;
+    });
   },
   computed: {
     displayed_folders() {
@@ -187,6 +236,18 @@ export default {
     onCommunityRemoved() {
       this.$emit("remove", this.community_to_remove.$path);
       this.community_to_remove = null;
+    },
+    dismissDiscoverCommunitiesTooltip() {
+      this.show_discover_communities_tooltip = false;
+      try {
+        localStorage.setItem("corpus_discover_communities_tooltip_seen", "1");
+      } catch (e) {}
+    },
+    dismissExploreArchivesTooltip() {
+      this.show_explore_archives_tooltip = false;
+      try {
+        localStorage.setItem("corpus_explore_archives_tooltip_seen", "1");
+      } catch (e) {}
     },
   },
   i18n: {
