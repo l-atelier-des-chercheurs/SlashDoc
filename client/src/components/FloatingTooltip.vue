@@ -20,18 +20,26 @@
         {{ computed_body }}
       </p>
       <slot v-else name="body" />
-      <div v-if="show_step && step_total > 1" class="_floatingTooltip--step">
-        {{ step_current }}/{{ step_total }}
-      </div>
-      <div v-if="show_next" class="_floatingTooltip--actions">
-        <button
-          type="button"
-          class="u-button u-button_white u-button_small"
-          @click="$emit('next')"
+      <div
+        v-if="(show_step && step_total > 1) || show_next"
+        class="_floatingTooltip--footer"
+      >
+        <span
+          v-if="show_step && step_total > 1"
+          class="_floatingTooltip--step"
         >
-          {{ computed_button_label }}
-          <b-icon v-if="!is_last_step" icon="arrow-right" />
-        </button>
+          {{ step_current }}/{{ step_total }}
+        </span>
+        <div v-if="show_next" class="_floatingTooltip--actions">
+          <button
+            type="button"
+            class="u-button u-button_white u-button_small"
+            @click="$emit('next')"
+          >
+            {{ computed_button_label }}
+            <b-icon v-if="!is_last_step" icon="arrow-right" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -287,8 +295,15 @@ export default {
   color: rgba(255, 255, 255, 0.95);
 }
 
+._floatingTooltip--footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--spacing) * 1);
+  margin-top: calc(var(--spacing) * 1);
+}
+
 ._floatingTooltip--step {
-  margin-bottom: calc(var(--spacing) * 1);
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -296,7 +311,7 @@ export default {
 ._floatingTooltip--actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: calc(var(--spacing) * 1);
+  margin: 0;
 }
 
 ._floatingTooltip--next {

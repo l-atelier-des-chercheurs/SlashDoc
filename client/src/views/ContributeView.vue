@@ -63,7 +63,7 @@
                 />
               </div>
 
-              <div class="_importBtns">
+              <div ref="tooltip_2_target_el" class="_importBtns">
                 <button
                   type="button"
                   class="u-button u-button_outline"
@@ -101,13 +101,23 @@
             />
 
             <FloatingTooltip
-              v-if="show_import_tooltip"
+              v-if="show_import_tooltip && import_tooltip_step === 1"
               class="_contributeImportTooltip"
               tooltip_key="import_media"
               :step_current="1"
-              :step_total="1"
+              :step_total="2"
               :show_step="true"
               :target_el="tooltip_1_target_el"
+              @next="import_tooltip_step = 2"
+            />
+            <FloatingTooltip
+              v-if="show_import_tooltip && import_tooltip_step === 2"
+              class="_contributeImportTooltip"
+              tooltip_key="write_enrich"
+              :step_current="2"
+              :step_total="2"
+              :show_step="true"
+              :target_el="tooltip_2_target_el"
               @next="dismissImportTooltip"
             />
           </div>
@@ -409,7 +419,9 @@ export default {
           return true;
         }
       })(),
+      import_tooltip_step: 1,
       tooltip_1_target_el: null,
+      tooltip_2_target_el: null,
 
       all_communities: [],
       is_checking_communities: false,
@@ -423,6 +435,7 @@ export default {
     this.$api.join({ room: "folders" });
     this.$nextTick(() => {
       this.tooltip_1_target_el = this.$refs.tooltip_1_target_el || null;
+      this.tooltip_2_target_el = this.$refs.tooltip_2_target_el || null;
     });
   },
   beforeDestroy() {
@@ -523,6 +536,7 @@ export default {
       } catch (e) {}
     },
     showImportTooltip() {
+      this.import_tooltip_step = 1;
       this.show_import_tooltip = true;
       try {
         localStorage.removeItem("contribute_import_tooltip_seen");

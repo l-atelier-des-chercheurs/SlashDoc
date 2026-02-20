@@ -132,7 +132,6 @@ export default {
 ._sidebarToggle {
   position: relative;
   height: 100%;
-  z-index: 20;
   pointer-events: none;
   border-right: 1px solid var(--g-200);
 
