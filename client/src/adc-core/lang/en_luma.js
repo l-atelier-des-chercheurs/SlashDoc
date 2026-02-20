@@ -25,8 +25,7 @@ export default {
 
   // Missing translations
   items_to_share: "Items to share",
-  selected_item: "selected item",
-  selected_items: "selected items",
+  selected_items: "{count} selected item | {count} selected items",
   deselect_all: "Deselect all",
   remove_select: "Remove selection",
   keyword_materials_etc: "Keywords, materials, etc.",

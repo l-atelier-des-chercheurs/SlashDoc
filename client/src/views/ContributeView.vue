@@ -183,13 +183,22 @@
             </div>
           </div>
 
-          <transition name="slideup" mode="out-in">
+          <transition
+            name="slideup"
+            mode="out-in"
+            @after-enter="onSelectionBarAfterEnter"
+            @after-leave="onSelectionBarAfterLeave"
+          >
             <div
               class="_selectionBar"
               v-if="selected_items.length > 0"
               key="selection"
             >
-              <div class="_dbleBtns" v-if="can_contribute_to_any_community">
+              <div
+                ref="share_medias_tooltip_target_el"
+                class="_dbleBtns"
+                v-if="can_contribute_to_any_community"
+              >
                 <button
                   type="button"
                   class="u-button"
@@ -342,6 +351,27 @@
       :target_el="describe_tooltip_target_el"
       @next="dismissDescribeTooltip"
     />
+    <FloatingTooltip
+      v-if="show_select_medias_tooltip && chutier_items.length > 0"
+      class="_contributeDescribeTooltip"
+      tooltip_key="select_medias_to_share"
+      placement_preference="right"
+      :target_el="describe_tooltip_target_el"
+      @next="dismissSelectMediasTooltip"
+    />
+    <FloatingTooltip
+      v-if="
+        show_share_medias_tooltip &&
+        selection_bar_transition_done &&
+        selected_items.length > 0 &&
+        can_contribute_to_any_community
+      "
+      class="_contributeDescribeTooltip"
+      tooltip_key="share_medias"
+      placement_preference="top"
+      :target_el="share_medias_tooltip_target_el"
+      @next="dismissShareMediasTooltip"
+    />
   </div>
 </template>
 <script>
@@ -447,6 +477,24 @@ export default {
       show_describe_after_import_tooltip: false,
       describe_tooltip_target_el: null,
 
+      show_select_medias_tooltip: (() => {
+        try {
+          return !localStorage.getItem("contribute_select_medias_tooltip_seen");
+        } catch (e) {
+          return true;
+        }
+      })(),
+
+      show_share_medias_tooltip: (() => {
+        try {
+          return !localStorage.getItem("contribute_share_medias_tooltip_seen");
+        } catch (e) {
+          return true;
+        }
+      })(),
+      share_medias_tooltip_target_el: null,
+      selection_bar_transition_done: false,
+
       all_communities: [],
       is_checking_communities: false,
     };
@@ -484,6 +532,10 @@ export default {
             max_items_selected: this.max_items_selected,
           })
         );
+      }
+      if (this.selected_items_slugs.length === 0) {
+        this.share_medias_tooltip_target_el = null;
+        this.selection_bar_transition_done = false;
       }
     },
     chutier_items() {
@@ -574,8 +626,10 @@ export default {
       this.import_tooltip_step = 1;
       this.show_import_tooltip = true;
       this.show_describe_after_import_tooltip = true;
+      this.show_share_medias_tooltip = true;
       try {
         localStorage.removeItem("contribute_import_tooltip_seen");
+        localStorage.removeItem("contribute_share_medias_tooltip_seen");
       } catch (e) {}
     },
     dismissDescribeTooltip() {
@@ -583,6 +637,38 @@ export default {
       try {
         localStorage.setItem("contribute_describe_tooltip_seen", "1");
       } catch (e) {}
+      if (
+        this.chutier_items.length > 0 &&
+        !localStorage.getItem("contribute_select_medias_tooltip_seen")
+      ) {
+        this.show_select_medias_tooltip = true;
+      }
+    },
+    dismissSelectMediasTooltip() {
+      this.show_select_medias_tooltip = false;
+      try {
+        localStorage.setItem("contribute_select_medias_tooltip_seen", "1");
+      } catch (e) {}
+    },
+    dismissShareMediasTooltip() {
+      this.show_share_medias_tooltip = false;
+      try {
+        localStorage.setItem("contribute_share_medias_tooltip_seen", "1");
+      } catch (e) {}
+    },
+    assignShareMediasTooltipTarget() {
+      const ref = this.$refs.share_medias_tooltip_target_el;
+      this.share_medias_tooltip_target_el = Array.isArray(ref) ? ref[0] : ref;
+      this.share_medias_tooltip_target_el =
+        this.share_medias_tooltip_target_el || null;
+    },
+    onSelectionBarAfterEnter() {
+      this.selection_bar_transition_done = true;
+      this.assignShareMediasTooltipTarget();
+    },
+    onSelectionBarAfterLeave() {
+      this.selection_bar_transition_done = false;
+      this.share_medias_tooltip_target_el = null;
     },
     assignDescribeTooltipTarget() {
       const ref = this.$refs.describe_tooltip_target_el;
