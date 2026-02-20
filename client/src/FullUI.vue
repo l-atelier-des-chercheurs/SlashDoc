@@ -236,7 +236,7 @@ export default {
     position: relative;
     flex: 1;
     width: 100%;
-    overflow-y: visible;
+    overflow: hidden;
   }
 }
 

@@ -102,7 +102,7 @@ export default {
   justify-content: stretch;
   gap: 0;
   min-height: 50vh;
-  // height: 100%;
+  height: 100%;
   padding: 0;
 
   &.is--mobile {
@@ -156,7 +156,6 @@ export default {
   border-right: 1px solid var(--g-200);
   overflow-y: auto;
   overflow-x: hidden;
-  position: sticky;
   top: 0;
   align-self: flex-start;
   height: 100%;
@@ -170,6 +169,7 @@ export default {
 
 ._sidebarContent {
   min-width: 320px;
+  // height: 100%;
 }
 
 ._twoColumnLayout ._colLeft {

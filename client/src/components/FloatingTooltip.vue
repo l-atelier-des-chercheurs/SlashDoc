@@ -61,6 +61,12 @@ export default {
       validator: (v) => ["left", "right", "top", "bottom"].includes(v),
     },
     target_el: { type: HTMLDivElement, default: null },
+    placement_preference: {
+      type: String,
+      default: null,
+      validator: (v) =>
+        v == null || ["left", "right", "top", "bottom"].includes(v),
+    },
   },
   data() {
     return {
@@ -154,22 +160,50 @@ export default {
           let left = 0;
           let top = 0;
           let placement = "right";
-          if (space_right >= tw + gap) {
-            left = target_rect.right + gap;
-            top = target_rect.top + target_rect.height / 2 - th / 2;
-            placement = "right";
-          } else if (space_left >= tw + gap) {
-            left = target_rect.left - tw - gap;
-            top = target_rect.top + target_rect.height / 2 - th / 2;
-            placement = "left";
-          } else if (space_bottom >= th + gap) {
-            left = target_rect.left + target_rect.width / 2 - tw / 2;
-            top = target_rect.bottom + gap;
-            placement = "bottom";
-          } else {
-            left = target_rect.left + target_rect.width / 2 - tw / 2;
-            top = target_rect.top - th - gap;
-            placement = "top";
+          const pref = this.placement_preference;
+          const tryLeft = () => {
+            if (space_left >= tw + gap) {
+              left = target_rect.left - tw - gap;
+              top = target_rect.top + target_rect.height / 2 - th / 2;
+              placement = "left";
+              return true;
+            }
+            return false;
+          };
+          const tryRight = () => {
+            if (space_right >= tw + gap) {
+              left = target_rect.right + gap;
+              top = target_rect.top + target_rect.height / 2 - th / 2;
+              placement = "right";
+              return true;
+            }
+            return false;
+          };
+          const tryBottom = () => {
+            if (space_bottom >= th + gap) {
+              left = target_rect.left + target_rect.width / 2 - tw / 2;
+              top = target_rect.bottom + gap;
+              placement = "bottom";
+              return true;
+            }
+            return false;
+          };
+          const tryTop = () => {
+            if (space_top >= th + gap) {
+              left = target_rect.left + target_rect.width / 2 - tw / 2;
+              top = target_rect.top - th - gap;
+              placement = "top";
+              return true;
+            }
+            return false;
+          };
+          const preferred_ok =
+            (pref === "left" && tryLeft()) ||
+            (pref === "right" && tryRight()) ||
+            (pref === "top" && tryTop()) ||
+            (pref === "bottom" && tryBottom());
+          if (!preferred_ok) {
+            tryRight() || tryLeft() || tryBottom() || tryTop();
           }
           const pointer_map = {
             right: "left",

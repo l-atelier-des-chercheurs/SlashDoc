@@ -1,323 +1,307 @@
 <template>
-  <TwoColumnLayout @click="last_clicked = false">
-    <template #sidebar>
-      <div class="_sidebarContent">
-        <div class="_sidebarMain">
-          <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
-          <div class="u-spacingBottom" />
-          <div class="u-instructions u-spacingBottom">
-            <b-icon icon="info-circle" />
-            {{ $t("imported_docs") }}
-          </div>
-
-          <hr />
-
-          <div class="_stats" v-if="chutier_items.length > 0">
-            <div class="_statLine">
-              <b-icon icon="text-left" />
-              {{
-                $t("files_with_caption", {
-                  percentage: files_with_caption_percentage,
-                })
-              }}
-            </div>
-            <div class="_progressBar">
-              <div
-                class="_progressFill"
-                :style="{ width: files_with_caption_percentage + '%' }"
-              ></div>
-            </div>
-          </div>
-
-          <div class="_stats" v-if="chutier_items.length > 0">
-            <div class="_statLine">
+  <div class="_contributeView" @click="last_clicked = false">
+    <TwoColumnLayout>
+      <template #sidebar>
+        <div class="_sidebarContent">
+          <div class="_sidebarMain">
+            <h3 class="_dashboard--label">{{ $t("dashboard") }}</h3>
+            <div class="u-spacingBottom" />
+            <div class="u-instructions u-spacingBottom">
               <b-icon icon="info-circle" />
-              {{
-                $t("files_with_credits", {
-                  percentage: files_with_credits_percentage,
-                })
-              }}
+              {{ $t("imported_docs") }}
             </div>
-            <div class="_progressBar">
-              <div
-                class="_progressFill"
-                :style="{ width: files_with_credits_percentage + '%' }"
-              ></div>
-            </div>
-          </div>
 
-          <div class="_importSection">
-            <div class="_importButton">
-              <div ref="tooltip_1_target_el">
-                <ImportFileZone
-                  :multiple="true"
-                  :files_to_import.sync="files_to_import"
-                />
-                <UploadFiles
-                  v-if="files_to_import.length > 0"
-                  :files_to_import="files_to_import"
-                  :path="author_path"
-                  :allow_caption_edition="false"
-                  @importedMedias="mediaJustImported($event)"
-                  @close="files_to_import = []"
-                />
-              </div>
-
-              <div ref="tooltip_2_target_el" class="_importBtns">
-                <button
-                  type="button"
-                  class="u-button u-button_outline"
-                  @click="createNote"
-                >
-                  <b-icon icon="file-text" />note
-                </button>
-
-                <button
-                  type="button"
-                  class="u-button u-button_outline"
-                  @click="show_link_picker = true"
-                >
-                  <b-icon icon="link-45deg" scale="1.4" />url
-                </button>
-                <EmbedPicker
-                  v-if="show_link_picker"
-                  @embed="createEmbed"
-                  @close="show_link_picker = false"
-                />
-              </div>
-            </div>
             <hr />
 
+            <div class="_stats" v-if="chutier_items.length > 0">
+              <div class="_statLine">
+                <b-icon icon="text-left" />
+                {{
+                  $t("files_with_caption", {
+                    percentage: files_with_caption_percentage,
+                  })
+                }}
+              </div>
+              <div class="_progressBar">
+                <div
+                  class="_progressFill"
+                  :style="{ width: files_with_caption_percentage + '%' }"
+                ></div>
+              </div>
+            </div>
+
+            <div class="_stats" v-if="chutier_items.length > 0">
+              <div class="_statLine">
+                <b-icon icon="info-circle" />
+                {{
+                  $t("files_with_credits", {
+                    percentage: files_with_credits_percentage,
+                  })
+                }}
+              </div>
+              <div class="_progressBar">
+                <div
+                  class="_progressFill"
+                  :style="{ width: files_with_credits_percentage + '%' }"
+                ></div>
+              </div>
+            </div>
+
+            <div class="_importSection">
+              <div class="_importButton">
+                <div ref="tooltip_1_target_el">
+                  <ImportFileZone
+                    :multiple="true"
+                    :files_to_import.sync="files_to_import"
+                  />
+                  <UploadFiles
+                    v-if="files_to_import.length > 0"
+                    :files_to_import="files_to_import"
+                    :path="author_path"
+                    :allow_caption_edition="false"
+                    @importedMedias="mediaJustImported($event)"
+                    @close="files_to_import = []"
+                  />
+                </div>
+
+                <div ref="tooltip_2_target_el" class="_importBtns">
+                  <button
+                    type="button"
+                    class="u-button u-button_outline"
+                    @click="createNote"
+                  >
+                    <b-icon icon="file-text" />note
+                  </button>
+
+                  <button
+                    type="button"
+                    class="u-button u-button_outline"
+                    @click="show_link_picker = true"
+                  >
+                    <b-icon icon="link-45deg" scale="1.4" />url
+                  </button>
+                  <EmbedPicker
+                    v-if="show_link_picker"
+                    @embed="createEmbed"
+                    @close="show_link_picker = false"
+                  />
+                </div>
+              </div>
+              <hr />
+
+              <button
+                type="button"
+                class="u-button u-button_outline _importFolderBtn"
+                @click="show_import_slashdoc_modal = true"
+              >
+                <b-icon icon="folder-plus" />{{ $t("import_document") }}
+              </button>
+              <ImportSlashdocModal
+                v-if="show_import_slashdoc_modal"
+                @close="show_import_slashdoc_modal = false"
+              />
+            </div>
+          </div>
+
+          <div v-if="!show_import_tooltip" class="_sidebarFooter">
             <button
               type="button"
-              class="u-button u-button_outline _importFolderBtn"
-              @click="show_import_slashdoc_modal = true"
+              class="u-buttonLink _usageGuideBtn"
+              @click="showImportTooltip"
             >
-              <b-icon icon="folder-plus" />{{ $t("import_document") }}
+              <b-icon icon="book" />
+              {{ $t("contribute_usage_guide") }}
             </button>
-            <ImportSlashdocModal
-              v-if="show_import_slashdoc_modal"
-              @close="show_import_slashdoc_modal = false"
-            />
-
-            <FloatingTooltip
-              v-if="show_import_tooltip && import_tooltip_step === 1"
-              class="_contributeImportTooltip"
-              tooltip_key="import_media"
-              :step_current="1"
-              :step_total="2"
-              :show_step="true"
-              :target_el="tooltip_1_target_el"
-              @next="import_tooltip_step = 2"
-            />
-            <FloatingTooltip
-              v-if="show_import_tooltip && import_tooltip_step === 2"
-              class="_contributeImportTooltip"
-              tooltip_key="write_enrich"
-              :step_current="2"
-              :step_total="2"
-              :show_step="true"
-              :target_el="tooltip_2_target_el"
-              @next="dismissImportTooltip"
-            />
           </div>
         </div>
+      </template>
 
-        <div v-if="!show_import_tooltip" class="_sidebarFooter">
-          <button
-            type="button"
-            class="u-buttonLink _usageGuideBtn"
-            @click="showImportTooltip"
-          >
-            <b-icon icon="book" />
-            {{ $t("contribute_usage_guide") }}
-          </button>
-        </div>
-      </div>
-    </template>
-
-    <template #content>
-      <div
-        class="_filesList"
-        @click.self="selected_items_slugs = []"
-        :class="{ 'is--mobile': $root.is_mobile_view }"
-      >
-        <div class="_middleContent">
-          <template v-if="chutier_items && chutier_items.length > 0">
-            <label
-              for=""
-              class="_item--label"
-              :class="{
-                'is--fullySelected': all_items_selected,
-              }"
-              @click="!all_items_selected ? selectAll() : deselectAll()"
-            >
-              {{ $t("items_to_share") }} • {{ chutier_items.length }}
-            </label>
-          </template>
-          <div class="u-instructions" v-else>
-            {{ $t("no_items_imported") }}
-          </div>
-
-          <div class="_items" @click.self="selected_items_slugs = []">
-            <div
-              class="_item"
-              v-for="ci in chutier_items_grouped"
-              :key="ci.label"
-              @click.self="selected_items_slugs = []"
-            >
-              <div
+      <template #content>
+        <div
+          class="_filesList"
+          @click.self="selected_items_slugs = []"
+          :class="{ 'is--mobile': $root.is_mobile_view }"
+        >
+          <div class="_middleContent">
+            <template v-if="chutier_items && chutier_items.length > 0">
+              <label
+                for=""
                 class="_item--label"
-                @click="
-                  rangeIsSelected(ci.files.map((f) => f.$path))
-                    ? deselectRange(ci.files.map((f) => f.$path))
-                    : selectRange(ci.files.map((f) => f.$path))
-                "
                 :class="{
-                  'is--fullySelected': rangeIsSelected(
-                    ci.files.map((f) => f.$path)
-                  ),
+                  'is--fullySelected': all_items_selected,
                 }"
+                @click="!all_items_selected ? selectAll() : deselectAll()"
               >
-                {{ ci.label }}
+                {{ $t("items_to_share") }} • {{ chutier_items.length }}
+              </label>
+            </template>
+            <div class="u-instructions" v-else>
+              {{ $t("no_items_imported") }}
+            </div>
+
+            <div class="_items" @click.self="selected_items_slugs = []">
+              <div
+                :ref="idx === 0 ? 'describe_tooltip_target_el' : undefined"
+                class="_item"
+                v-for="(ci, idx) in chutier_items_grouped"
+                :key="ci.label"
+                @click.self="selected_items_slugs = []"
+              >
+                <div
+                  class="_item--label"
+                  @click="
+                    rangeIsSelected(ci.files.map((f) => f.$path))
+                      ? deselectRange(ci.files.map((f) => f.$path))
+                      : selectRange(ci.files.map((f) => f.$path))
+                  "
+                  :class="{
+                    'is--fullySelected': rangeIsSelected(
+                      ci.files.map((f) => f.$path)
+                    ),
+                  }"
+                >
+                  {{ ci.label }}
+                </div>
+                <transition-group
+                  tag="div"
+                  class="_items--list"
+                  name="listComplete"
+                >
+                  <ChutierItem
+                    v-for="file in ci.files"
+                    :key="file.$path"
+                    :file="file"
+                    :is_clicked="last_clicked === file.$path"
+                    :is_selected="selected_items_slugs.includes(file.$path)"
+                    :draggable="false"
+                    @toggleSelect="toggleSelect(file.$path)"
+                    @unclicked="last_clicked = false"
+                    @click.stop="last_clicked = file.$path"
+                  />
+                </transition-group>
               </div>
-              <transition-group
-                tag="div"
-                class="_items--list"
-                name="listComplete"
-              >
-                <ChutierItem
-                  v-for="file in ci.files"
-                  :key="file.$path"
-                  :file="file"
-                  :is_clicked="last_clicked === file.$path"
-                  :is_selected="selected_items_slugs.includes(file.$path)"
-                  :draggable="false"
-                  @toggleSelect="toggleSelect(file.$path)"
-                  @unclicked="last_clicked = false"
-                  @click.stop="last_clicked = file.$path"
-                />
-              </transition-group>
             </div>
           </div>
-          {{ link_to_new_stack }}
-        </div>
 
-        <transition name="slideup" mode="out-in">
-          <div
-            class="_selectionBar"
-            v-if="selected_items.length > 0"
-            key="selection"
-          >
-            <div class="_dbleBtns" v-if="can_contribute_to_any_community">
-              <button
-                type="button"
-                class="u-button"
-                @click="show_pick_existing_mediastack_modal = true"
-              >
-                {{ $t("add_to_existing_document") }}
-              </button>
-              <PickExistingMediastackModal
-                v-if="show_pick_existing_mediastack_modal"
-                @close="show_pick_existing_mediastack_modal = false"
-                @stackSelected="moveFilesToStack"
-              />
-              <button
-                type="button"
-                class="u-button"
-                @click="show_new_mediastack_modal = true"
-              >
-                {{ $t("create_new_document") }}
-              </button>
-              <CreateNewMediastackModal
-                v-if="show_new_mediastack_modal"
-                :selected_items="selected_items"
-                @close="show_new_mediastack_modal = false"
-                @stackCreated="moveFilesToStack"
-              />
-            </div>
+          <transition name="slideup" mode="out-in">
             <div
-              v-if="
-                !is_checking_communities && !can_contribute_to_any_community
-              "
-              class="u-instructions _noCommunityWarning"
+              class="_selectionBar"
+              v-if="selected_items.length > 0"
+              key="selection"
             >
-              <b-icon icon="info-circle" />
-              <div>
-                <p>{{ $t("no_community_access_message") }}</p>
-                <p v-if="admin_contact_email" class="_adminContact">
-                  {{ $t("contact_admin_for_access") }}
-                  <a :href="'mailto:' + admin_contact_email">{{
-                    admin_contact_email
-                  }}</a>
-                </p>
+              <div class="_dbleBtns" v-if="can_contribute_to_any_community">
+                <button
+                  type="button"
+                  class="u-button"
+                  @click="show_pick_existing_mediastack_modal = true"
+                >
+                  {{ $t("add_to_existing_document") }}
+                </button>
+                <PickExistingMediastackModal
+                  v-if="show_pick_existing_mediastack_modal"
+                  @close="show_pick_existing_mediastack_modal = false"
+                  @stackSelected="moveFilesToStack"
+                />
+                <button
+                  type="button"
+                  class="u-button"
+                  @click="show_new_mediastack_modal = true"
+                >
+                  {{ $t("create_new_document") }}
+                </button>
+                <CreateNewMediastackModal
+                  v-if="show_new_mediastack_modal"
+                  :selected_items="selected_items"
+                  @close="show_new_mediastack_modal = false"
+                  @stackCreated="moveFilesToStack"
+                />
+              </div>
+              <div
+                v-if="
+                  !is_checking_communities && !can_contribute_to_any_community
+                "
+                class="u-instructions _noCommunityWarning"
+              >
+                <b-icon icon="info-circle" />
+                <div>
+                  <p>{{ $t("no_community_access_message") }}</p>
+                  <p v-if="admin_contact_email" class="_adminContact">
+                    {{ $t("contact_admin_for_access") }}
+                    <a :href="'mailto:' + admin_contact_email">{{
+                      admin_contact_email
+                    }}</a>
+                  </p>
+                </div>
+              </div>
+              <div class="u-sameRow _selectionBar-btns">
+                <transition name="fade" mode="out-in">
+                  <div :key="selected_items.length">
+                    {{
+                      $tc("selected_items", selected_items.length, {
+                        count: selected_items.length,
+                      })
+                    }}
+                  </div>
+                </transition>
+
+                <button type="button" class="u-buttonLink" @click="deselectAll">
+                  <b-icon icon="dash-square-dotted" /> {{ $t("deselect_all") }}
+                </button>
+                <button
+                  type="button"
+                  class="u-buttonLink"
+                  @click="show_confirm_remove_menu = true"
+                >
+                  <b-icon icon="trash" />
+                  {{ $t("remove_select") }}
+                </button>
               </div>
             </div>
-            <div class="u-sameRow _selectionBar-btns">
-              <transition name="fade" mode="out-in">
-                <div :key="selected_items.length">
-                  {{
-                    $tc("selected_items", selected_items.length, {
-                      count: selected_items.length,
-                    })
-                  }}
-                </div>
-              </transition>
-
-              <button type="button" class="u-buttonLink" @click="deselectAll">
-                <b-icon icon="dash-square-dotted" /> {{ $t("deselect_all") }}
-              </button>
+          </transition>
+          <transition name="slideup" mode="out-in">
+            <div
+              class="_removeMenu"
+              v-if="show_confirm_remove_menu"
+              key="remove"
+            >
               <button
                 type="button"
                 class="u-buttonLink"
-                @click="show_confirm_remove_menu = true"
+                @click="show_confirm_remove_menu = false"
               >
-                <b-icon icon="trash" />
-                {{ $t("remove_select") }}
+                {{ $t("cancel") }}
+              </button>
+              <button
+                class="u-button u-button_red"
+                type="button"
+                autofocus
+                @click="removeItemsInSelection"
+              >
+                {{ $t("confirm_removal") }}
               </button>
             </div>
-          </div>
-        </transition>
-        <transition name="slideup" mode="out-in">
-          <div class="_removeMenu" v-if="show_confirm_remove_menu" key="remove">
-            <button
-              type="button"
-              class="u-buttonLink"
-              @click="show_confirm_remove_menu = false"
-            >
-              {{ $t("cancel") }}
-            </button>
-            <button
-              class="u-button u-button_red"
-              type="button"
-              autofocus
-              @click="removeItemsInSelection"
-            >
-              {{ $t("confirm_removal") }}
-            </button>
-          </div>
-        </transition>
+          </transition>
 
-        <transition name="slideup" mode="out-in">
-          <div v-if="link_to_new_stack" key="new_stack" class="_newStack">
-            <div class="">
-              <b-icon icon="check-circle" />
-              {{ $t("new_stack_created") }}
+          <transition name="slideup" mode="out-in">
+            <div v-if="link_to_new_stack" key="new_stack" class="_newStack">
+              <div class="">
+                <b-icon icon="check-circle" />
+                {{ $t("new_stack_created") }}
+              </div>
+              <router-link :to="link_to_new_stack" class="u-button">
+                {{ $t("go_to_new_stack") }}
+              </router-link>
+              <button
+                type="button"
+                class="u-button_icon _closeBtn"
+                @click="link_to_new_stack = undefined"
+              >
+                <b-icon icon="x-lg" />
+              </button>
             </div>
-            <router-link :to="link_to_new_stack" class="u-button">
-              {{ $t("go_to_new_stack") }}
-            </router-link>
-            <button
-              type="button"
-              class="u-button_icon _closeBtn"
-              @click="link_to_new_stack = undefined"
-            >
-              <b-icon icon="x-lg" />
-            </button>
-          </div>
-        </transition>
+          </transition>
 
-        <!-- <div class="_uploadFilesList" v-if="files_to_import.length > 0">
+          <!-- <div class="_uploadFilesList" v-if="files_to_import.length > 0">
           <UploadFiles
             :files_to_import="files_to_import"
             :path="author_path"
@@ -326,9 +310,39 @@
             @close="files_to_import = []"
           />
         </div> -->
-      </div>
-    </template>
-  </TwoColumnLayout>
+        </div>
+      </template>
+    </TwoColumnLayout>
+
+    <FloatingTooltip
+      v-if="show_import_tooltip && import_tooltip_step === 1"
+      class="_contributeImportTooltip"
+      tooltip_key="import_media"
+      :step_current="1"
+      :step_total="2"
+      :show_step="true"
+      :target_el="tooltip_1_target_el"
+      @next="import_tooltip_step = 2"
+    />
+    <FloatingTooltip
+      v-if="show_import_tooltip && import_tooltip_step === 2"
+      class="_contributeImportTooltip"
+      tooltip_key="write_enrich"
+      :step_current="2"
+      :step_total="2"
+      :show_step="true"
+      :target_el="tooltip_2_target_el"
+      @next="dismissImportTooltip"
+    />
+    <FloatingTooltip
+      v-if="show_describe_tooltip && chutier_items.length > 0"
+      class="_contributeDescribeTooltip"
+      tooltip_key="describe_medias"
+      placement_preference="right"
+      :target_el="describe_tooltip_target_el"
+      @next="dismissDescribeTooltip"
+    />
+  </div>
 </template>
 <script>
 import ImportFileZone from "@/adc-core/ui/ImportFileZone.vue";
@@ -423,6 +437,16 @@ export default {
       tooltip_1_target_el: null,
       tooltip_2_target_el: null,
 
+      show_describe_tooltip: (() => {
+        try {
+          return !localStorage.getItem("contribute_describe_tooltip_seen");
+        } catch (e) {
+          return true;
+        }
+      })(),
+      show_describe_after_import_tooltip: false,
+      describe_tooltip_target_el: null,
+
       all_communities: [],
       is_checking_communities: false,
     };
@@ -436,6 +460,7 @@ export default {
     this.$nextTick(() => {
       this.tooltip_1_target_el = this.$refs.tooltip_1_target_el || null;
       this.tooltip_2_target_el = this.$refs.tooltip_2_target_el || null;
+      this.assignDescribeTooltipTarget();
     });
   },
   beforeDestroy() {
@@ -470,6 +495,9 @@ export default {
         JSON.stringify(cleaned_up_items)
       )
         this.selected_items_slugs = cleaned_up_items;
+      if (this.chutier_items.length > 0) {
+        this.$nextTick(() => this.assignDescribeTooltipTarget());
+      }
     },
   },
   computed: {
@@ -534,13 +562,32 @@ export default {
       try {
         localStorage.setItem("contribute_import_tooltip_seen", "1");
       } catch (e) {}
+      if (
+        this.show_describe_after_import_tooltip &&
+        this.chutier_items.length > 0
+      ) {
+        this.show_describe_after_import_tooltip = false;
+        this.show_describe_tooltip = true;
+      }
     },
     showImportTooltip() {
       this.import_tooltip_step = 1;
       this.show_import_tooltip = true;
+      this.show_describe_after_import_tooltip = true;
       try {
         localStorage.removeItem("contribute_import_tooltip_seen");
       } catch (e) {}
+    },
+    dismissDescribeTooltip() {
+      this.show_describe_tooltip = false;
+      try {
+        localStorage.setItem("contribute_describe_tooltip_seen", "1");
+      } catch (e) {}
+    },
+    assignDescribeTooltipTarget() {
+      const ref = this.$refs.describe_tooltip_target_el;
+      this.describe_tooltip_target_el = Array.isArray(ref) ? ref[0] : ref;
+      this.describe_tooltip_target_el = this.describe_tooltip_target_el || null;
     },
     async listCommunities() {
       this.all_communities = await this.$api.getFolders({
@@ -678,6 +725,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+._contributeView {
+  position: relative;
+}
+
 ._sidebarContent {
   display: flex;
   flex-direction: column;
