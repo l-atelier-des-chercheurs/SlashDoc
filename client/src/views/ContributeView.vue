@@ -57,7 +57,7 @@
                   v-if="files_to_import.length > 0"
                   :files_to_import="files_to_import"
                   :path="author_path"
-                  :allow_caption_edition="true"
+                  :allow_caption_edition="false"
                   @importedMedias="mediaJustImported($event)"
                   @close="files_to_import = []"
                 />
