@@ -60,6 +60,10 @@ export default {
   archive_displayed_one: "1/{total} affiché",
   archive_displayed_count: "{displayed}/{total} affichés",
 
+  // Accueil (home)
+  accueil_processes_heading:
+    "Donner à voir l'ensemble des <strong>processus</strong> de <strong>recherche</strong> et <strong>création</strong>",
+
   // Cookie notice & confidentiality (Luma)
   cookies_info: `
     Sur cette version de SlashDoc, aucun suivi des visites n'est réalisé 
@@ -152,7 +156,8 @@ export default {
 
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication dupliquée avec succès",
-  error_duplicating_publication: "Erreur lors de la duplication de la publication",
+  error_duplicating_publication:
+    "Erreur lors de la duplication de la publication",
 
   // Contribute view - accès communauté
   no_community_access_message:

@@ -60,6 +60,10 @@ export default {
   archive_displayed_one: "1/{total} shown",
   archive_displayed_count: "{displayed}/{total} shown",
 
+  // Accueil (home)
+  accueil_processes_heading:
+    "Show all the <strong>research</strong> and <strong>creation</strong> <strong>processes</strong>",
+
   // Cookie notice & confidentiality (Luma)
   cookies_info: `
   In this version of SlashDoc, no tracking is done and the cookies only contain anonymous technical information.

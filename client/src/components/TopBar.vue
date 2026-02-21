@@ -18,6 +18,17 @@
     </button>
 
     <div v-if="!connected_as" class="_topRow">
+      <button
+        type="button"
+        class="u-button u-button_icon u-button_glass _langBtn"
+        @click="
+          show_lang_modal = !show_lang_modal;
+          show_mobile_menu = false;
+        "
+      >
+        <span>{{ current_lang_code }}</span>
+      </button>
+
       <router-link
         to="/login"
         class="u-button u-button_transparent"

@@ -32,11 +32,7 @@
     </div>
 
     <div class="_section">
-      <h3
-        v-html="
-          `Donner à voir l’ensemble des <strong>processus</strong> de <strong>recherche</strong> et <strong>création</strong>`
-        "
-      />
+      <h3 v-html="$t('accueil_processes_heading')" />
     </div>
 
     <section class="_section" v-for="section in sections">
