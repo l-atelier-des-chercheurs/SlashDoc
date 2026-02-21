@@ -63,6 +63,8 @@ export default {
   // Accueil (home)
   accueil_processes_heading:
     "Donner à voir l'ensemble des <strong>processus</strong> de <strong>recherche</strong> et <strong>création</strong>",
+  accueil_agora_figcaption:
+    "Aperçu du format de présentation dans l'espace : Agora",
 
   // Cookie notice & confidentiality (Luma)
   cookies_info: `

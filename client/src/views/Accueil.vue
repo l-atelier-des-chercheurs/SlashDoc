@@ -24,7 +24,7 @@
               class="agora-video"
             />
             <figcaption>
-              Aperçu du format de présentation dans l’espace : Agora
+              {{ $t('accueil_agora_figcaption') }}
             </figcaption>
           </figure>
         </div>
