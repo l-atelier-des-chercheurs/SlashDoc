@@ -67,6 +67,15 @@ export default {
       show_general_password_modal: false,
       show_disconnect_modal: false,
       show_authors_modal: false,
+
+      always_public_paths: [
+        "/",
+        "/terms",
+        "/confidentiality",
+        "/login",
+        "/login/create",
+        "/onboarding",
+      ],
     };
   },
   async created() {
@@ -125,8 +134,7 @@ export default {
   },
   computed: {
     is_public_page() {
-      const always_public_paths = ["/", "/terms", "/confidentiality"];
-      return always_public_paths.includes(this.$route.path);
+      return this.always_public_paths.includes(this.$route.path);
     },
   },
   methods: {
@@ -135,10 +143,7 @@ export default {
       if (this.$root.is_loading) return;
 
       // These paths are always accessible without authentication or password
-      const always_public_paths = ["/", "/terms", "/confidentiality"];
-
-      // Always allow public paths regardless of login or password status
-      if (always_public_paths.includes(route.path)) {
+      if (this.always_public_paths.includes(route.path)) {
         // Ensure password modal is closed for public routes
         this.show_general_password_modal = false;
         return;
