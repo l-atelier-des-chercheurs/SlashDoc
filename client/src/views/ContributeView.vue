@@ -110,7 +110,7 @@
               @click="showImportTooltip"
             >
               <b-icon icon="book" />
-              {{ $t("contribute_usage_guide") }}
+              {{ $t("usage_guide") }}
             </button>
           </div>
         </div>

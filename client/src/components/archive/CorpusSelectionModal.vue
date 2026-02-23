@@ -64,6 +64,17 @@
               {{ $t("no_communities_available") }}
             </div>
           </div>
+
+          <div class="_sidebarFooter">
+            <button
+              type="button"
+              class="u-buttonLink _usageGuideBtn"
+              @click="showUsageGuide"
+            >
+              <b-icon icon="book" />
+              {{ $t("usage_guide") }}
+            </button>
+          </div>
         </div>
       </template>
 
@@ -249,6 +260,20 @@ export default {
         localStorage.setItem("corpus_explore_archives_tooltip_seen", "1");
       } catch (e) {}
     },
+    showUsageGuide() {
+      try {
+        localStorage.removeItem("corpus_discover_communities_tooltip_seen");
+        localStorage.removeItem("corpus_explore_archives_tooltip_seen");
+      } catch (e) {}
+      this.show_discover_communities_tooltip = true;
+      this.show_explore_archives_tooltip = true;
+      this.$nextTick(() => {
+        this.discover_communities_tooltip_target_el =
+          this.$refs.discover_communities_tooltip_target_el || null;
+        this.explore_archives_tooltip_target_el =
+          this.$refs.explore_archives_tooltip_target_el || null;
+      });
+    },
   },
   i18n: {
     messages: {
@@ -287,6 +312,24 @@ export default {
 }
 
 ._sidebarContent {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 0;
+  height: 100%;
+}
+
+._sidebarFooter {
+  margin-top: auto;
+  padding: calc(var(--spacing) * 1);
+  padding-top: calc(var(--spacing) * 2);
+}
+
+._usageGuideBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 0.5);
+  color: var(--g-600, #6c757d);
+  font-size: inherit;
 }
 
 ._header {

@@ -154,7 +154,7 @@ export default {
   terms_of_use_of_slashdoc: "Conditions d'utilisation de /doc",
   privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
 
-  contribute_usage_guide: "Guide d'utilisation",
+  usage_guide: "Guide d'utilisation",
 
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication dupliquée avec succès",
