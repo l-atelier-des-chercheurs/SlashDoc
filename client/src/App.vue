@@ -130,8 +130,8 @@ export default {
   --c-bleumarine_clair: hsl(227, 63%, 81%);
   --c-bleumarine_fonce: hsl(227, 63%, 21%);
   --c-bleuvert: var(--r-200);
-  --c-bleuvert_clair: hsl(174, 50%, 81%);
-  --c-bleuvert_fonce: hsl(174, 50%, 41%);
+  --c-bleuvert_clair: var(--r-100);
+  --c-bleuvert_fonce: var(--r-600);
   --c-orange: hsl(41, 100%, 60%);
   --c-orange_clair: #ffd892;
   --c-orange_fonce: hsl(41, 100%, 45%);

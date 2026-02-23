@@ -850,7 +850,7 @@ export default {
 ._importButton {
   --dropzone-color1: transparent;
   --dropzone-color2: var(--r-200);
-  color: var(--active-color);
+  // color: var(--active-color);
 
   ::v-deep .u-dropzone {
     padding: calc(var(--spacing) * 4);
