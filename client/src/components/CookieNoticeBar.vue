@@ -3,7 +3,11 @@
     <div v-if="is_visible" class="_cookieNoticeBar">
       <p class="_cookieNoticeBar--text">
         {{ $t("cookie_notice_message") }}
-        <router-link to="/confidentiality" class="_cookieNoticeBar--link">
+        <router-link
+          to="/confidentiality"
+          target="_blank"
+          class="_cookieNoticeBar--link"
+        >
           {{ $t("cookie_notice_link_text") }}
         </router-link>
       </p>
