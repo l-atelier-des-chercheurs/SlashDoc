@@ -4,13 +4,13 @@
       <LoaderSpinner />
     </div>
     <template v-else>
+      <div class="u-spacingBottom">
+        <router-link to="/@" class="u-buttonLink">
+          <b-icon icon="arrow-left-short" />
+          {{ $t("list_of_accounts") }}
+        </router-link>
+      </div>
       <div class="_authorFull">
-        <div class="u-spacingBottom">
-          <router-link to="/@" class="u-buttonLink">
-            <b-icon icon="arrow-left-short" />
-            {{ $t("list_of_accounts") }}
-          </router-link>
-        </div>
         <div class="_topbar">
           <div class="_cover">
             <CoverField
@@ -283,9 +283,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._authorView {
-  padding-bottom: calc(var(--spacing) * 6);
-  max-width: min(var(--max-column-width), var(--max-column-width-px));
-  margin: calc(var(--spacing) * 2) auto calc(var(--spacing) * 4);
+  padding: calc(var(--spacing) * 1);
+  // max-width: min(var(--max-column-width), var(--max-column-width-px));
+  // margin: calc(var(--spacing) * 2) auto calc(var(--spacing) * 4);
 }
 
 ._authorFull {
