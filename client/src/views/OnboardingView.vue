@@ -145,7 +145,7 @@
       </button>
     </div>
     <div class="_onboardingView--skip">
-      <router-link to="/contribute" class="u-buttonLink">
+      <router-link to="/explore" class="u-buttonLink">
         {{ $t("onboarding_skip_demo") }}
       </router-link>
     </div>
@@ -235,7 +235,7 @@ export default {
   methods: {
     goNext() {
       if (this.current_step === 3) {
-        this.$router.push("/contribute");
+        this.$router.push("/explore");
       } else {
         // Convert internal step (0-3) to URL step (1-4)
         const url_step = this.current_step + 2;
