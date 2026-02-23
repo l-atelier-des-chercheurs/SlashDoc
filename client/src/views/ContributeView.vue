@@ -730,7 +730,7 @@ export default {
       });
       this.show_link_picker = false;
       setTimeout(() => {
-        this.$eventHub.$emit("chutierItem.editText", meta_filename);
+        // this.$eventHub.$emit("chutierItem.editText", meta_filename);
       }, 100);
     },
 
