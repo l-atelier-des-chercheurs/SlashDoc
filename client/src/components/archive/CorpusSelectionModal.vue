@@ -12,7 +12,7 @@
               @click="show_add_community = true"
               :title="$t('add_community')"
             >
-              <b-icon icon="plus" />
+              <b-icon icon="plus-lg" />
               <!-- {{ $t("add_community") }} -->
             </button>
           </div>
