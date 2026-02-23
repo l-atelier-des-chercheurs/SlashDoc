@@ -10,7 +10,7 @@
   "versioning": true,
   "tokenIsValidForXDays": 60,
 
-  "contentPath": "luma_next",
+  "contentPath": "slashdoc",
 
   "privateKeyPath": "",
   "certificatePath": "",
