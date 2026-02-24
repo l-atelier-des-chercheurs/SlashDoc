@@ -36,8 +36,16 @@
             }}
           </template>
         </span>
-      </div>
 
+        <button
+          class="u-button u-button_icon"
+          type="button"
+          @click="$emit('update:show_only_favs', !show_only_favs)"
+          :title="$t('favorites_view')"
+        >
+          <b-icon :icon="show_only_favs ? 'star-fill' : 'star'" scale="0.8" />
+        </button>
+      </div>
       <div class="_topBarControls">
         <div class="_displayOptions">
           <div class="_zoomSlider">
@@ -87,26 +95,6 @@
               <b-icon icon="grid3x3" />
             </button>
             <button
-              class="u-button u-button_icon"
-              type="button"
-              :class="{ 'is--active': view_mode === 'fav' }"
-              @click="$emit('update:view_mode', 'fav')"
-              :title="$t('favorites_view')"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.38174 1.75501C7.59507 1.19234 8.40241 1.19234 8.61641 1.75501L9.99641 5.57767C10.0931 5.83101 10.3391 5.99967 10.6137 5.99967H14.0051C14.6317 5.99967 14.9051 6.77967 14.4124 7.16167L11.9991 9.33301C11.891 9.41611 11.812 9.53132 11.7734 9.66211C11.7348 9.7929 11.7387 9.93255 11.7844 10.061L12.6657 13.7963C12.8804 14.3963 12.1857 14.9117 11.6604 14.5423L8.38241 12.4623C8.27015 12.3834 8.13628 12.3411 7.99907 12.3411C7.86187 12.3411 7.728 12.3834 7.61574 12.4623L4.33774 14.5423C3.81307 14.9117 3.11774 14.3957 3.33241 13.7963L4.21374 10.061C4.25946 9.93255 4.26331 9.7929 4.22475 9.66211C4.18618 9.53132 4.10718 9.41611 3.99907 9.33301L1.58574 7.16167C1.09241 6.77967 1.36707 5.99967 1.99241 5.99967H5.38374C5.51727 6.00012 5.64778 5.96001 5.75802 5.88466C5.86825 5.8093 5.95301 5.70225 6.00107 5.57767L7.38107 1.75501H7.38174Z"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-            <button
               ref="viewModeButtonMap"
               class="u-button u-button_icon _viewModeButton--map"
               type="button"
@@ -150,6 +138,10 @@ export default {
     view_mode: {
       type: String,
       default: "list",
+    },
+    show_only_favs: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {

@@ -52,6 +52,7 @@
             :show_filter_bar.sync="show_filter_bar"
             :stack_preview_width.sync="stack_preview_width"
             :view_mode.sync="view_mode"
+            :show_only_favs.sync="show_only_favs"
             :total_count="all_stacks.length"
             :displayed_count="filtered_stacks.length"
           />
@@ -75,7 +76,7 @@
                 {{ $t("no_content") }}
               </div>
               <template v-else>
-                <template v-if="['list', 'fav'].includes(view_mode)">
+                <template v-if="view_mode === 'list'">
                   <div
                     class="_dayFileSection"
                     v-for="{ label, files: stacks } in grouped_stacks"
@@ -226,6 +227,8 @@ export default {
 
       joined_rooms: new Set(), // Track which rooms we've joined
       loading_timeout: null, // Timeout for delayed spinner display
+
+      show_only_favs: false,
     };
   },
   i18n: {
@@ -342,6 +345,9 @@ export default {
         this.stack_preview_width.toString()
       );
     },
+    show_only_favs() {
+      localStorage.setItem("archive.show_only_favs", this.show_only_favs);
+    },
   },
   computed: {
     filtered_folders() {
@@ -379,8 +385,7 @@ export default {
       // Stacks filtered by all filters except keyword filter
       // Used to compute which keywords would result in 0 results
       return this.sorted_stacks.filter((f) => {
-        if (this.view_mode === "fav")
-          if (!this.isFavorite(f.$path)) return false;
+        if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
         if (this.author_path_filter)
           if (!f.$authors?.includes(this.author_path_filter)) return false;
@@ -403,8 +408,7 @@ export default {
     },
     filtered_stacks() {
       return this.sorted_stacks.filter((f) => {
-        if (this.view_mode === "fav")
-          if (!this.isFavorite(f.$path)) return false;
+        if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
         if (this.author_path_filter)
           if (!f.$authors?.includes(this.author_path_filter)) return false;
