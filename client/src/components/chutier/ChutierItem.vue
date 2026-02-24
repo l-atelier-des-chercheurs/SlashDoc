@@ -88,7 +88,7 @@
                 </div>
               </div>
 
-              <div class="u-spacingBottom">
+              <div class="u-spacingBottom" @click.stop>
                 <TextEditor
                   :label="$t('caption')"
                   :icon="'text-left'"
@@ -103,7 +103,7 @@
                 />
               </div>
             </div>
-            <div class="u-spacingBottom">
+            <div class="u-spacingBottom" @click.stop>
               <TextEditor
                 :label="$t('credit')"
                 :icon="'c-circle'"
@@ -118,7 +118,7 @@
               />
             </div>
 
-            <div class="u-spacingBottom">
+            <div class="u-spacingBottom" @click.stop>
               <TextEditor
                 :label="$t('bibliography')"
                 :icon="'bookmark'"
