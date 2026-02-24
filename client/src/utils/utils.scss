@@ -281,7 +281,7 @@ button,
   &:focus-visible {
     &:not([disabled]) {
       // color: var(--active-color);
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, 0.15);
     }
   }
 

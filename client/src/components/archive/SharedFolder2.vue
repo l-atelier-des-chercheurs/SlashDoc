@@ -47,83 +47,87 @@
         </template>
 
         <template #content>
-          <ArchiveTopBar
-            ref="archiveTopBar"
-            :search_str.sync="search_str"
-            :show_filter_bar.sync="show_filter_bar"
-            :stack_preview_width.sync="stack_preview_width"
-            :view_mode.sync="view_mode"
-            :show_only_favs.sync="show_only_favs"
-            :show_only_my_content.sync="show_only_my_content"
-            @update:show_only_my_content="onToggleOnlyMyContent"
-            :total_count="all_stacks.length"
-            :displayed_count="filtered_stacks.length"
-          />
-          <transition name="fade" mode="out-in">
-            <div class="_loader" v-if="is_loading_folder">
-              <LoaderSpinner />
-            </div>
-          </transition>
-
-          <ActiveFiltersBar
-            :author_path_filter.sync="author_path_filter"
-            :keywords_filter.sync="keywords_filter"
-          />
-
-          <transition name="fade" mode="out-in">
-            <div class="_stacksList" :key="sort_order + '-' + group_mode">
-              <div
-                v-if="grouped_stacks.length === 0 && !is_loading_folder"
-                class="u-instructions _noContent"
-              >
-                {{ $t("no_content") }}
+          <div class="_contentWrapper" :data-view-mode="view_mode">
+            <ArchiveTopBar
+              ref="archiveTopBar"
+              :search_str.sync="search_str"
+              :show_filter_bar.sync="show_filter_bar"
+              :stack_preview_width.sync="stack_preview_width"
+              :view_mode.sync="view_mode"
+              :show_only_favs.sync="show_only_favs"
+              :show_only_my_content.sync="show_only_my_content"
+              @update:show_only_my_content="onToggleOnlyMyContent"
+              :total_count="all_stacks.length"
+              :displayed_count="filtered_stacks.length"
+            />
+            <transition name="fade" mode="out-in">
+              <div class="_loader" v-if="is_loading_folder">
+                <LoaderSpinner />
               </div>
-              <template v-else>
-                <template v-if="view_mode === 'list'">
-                  <div
-                    class="_dayFileSection"
-                    v-for="{ label, files: stacks } in grouped_stacks"
-                    :key="label"
-                  >
-                    <div class="_label">
-                      {{ label }}
-                    </div>
+            </transition>
+
+            <ActiveFiltersBar
+              :author_path_filter.sync="author_path_filter"
+              :keywords_filter.sync="keywords_filter"
+            />
+
+            <transition name="fade" mode="out-in">
+              <div class="_stacksList" :key="sort_order + '-' + group_mode">
+                <div
+                  v-if="grouped_stacks.length === 0 && !is_loading_folder"
+                  class="u-instructions _noContent"
+                >
+                  {{ $t("no_content") }}
+                </div>
+                <template v-else>
+                  <template v-if="view_mode === 'list'">
                     <div
-                      class="_itemGrid"
-                      :class="{
-                        'is--compact': display_mode === 'compact',
-                      }"
-                      :style="{
-                        '--stack_preview_width': `${stack_preview_width}px`,
-                      }"
+                      class="_dayFileSection"
+                      v-for="{ label, files: stacks } in grouped_stacks"
+                      :key="label"
                     >
-                      <StackPreview
-                        v-for="stack in stacks"
-                        :key="stack.$path"
-                        :stack="stack"
-                        :display="display_mode"
-                        :is_selected="stack.$path === last_selected_stack_path"
-                        :can_be_added_to_fav="can_be_added_to_fav"
-                        :is_favorite="isFavorite(stack.$path)"
-                        @toggleFav="toggleFav(stack.$path)"
-                        @openStack="openStack"
-                      />
+                      <div class="_label">
+                        {{ label }}
+                      </div>
+                      <div
+                        class="_itemGrid"
+                        :class="{
+                          'is--compact': display_mode === 'compact',
+                        }"
+                        :style="{
+                          '--stack_preview_width': `${stack_preview_width}px`,
+                        }"
+                      >
+                        <StackPreview
+                          v-for="stack in stacks"
+                          :key="stack.$path"
+                          :stack="stack"
+                          :display="display_mode"
+                          :is_selected="
+                            stack.$path === last_selected_stack_path
+                          "
+                          :can_be_added_to_fav="can_be_added_to_fav"
+                          :is_favorite="isFavorite(stack.$path)"
+                          @toggleFav="toggleFav(stack.$path)"
+                          @openStack="openStack"
+                        />
+                      </div>
                     </div>
+                  </template>
+                  <div
+                    v-else-if="view_mode === 'map'"
+                    key="mediaMap"
+                    class="_mediamapContainer"
+                  >
+                    <MediaMap
+                      :medias="filtered_stacks"
+                      @toggleMediaFocus="toggleMediaFocus"
+                    />
                   </div>
                 </template>
-                <div
-                  v-else-if="view_mode === 'map'"
-                  key="mediaMap"
-                  class="_mediamapContainer"
-                >
-                  <MediaMap
-                    :medias="filtered_stacks"
-                    @toggleMediaFocus="toggleMediaFocus"
-                  />
-                </div>
-              </template>
-            </div>
-          </transition>
+              </div>
+            </transition>
+          </div>
         </template>
       </TwoColumnLayout>
     </transition>
@@ -232,6 +236,8 @@ export default {
       loading_timeout: null, // Timeout for delayed spinner display
 
       show_only_favs: false,
+      show_only_my_content:
+        localStorage.getItem("archive.show_only_my_content") === "true",
     };
   },
   i18n: {
@@ -410,8 +416,14 @@ export default {
       return this.sorted_stacks.filter((f) => {
         if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
-        if (this.author_path_filter)
-          if (!f.$authors?.includes(this.author_path_filter)) return false;
+        if (this.author_path_filter) {
+          const authors_or_admins = [
+            ...(f.$authors || []),
+            ...(f.$admins || []),
+          ];
+          if (!authors_or_admins.includes(this.author_path_filter))
+            return false;
+        }
 
         if (this.search_str) {
           if (
@@ -433,8 +445,14 @@ export default {
       return this.sorted_stacks.filter((f) => {
         if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
-        if (this.author_path_filter)
-          if (!f.$authors?.includes(this.author_path_filter)) return false;
+        if (this.author_path_filter) {
+          const authors_or_admins = [
+            ...(f.$authors || []),
+            ...(f.$admins || []),
+          ];
+          if (!authors_or_admins.includes(this.author_path_filter))
+            return false;
+        }
 
         if (this.keywords_filter.length > 0) {
           // Inclusion logic: show only stacks that have ALL selected keywords (AND logic)
@@ -782,8 +800,8 @@ export default {
 ._stacksList {
   background: var(--sd-bg);
   color: var(--sd-textcolor);
-  width: 100%;
-  height: 100%;
+  padding-bottom: calc(var(--spacing) * 2);
+  min-height: 100%;
 }
 
 ._label {
@@ -801,6 +819,15 @@ export default {
   --sd-separator: var(--g-200);
   --sd-textcolor: var(--g-900);
   --sd-bg: var(--body-bg);
+}
+._contentWrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+
+  > *:not(._contentWrapper) {
+    flex: 0 0 auto;
+  }
 }
 
 ._loader {

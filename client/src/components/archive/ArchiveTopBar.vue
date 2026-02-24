@@ -185,6 +185,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._topBar {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 ._topBarContent {
@@ -194,6 +197,7 @@ export default {
   gap: calc(var(--spacing) / 2);
   padding: calc(var(--spacing) / 2) calc(var(--spacing) * 2);
   flex: 1 1 auto;
+  min-width: 700px;
 
   > * {
     flex: 0 0 auto;
