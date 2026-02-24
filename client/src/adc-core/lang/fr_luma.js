@@ -155,6 +155,7 @@ export default {
   privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
 
   usage_guide: "Guide d'utilisation",
+  only_my_content: "Uniquement le contenu dont je suis auteur",
 
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication dupliquée avec succès",

@@ -29,7 +29,7 @@
         "
       >
         <b-icon
-          :icon="show_sidebar_computed ? 'arrow-left' : 'list-ul'"
+          :icon="show_sidebar_computed ? 'arrow-left' : toggle_sidebar_icon"
           :aria-label="show_sidebar_computed ? $t('hide') : $t('show')"
         />
       </button>
@@ -64,6 +64,10 @@ export default {
     show_sidebar: {
       type: Boolean,
       default: undefined,
+    },
+    toggle_sidebar_icon: {
+      type: String,
+      default: "list-ul",
     },
   },
   data() {

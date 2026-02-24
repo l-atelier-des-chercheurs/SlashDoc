@@ -81,7 +81,7 @@ export default {
 <style lang="scss" scoped>
 ._activeFiltersBar {
   padding: calc(var(--spacing) / 2);
-  padding-left: calc(var(--spacing) * 3);
+  padding-left: calc(var(--spacing) * 2);
   padding-right: calc(var(--spacing) * 2);
   min-height: 28px;
 }

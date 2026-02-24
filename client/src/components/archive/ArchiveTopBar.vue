@@ -9,7 +9,7 @@
           @input="$emit('update:search_str', $event)"
           :search_placeholder="$t('search_fields')"
         />
-        <button
+        <!-- <button
           ref="filterToggle"
           type="button"
           class="u-button u-button_icon u-button_transparent _filterToggle"
@@ -18,7 +18,7 @@
           :title="$t('toggle_filters')"
         >
           <b-icon icon="sliders" />
-        </button>
+        </button> -->
         <span class="_docCount">
           <template v-if="!is_filtered">
             {{
@@ -40,10 +40,20 @@
         <button
           class="u-button u-button_icon"
           type="button"
+          :class="{ 'is--active': show_only_favs }"
           @click="$emit('update:show_only_favs', !show_only_favs)"
           :title="$t('favorites_view')"
         >
           <b-icon :icon="show_only_favs ? 'star-fill' : 'star'" scale="0.8" />
+        </button>
+        <button
+          class="u-button u-button_icon"
+          type="button"
+          :class="{ 'is--active': show_only_my_content }"
+          @click="$emit('update:show_only_my_content', !show_only_my_content)"
+          :title="$t('only_my_content')"
+        >
+          <b-icon icon="person-circle" scale="0.8" />
         </button>
       </div>
       <div class="_topBarControls">
@@ -140,6 +150,10 @@ export default {
       default: "list",
     },
     show_only_favs: {
+      type: Boolean,
+      default: false,
+    },
+    show_only_my_content: {
       type: Boolean,
       default: false,
     },

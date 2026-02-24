@@ -29,6 +29,7 @@
     <transition name="fade_fast" mode="out-in">
       <TwoColumnLayout
         :show_sidebar.sync="show_filter_bar"
+        :toggle_sidebar_icon="'sliders'"
         class="_sharedFolder--content"
       >
         <template #sidebar>
@@ -53,6 +54,8 @@
             :stack_preview_width.sync="stack_preview_width"
             :view_mode.sync="view_mode"
             :show_only_favs.sync="show_only_favs"
+            :show_only_my_content.sync="show_only_my_content"
+            @update:show_only_my_content="onToggleOnlyMyContent"
             :total_count="all_stacks.length"
             :displayed_count="filtered_stacks.length"
           />
@@ -262,6 +265,10 @@ export default {
     if (this.archive_tooltip_step >= 1) {
       this.$nextTick(() => this.assignArchiveTooltipTarget());
     }
+    // Apply show_only_my_content to author_path_filter on load
+    if (this.show_only_my_content && this.connected_as) {
+      this.author_path_filter = this.connected_as.$path;
+    }
   },
   beforeDestroy() {
     // Clear loading timeout if it exists
@@ -347,6 +354,22 @@ export default {
     },
     show_only_favs() {
       localStorage.setItem("archive.show_only_favs", this.show_only_favs);
+    },
+    show_only_my_content() {
+      try {
+        localStorage.setItem(
+          "archive.show_only_my_content",
+          this.show_only_my_content
+        );
+      } catch (e) {}
+    },
+    author_path_filter(val) {
+      if (this.connected_as) {
+        const only_me = val === this.connected_as.$path;
+        if (this.show_only_my_content !== only_me) {
+          this.show_only_my_content = only_me;
+        }
+      }
     },
   },
   computed: {
@@ -554,6 +577,14 @@ export default {
         localStorage.removeItem("archive_tooltips_seen");
       } catch (e) {}
       this.$nextTick(() => this.assignArchiveTooltipTarget());
+    },
+    onToggleOnlyMyContent() {
+      // show_only_my_content is already toggled by .sync; set author_path_filter from it
+      if (this.connected_as) {
+        this.author_path_filter = this.show_only_my_content
+          ? this.connected_as.$path
+          : "";
+      }
     },
     async loadAllFolders() {
       // Load all folders for the add community modal
@@ -789,6 +820,6 @@ export default {
   // margin: calc(var(--spacing) / 1);
   padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
   text-align: center;
-  text-transform: lowercase;
+  // text-transform: lowercase;
 }
 </style>

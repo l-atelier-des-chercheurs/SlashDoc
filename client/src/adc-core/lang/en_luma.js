@@ -126,6 +126,7 @@ export default {
   import_document: "Import document",
 
   usage_guide: "Usage guide",
+  only_my_content: "Only content I am author of",
   import_document_instructions:
     "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
   use_location_from_media: "Use location from media",
