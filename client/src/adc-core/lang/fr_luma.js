@@ -59,6 +59,7 @@ export default {
   archive_documents: "{count} document | {count} documents",
   archive_displayed_one: "1/{total} affiché",
   archive_displayed_count: "{displayed}/{total} affichés",
+  back_to_top: "Retour en haut",
 
   // Accueil (home)
   accueil_processes_heading:

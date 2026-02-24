@@ -58,6 +58,7 @@ export default {
   // Archive top bar counts
   archive_documents: "{count} document | {count} documents",
   archive_displayed_count: "{displayed}/{total} shown",
+  back_to_top: "Back to top",
 
   // Accueil (home)
   accueil_processes_heading:

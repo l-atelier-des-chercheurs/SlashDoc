@@ -47,7 +47,12 @@
         </template>
 
         <template #content>
-          <div class="_contentWrapper" :data-view-mode="view_mode">
+          <div
+            ref="contentWrapper"
+            class="_contentWrapper"
+            :data-view-mode="view_mode"
+            @scroll="onContentWrapperScroll"
+          >
             <ArchiveTopBar
               ref="archiveTopBar"
               :search_str.sync="search_str"
@@ -127,6 +132,18 @@
                   </div>
                 </template>
               </div>
+            </transition>
+
+            <transition name="fade" mode="out-in">
+              <button
+                type="button"
+                class="u-button u-button_glass u-button_icon _backToTop"
+                :aria-label="$t('back_to_top')"
+                @click="scrollToTop"
+                v-if="main_content_scroll_from_top > 100"
+              >
+                <b-icon icon="arrow-up-short" />
+              </button>
             </transition>
           </div>
         </template>
@@ -237,8 +254,9 @@ export default {
       loading_timeout: null, // Timeout for delayed spinner display
 
       show_only_favs: false,
-      show_only_my_content:
-        localStorage.getItem("archive.show_only_my_content") === "true",
+      show_only_my_content: false,
+
+      main_content_scroll_from_top: 0,
     };
   },
   i18n: {
@@ -272,10 +290,17 @@ export default {
     if (this.archive_tooltip_step >= 1) {
       this.$nextTick(() => this.assignArchiveTooltipTarget());
     }
-    // Apply show_only_my_content to author_path_filter on load
-    if (this.show_only_my_content && this.connected_as) {
-      this.author_path_filter = this.connected_as.$path;
+    // Derive show_only_my_content from persisted author_path_filter
+    if (
+      this.connected_as &&
+      this.author_path_filter === this.connected_as.$path
+    ) {
+      this.show_only_my_content = true;
     }
+    this.$nextTick(() => {
+      const el = this.$refs.contentWrapper;
+      if (el) this.main_content_scroll_from_top = el.scrollTop;
+    });
   },
   beforeDestroy() {
     // Clear loading timeout if it exists
@@ -335,11 +360,17 @@ export default {
     search_str() {
       localStorage.setItem("archive.search_str", this.search_str);
     },
-    author_path_filter() {
+    author_path_filter(val) {
       localStorage.setItem(
         "archive.author_path_filter",
         this.author_path_filter
       );
+      if (this.connected_as) {
+        const only_me = val === this.connected_as.$path;
+        if (this.show_only_my_content !== only_me) {
+          this.show_only_my_content = only_me;
+        }
+      }
     },
     keywords_filter: {
       handler(newVal) {
@@ -361,22 +392,6 @@ export default {
     },
     show_only_favs() {
       localStorage.setItem("archive.show_only_favs", this.show_only_favs);
-    },
-    show_only_my_content() {
-      try {
-        localStorage.setItem(
-          "archive.show_only_my_content",
-          this.show_only_my_content
-        );
-      } catch (e) {}
-    },
-    author_path_filter(val) {
-      if (this.connected_as) {
-        const only_me = val === this.connected_as.$path;
-        if (this.show_only_my_content !== only_me) {
-          this.show_only_my_content = only_me;
-        }
-      }
     },
   },
   computed: {
@@ -564,6 +579,14 @@ export default {
     },
   },
   methods: {
+    scrollToTop() {
+      const scroll_el = this.$refs.contentWrapper;
+      if (!scroll_el) return;
+      scroll_el.scrollTop = 0;
+    },
+    onContentWrapperScroll(ev) {
+      this.main_content_scroll_from_top = ev.target.scrollTop;
+    },
     assignArchiveTooltipTarget() {
       const step = this.archive_tooltip_step;
       if (step < 1 || step > 5) {
@@ -680,8 +703,6 @@ export default {
       );
     },
     async toggleFav(stack_path) {
-      debugger;
-
       let favorites = this.connected_as?.favorites
         ? this.connected_as.favorites.slice()
         : [];
@@ -835,10 +856,20 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
+  scroll-behavior: smooth;
+  overflow-y: auto;
 
   > *:not(._contentWrapper) {
     flex: 0 0 auto;
   }
+}
+
+._backToTop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // margin-top: calc(var(--spacing) / 2);
+  z-index: 10;
 }
 
 ._loader {

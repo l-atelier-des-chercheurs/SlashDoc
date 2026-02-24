@@ -928,6 +928,7 @@ img {
 }
 .Vue-Toastification__toast--success {
   background-color: var(--c-bleuvert) !important;
+  color: var(--c-noir) !important;
 }
 .Vue-Toastification__toast--error {
   background-color: var(--c-rouge) !important;
