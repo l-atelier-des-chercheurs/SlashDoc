@@ -1,16 +1,26 @@
 <template>
   <div class="_textEditor">
-    <div class="_textEditor--label" v-if="is_empty || is_editing">
-      <b-icon v-if="icon" :icon="icon" />
+    <div
+      class="_textEditor--label"
+      v-if="is_empty || is_editing"
+      @click="can_edit && startEditing()"
+      @mouseenter="label_hover = true"
+      @mouseleave="label_hover = false"
+    >
+      <b-icon
+        v-if="icon || (label_hover && can_edit)"
+        :icon="label_hover && can_edit && !is_editing ? 'pencil-fill' : icon"
+      />
       <DLabel
         v-if="!placeholder"
+        class="_label"
         :str="label"
         :instructions="can_edit ? instructions : ''"
       />
       <span v-else class="u-instructions _placeholder">
         {{ placeholder }}
       </span>
-      <button
+      <!-- <button
         type="button"
         v-if="!is_editing && can_edit"
         class="u-button u-button_icon u-button_small _textEditor--editBtn"
@@ -18,7 +28,7 @@
         @click="startEditing"
       >
         <b-icon icon="pencil-fill" />
-      </button>
+      </button> -->
     </div>
 
     <!-- Read-only display -->
@@ -27,22 +37,30 @@
       class="_textEditor--readOnly"
       :class="{ 'is--noPadding': no_padding }"
       :data-format="save_format"
+      @mouseenter="content_hover = true"
+      @mouseleave="content_hover = false"
     >
       <div class="_textEditor--content" @click="enableEditMode">
         <div class="_textEditor--content--icon">
-          <b-icon v-if="icon" :icon="icon" :title="label" />
+          <b-icon
+            v-if="icon || (content_hover && can_edit)"
+            :icon="
+              content_hover && can_edit && !is_editing ? 'pencil-fill' : icon
+            "
+            :title="label"
+          />
         </div>
         <div class="_textEditor--content--text">
           <span v-html="sanitizedContent" />
         </div>
-        <button
+        <!-- <button
           type="button"
           class="u-button u-button_icon u-button_small _textEditor--editBtn"
           :label="$t('edit')"
           @click="startEditing"
         >
           <b-icon icon="pencil-fill" />
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -123,6 +141,8 @@ export default {
   data() {
     return {
       is_editing: false,
+      content_hover: false,
+      label_hover: false,
     };
   },
   computed: {
@@ -272,6 +292,7 @@ export default {
   align-items: center;
   gap: calc(var(--spacing) / 4);
   color: var(--g-700);
+  cursor: pointer;
 
   &.is--empty {
     :deep(.u-label) {
@@ -288,5 +309,8 @@ export default {
 
 ._placeholder {
   font-size: var(--sl-font-size-small);
+}
+._label {
+  pointer-events: none;
 }
 </style>
