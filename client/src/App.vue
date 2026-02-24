@@ -163,7 +163,7 @@ export default {
   --c-bodybg: hsl(40, 20%, 94%);
   --c-bodybg: hsl(40, 0%, 94%);
 
-  --plyr-color-main: var(--c-bleumarine);
+  --plyr-color-main: var(--gr-200);
 
   // --sharedfolder-bg: ;
 
