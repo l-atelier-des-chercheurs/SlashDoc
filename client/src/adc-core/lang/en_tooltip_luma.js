@@ -16,8 +16,8 @@ export default {
     button_label: "Got it",
   },
   select_medias_to_share: {
-    title: "Select the media to share",
-    body: "Choose the media you want to make available to your research community.",
+    title: "Select the medias to share",
+    body: "Choose the medias you want to make available to your research community.",
   },
   share_medias: {
     title: "Share your media",
