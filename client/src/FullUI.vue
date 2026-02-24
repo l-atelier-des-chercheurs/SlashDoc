@@ -13,7 +13,11 @@
 
     <template v-else>
       <SlashdocGeneralPasswordModal
-        v-if="show_general_password_modal && !is_public_page"
+        v-if="
+          show_general_password_modal &&
+          has_general_password &&
+          $route.path !== '/'
+        "
         @close="handlePasswordModalClose"
       />
       <template v-else>
@@ -133,6 +137,9 @@ export default {
     },
   },
   computed: {
+    has_general_password() {
+      return this.$root.app_infos?.instance_meta?.has_general_password === true;
+    },
     is_public_page() {
       return this.always_public_paths.includes(this.$route.path);
     },
@@ -152,23 +159,19 @@ export default {
       // Always allow if user is logged in
       if (this.connected_as) return;
 
-      // Check if general password exists
-      const has_general_password =
-        this.$root.app_infos?.instance_meta?.has_general_password === true;
-
       // If general password exists:
-      if (has_general_password) {
-        // Allow access to auth paths
-        const allowed_paths = ["/login", "/login/create", "/onboarding"];
-        if (allowed_paths.includes(route.path)) {
-          return;
-        }
-        // Redirect to login for other paths
-        if (route.path !== "/login") {
-          this.$router.replace("/login");
-        }
-        return;
-      }
+      // if (this.has_general_password) {
+      //   // Allow access to auth paths
+      //   const allowed_paths = ["/login", "/login/create", "/onboarding"];
+      //   if (allowed_paths.includes(route.path)) {
+      //     return;
+      //   }
+      //   // Redirect to login for other paths
+      //   if (route.path !== "/login") {
+      //     this.$router.replace("/login");
+      //   }
+      //   return;
+      // }
 
       // If no general password:
       // Redirect to home page if trying to access other pages
