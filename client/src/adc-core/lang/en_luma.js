@@ -22,6 +22,7 @@ export default {
   show_more: "Show more",
   show_less: "Show less",
   reset_filters: "Reset filters",
+  filter_fav_only: "Favorites",
 
   // Missing translations
   items_to_share: "Items to share",

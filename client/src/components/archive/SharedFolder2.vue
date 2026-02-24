@@ -58,7 +58,7 @@
               :show_only_my_content.sync="show_only_my_content"
               @update:show_only_my_content="onToggleOnlyMyContent"
               :total_count="all_stacks.length"
-              :displayed_count="filtered_stacks.length"
+              :displayed_count="displayed_count_for_view"
             />
             <transition name="fade" mode="out-in">
               <div class="_loader" v-if="is_loading_folder">
@@ -69,6 +69,7 @@
             <ActiveFiltersBar
               :author_path_filter.sync="author_path_filter"
               :keywords_filter.sync="keywords_filter"
+              :show_only_favs.sync="show_only_favs"
             />
 
             <transition name="fade" mode="out-in">
@@ -476,6 +477,16 @@ export default {
 
         return true;
       });
+    },
+    stacks_with_location_count() {
+      return this.filtered_stacks.filter(
+        (m) => m.$location?.latitude && m.$location?.longitude
+      ).length;
+    },
+    displayed_count_for_view() {
+      return this.view_mode === "map"
+        ? this.stacks_with_location_count
+        : this.filtered_stacks.length;
     },
     grouped_stacks() {
       let order_props = ["$date_modified"];

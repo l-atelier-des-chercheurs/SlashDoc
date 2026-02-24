@@ -19,6 +19,15 @@
         <b-icon class="_chipRemove" icon="x" />
       </button>
       <button
+        v-if="show_only_favs"
+        type="button"
+        class="_filterChip _filterChip_fav"
+        @click="clearFavFilter"
+      >
+        <span class="_chipLabel">{{ $t('filter_fav_only') }}</span>
+        <b-icon class="_chipRemove" icon="x" />
+      </button>
+      <button
         type="button"
         class="u-buttonLink _resetBtn"
         @click="resetFilters"
@@ -46,12 +55,17 @@ export default {
       type: String,
       default: "",
     },
+    show_only_favs: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     has_active_filters() {
       return (
         (this.keywords_filter && this.keywords_filter.length > 0) ||
-        !!this.author_path_filter
+        !!this.author_path_filter ||
+        !!this.show_only_favs
       );
     },
     author_display_label() {
@@ -71,9 +85,13 @@ export default {
     clearAuthorFilter() {
       this.$emit("update:author_path_filter", "");
     },
+    clearFavFilter() {
+      this.$emit("update:show_only_favs", false);
+    },
     resetFilters() {
       this.$emit("update:keywords_filter", []);
       this.$emit("update:author_path_filter", "");
+      this.$emit("update:show_only_favs", false);
     },
   },
 };
@@ -118,6 +136,11 @@ export default {
 }
 
 ._filterChip_author {
+  border-color: var(--c-gris-fonce, #888);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+._filterChip_fav {
   border-color: var(--c-gris-fonce, #888);
   background: rgba(0, 0, 0, 0.04);
 }
