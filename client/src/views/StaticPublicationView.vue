@@ -56,15 +56,6 @@ export default {
       is_serversidepreview: false,
     };
   },
-  i18n: {
-    messages: {
-      fr: {
-        fetch_collection_error: "Erreur lors du fetch de la collection",
-        collection_is_not_public:
-          "Cette collection n'est pas publique, veuillez cocher la case qui s'affiche dans la fenêtre de partage.",
-      },
-    },
-  },
 
   created() {
     console.log("Loading collectionView");

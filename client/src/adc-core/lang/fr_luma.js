@@ -55,8 +55,7 @@ export default {
   review: "Récapitulatif",
 
   // Archive top bar counts
-  archive_document: "1 document",
-  archive_documents: "{count} documents",
+  archive_documents: "{count} document | {count} documents",
   archive_displayed_one: "1/{total} affiché",
   archive_displayed_count: "{displayed}/{total} affichés",
 
@@ -161,6 +160,11 @@ export default {
   publication_duplicated_successfully: "Publication dupliquée avec succès",
   error_duplicating_publication:
     "Erreur lors de la duplication de la publication",
+
+  // Static publication view
+  fetch_collection_error: "Erreur lors du chargement de la collection",
+  collection_is_not_public:
+    "Cette collection n'est pas publique. Veuillez cocher la case qui s'affiche dans la fenêtre de partage.",
 
   // Contribute view - accès communauté
   no_community_access_message:

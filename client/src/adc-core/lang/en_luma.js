@@ -55,9 +55,7 @@ export default {
   review: "Review",
 
   // Archive top bar counts
-  archive_document: "1 document",
-  archive_documents: "{count} documents",
-  archive_displayed_one: "1/{total} shown",
+  archive_documents: "{count} document | {count} documents",
   archive_displayed_count: "{displayed}/{total} shown",
 
   // Accueil (home)
@@ -159,6 +157,11 @@ export default {
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication duplicated successfully",
   error_duplicating_publication: "Error duplicating publication",
+
+  // Static publication view
+  fetch_collection_error: "Error while loading the collection",
+  collection_is_not_public:
+    "This collection is not public. Please check the box shown in the sharing window.",
 
   // Contribute view - community access
   no_community_access_message:

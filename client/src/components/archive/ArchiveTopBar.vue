@@ -21,11 +21,7 @@
         </button> -->
         <span class="_docCount">
           <template v-if="!is_filtered">
-            {{
-              total_count === 1
-                ? $t("archive_document")
-                : $t("archive_documents", { count: total_count })
-            }}
+            {{ $tc("archive_documents", total_count, { count: total_count }) }}
           </template>
           <template v-else>
             {{
