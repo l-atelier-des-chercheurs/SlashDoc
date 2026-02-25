@@ -883,6 +883,8 @@ export default {
   areas_used: "{count} zones utilisées",
   click_empty_cell_to_add_area:
     "Cliquez sur une cellule vide pour ajouter une zone",
+  max_grid_area_reached:
+    "Nombre maximum de zones atteint (de A à Z). Supprimez une zone pour en ajouter une nouvelle.",
   add_link: "Ajouter un lien",
   add_text: "Ajouter du texte",
 
@@ -1393,8 +1395,6 @@ export default {
   items_in_bin: "Éléments dans la corbeille",
   bin_removal_notice:
     "Les éléments dans la corbeille sont automatiquement supprimés après 30 jours.",
-  bin_removal_notice:
-    "Les éléments dans la corbeille sont automatiquement supprimés après 30 jours.",
   restore: "Restaurer",
   remove_for_good: "Supprimer définitivement",
   bin_is_empty: "La corbeille est vide",
@@ -1593,10 +1593,13 @@ export default {
   linked_project: "Projet en lien",
   object_fit: "Remplissage",
   chain_count: "{count} zone | {count} zones",
+  continue: "Continuer",
   no_linked_project: "Aucun projet en lien",
   no_spaces: "Aucun espace à afficher",
 
   add_cover: "Ajouter une couverture",
 
   back_to_content: "Revenir au contenu",
+  click_on_another_cell_to_continue:
+    "Cliquez sur une cellule vide pour créer un bloc chaîné.",
 };

@@ -95,7 +95,7 @@ import { renderMedia as renderMediaFunction } from "@/components/publications/ed
 import PagedViewer from "@/components/publications/edition/PagedViewer.vue";
 import DocViewer from "@/components/publications/edition/DocViewer.vue";
 
-import pagedengine from "@/components/publications/edition/pagedengine.scss?raw";
+import pagedengine from "@/components/publications/edition/pagedengine.css?raw";
 import default_styles from "@/components/publications/edition/default_styles.css?raw";
 
 export default {
@@ -597,6 +597,16 @@ export default {
           });
         }
 
+        if (!media && source_media) {
+          // try to find in chapter source_medias
+          const local_media = chapter?.source_medias?.find(
+            (sm) =>
+              sm?.meta_filename_in_project ===
+              source_media?.meta_filename_in_project
+          );
+          if (local_media) media = local_media._media;
+        }
+
         let cell = document.createElement("div");
         cell.className = "grid-cell";
 
@@ -646,6 +656,7 @@ export default {
           cell.appendChild(document.createTextNode("\n"));
           cell.appendChild(img);
         } else if (media?.$type === "video") {
+        } else {
         }
 
         grid_content.appendChild(cell);
