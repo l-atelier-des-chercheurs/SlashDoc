@@ -32,7 +32,6 @@ export default {
   keyword_materials_etc: "Keywords, materials, etc.",
   stack_was_removed: "The document has been removed",
   bibliography: "Bibliography",
-  destination_corpus: "Destination corpus",
   document_title: "Document title",
   create_document: "New document",
   add_title_to_continue: "Add title to continue",
@@ -128,7 +127,7 @@ export default {
   usage_guide: "Usage guide",
   only_my_content: "Only content I am author of",
   import_document_instructions:
-    "You can import a document with all its medias by clicking on the button below. It will automatically be added to the selected space with your account as the admin.",
+    " Here you can import the downloaded document (.zip) from another server instance of /doc.",
   use_location_from_media: "Use location from media",
 
   // General password modal (protected data style) — FR copy, translate later

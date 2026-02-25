@@ -6,15 +6,6 @@
     @close="$emit('close')"
   >
     <div class="_pickExistingMediastackModal">
-      <!-- <div class="u-spacingBottom">
-        <DLabel :str="$t('corpus')" />
-        <DestinationCorpusSelector
-          :selected_destination_folder_path.sync="
-            selected_destination_folder_path
-          "
-        />
-      </div> -->
-
       <div class="_stackPickerFrame">
         <CorpusManager
           :shared_folder_paths="shared_folder_paths"

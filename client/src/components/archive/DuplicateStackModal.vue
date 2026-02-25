@@ -7,7 +7,7 @@
       <div class="u-spacingBottom" />
 
       <div class="">
-        <DLabel :str="$t('destination_corpus')" />
+        <DLabel :str="$t('archiving_community')" />
         <DestinationCorpusSelector
           :selected_destination_folder_path.sync="
             selected_destination_folder_path
@@ -75,7 +75,6 @@ export default {
       fr: {
         new_title: "Nouveau titre",
         duplicate_stack: "Dupliquer ou déplacer la pile",
-        destination_corpus: "Corpus de destination",
         stack_duplicated_successfully: "Pile dupliquée avec succès",
         stack_moved_successfully: "Pile déplacée avec succès",
         error_duplicating_stack: "Erreur lors de la duplication de la pile",
@@ -84,7 +83,6 @@ export default {
       en: {
         new_title: "New title",
         duplicate_stack: "Duplicate or move the stack",
-        destination_corpus: "Destination corpus",
         stack_duplicated_successfully: "Stack duplicated successfully",
         stack_moved_successfully: "Stack moved successfully",
         error_duplicating_stack: "Error duplicating stack",

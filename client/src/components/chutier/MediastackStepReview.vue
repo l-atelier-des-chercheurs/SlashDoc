@@ -29,7 +29,7 @@
     </div>
 
     <div class="u-spacingBottom">
-      <DLabel :str="$t('destination_corpus')" />
+      <DLabel :str="$t('archiving_community')" />
       <b v-if="selected_folder">
         {{ selected_folder.title }}
       </b>

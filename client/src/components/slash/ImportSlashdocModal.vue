@@ -6,7 +6,7 @@
       v-html="$t('import_document_instructions')"
     />
     <div class="u-spacingBottom" v-if="!folder_to_import">
-      <DLabel :str="$t('destination_corpus')" />
+      <DLabel :str="$t('archiving_community')" />
       <DestinationCorpusSelector
         :selected_destination_folder_path.sync="
           selected_destination_folder_path

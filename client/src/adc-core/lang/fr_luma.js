@@ -32,7 +32,6 @@ export default {
   keyword_materials_etc: "Mots-clés, matériaux, etc.",
   stack_was_removed: "Le document a été supprimé",
   bibliography: "Bibliographie",
-  destination_corpus: "Corpus de destination",
   document_title: "Titre du document",
   create_document: "Nouveau document",
   add_title_to_continue: "Indiquez un titre pour continuer",
@@ -172,4 +171,6 @@ export default {
   no_community_access_message:
     "Vous ne pouvez pas créer de document ni en ajouter à un existant car vous n'avez pas encore été ajouté·e à une communauté. Vous devez être ajouté·e à une communauté et avoir des droits de contribution pour partager des documents.",
   contact_admin_for_access: "Contactez l'administrateur·ice à l'adresse",
+  import_document_instructions:
+    "Vous pouvez importer ici le document téléchargé (.zip) depuis une autre instance serveur de /doc.",
 };
