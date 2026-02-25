@@ -54,7 +54,6 @@
             v-if="show_create_collection"
             :modal_name="$t('create_a_publication')"
             :path="'publications'"
-            :default_folder_status="'private'"
             :selected_template="show_create_collection"
             @close="show_create_collection = false"
             @openNew="openNewCollection"
