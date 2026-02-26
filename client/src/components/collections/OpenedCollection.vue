@@ -153,19 +153,14 @@
                 {{ $t("direct_link") }}
               </button>
               <!-- </DropDown> -->
-              <QRModal
+              <SharePublication
                 v-if="show_qr_code_modal"
-                :url_to_access="share_url"
+                :share_url="share_url"
+                :publication_path="collection.$path"
+                :is_public="collection.$public === true"
+                :can_edit="can_edit"
                 @close="show_qr_code_modal = false"
-              >
-                <ToggleField
-                  :label="$t('make_public')"
-                  :field_name="'$public'"
-                  :content="collection.$public === true"
-                  :path="collection.$path"
-                  :can_edit="can_edit"
-                />
-              </QRModal>
+              />
             </div>
           </div>
           <!-- <DropDown v-if="can_edit"> -->
@@ -202,6 +197,7 @@
 </template>
 <script>
 import DuplicatePubliModal from "@/components/collections/DuplicatePubliModal.vue";
+import SharePublication from "@/components/publications/SharePublication.vue";
 
 export default {
   props: {
@@ -218,6 +214,7 @@ export default {
     ExportPubliModal: () =>
       import("@/components/publications/ExportPubliModal.vue"),
     DuplicatePubliModal,
+    SharePublication,
   },
   data() {
     return {
@@ -229,16 +226,6 @@ export default {
       show_export_pdf_modal: false,
       show_duplicate_publi_modal: false,
     };
-  },
-  i18n: {
-    messages: {
-      fr: {
-        make_public: "Accès public (sans mot de passe ou compte)",
-      },
-      en: {
-        make_public: "Allow access to everyone (without password or account)",
-      },
-    },
   },
   async created() {
     const collection = await this.$api
