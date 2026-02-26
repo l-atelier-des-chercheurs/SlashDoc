@@ -138,7 +138,7 @@ import PublicationSettings from "@/components/publications/PublicationSettings.v
 import WidthHeightField from "@/adc-core/fields/WidthHeightField.vue";
 import FloatingTooltip from "@/components/FloatingTooltip.vue";
 
-const EDITION_TOOLTIP_KEYS = ["preview_publication", "structure_content"];
+const EDITION_TOOLTIP_KEYS = ["structure_content", "preview_publication"];
 
 export default {
   props: {
@@ -350,10 +350,10 @@ export default {
         this.$refs.viewContentRef || this.$refs.viewContentPreviewRef;
       const chaptersSummary = this.$refs.chaptersSummaryRef;
       let el = null;
-      if (step === 1 && viewContent?.$refs?.pagedViewer) {
-        el = viewContent.$refs.pagedViewer.$el;
-      } else if (step === 2 && chaptersSummary?.$refs?.addSection) {
-        el = chaptersSummary.$refs.addSection;
+      if (step === 2 && viewContent) {
+        el = viewContent.$el;
+      } else if (step === 1 && chaptersSummary) {
+        el = chaptersSummary.$el;
       }
       this.edition_tooltip_target_el = el || null;
     },

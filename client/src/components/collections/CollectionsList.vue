@@ -318,6 +318,7 @@ export default {
       this.publications_tooltip_step = 1;
       try {
         localStorage.removeItem("collections_publications_tooltips_seen");
+        localStorage.removeItem("edition_publication_tooltips_seen");
       } catch (e) {}
       this.$nextTick(() => this.assignPublicationsTooltipTarget());
     },

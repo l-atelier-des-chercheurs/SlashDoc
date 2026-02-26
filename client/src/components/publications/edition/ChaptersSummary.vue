@@ -23,7 +23,7 @@
           @moveSection="moveSection"
         />
 
-        <div ref="addSection" key="'add'" class="_addSection">
+        <div key="'add'" class="_addSection">
           <button
             type="button"
             class="u-button u-button_small u-button_white"
