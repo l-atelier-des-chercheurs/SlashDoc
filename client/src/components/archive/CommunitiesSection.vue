@@ -16,7 +16,7 @@
         v-for="folder in all_folders"
         :key="folder.$path"
         type="button"
-        class="u-button u-button_small u-button_pill u-button_transparent _corpusItem"
+        class="u-button u-button_verysmall u-button_transparent _corpusItem"
         :class="{ 'is--active': isCommunityActive(folder.$path) }"
         @click="$emit('toggleCorpus', folder.$path)"
       >
