@@ -436,12 +436,9 @@ export default {
         if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
         if (this.author_path_filter) {
-          const authors_or_admins = [
-            ...(f.$authors || []),
-            ...(f.$admins || []),
-          ];
-          if (!authors_or_admins.includes(this.author_path_filter))
+          if (!this.userIsAuthorOrAdmin(f, this.author_path_filter)) {
             return false;
+          }
         }
 
         if (this.search_str) {
@@ -465,12 +462,9 @@ export default {
         if (this.show_only_favs) if (!this.isFavorite(f.$path)) return false;
 
         if (this.author_path_filter) {
-          const authors_or_admins = [
-            ...(f.$authors || []),
-            ...(f.$admins || []),
-          ];
-          if (!authors_or_admins.includes(this.author_path_filter))
+          if (!this.userIsAuthorOrAdmin(f, this.author_path_filter)) {
             return false;
+          }
         }
 
         if (this.keywords_filter.length > 0) {
@@ -586,6 +580,19 @@ export default {
       const scroll_el = this.$refs.contentWrapper;
       if (!scroll_el) return;
       scroll_el.scrollTop = 0;
+    },
+    userIsAuthorOrAdmin(folder, author_path_filter) {
+      if (
+        Array.isArray(folder.$authors) &&
+        folder.$authors.includes(author_path_filter)
+      )
+        return true;
+      if (
+        Array.isArray(folder.$admins) &&
+        folder.$admins.includes(author_path_filter)
+      )
+        return true;
+      return false;
     },
     onContentWrapperScroll(ev) {
       this.main_content_scroll_from_top = ev.target.scrollTop;
