@@ -53,48 +53,53 @@
 
       <slot name="custom_buttons" />
 
-      <div class="_archiveSaveContainer">
-        <template v-if="editor_is_enabled && !is_disabling_editor">
-          <transition name="pagechange" mode="out-in">
-            <div
-              class="u-button _savingStatus"
-              v-if="is_loading_or_saving"
-              key="saving"
-            >
-              <LoaderSpinner />
-              {{ $t("saving") }}
-            </div>
-            <div
-              class="u-button _savedStatus"
-              v-else-if="show_saved_icon"
-              key="saved"
-            >
-              <b-icon icon="check-circle" />
-              {{ $t("saved") }}
-            </div>
-            <!-- <span v-else key="connected">
+      <div
+        class="_archiveSaveContainer"
+        v-if="
+          editor_is_enabled &&
+          !is_disabling_editor &&
+          field_to_edit === '$content'
+        "
+      >
+        <transition name="pagechange" mode="out-in">
+          <div
+            class="u-button _savingStatus"
+            v-if="is_loading_or_saving"
+            key="saving"
+          >
+            <LoaderSpinner />
+            {{ $t("saving") }}
+          </div>
+          <div
+            class="u-button _savedStatus"
+            v-else-if="show_saved_icon"
+            key="saved"
+          >
+            <b-icon icon="check-circle" />
+            {{ $t("saved") }}
+          </div>
+          <!-- <span v-else key="connected">
                 <b>{{ $t(rtc.connection_state) }}</b>
               </span> -->
-            <button
-              type="button"
-              class="u-button u-button_white _archivesBtn"
-              v-else-if="field_to_edit === '$content' && path"
-              @click="show_archives = !show_archives"
-            >
-              <b-icon icon="archive" />
-              {{ $t("history") }}
-            </button>
-          </transition>
-          <EditBtn
-            class="_editBtn"
-            v-if="
-              (is_collaborative && !is_loading_or_saving) || path !== undefined
-            "
-            :btn_type="'check'"
-            :label_position="'left'"
-            @click="saveContent"
-          />
-        </template>
+          <button
+            type="button"
+            class="u-button u-button_white _archivesBtn"
+            v-else-if="field_to_edit === '$content' && path"
+            @click="show_archives = !show_archives"
+          >
+            <b-icon icon="archive" />
+            {{ $t("history") }}
+          </button>
+        </transition>
+        <EditBtn
+          class="_editBtn"
+          v-if="
+            (is_collaborative && !is_loading_or_saving) || path !== undefined
+          "
+          :btn_type="'check'"
+          :label_position="'left'"
+          @click="saveContent"
+        />
       </div>
     </div>
 
@@ -172,6 +177,13 @@ DividerBlot.blotName = "divider";
 DividerBlot.tagName = "hr";
 Quill.register(DividerBlot);
 
+var Block = Quill.import("blots/block");
+class WarningBlot extends Block {}
+WarningBlot.blotName = "warning";
+WarningBlot.tagName = "DIV";
+WarningBlot.className = "u-warning";
+Quill.register(WarningBlot);
+
 import MediaBlot from "./imports/MediaBlot.js";
 import CardEditableModule from "./imports/CardEditableModule.js";
 
@@ -201,7 +213,7 @@ export default {
       default: "$content",
     },
     scrollingContainer: HTMLElement,
-    custom_formats: Array,
+    custom_formats: [Array, Boolean],
     can_edit: Boolean,
     is_collaborative: {
       type: Boolean,
@@ -411,6 +423,7 @@ export default {
         "link",
         "emoji",
         "blockquote",
+        "warning",
       ];
       basic_formatting.map((bf) => {
         if (reference_formats.includes(bf)) formatting_opt.push(bf);
@@ -818,6 +831,7 @@ export default {
       height: auto;
       overflow: visible;
       color: inherit;
+      border: none;
 
       background-color: transparent;
 
@@ -838,6 +852,12 @@ export default {
         margin: calc(var(--spacing) * 1) 0;
         border: none;
         border-left: 2px solid var(--c-gris);
+      }
+
+      .u-warning {
+        padding: calc(var(--spacing) / 4) calc(var(--spacing) / 1);
+        padding-left: calc(var(--spacing) * 4);
+        margin: calc(var(--spacing) * 1) 0;
       }
 
       .ql-code-block-container {
@@ -913,6 +933,10 @@ export default {
       border-bottom-left-radius: var(--input-border-radius);
       border-bottom-right-radius: var(--input-border-radius);
       // border-radius: var(--input-border-radius);
+
+      &:has(.ql-editor:focus-visible) {
+        border-color: var(--c-gris);
+      }
     }
   }
 }
@@ -951,7 +975,7 @@ export default {
 
   display: flex;
   flex-flow: row wrap;
-  // gap: calc(var(--spacing) / 4);
+  gap: calc(var(--spacing) / 4);
   justify-content: flex-start;
   align-items: center;
 
@@ -1038,6 +1062,7 @@ export default {
   .ql-color-picker .ql-picker-options {
     // to prevent overflow issues with pagemenu overflow
     width: var(--quill-options-size);
+    width: calc(var(--quill-options-size) * 1.6);
   }
 
   .ql-picker {
@@ -1078,17 +1103,40 @@ export default {
     }
   }
 
+  // Warning block button styling
+  .ql-warning {
+    svg {
+      display: none;
+    }
+    &:after {
+      content: "⚠";
+      color: currentColor;
+      font-size: var(--quill-buttons-size);
+      line-height: 1;
+    }
+
+    &:hover,
+    &.ql-active {
+      color: #06c;
+    }
+  }
+
   .ql-formats {
     // margin-right: calc(var(--spacing) / 2);
     // margin-bottom: calc(var(--spacing) / 2);
     margin: 0;
     display: flex;
     flex-flow: row nowrap;
-    border: 2px solid var(--toolbar-bg);
+    // border: 2px solid var(--toolbar-bg);
     border-radius: var(--input-border-radius);
     background: #fff;
 
-    button,
+    button {
+      border-radius: var(--input-border-radius);
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    button:not(.u-button),
     > *:not(.ql-size):not(.ql-lineheight):not(.ql-header):not(.ql-font)
       .ql-picker-label {
       display: flex;
@@ -1151,6 +1199,25 @@ export default {
 
     .ql-picker-label::before {
       // line-height: var(--button-size);
+    }
+
+    .ql-active,
+    .ql-picker.ql-expanded {
+      // background-color: var(--c-gris_clair);
+      // outline: 2px solid var(--c-gris);
+      // border-color: var(--c-gris);
+      // border-width: 2px;
+      // border-style: solid;
+      // border-radius: var(--input-border-radius);
+      // padding: 2px;
+      border-radius: var(--input-border-radius);
+      border: none;
+      box-shadow: 0 1px 4px inset rgba(0, 0, 0, 0.2);
+
+      .ql-picker-label {
+        border-radius: var(--input-border-radius);
+        border: none;
+      }
     }
   }
 
@@ -1284,6 +1351,10 @@ select.ql-ui {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+
+  &:empty {
+    display: none;
+  }
 
   ._archiveSaveContainer {
     border: 2px solid var(--toolbar-bg);
