@@ -24,6 +24,7 @@
         class="u-button u-button_icon"
         :class="{}"
         @click="toggleSidebar"
+        ref="toggleSidebarButton"
         :aria-label="
           show_sidebar_computed ? $t('hide_sidebar') : $t('show_sidebar')
         "

@@ -28,6 +28,7 @@
 
     <transition name="fade_fast" mode="out-in">
       <TwoColumnLayout
+        ref="twoColumnLayout"
         :show_sidebar.sync="show_filter_bar"
         :toggle_sidebar_icon="'sliders'"
         class="_sharedFolder--content"
@@ -265,7 +266,9 @@ export default {
       en: {},
     },
   },
-  async created() {},
+  async created() {
+    this.show_filter_bar = false;
+  },
   async mounted() {
     // Load all folders for the add community modal
     await this.loadAllFolders();
@@ -593,6 +596,7 @@ export default {
         this.archive_tooltip_target_el = null;
         return;
       }
+
       const topBar = this.$refs.archiveTopBar;
       const filterBar = this.$refs.filterBar;
       const communities = this.$refs.communitiesSection;
@@ -601,8 +605,9 @@ export default {
         el = communities.$el;
       } else if (step === 2 && topBar?.$refs?.searchInput) {
         el = topBar.$refs.searchInput.$el || topBar.$refs.searchInput;
-      } else if (step === 3 && topBar?.$refs?.filterToggle) {
-        el = topBar.$refs.filterToggle;
+      } else if (step === 3) {
+        const two_col = this.$refs.twoColumnLayout;
+        el = two_col?.$refs?.toggleSidebarButton || null;
       } else if (step === 4 && filterBar?.$refs?.filterPane) {
         el = filterBar.$refs.filterPane;
       } else if (step === 5 && topBar?.$refs?.viewModeButtonMap) {

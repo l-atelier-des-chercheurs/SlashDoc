@@ -10,7 +10,6 @@
           :search_placeholder="$t('search_fields')"
         />
         <!-- <button
-          ref="filterToggle"
           type="button"
           class="u-button u-button_icon u-button_transparent _filterToggle"
           :class="{ 'is--active': show_filter_bar }"
