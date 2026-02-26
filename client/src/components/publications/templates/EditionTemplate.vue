@@ -186,7 +186,9 @@ export default {
   created() {},
   mounted() {
     if (this.can_edit && this.edition_tooltip_step >= 1) {
-      this.$nextTick(() => this.assignEditionTooltipTarget());
+      setTimeout(() => {
+        this.$nextTick(() => this.assignEditionTooltipTarget());
+      }, 400);
     }
   },
   beforeDestroy() {
