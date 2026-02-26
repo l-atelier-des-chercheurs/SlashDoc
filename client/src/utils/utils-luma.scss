@@ -19,17 +19,17 @@ textarea,
 [contenteditable="true"]:not(.ql-editor) {
   background-color: white;
   // border: solid 2px var(--g-100);
-  outline-color: var(--g-100);
+  border-color: var(--g-100);
   padding: calc(var(--spacing) / 1.5);
   border-radius: 0px;
 
   &:hover:not([disabled]) {
     background-color: white;
-    outline-color: var(--g-200);
+    border-color: var(--g-200);
   }
   &:focus-visible:not([disabled]) {
     background-color: white;
-    outline-color: var(--g-300);
+    border-color: var(--g-300);
   }
 
   &[required] {
