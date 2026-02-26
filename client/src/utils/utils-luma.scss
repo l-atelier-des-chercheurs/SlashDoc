@@ -288,3 +288,7 @@ input[type="range"] {
 ._selects--order._selects--order {
   min-width: 7ch !important;
 }
+
+input[type="color"] {
+  padding: calc(var(--spacing) / 3);
+}
