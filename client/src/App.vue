@@ -43,7 +43,6 @@
 import FullUI from "@/FullUI.vue";
 
 export default {
-  props: {},
   components: {
     FullUI,
   },
@@ -52,7 +51,6 @@ export default {
       router_is_loading: true,
     };
   },
-  created() {},
   mounted() {
     setTimeout(() => {
       this.router_is_loading = false;
@@ -159,8 +157,6 @@ export default {
   --dropzone-color1: transparent;
   --dropzone-color2: var(--c-noir);
 
-  --c-bodybg: hsl(48, 19%, 98%);
-  --c-bodybg: hsl(40, 20%, 94%);
   --c-bodybg: hsl(40, 0%, 94%);
 
   --plyr-color-main: var(--gr-200);
@@ -180,7 +176,6 @@ export default {
   --scrollbar-height: 1px;
   --scrollbar-padding: 3px;
   --scrollbar-border: 2px;
-  --scrollbar-color: 2px;
   --c-barbgcolor: rgba(255, 255, 255, 0);
   --c-thumbcolor: black;
   --label-color: var(--c-gris_fonce);
@@ -191,15 +186,10 @@ export default {
   --input-font-size: var(--sl-font-size-normal);
   --input-font-size-x-small: var(--sl-font-size-x-small);
   --input-font-size-small: var(--sl-font-size-small);
-  --input-font-weight: inherit;
-  --input-height: 2em;
-  --input-height-large: 3em;
+  --input-height: 2.5rem;
   --input-height-small: 1.75rem;
 
   --input-color: var(--body-color);
-  --input-border-color: var(--c-gris_fonce);
-  --input-border-color-focus: var(--active-color);
-  --input-border-width: 3px;
   --input-border-radius: 6px;
   --input-bg-color: var(--color-white);
   --input-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
@@ -228,9 +218,7 @@ export default {
   --sl-font-serif: "IBM Plex Serif", serif;
   --sl-font-mono: "IBM Plex Mono", monospace;
 
-  --padding: var(--spacing);
-
-  $sizes: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+  --sl-font-mono: "Fira Mono";
 
   --sl-font-size-normal: 1rem;
 
