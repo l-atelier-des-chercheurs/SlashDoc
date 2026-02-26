@@ -1225,3 +1225,6 @@ table td {
   border: 1px solid lightgrey;
   border: 1px solid lightgrey;
 }
+input[type="color"] {
+  padding: calc(var(--spacing) / 4);
+}
