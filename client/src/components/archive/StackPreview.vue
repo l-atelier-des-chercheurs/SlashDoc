@@ -356,6 +356,10 @@ export default {
     color: var(--c-orange);
   }
 
+  &:disabled {
+    pointer-events: none;
+  }
+
   svg {
     width: 1rem;
     height: 1rem;

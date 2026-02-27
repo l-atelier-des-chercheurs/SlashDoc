@@ -2,7 +2,7 @@
   <div class="pick-media-for-markdown">
     <BaseModal2 :title="$t('add_media')" @close="closePickModal">
       <div class="u-spacingBottom" v-if="!pick_medias_text">
-        <DLabel :str="$t('from_project')" />
+        <!-- <DLabel :str="$t('from_project')" /> -->
         <button
           type="button"
           class="u-button u-button_orange _pickMediaBtn"
@@ -21,7 +21,7 @@
           meta_filenames_already_present_for_picker
         "
         @pickMedias="pickMedias"
-        @close="show_media_picker = false"
+        @close="$emit('close')"
       />
 
       <template v-if="pick_medias_text">
@@ -200,6 +200,7 @@ export default {
   methods: {
     async pickMedias(medias) {
       this.medias_were_picked = true;
+      this.show_media_picker = false;
 
       let source_medias = [];
       for (const media of medias) {

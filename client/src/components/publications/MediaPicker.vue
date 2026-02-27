@@ -59,7 +59,6 @@ export default {
   methods: {
     mediasSelected(medias) {
       this.$emit("pickMedias", medias);
-      this.$emit("close");
     },
   },
 };
