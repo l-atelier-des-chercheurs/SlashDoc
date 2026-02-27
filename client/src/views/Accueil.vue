@@ -24,7 +24,7 @@
               class="agora-video"
             />
             <figcaption>
-              {{ $t('accueil_agora_figcaption') }}
+              {{ $t("accueil_agora_figcaption") }}
             </figcaption>
           </figure>
         </div>
@@ -44,14 +44,27 @@
       </div>
     </section>
     <div class="_footer">
-      <small>{{ $t("version") }} {{ $root.app_infos.version }}</small>
-      <button
-        type="button"
-        class="u-button u-button_icon u-button_glass _langButton"
-        @click="show_lang_modal = !show_lang_modal"
-      >
-        <span>{{ $t("language") }}: {{ current_lang_code }}</span>
-      </button>
+      <div>
+        <router-link to="/terms" class="_createAccountView--termsLink">
+          {{ $t("terms_of_use_of_slashdoc") }}
+        </router-link>
+        <router-link
+          to="/confidentiality"
+          class="_createAccountView--termsLink"
+        >
+          {{ $t("privacy_policy_of_slashdoc") }}
+        </router-link>
+      </div>
+      <div>
+        <small>{{ $t("version") }} {{ $root.app_infos.version }}</small>
+        <button
+          type="button"
+          class="u-button u-buttonLink u-button_small"
+          @click="show_lang_modal = !show_lang_modal"
+        >
+          <span>{{ $t("language") }}: {{ current_lang_code }}</span>
+        </button>
+      </div>
     </div>
     <LangModal v-if="show_lang_modal" @close="show_lang_modal = false" />
   </div>
@@ -157,8 +170,7 @@ By documenting your work, you help create assemblages, of materials, skills, and
   padding: calc(var(--spacing) * 1) 0;
 }
 ._accueil--top--content,
-._section,
-._footer {
+._section {
   margin: 0 auto;
   padding: calc(var(--spacing) * 2);
   max-width: var(--max-width);
@@ -176,6 +188,19 @@ By documenting your work, you help create assemblages, of materials, skills, and
       // max-width: 320px;
       // margin: 0 auto;
     }
+  }
+}
+
+._footer {
+  padding: calc(var(--spacing) * 2);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  > * {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--spacing) * 1);
   }
 }
 
@@ -329,6 +354,6 @@ By documenting your work, you help create assemblages, of materials, skills, and
 }
 
 ._langButton {
-  font-size: var(--sl-font-size-medium);
+  // font-size: var(--sl-font-size-medium);
 }
 </style>
