@@ -124,7 +124,7 @@ Your data is persistent (in ./dodoc-data directory).
 If you prefer to customise the container, the basic pattern for starting a do•doc instance is:
 
 ```
-$ docker run --name my-dodoc -p 8080:8080 -v ./dodoc-data:/home/node/Documents -d ghcr.io/l-atelier-des-chercheurs/dodoc:latest
+$ docker run --name my-dodoc -p 8080:8080 -v ./dodoc-data:/home/node/Documents -d ghcr.io/l-atelier-des-chercheurs/slashdoc:latest
 ```
 
 Your data is persistent (in ./dodoc-data directory).
