@@ -595,6 +595,7 @@ export default {
 
       if (this.is_collaborative) await this.startCollaborative();
       this.editor.enable();
+      this.editor.focus();
 
       // if (this.editor.getLength() <= 1) {
       //   const fontLastUsed = localStorage.getItem("fontLastUsed");
@@ -1003,7 +1004,9 @@ export default {
   &::after {
     display: none;
   }
-  button:not(.u-button),
+
+  // override ql-snow.css
+  button,
   svg {
     display: inherit;
     color: currentColor;
