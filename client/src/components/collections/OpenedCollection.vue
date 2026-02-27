@@ -96,6 +96,7 @@
                 :publication="collection"
                 @close="show_duplicate_publi_modal = false"
               />
+              <DownloadFolder v-if="can_edit" :path="collection.$path" />
 
               <RemoveMenu
                 v-if="can_edit"
