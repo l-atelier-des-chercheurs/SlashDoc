@@ -238,6 +238,7 @@ export default {
     });
     this.is_loading = false;
     this.$api.join({ room: this.path });
+    this.$api.join({ room: "." });
   },
   mounted() {
     if (this.publications_tooltip_step >= 1) {
@@ -246,6 +247,7 @@ export default {
   },
   beforeDestroy() {
     this.$api.leave({ room: this.path });
+    this.$api.leave({ room: "." });
   },
   watch: {
     publications_tooltip_step() {
@@ -340,7 +342,6 @@ export default {
         .catch((err) => {
           return err;
         });
-      this.$api.join({ room: "." });
     },
     openNewCollection(new_publication_slug) {
       this.show_create_collection = false;

@@ -36,11 +36,12 @@
             :field_name="'description'"
             :label="$t('description')"
             :show_label="true"
+            :input_type="'editor'"
+            :custom_formats="['bold', 'italic', 'link', 'emoji']"
             :content="folder.description || ''"
             :path="folder.$path"
+            :maxlength="1280"
             :can_edit="can_edit"
-            :tag="'div'"
-            class="_descField"
           />
         </div>
 

@@ -113,6 +113,7 @@ export default {
   mounted() {},
   beforeDestroy() {
     this.$api.leave({ room: this.path });
+    this.$api.leave({ room: "." });
   },
   watch: {},
   computed: {

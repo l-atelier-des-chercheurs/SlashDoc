@@ -127,7 +127,9 @@ export default {
       this.show_corpus_selection = true;
     }
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    this.$api.leave({ room: "folders" });
+  },
   watch: {
     computed_shared_folder_paths: {
       handler(newPaths) {
