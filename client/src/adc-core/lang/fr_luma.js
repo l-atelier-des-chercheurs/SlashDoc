@@ -154,7 +154,7 @@ export default {
   terms_of_use_of_slashdoc: "Conditions d'utilisation de /doc",
   privacy_policy_of_slashdoc: "Politique de respect de la vie privée de /doc",
 
-  usage_guide: "Guide d'utilisation",
+  usage_guide: "Aide à l’usage",
   only_my_content: "Uniquement le contenu dont je suis auteur",
 
   create_a_booklet: "Créer un livret",

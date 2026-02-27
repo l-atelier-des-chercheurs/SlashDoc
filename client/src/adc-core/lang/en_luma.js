@@ -124,7 +124,7 @@ export default {
   onboarding_start: "Start",
   import_document: "Import document",
 
-  usage_guide: "Usage guide",
+  usage_notice: "Usage notice",
   only_my_content: "Only content I am author of",
   import_document_instructions:
     " Here you can import the downloaded document (.zip) from another server instance of /doc.",

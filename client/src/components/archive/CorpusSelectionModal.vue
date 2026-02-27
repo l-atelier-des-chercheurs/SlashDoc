@@ -71,7 +71,7 @@
               class="u-buttonLink _usageGuideBtn"
               @click="showUsageGuide"
             >
-              <b-icon icon="book" />
+              <b-icon icon="menu-up" />
               {{ $t("usage_guide") }}
             </button>
           </div>
