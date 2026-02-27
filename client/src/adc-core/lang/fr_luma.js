@@ -157,6 +157,9 @@ export default {
   usage_guide: "Guide d'utilisation",
   only_my_content: "Uniquement le contenu dont je suis auteur",
 
+  create_a_booklet: "Créer un livret",
+  create_a_screen: "Créer un écran",
+
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication dupliquée avec succès",
   error_duplicating_publication:

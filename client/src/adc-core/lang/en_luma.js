@@ -155,6 +155,9 @@ export default {
   terms_of_use_of_slashdoc: "Terms of Use of /doc",
   privacy_policy_of_slashdoc: "Privacy Policy of /doc",
 
+  create_a_booklet: "Create a booklet",
+  create_a_screen: "Create a screen",
+
   // Duplicate publication modal
   publication_duplicated_successfully: "Publication duplicated successfully",
   error_duplicating_publication: "Error duplicating publication",

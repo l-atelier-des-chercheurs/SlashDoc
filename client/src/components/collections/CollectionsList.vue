@@ -15,7 +15,7 @@
           <div ref="create_actions_el" class="_createActions">
             <h3
               class="_createActions_label"
-              v-text="$t('create_a_publication')"
+              v-text="create_publication_heading"
             />
 
             <!-- <button
@@ -52,7 +52,7 @@
 
           <CreateCollection
             v-if="show_create_collection"
-            :modal_name="$t('create_a_publication')"
+            :modal_name="create_publication_modal_title"
             :path="'publications'"
             :selected_template="show_create_collection"
             @close="show_create_collection = false"
@@ -258,6 +258,16 @@ export default {
     },
   },
   computed: {
+    create_publication_heading() {
+      return this.$t("create_a_publication");
+    },
+    create_publication_modal_title() {
+      if (this.show_create_collection === "edition")
+        return this.$t("create_a_booklet");
+      if (this.show_create_collection === "agora")
+        return this.$t("create_a_screen");
+      return this.$t("create_a_publication");
+    },
     can_edit() {
       return this.canLoggedinEditFolder({ folder: this.stack });
     },
