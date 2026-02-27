@@ -1,6 +1,6 @@
 services:
   dodoc-node:
-    image: ghcr.io/l-atelier-des-chercheurs/SlashDoc:latest
+    image: ghcr.io/l-atelier-des-chercheurs/slashdoc:latest
     ports:
       - "8080:8080"
     volumes:
