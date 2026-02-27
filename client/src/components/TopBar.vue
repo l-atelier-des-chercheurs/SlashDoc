@@ -262,7 +262,7 @@
 
           <button
             type="button"
-            class="u-button u-button_icon u-button_glass _langBtn"
+            class="u-button u-button_icon _langBtn"
             @click="
               show_lang_modal = !show_lang_modal;
               show_mobile_menu = false;
@@ -273,7 +273,7 @@
 
           <button
             type="button"
-            class="u-button u-button_icon u-button_glass"
+            class="u-button u-button_icon"
             v-if="is_instance_admin"
             @click="show_admin_settings = !show_admin_settings"
           >
@@ -324,7 +324,11 @@
           />
         </button> -->
 
-          <div v-if="connected_as" class="_currentUser">
+          <button
+            type="button"
+            v-if="connected_as"
+            class="u-button u-button_icon u-button_small"
+          >
             <AuthorTag
               :path="connected_as.$path"
               :show_image_only="true"
@@ -335,7 +339,7 @@
             v-if="$api.other_devices_connected.length > 0"
             v-text="$api.other_devices_connected.length"
           /> -->
-          </div>
+          </button>
           <div v-else-if="!isAuthPage" class="_authButtons">
             <router-link
               to="/login"
