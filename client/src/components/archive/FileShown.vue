@@ -112,99 +112,101 @@
       @closeParentModal="show_cropadjust_modal = false"
     />
 
-    <transition name="pagechange" mode="out-in">
-      <div class="_infos" v-if="show_infos" :key="file.$path">
-        <div class="_infos--content">
-          <div class="_captionCreditContainer">
-            <div class="_captionCreditItem">
-              <h4 v-text="$t('description_of_media')" />
-              <div class="u-spacingBottom" v-if="file.$type === 'url'">
-                <div class="_labelLine">
-                  <b-icon icon="link-45deg" :aria-label="$t('link')" />
-                  <DLabel :str="$t('link')" />
-                </div>
-                <div class="u-filename">
-                  <a
-                    :href="file.$content"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {{ file.$content }}
-                  </a>
-                </div>
+    <div
+      class="_infos"
+      :class="{ 'is--hidden': !show_infos }"
+      :key="file.$path"
+    >
+      <div class="_infos--content">
+        <div class="_captionCreditContainer">
+          <div class="_captionCreditItem">
+            <h4 v-text="$t('description_of_media')" />
+            <div class="u-spacingBottom" v-if="file.$type === 'url'">
+              <div class="_labelLine">
+                <b-icon icon="link-45deg" :aria-label="$t('link')" />
+                <DLabel :str="$t('link')" />
               </div>
-
-              <div class="u-spacingBottom">
-                <TextEditor
-                  :label="$t('caption')"
-                  :icon="'text-left'"
-                  :field_to_edit="'caption'"
-                  :content="file.caption"
-                  :path="file.$path"
-                  :placeholder="''"
-                  :custom_formats="['bold', 'italic', 'link']"
-                  :maxlength="1280"
-                  :can_edit="can_edit"
-                />
+              <div class="u-filename">
+                <a
+                  :href="file.$content"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ file.$content }}
+                </a>
               </div>
             </div>
 
-            <div class="_captionCreditItem">
-              <DLabel
-                :str="$t('origin_of_media')"
-                :tag="'h4'"
-                :instructions="$t('origin_of_media_instructions')"
+            <div class="u-spacingBottom">
+              <TextEditor
+                :label="$t('caption')"
+                :icon="'text-left'"
+                :field_to_edit="'caption'"
+                :content="file.caption"
+                :path="file.$path"
+                :placeholder="''"
+                :custom_formats="['bold', 'italic', 'link']"
+                :maxlength="1280"
+                :can_edit="can_edit"
               />
-
-              <div class="u-spacingBottom" />
-
-              <div class="u-spacingBottom">
-                <TextEditor
-                  :label="$t('credit')"
-                  :icon="'c-circle'"
-                  :field_to_edit="'$credits'"
-                  :content="file.$credits"
-                  :path="file.$path"
-                  :placeholder="''"
-                  :custom_formats="['bold', 'italic', 'link']"
-                  :maxlength="1280"
-                  :can_edit="can_edit"
-                />
-              </div>
-
-              <div class="u-spacingBottom">
-                <TextEditor
-                  :label="$t('bibliography')"
-                  :icon="'bookmark'"
-                  :field_to_edit="'bibliography'"
-                  :content="file.bibliography"
-                  :path="file.$path"
-                  :placeholder="''"
-                  :custom_formats="['bold', 'italic', 'link']"
-                  :maxlength="1280"
-                  :can_edit="can_edit"
-                />
-              </div>
             </div>
           </div>
 
-          <OptimizeMedia
-            v-if="optimization_strongly_recommended || optimization_possible"
-            :media="file"
-            @close="$emit('close')"
-          />
+          <div class="_captionCreditItem">
+            <DLabel
+              :str="$t('origin_of_media')"
+              :tag="'h4'"
+              :instructions="$t('origin_of_media_instructions')"
+            />
 
-          <template v-if="file.$location && false">
             <div class="u-spacingBottom" />
 
-            <div class="u-instructions _location">
-              {{ $t("latitude") }} : {{ file.$location.latitude }} //
-              {{ $t("longitude") }} : {{ file.$location.longitude }}
+            <div class="u-spacingBottom">
+              <TextEditor
+                :label="$t('credit')"
+                :icon="'c-circle'"
+                :field_to_edit="'$credits'"
+                :content="file.$credits"
+                :path="file.$path"
+                :placeholder="''"
+                :custom_formats="['bold', 'italic', 'link']"
+                :maxlength="1280"
+                :can_edit="can_edit"
+              />
             </div>
-          </template>
+
+            <div class="u-spacingBottom">
+              <TextEditor
+                :label="$t('bibliography')"
+                :icon="'bookmark'"
+                :field_to_edit="'bibliography'"
+                :content="file.bibliography"
+                :path="file.$path"
+                :placeholder="''"
+                :custom_formats="['bold', 'italic', 'link']"
+                :maxlength="1280"
+                :can_edit="can_edit"
+              />
+            </div>
+          </div>
         </div>
+
+        <OptimizeMedia
+          v-if="optimization_strongly_recommended || optimization_possible"
+          :media="file"
+          @close="$emit('close')"
+        />
+
+        <template v-if="file.$location && false">
+          <div class="u-spacingBottom" />
+
+          <div class="u-instructions _location">
+            {{ $t("latitude") }} : {{ file.$location.latitude }} //
+            {{ $t("longitude") }} : {{ file.$location.longitude }}
+          </div>
+        </template>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 <script>
@@ -371,14 +373,14 @@ export default {
   position: relative;
   border-top: 1px solid var(--sd-separator);
   // border-bottom: 1px solid var(--sd-separator);
-  max-height: 50vh;
-  // overflow: auto;
+  max-height: 40vh;
+  overflow: auto;
   padding: calc(var(--spacing) / 1) calc(var(--spacing) / 1);
 
-  transition: all 0.02s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 
-  &[data-hide] {
-    overflow: 0;
+  &.is--hidden {
+    overflow: hidden;
     max-height: 0;
     border: none;
     padding: 0 calc(var(--spacing) / 1);
