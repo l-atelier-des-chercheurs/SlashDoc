@@ -318,6 +318,7 @@ export default {
         // Remove from inclusion list
         _new_kw = _new_kw.filter((kw) => kw !== keyword);
       }
+      this.keyword_search = "";
       this.$emit("update:keywords_filter", _new_kw);
     },
     getCategoryColorStyle(categoryType) {
