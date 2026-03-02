@@ -55,11 +55,7 @@
 
       <div
         class="_archiveSaveContainer"
-        v-if="
-          editor_is_enabled &&
-          !is_disabling_editor &&
-          field_to_edit === '$content'
-        "
+        v-if="editor_is_enabled && !is_disabling_editor"
       >
         <transition name="pagechange" mode="out-in">
           <div
