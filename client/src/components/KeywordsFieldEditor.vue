@@ -34,7 +34,8 @@
     </div>
 
     <div class="_catSug">
-      <div class="_categories" v-if="!suggestion_from_category">
+      <!-- v-if="!suggestion_from_category" -->
+      <div class="_categories">
         <button
           v-for="category in categories_with_keywords"
           type="button"
@@ -47,7 +48,7 @@
           ({{ matchingKeywordsWithCategory(category).length }})
         </button>
       </div>
-      <div v-else>
+      <!-- <div v-else>
         <button
           type="button"
           class="u-button _category"
@@ -59,7 +60,7 @@
           &nbsp;
           <b-icon icon="x-circle" />
         </button>
-      </div>
+      </div> -->
 
       <div class="_suggestions" v-if="suggested_keywords.length > 0">
         <div class="u-keywords">
