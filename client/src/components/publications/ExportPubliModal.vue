@@ -71,7 +71,9 @@
     </template>
 
     <template v-if="export_mode === 'png' && page_count > 1">
-      <template v-if="publication.template === 'page_by_page'">
+      <template
+        v-if="['page_by_page', 'edition'].includes(publication.template)"
+      >
         <div class="u-spacingBottom" />
 
         <div class="">
@@ -158,7 +160,12 @@ export default {
   beforeDestroy() {},
   watch: {},
   computed: {
+    available_export_options() {
+      return this.export_options;
+    },
     page_count() {
+      if (this.publication.template === "edition")
+        return this.publication.number_of_book_pages || 0;
       return this.publication.pages?.length || 0;
     },
     is_spread() {
@@ -198,14 +205,6 @@ export default {
         return Math.floor((page_number + 1) / 2) + 1;
       }
       return false;
-    },
-    custom_resolution_unit() {
-      if (
-        this.publication.layout_mode === "print" ||
-        this.publication.template === "edition"
-      )
-        return "mm";
-      return "px";
     },
     url_to_print_from() {
       const route = this.$router.resolve({
@@ -249,8 +248,16 @@ export default {
         suggested_file_name: this.publication.title,
         additional_meta,
       };
-      if (this.publication.template === "page_by_page")
+
+      if (export_type === "webpage") instructions.layout_mode = "screen";
+      if (
+        ["page_by_page", "edition"].includes(this.publication.template) &&
+        this.export_mode === "png"
+      )
         instructions.page = this.page_to_export_as_image;
+
+      if (this.publication.template === "edition")
+        instructions.view_mode = "book";
 
       if (this.export_mode === "pdf") {
         if (this.pdf_pages_to_export_mode === "current")
