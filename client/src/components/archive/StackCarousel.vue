@@ -6,14 +6,16 @@
       </div>
     </template>
 
-    <FileShown
-      v-if="current_file_shown"
-      class="_stackCarousel--fileshown"
-      :key="current_file_shown.$path"
-      :file="current_file_shown"
-      :position="file_shown_position"
-      :can_edit="can_edit"
-    />
+    <transition name="fade_fast" mode="out-in">
+      <FileShown
+        v-if="current_file_shown"
+        class="_stackCarousel--fileshown"
+        :key="'shown-' + current_file_shown.$path"
+        :file="current_file_shown"
+        :position="file_shown_position"
+        :can_edit="can_edit"
+      />
+    </transition>
 
     <transition-group tag="div" class="_list" name="listComplete">
       <div
@@ -282,6 +284,7 @@ export default {
 ._stackCarousel {
   display: flex;
   flex-flow: column nowrap;
+  background: var(--g-50);
 
   > ._stackCarousel--fileshown {
     flex: 1 1 auto;

@@ -1,81 +1,79 @@
 <template>
   <div class="_fileShown">
-    <transition name="pagechange" mode="out-in">
-      <div
-        v-if="file"
-        :key="file.$path"
-        class="_single"
-        :data-type="file.$type"
-      >
-        <div v-if="file.$type === 'text'" class="_textEditor2">
-          <CollaborativeEditor3
-            :path="file.$path"
-            :content="file.$content"
-            :custom_formats="['bold', 'italic', 'underline', 'link']"
-            :can_edit="can_edit"
-            :mode="context === 'chutier' ? 'edit_on_mounted' : 'normal'"
-          />
-        </div>
-        <MediaContent
-          v-else
-          :file="file"
-          :context="'full'"
-          :resolution="1600"
-          :show_fs_button="true"
-          :zoom_on_click="false"
+    <div
+      v-if="file"
+      :key="'file-' + file.$path"
+      class="_single"
+      :data-type="file.$type"
+    >
+      <div v-if="file.$type === 'text'" class="_textEditor2">
+        <CollaborativeEditor3
+          :path="file.$path"
+          :content="file.$content"
+          :custom_formats="['bold', 'italic', 'underline', 'link']"
+          :can_edit="can_edit"
+          :mode="context === 'chutier' ? 'edit_on_mounted' : 'normal'"
         />
-        <div class="_navArrow" v-if="position">
-          <button
-            type="button"
-            class="u-button u-button_icon u-button_transparent"
-            :disabled="position === 'alone' || position === 'first'"
-            @click="$eventHub.$emit('carousel.prev')"
-          >
-            <b-icon icon="arrow-left-short" />
-          </button>
-          <button
-            type="button"
-            class="u-button u-button_icon u-button_transparent"
-            :disabled="position === 'alone' || position === 'last'"
-            @click="$eventHub.$emit('carousel.next')"
-          >
-            <b-icon icon="arrow-right-short" />
-          </button>
+      </div>
+      <MediaContent
+        v-else
+        :file="file"
+        :context="'full'"
+        :resolution="1600"
+        :show_fs_button="true"
+        :zoom_on_click="false"
+      />
+      <div class="_navArrow" v-if="position">
+        <button
+          type="button"
+          class="u-button u-button_icon u-button_transparent"
+          :disabled="position === 'alone' || position === 'first'"
+          @click="$eventHub.$emit('carousel.prev')"
+        >
+          <b-icon icon="arrow-left-short" />
+        </button>
+        <button
+          type="button"
+          class="u-button u-button_icon u-button_transparent"
+          :disabled="position === 'alone' || position === 'last'"
+          @click="$eventHub.$emit('carousel.next')"
+        >
+          <b-icon icon="arrow-right-short" />
+        </button>
 
-          <button
-            v-if="cropadjust_possible"
-            type="button"
-            class="u-button u-button_icon u-button_small u-button_glass _cropAdjustBtn"
-            @click="show_cropadjust_modal = true"
-          >
-            <b-icon icon="bounding-box" />
-            <!-- {{ $t("crop_adjust") }} -->
-          </button>
+        <button
+          v-if="cropadjust_possible"
+          type="button"
+          class="u-button u-button_icon u-button_small u-button_glass _cropAdjustBtn"
+          @click="show_cropadjust_modal = true"
+        >
+          <b-icon icon="bounding-box" />
+          <!-- {{ $t("crop_adjust") }} -->
+        </button>
 
-          <!-- <div v-if="optimization_strongly_recommended" class="_optimizeNotice">
+        <!-- <div v-if="optimization_strongly_recommended" class="_optimizeNotice">
             <div class="">
               {{ $t("convert_to_format") }}
               <OptimizeMedia :media="file" @close="$emit('close')" />
             </div>
           </div> -->
-        </div>
-        <button
-          type="button"
-          class="u-buttonLink _regenerateBtn"
-          v-if="file.$thumbs === 'no_preview'"
-          @click="regenerateThumbs"
-        >
-          <template v-if="!is_regenerating">
-            <b-icon icon="arrow-clockwise" />
-            {{ $t("regenerate_thumbs") }}
-          </template>
-          <LoaderSpinner v-else />
-        </button>
-        <div class="_dragEditBtn">
-          <DragFile :file="file" :is_dragged.sync="is_dragged" />
-        </div>
       </div>
-    </transition>
+      <button
+        type="button"
+        class="u-buttonLink _regenerateBtn"
+        v-if="file.$thumbs === 'no_preview'"
+        @click="regenerateThumbs"
+      >
+        <template v-if="!is_regenerating">
+          <b-icon icon="arrow-clockwise" />
+          {{ $t("regenerate_thumbs") }}
+        </template>
+        <LoaderSpinner v-else />
+      </button>
+      <div class="_dragEditBtn">
+        <DragFile :file="file" :is_dragged.sync="is_dragged" />
+      </div>
+    </div>
 
     <div class="_unfoldBtn">
       <button

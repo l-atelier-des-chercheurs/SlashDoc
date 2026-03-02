@@ -1,6 +1,6 @@
 <template>
   <div class="_sharedFolder">
-    <transition name="scaleInFade" mode="out-in">
+    <transition name="stackModalTransition" mode="out-in">
       <StackDisplay
         v-if="opened_stack"
         class="_stackModal"
@@ -859,6 +859,20 @@ export default {
   margin-top: calc(var(--spacing) / 2);
 }
 
+.stackModalTransition {
+  &-enter-active,
+  &-leave-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  &-enter,
+  &-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+    // transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
 ._stackModal {
   --sd-separator: var(--g-200);
   --sd-textcolor: var(--g-900);
