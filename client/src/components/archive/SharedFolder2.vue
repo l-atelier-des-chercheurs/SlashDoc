@@ -159,7 +159,7 @@
       :step_current="archive_tooltip_step"
       :step_total="5"
       :show_step="true"
-      :placement_preference="archive_tooltip_step === 4 ? 'right' : undefined"
+      :placement_preference="archiveTooltipPlacementPreference"
       :target_el="archive_tooltip_target_el"
       @next="onArchiveTooltipNext"
     />
@@ -398,6 +398,10 @@ export default {
     },
   },
   computed: {
+    archiveTooltipPlacementPreference() {
+      if (this.archive_tooltip_step === 1) return "bottom";
+      return this.archive_tooltip_step === 4 ? "right" : undefined;
+    },
     filtered_folders() {
       return this.all_folders.filter((f) =>
         this.canLoggedinSeeFolder({ folder: f })
@@ -608,8 +612,8 @@ export default {
       const filterBar = this.$refs.filterBar;
       const communities = this.$refs.communitiesSection;
       let el = null;
-      if (step === 1 && communities) {
-        el = communities.$el;
+      if (step === 1 && communities && communities.$el.childNodes[0]) {
+        el = communities.$el.childNodes[0];
       } else if (step === 2 && topBar?.$refs?.searchInput) {
         el = topBar.$refs.searchInput.$el || topBar.$refs.searchInput;
       } else if (step === 3) {
