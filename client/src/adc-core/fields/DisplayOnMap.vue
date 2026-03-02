@@ -14,7 +14,7 @@
       class="_popup"
       :class="{
         'is--pin': clicked_location.module,
-        'is--shown': has_module_content_to_show,
+        'is--shown': show_popup,
       }"
     >
       <div class="_popupShadow" />
@@ -71,12 +71,36 @@
         >
           <slot name="popup_message" />
         </div>
+        <div
+          v-else-if="
+            !clicked_location.module &&
+            !popup_message &&
+            (clicked_location.latitude != null ||
+              clicked_location.longitude != null)
+          "
+          class="_popupMessage _popupCoords"
+        >
+          {{ $t("latitude") }}: {{ clicked_location.latitude }}°<br />
+          {{ $t("longitude") }}: {{ clicked_location.longitude }}°
+        </div>
+        <div
+          v-if="
+            (popup_message ||
+              clicked_location.module ||
+              clicked_location.latitude != null ||
+              clicked_location.longitude != null) &&
+            $slots.hasOwnProperty('popup_footer')
+          "
+          class="_popupFooter"
+        >
+          <slot name="popup_footer" />
+        </div>
       </div>
     </div>
     <div id="mouse-position" />
 
     <div class="_leftTopMenu">
-      <div class="_buttonRow" v-if="!$root.app_infos.is_electron">
+      <div class="_buttonRow" v-if="has_current_position_button">
         <!-- hidden if electron, need to find alternative strategy -->
         <button type="button" class="u-button" @click="getCurrentPosition">
           <span class="u-icon">
@@ -110,7 +134,11 @@
         class="_buttonRow"
         v-if="!['image', 'color'].includes(map_baselayer)"
       >
-        <button type="button" class="u-button" @click="toggleSearch">
+        <button
+          type="button"
+          class="u-button _searchButton"
+          @click="toggleSearch"
+        >
           <b-icon class="inlineSVG" icon="search" />
         </button>
       </div>
@@ -584,6 +612,9 @@ export default {
     },
   },
   computed: {
+    has_current_position_button() {
+      return !this.$root.app_infos.is_electron;
+    },
     map_styles() {
       let styles = {};
       if (this.opened_view_color)
@@ -643,6 +674,17 @@ export default {
       const polygon = this.selected_feature.getGeometry();
       const areaInSquareMeters = this.calculatePolygonArea(polygon);
       return this.formatArea(areaInSquareMeters);
+    },
+
+    show_popup() {
+      const has_clicked_coords =
+        this.clicked_location.latitude != null ||
+        this.clicked_location.longitude != null;
+      return (
+        this.has_module_content_to_show ||
+        (this.can_click && has_clicked_coords) ||
+        (!this.clicked_location.latitude && !this.clicked_location.longitude)
+      );
     },
     has_module_content_to_show() {
       if (!this.clicked_location.module)
@@ -1014,8 +1056,28 @@ export default {
       // not working in Electron, use something like http://ip-api.com/json https://www.reddit.com/r/electronjs/comments/hbxick/comment/fvq96v6/?utm_source=reddit&utm_medium=web2x&context=3 ?
       navigator.geolocation.getCurrentPosition(success, error, options);
     },
-    toggleSearch() {
+    toggleSearch(event) {
       this.$el.querySelector("#gcd-button-control").click();
+      // get top right of button
+
+      this.$nextTick(() => {
+        const button = event.target;
+        // Calculate position of the button relative to this.$el
+        const elRect = this.$el.getBoundingClientRect();
+        const btnRect = button.getBoundingClientRect();
+
+        const top = btnRect.top - elRect.top;
+        const left = btnRect.left - elRect.left;
+        const width = btnRect.width;
+
+        const search_container = this.$el.querySelector(
+          ".ol-geocoder.gcd-gl-container"
+        );
+        search_container.style.top = `${top - 1}px`;
+        // 1rem = 16px (default browser size)
+        const spacing_val = (16 * 1) / 2; // if you need to multiply, modify accordingly
+        search_container.style.left = `${left + width + spacing_val}px`;
+      });
     },
     printMap() {
       this.start_map_print = true;
@@ -2165,12 +2227,15 @@ export default {
   background-color: var(--map-background-color);
 
   ::v-deep {
+    .ol-geocoder.gcd-gl-container {
+      font-size: inherit;
+    }
     .ol-geocoder {
       position: absolute;
       top: calc(6rem);
       left: calc(var(--spacing) / 1 + 2rem + 2px);
 
-      font-size: 0.8em;
+      // font-size: 0.8em;
       border-radius: 2px;
 
       .gcd-gl-btn {
@@ -2186,41 +2251,57 @@ export default {
         height: auto;
         width: 0;
         overflow: hidden;
-        border-radius: 0;
+        border-radius: 2px;
         margin: 0;
-        background: transparent;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
 
         &.gcd-gl-expanded {
           width: calc(14rem + 2px);
+          padding: 1px;
         }
       }
       .gcd-gl-input {
         width: 100%;
-        border-radius: 3px;
         left: 0;
         top: 0;
         padding: calc(var(--spacing) / 4) calc(var(--spacing) / 2);
         padding-right: 2em;
-        height: calc(2rem + 2px);
+        border-radius: 2px;
+        font-size: inherit;
+        height: calc(2rem);
         position: relative;
-        border: 1px solid var(--c-gris_fonce);
+        border: none;
+        background: white;
 
         &:focus-visible {
           box-shadow: none;
           border-color: var(--active-color);
         }
       }
-      .gcd-gl-search:after {
-        content: "→";
 
-        line-height: 1;
-        font-weight: 800;
+      .gcd-gl-search {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        margin-right: calc(var(--spacing) / 4);
+      }
+      .gcd-gl-search:after {
+        content: "🔍";
+        // content: "→";
+
+        font-family: "Fira Code";
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+
         background: var(--active-color);
         color: white;
-        display: inline-block;
-        border-radius: 50%;
-        margin-top: 3px;
-        padding: 4px;
+        border-radius: 3px;
         font-size: 90%;
       }
     }
@@ -2259,7 +2340,7 @@ export default {
   bottom: 9px;
   left: -48px;
   min-width: 280px;
-  opacity: 0;
+  // opacity: 0;
 
   font-size: var(--sl-font-size-normal);
 
@@ -2351,7 +2432,17 @@ export default {
 }
 
 ._popupMessage {
-  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
+  margin: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
+}
+
+._popupCoords {
+  font-size: var(--sl-font-size-small);
+  color: var(--sl-color-neutral-600);
+}
+
+._popupFooter {
+  margin: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
+  border-top: 1px solid var(--sl-color-neutral-200);
 }
 
 ._leftTopMenu {
@@ -2384,6 +2475,7 @@ export default {
 
     padding: 0;
     color: var(--c-noir);
+    background: white;
     height: 2rem;
     min-width: 2rem;
 
@@ -2470,6 +2562,12 @@ export default {
 
   .u-metaField {
     margin-bottom: 0;
+  }
+}
+
+._searchButton {
+  svg {
+    pointer-events: none;
   }
 }
 </style>
