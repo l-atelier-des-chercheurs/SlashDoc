@@ -171,4 +171,24 @@ export default {
   no_community_access_message:
     "You cannot create or add to documents because you have not been added to any community yet. You need to be added to a community and have contribution rights to share documents.",
   contact_admin_for_access: "Contact the administrator at",
+  community_visible_in_archive: "Community visible in archive",
+  archived_media: "Archived media",
+  images: "Images",
+  videos: "Videos",
+  notes: "Notes",
+  spreadsheets: "Spreadsheets",
+  pdf: "PDF",
+  audios: "Audios",
+  threed: "3D",
+  community_admin_instructions:
+    "Referents manage permissions and community settings.",
+  community_contrib_instructions: "Contributors can add and edit content.",
+  access_restricted: "Access restricted",
+  ask_to_join: "Ask to join",
+  ask_to_join_email_subject: "I'd like to join community {community_name}",
+  ask_to_join_email_body:
+    "Hello,\n\nI'd like to join community {community_name}.\nAuthor: {author_name}",
+  unknown_author: "Unknown author",
+  send_email_to_admins: "Send email to admins",
+  email_instructions: "The admins will receive an email with your request.",
 };

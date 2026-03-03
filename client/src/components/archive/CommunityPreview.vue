@@ -96,7 +96,7 @@
         <div class="_joinAction" v-if="!can_open_community">
           <div class="u-instructions">{{ $t("access_restricted") }}</div>
           <button
-            v-if="folder.$admins && folder.$admins.length > 0"
+            v-if="mailto_to_contact.length > 0"
             type="button"
             class="u-button u-button_primary"
             @click="showAskToJoin = true"
@@ -112,22 +112,22 @@
       :title="$t('ask_to_join')"
       @close="showAskToJoin = false"
     >
-      <div style="margin-bottom: 1.5em">
-        <p>
+      <div class="">
+        <p class="u-spacingBottom">
           {{ $t("send_email_to_admins") }}
         </p>
-        <ul>
-          <li v-for="admin in folder.$admins" :key="admin.email">
-            <a :href="mailtoLink(admin.email)">
-              {{ admin.email }}
+        <ul class="u-spacingBottom">
+          <li v-for="email in mailto_to_contact" :key="email">
+            <a :href="mailtoLink(email)">
+              {{ email }}
             </a>
           </li>
         </ul>
-        <p>
+        <p class="u-spacingBottom">
           {{ $t("email_instructions") }}
         </p>
       </div>
-      <div style="text-align: right">
+      <div slot="footer">
         <button type="button" class="u-button" @click="showAskToJoin = false">
           {{ $t("close") }}
         </button>
@@ -168,6 +168,16 @@ export default {
     can_open_community() {
       return this.can_edit || this.can_see || this.folder.$status !== "private";
     },
+    mailto_to_contact() {
+      if (!this.folder.$admins || this.folder.$admins.length === 0) {
+        return [this.$root.app_infos.instance_meta.contactmail];
+      }
+      return this.folder.$admins.reduce((acc, a_path) => {
+        const author = this.getAuthor(a_path);
+        if (author && author.email) acc.push(author.email);
+        return acc;
+      }, []);
+    },
     adminsList() {
       const admins = this.folder.$admins;
       if (!admins) return [];
@@ -185,7 +195,18 @@ export default {
   },
   methods: {
     mailtoLink(email) {
-      return `mailto:${email}`;
+      const community_name = this.folder.title || "";
+      const author_name = this.connected_as?.name || this.$t("unknown_author");
+      const subject_line = this.$t("ask_to_join_email_subject", {
+        community_name,
+      });
+      const body_line = this.$t("ask_to_join_email_body", {
+        community_name,
+        author_name,
+      });
+      return `mailto:${email}?subject=${encodeURIComponent(
+        subject_line
+      )}&body=${encodeURIComponent(body_line)}`;
     },
     calculateStats(files) {
       const s = {
@@ -226,52 +247,6 @@ export default {
           s.threed++;
       });
       return s;
-    },
-  },
-  i18n: {
-    messages: {
-      fr: {
-        community_visible_in_archive: "Communauté visible dans l'archive",
-        archived_media: "Médias archivés",
-        images: "Images",
-        videos: "Vidéos",
-        notes: "Notes",
-        spreadsheets: "Tableurs",
-        pdf: "PDF",
-        audios: "Audios",
-        threed: "3D",
-        community_admin_instructions:
-          "Les référent·es gèrent les permissions et les paramètres de la communauté.",
-        community_contrib_instructions:
-          "Les contributeur·ices peuvent ajouter et modifier du contenu.",
-        access_restricted: "Accès restreint",
-        ask_to_join: "Demander à rejoindre",
-        send_email_to_admins: "Envoyer un email aux administrateurs",
-        email_instructions:
-          "Les administrateurs recevront un email avec votre demande.",
-        close: "Fermer",
-      },
-      en: {
-        community_visible_in_archive: "Community visible in archive",
-        archived_media: "Archived media",
-        images: "Images",
-        videos: "Videos",
-        notes: "Notes",
-        spreadsheets: "Spreadsheets",
-        pdf: "PDF",
-        audios: "Audios",
-        threed: "3D",
-        community_admin_instructions:
-          "Referents manage permissions and community settings.",
-        community_contrib_instructions:
-          "Contributors can add and edit content.",
-        access_restricted: "Access restricted",
-        ask_to_join: "Ask to join",
-        send_email_to_admins: "Send email to admins",
-        email_instructions:
-          "The admins will receive an email with your request.",
-        close: "Close",
-      },
     },
   },
 };

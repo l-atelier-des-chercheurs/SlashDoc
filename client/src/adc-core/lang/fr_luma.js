@@ -176,4 +176,26 @@ export default {
   contact_admin_for_access: "Contactez l'administrateur·ice à l'adresse",
   import_document_instructions:
     "Vous pouvez importer ici le document téléchargé (.zip) depuis une autre instance serveur de /doc.",
+  community_visible_in_archive: "Communauté visible dans l'archive",
+  archived_media: "Médias archivés",
+  images: "Images",
+  videos: "Vidéos",
+  notes: "Notes",
+  spreadsheets: "Tableurs",
+  pdf: "PDF",
+  audios: "Audios",
+  threed: "3D",
+  community_admin_instructions:
+    "Les référent·es gèrent les permissions et les paramètres de la communauté.",
+  community_contrib_instructions:
+    "Les contributeur·ices peuvent ajouter et modifier du contenu.",
+  access_restricted: "Accès restreint",
+  ask_to_join: "Demander à rejoindre",
+  ask_to_join_email_subject: "Je souhaite rejoindre la communauté {community_name}",
+  ask_to_join_email_body:
+    "Bonjour,\n\nJe souhaite rejoindre la communauté {community_name}.\nAuteur·ice : {author_name}",
+  unknown_author: "Auteur·ice inconnu·e",
+  send_email_to_admins: "Envoyer un email aux administrateurs",
+  email_instructions:
+    "Les administrateurs recevront un email avec votre demande.",
 };
