@@ -44,3 +44,4 @@ client/dist/report.html
 client/dist/*.hot-update.js
 tokens.json
 /dist/
+docker-compose.override.yml
