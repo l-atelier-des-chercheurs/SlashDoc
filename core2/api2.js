@@ -2614,7 +2614,10 @@ module.exports = (function () {
 
   // Helper function for file upload error handling
   function _handleUploadFileError(err, res, context) {
-    const { message, code, err_infos } = err;
+    const message = err?.message ?? String(err);
+    const code = err?.code ?? "upload_failed";
+    const err_infos = err?.err_infos ?? undefined;
+
     const error_msg = `Failed to upload file to ${context.path_to_folder}: ${message}`;
 
     dev.error(error_msg);
@@ -2630,9 +2633,11 @@ module.exports = (function () {
     });
 
     try {
-      res.status(500).send({ code, err_infos });
+      if (!res.headersSent) {
+        res.status(500).send({ code, err_infos });
+      }
     } catch (e) {
-      // Response may have already been sent
+      // Response may have already been sent or connection closed
     }
   }
 
