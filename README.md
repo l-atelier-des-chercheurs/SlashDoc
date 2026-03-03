@@ -1,41 +1,25 @@
-SlashDoc, based on dodoc https://github.com/l-atelier-des-chercheurs/dodoc
+# Presentation
 
-Branches:
+SlashDoc is a digital documentation platform for archiving, structuring, and sharing knowledge from design research projects.
 
-- main
+It documents processes across artistic, scientific, craft, and design practices.
 
-Main branch running on luma server as of 26/01/2026
+**Audience:** designers and researchers.  
+**Values:** open source, digital sobriety, independence from third-party services, and a lightweight, sustainable architecture.
 
-- dev
-
-More information:
-
-- in English: https://latelier-des-chercheurs.fr/en/tools/dodoc
-- en Français : https://latelier-des-chercheurs.fr/outils/dodoc
-
-And on the forum (mainly in French but you can post in English):
-
-https://forum.latelier-des-chercheurs.fr/
+SlashDoc was created by Atelier LUMA, Louis Eveillard (L’Atelier des Chercheurs) and Thibery Maillard.
+It is based on do•doc: https://github.com/l-atelier-des-chercheurs/dodoc
 
 # License
 
-do•doc is free and open source.
+SlashDoc is free and open source.
 The code is licensed under AGPLv3, and the graphic assets (icons, pictograms, user interface) are under a CC-BY-SA license.
-
-The font [Luciole](http://www.luciole-vision.com/) is licensed under the Creative Commons Attribution 4.0 and embedded with permission from Laurent Bourcellier and Jonathan Fabreguettes.
-The font [Belle Allure](https://www.jeanboyault.fr/belle-allure/) is used with permission from Jean Boyault.
 
 # Branches
 
-- **main** --> default branch, latest stable version. Unified branch supporting both Electron (offline app) and Node (server) modes. See release page for Linux/Mac/Windows installers.
+- **main** --> default branch, latest stable version. Used on LUMA server.
 
-- **main-dev** --> fixes and small improvements on top of the current version. Used for testing before merging changes to **main**.
-
-- **next** --> code for the next major version. Unified branch supporting both Electron and Node modes. Use at your own risks.
-
-`npm install sharp@0.31.3`
-
-Note 2: bufferutil seems to be necessary specifically for intel macOS.
+- **dev** --> in-progress
 
 # Install do•doc
 
