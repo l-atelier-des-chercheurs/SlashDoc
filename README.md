@@ -21,122 +21,34 @@ The code is licensed under AGPLv3, and the graphic assets (icons, pictograms, us
 
 - **dev** --> in-progress
 
-# Install do•doc
+# Installation
 
-## Method 1 — the easy way
+## The docker compose way
 
-Download the latest release from the [release page](https://github.com/l-atelier-des-chercheurs/dodoc/releases).
-
-## Method 2 — the long way
-
-See https://forum.latelier-des-chercheurs.fr/t/installer-do-doc-en-mode-developpement/426
-
-## Method 3 — the dev way
-
-To install do•doc in dev mode, you need to have Node.js and npm installed. Clone this repository and follow the instructions below based on your use case.
-
-### Node version (for servers/VPS)
-
-For running do•doc on a server with Puppeteer (for PDF/screenshot generation):
-
-```bash
-npm install
-npm start
-```
-
-Available scripts for Node mode:
-
-- `npm start` - run the app with minimal logging
-- `npm run debug` - run the app with debug logging
-
-### Electron version (for desktop app)
-
-For running do•doc as a desktop application with Electron:
-
-```bash
-npm install
-cd electron
-npm install
-npm start
-```
-
-**Note:** When building Electron app, electron-builder automatically excludes puppeteer, typescript, and platform-folders from the final package to reduce app size. Both modes work from the same dependencies.
-
-Available scripts for Electron mode (run from `/electron` folder):
-
-- `npm start` - run the Electron app with minimal logging
-- `npm run debug` - run the app to debug locally
-- `npm run debug-lr` - run the app in debug mode with live reload
-- `npm run pack` - package the app (without creating installer)
-- `npm run dist` - build distributable installers
-
-For development with live reload (client-side code):
-
-You need to open a second terminal to run the vite/livereload server:
-
-```bash
-cd client
-npm i
-npm run dev
-```
-
-### On Ubuntu (Electron only)
-
-Because of recent security changes on Ubuntu, you may encounter the following error on npm start or debug:
-`[44615:1003/212648.080818:FATAL:sandbox/linux/suid/client/setuid_sandbox_host.cc:169] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that /home/julien/dodoc12/dodoc/electron/node_modules/electron/dist/chrome-sandbox is owned by root and has mode 4755.`
-
-To fix, use the following commands:
-
-```bash
-cd electron/node_modules/electron/dist/
-sudo chown root chrome-sandbox
-chmod 4755 chrome-sandbox
-```
-
-## Method 4 — the docker way
-
-This method makes the installation of do•doc a bit simpler.
+Installation on a dedicated server (such as a VPS) is highly recommended.
 You need to have `docker` installed on your machine.
 
-### The docker compose way
-
 Run `docker compose up -d`, wait for it to initialize completely, and visit `https://localhost:8080`.
-Your data is persistent (in ./dodoc-data directory).
+Your data is persistent (in ./slashdoc-data directory).
 
-### Or the docker manual way
+## Or the docker manual way
 
-If you prefer to customise the container, the basic pattern for starting a do•doc instance is:
+If you prefer to customise the container, the basic pattern for starting a SlashDoc instance is:
 
 ```
-$ docker run --name my-dodoc -p 8080:8080 -v ./dodoc-data:/home/node/Documents -d ghcr.io/l-atelier-des-chercheurs/slashdoc:latest
+$ docker run --name slashdoc -p 8080:8080 -v ./slashdoc-data:/home/node/Documents -d ghcr.io/l-atelier-des-chercheurs/slashdoc:latest
 ```
 
-Your data is persistent (in ./dodoc-data directory).
+Your data is persistent (in ./slashdoc-data directory).
 Then, access it via `https://localhost:8080`.
 
 # After installation
 
-When starting the app for the first time, a message will tell you about an admin account that is created by default. Its password is "dodoc". Connect to this account and change the password by opening that account's page and clicking Options, and editing the password field. It is recommended to open the admin settings afterwards (the gear icon in the top bar) and read/adapt all settings.
-
-More advanced settings are available to all by duplicating the settings.example.json file and renaming it to settings.json. You can override the default settings_base.json values with ones you need:
-
-- set the url where dodoc will be accessed (used for emails sent to users) (for example, https://test.dodoc.fr)
-
-- adapt the port used on startup, useful when hosting multiple dodoc on the same server (possible values: any port not already used, for example 443 or 8000)
-
-- indicate a bonjour domain for local discovery, like dodoc.local
-
-- change the folder used for storing all the user-generated contents by editing the contentPath field.
-
-  - if the value is just a string without any slashes (like "dodoc"), then this will be the name of the folder used in the /Documents subfolder.
-  - if the value contains any forward slashes (/) or system path separators, it will be treated as a full path (like /mnt/storage/dodoc-custom)
-  - if the specified path is not writable, do•doc will automatically fall back to using a "dodoc" folder in the Documents directory
-
-- if you'd like for dodoc to be able to send email to help users recover their password, fill in the information to a mail server and account with the "mailer" property.
+When starting the app for the first time, a message will tell you about an admin account that is created by default. Its password is "slashdoc". Connect to this account by clicking the "Login" button in the top right and change the password by opening that account's page and clicking Options, and editing the password field. It is recommended to open the admin settings afterwards (the gear icon in the top bar) and read/adapt all settings.
 
 # How the core works
 
-Everything is structured in folders/files, so as to mirror the content in the filesystem. No database is used, almost all the content are saved in the content folder (by default /Documents/dodoc_next).
+Everything is structured in folders/files, so as to mirror the content in the filesystem. No relational database is used, almost all the content are saved in the content folder (by default /Documents/slashdoc).
 
 Folders contain a meta.txt file and media files (images, videos, audios, 3D/stl, texts, or any other kind of files).
 
@@ -206,21 +118,9 @@ Editable default values and all custom values can only be edited by an $admins.
 
 ## Security and visibility
 
-### SSL Certificate Warning
-
-When you first open do•doc in your browser, you may see a security warning about the SSL certificate. This is normal and expected because do•doc uses a self-signed certificate for local HTTPS connections.
-
-**To proceed safely:**
-
-1. Click "Advanced" or "Show Details" in your browser
-2. Click "Proceed to localhost (unsafe)" or "Accept the risk and continue"
-3. The warning will not appear again for this session
-
-This warning appears because the certificate is self-signed (not issued by a trusted certificate authority), but it's completely safe for local use. The certificate is included with the application and is only used for local connections.
-
 ### Status
 
-Each folder and each file have a "$status" property, which defines who can read them using getFolders, getFolder, getFiles and getFile:
+Each folder has a "$status" property, which defines who can read them using getFolders, getFolder:
 
 - by default, it is set to **private**: folder will only be listed by their respective authors and instance admins.
 - otherwise, if set to anything else, they will be listed by anyone (loggedin or not, as long as they have access to dodoc)
@@ -240,13 +140,11 @@ If a folder has `$admins = "everyone"`, all users (including anonymous) have adm
 If a folder has `$admins = "parent_contributors"` then all parent's $contributors are admins to this folder. This is the same behaviour as files in that parent folder.
 If a folder has `$admins = "authors"` then all logged in authors are admins to this folder (anonymous contributions are forbidden).
 
-These permissions trickle down: an instance admin has admin rights to all the instance contents. A space admin has admin rights to all its projects. A project admin has admin rights to all its content (medias, stopmotions, publications).
+These permissions trickle down: an instance admin has admin rights to all the instance contents. A community (called folders in schema) admin has admin rights to all its content.
 
 An instance contributor, though, only has contributors rights to the direct content it contains. For instance, a contributor to a space can create a project, but not remove a project he/she is not an $admin of.
 
 If a folder type schema has the property `$can_be_created_by: "everyone"`, this overrides the above behaviour and such folder can be created by all users even those that are not logged in. This is useful for accounts creation.
-
-If a folder has `$can_be_remixed = true`, it can be remixed: duplicated somewhere else to the same level. When it is remixed, the path to the new folder gets appended to the array `$list_of_remixes` and the remix folder gets a `$is_remix_of` string.
 
 ## Examples
 
@@ -316,20 +214,17 @@ For example, with the following schema:
 
 Then the following routes will redirect to:
 
-- /spaces
-  --> returns a list of all folders in /spaces with their metas
+- /folders
+  --> returns an array of all folders in /folders with their metas
 
-- /spaces/bonjour
-  --> returns the meta of a single "bonjour" folder with a list of all their files with their metas
+- /folders/bonjour
+  --> returns an object of the meta informations of a single "bonjour" folder with a list of all their files with their metas
 
-- /spaces/bonjour/projects
-  --> returns a list of all folders in /spaces/bonjour/projects with their metas
+- /folders/bonjour/stacks
+  --> returns an array of all stacks in /folders/bonjour/stacks with their metas
 
-- /spaces/bonjour/projects/elephant-with-plywood
-  --> returns the meta of a single "elephant-with-plywood" folder with a list of all their files with their metas
-
-- /spaces/bonjour/projects/elephant-with-plywood.zip
-  --> downloads a zip file with all the content of that folder
+- /folders/bonjour/stacks/elephant-with-plywood
+  --> returns an object of the meta of this stack
 
 ### Permission
 
@@ -344,7 +239,7 @@ Folder $contributors  |      |     x       |        x         |        |      | 
 -------------------------------------------------------------------------------------------------------------
 ```
 
-So, for example for a space /bonjour, its $admins can edit all meta properties while a contributor can only import/edit/remove files, and create projects (of which they'll be $admins by default).
+So, for example for a folder /bonjour, its $admins can edit all meta properties while a contributor can only import/edit/remove stacks.
 
 ---
 
