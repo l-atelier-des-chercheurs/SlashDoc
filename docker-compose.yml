@@ -1,5 +1,5 @@
 services:
-  dodoc-node:
+  slashdoc-node:
     image: ghcr.io/l-atelier-des-chercheurs/slashdoc:latest
     ports:
       - "8080:8080"
