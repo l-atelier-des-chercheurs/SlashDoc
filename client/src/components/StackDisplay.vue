@@ -400,15 +400,27 @@ export default {
       });
       await this.$api.deleteItem({ path: file_path });
 
-      let stack_files_metas = this.stack?.stack_files_metas.slice();
-      stack_files_metas = stack_files_metas.filter(
-        (m) => m !== this.getFilename(file_path)
+      const removed_filename = this.getFilename(file_path);
+      const previous_stack_files_metas = this.stack?.stack_files_metas.slice();
+      let stack_files_metas = previous_stack_files_metas.filter(
+        (m) => m !== removed_filename
       );
+
+      const new_meta = {
+        stack_files_metas,
+      };
+
+      // If we removed the first media, promote the new first one as cover.
+      if (
+        previous_stack_files_metas?.at(0) === removed_filename &&
+        stack_files_metas.length > 0
+      ) {
+        new_meta.$preview = stack_files_metas.at(0);
+      }
+
       await this.$api.updateMeta({
         path: this.stack.$path,
-        new_meta: {
-          stack_files_metas,
-        },
+        new_meta,
       });
     },
     async removeStack() {
