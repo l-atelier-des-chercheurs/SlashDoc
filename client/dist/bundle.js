@@ -5798,6 +5798,7 @@ hr {
 
   .chapter, .cover {
     flex: 10 1 0;
+    overflow: auto;
 
     h1 {
     }
@@ -5820,6 +5821,16 @@ hr {
 
   h3 {
     font-size: 1.1em;
+  }
+
+  pre {
+    /* padding: calc(var(--spacing) / 4); */
+
+    > code {
+      overflow: auto;
+      max-width: 100%;
+        display: block;
+    }
   }
 
   .media {

@@ -1577,6 +1577,7 @@ hr {
 
   .chapter, .cover {
     flex: 10 1 0;
+    overflow: auto;
 
     h1 {
     }
@@ -1601,6 +1602,16 @@ hr {
     font-size: 1.1em;
   }
 
+  pre {
+    /* padding: calc(var(--spacing) / 4); */
+
+    > code {
+      overflow: auto;
+      max-width: 100%;
+        display: block;
+    }
+  }
+
   .media {
   }
 
@@ -1611,7 +1622,7 @@ hr {
 
 
 }
-`,M0={props:{publication:Object,view_mode:String,opened_style_file_meta:String,viewer_type:{type:String,default:"infinite-viewer"},opened_chapter_meta_filename:String,show_source_html_toggle:Boolean,show_source_html:Boolean,can_edit:Boolean},components:{PagedViewer:E0,DocViewer:O0,ShowSourceHTML:()=>hm(()=>import("./ShowSourceHTML-CcyNOP16.js"),[])},data(){return{is_loading:!1,available_view_modes:[{label:this.$t("webpage"),value:"web",icon:"window-sidebar"},{label:this.$t("book"),value:"book",icon:"book"}]}},created(){var t;this.style_files.length>0&&this.opened_style_file_meta==="first"&&this.$emit("setStyleFile",this.getFilename((t=this.style_files[0])==null?void 0:t.$path))},mounted(){},beforeDestroy(){},watch:{},computed:{format_mode(){return this.publication.page_width&&this.publication.page_height?`${this.publication.page_width}mm ${this.publication.page_height}mm`:"A4"},cover_media(){return this.publication.$files.find(t=>t.cover_type==="front")},custom_styles_unnested(){var t,e;return this.opened_style_file_meta==="default"||((t=this.style_files)==null?void 0:t.length)===0?R0:this.opened_style_file_meta?((e=this.style_files.find(n=>this.getFilename(n.$path)===this.opened_style_file_meta))==null?void 0:e.$content)||"":this.style_files[0]},all_chapters(){return this.getSectionsWithProps({publication:this.publication,group:"sections_list"}).map(t=>(t.main_text_meta&&(t._main_text=this.publication.$files.find(e=>e.$path.endsWith("/"+t.main_text_meta))),t))},content_nodes(){let t={};const e=this.parseCover();return e&&(t.cover=e),t.chapters=[],this.all_chapters.map(n=>{var i,a,s;let r={};r.title=n.section_title,r.meta_filename=this.getFilename(n.$path),r.starts_on_page=n.section_starts_on_page||"in_flow",r.column_count=n.column_count||1,r.section_type=n.section_type||"text",!n.section_type||n.section_type==="text"?(i=n._main_text)!=null&&i.$content&&(((a=n._main_text)==null?void 0:a.content_type)==="markdown"?r.content=this.parseMarkdownWithMarkedownIt(n._main_text.$content,n.source_medias):r.content=(s=n._main_text)==null?void 0:s.$content):n.section_type==="gallery"?r.content=this.parseGallery(n.source_medias):n.section_type==="story"?r.content=this.parseStory(n):n.section_type==="grid"&&(r.content=this.parseGrid(n)),t.chapters.push(r)}),t},style_files(){var t;return(t=this.publication.$files)==null?void 0:t.filter(e=>e.is_css_styles===!0).sort((e,n)=>{const r=e.css_title||this.getFilename(e.$path),i=n.css_title||this.getFilename(n.$path);if(r<i)return-1;if(r>i)return 1})},css_styles(){const t=`/****************** paged.js engine styles (added by do•doc) ******************/
+`,M0={props:{publication:Object,view_mode:String,opened_style_file_meta:String,viewer_type:{type:String,default:"infinite-viewer"},opened_chapter_meta_filename:String,show_source_html_toggle:Boolean,show_source_html:Boolean,can_edit:Boolean},components:{PagedViewer:E0,DocViewer:O0,ShowSourceHTML:()=>hm(()=>import("./ShowSourceHTML-Tabms2yZ.js"),[])},data(){return{is_loading:!1,available_view_modes:[{label:this.$t("webpage"),value:"web",icon:"window-sidebar"},{label:this.$t("book"),value:"book",icon:"book"}]}},created(){var t;this.style_files.length>0&&this.opened_style_file_meta==="first"&&this.$emit("setStyleFile",this.getFilename((t=this.style_files[0])==null?void 0:t.$path))},mounted(){},beforeDestroy(){},watch:{},computed:{format_mode(){return this.publication.page_width&&this.publication.page_height?`${this.publication.page_width}mm ${this.publication.page_height}mm`:"A4"},cover_media(){return this.publication.$files.find(t=>t.cover_type==="front")},custom_styles_unnested(){var t,e;return this.opened_style_file_meta==="default"||((t=this.style_files)==null?void 0:t.length)===0?R0:this.opened_style_file_meta?((e=this.style_files.find(n=>this.getFilename(n.$path)===this.opened_style_file_meta))==null?void 0:e.$content)||"":this.style_files[0]},all_chapters(){return this.getSectionsWithProps({publication:this.publication,group:"sections_list"}).map(t=>(t.main_text_meta&&(t._main_text=this.publication.$files.find(e=>e.$path.endsWith("/"+t.main_text_meta))),t))},content_nodes(){let t={};const e=this.parseCover();return e&&(t.cover=e),t.chapters=[],this.all_chapters.map(n=>{var i,a,s;let r={};r.title=n.section_title,r.meta_filename=this.getFilename(n.$path),r.starts_on_page=n.section_starts_on_page||"in_flow",r.column_count=n.column_count||1,r.section_type=n.section_type||"text",!n.section_type||n.section_type==="text"?(i=n._main_text)!=null&&i.$content&&(((a=n._main_text)==null?void 0:a.content_type)==="markdown"?r.content=this.parseMarkdownWithMarkedownIt(n._main_text.$content,n.source_medias):r.content=(s=n._main_text)==null?void 0:s.$content):n.section_type==="gallery"?r.content=this.parseGallery(n.source_medias):n.section_type==="story"?r.content=this.parseStory(n):n.section_type==="grid"&&(r.content=this.parseGrid(n)),t.chapters.push(r)}),t},style_files(){var t;return(t=this.publication.$files)==null?void 0:t.filter(e=>e.is_css_styles===!0).sort((e,n)=>{const r=e.css_title||this.getFilename(e.$path),i=n.css_title||this.getFilename(n.$path);if(r<i)return-1;if(r>i)return 1})},css_styles(){const t=`/****************** paged.js engine styles (added by do•doc) ******************/
 `+N0,e=`
 
 /****************** page size ${this.format_mode} ******************/
