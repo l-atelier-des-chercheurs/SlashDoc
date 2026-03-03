@@ -222,7 +222,6 @@ export default {
       archive_tooltip_target_el: null,
 
       all_folders: [],
-      all_stacks: [],
 
       show_corpus_menu: false,
 
@@ -387,6 +386,24 @@ export default {
         this.connected_as?.$path !== undefined &&
         !this.read_only
       );
+    },
+    all_stacks() {
+      // Depend on key enumeration so newly joined room keys are reactive
+      Object.keys(this.$api.store);
+
+      const stacks_map = new Map();
+      this.stack_shared_folder_paths.forEach((stack_path) => {
+        const stacks = this.$api.store[stack_path];
+        if (!Array.isArray(stacks)) return;
+
+        stacks.forEach((stack) => {
+          if (!stacks_map.has(stack.$path)) {
+            stacks_map.set(stack.$path, stack);
+          }
+        });
+      });
+
+      return Array.from(stacks_map.values());
     },
     sorted_stacks() {
       return this.all_stacks
@@ -744,7 +761,6 @@ export default {
       }
 
       if (current_paths.length === 0) {
-        this.all_stacks = [];
         this.is_loading_folder = false;
         return;
       }
@@ -771,15 +787,7 @@ export default {
         (stackPath) => this.$api.getFolders({ path: stackPath })
       );
 
-      const stacksArrays = await Promise.all(allStacksPromises);
-      // Merge all stacks and remove duplicates by path
-      const stacksMap = new Map();
-      stacksArrays.flat().forEach((stack) => {
-        if (!stacksMap.has(stack.$path)) {
-          stacksMap.set(stack.$path, stack);
-        }
-      });
-      this.all_stacks = Array.from(stacksMap.values());
+      await Promise.all(allStacksPromises);
 
       // Clear the timeout if loading completed before 1 second
       if (this.loading_timeout) {
