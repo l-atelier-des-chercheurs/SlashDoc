@@ -221,7 +221,6 @@ export default {
       })(),
       archive_tooltip_target_el: null,
 
-      folder: undefined,
       all_folders: [],
       all_stacks: [],
 
@@ -251,7 +250,6 @@ export default {
       show_filter_bar:
         localStorage.getItem("archive.show_filter_bar") === "true",
 
-      joined_rooms: new Set(), // Track which rooms we've joined
       loading_timeout: null, // Timeout for delayed spinner display
 
       show_only_favs: false,
@@ -273,23 +271,7 @@ export default {
     // Load all folders for the add community modal
     await this.loadAllFolders();
     await this.checkExistingFolder();
-
-    const primaryPath = this.active_folder_paths[0];
-    if (primaryPath) {
-      localStorage.setItem("last_opened_folder_path", primaryPath);
-      this.folder = await this.$api.getFolder({
-        path: primaryPath,
-      });
-    }
-
-    // Load stacks from all active communities
-    await this.loadStacksFromCommunities();
-
-    // Join socket rooms for all communities (stay connected)
-    this.active_folder_paths.forEach((path) => {
-      this.joinRoom(path);
-      this.joinRoom(path + "/stacks");
-    });
+    await this.syncActiveFolderPaths(this.active_folder_paths, []);
     if (this.archive_tooltip_step >= 1) {
       this.$nextTick(() => this.assignArchiveTooltipTarget());
     }
@@ -333,24 +315,7 @@ export default {
     },
     active_folder_paths: {
       async handler(newPaths, oldPaths) {
-        if (JSON.stringify(newPaths) !== JSON.stringify(oldPaths)) {
-          // Paths changed, reload stacks
-          if (newPaths.length > 0) {
-            // Join new rooms (stay connected, don't leave old ones)
-            newPaths.forEach((path) => {
-              this.joinRoom(path);
-              this.joinRoom(path + "/stacks");
-            });
-            // Load new stacks
-            await this.loadStacksFromCommunities();
-            // Update primary folder
-            if (newPaths[0]) {
-              this.folder = await this.$api.getFolder({
-                path: newPaths[0],
-              });
-            }
-          }
-        }
+        await this.syncActiveFolderPaths(newPaths, oldPaths || []);
       },
       immediate: false,
     },
@@ -412,9 +377,6 @@ export default {
     },
     display_mode() {
       return this.stack_preview_width < 120 ? "compact" : "";
-    },
-    can_edit() {
-      return this.canLoggedinEditFolder({ folder: this.folder });
     },
     stack_shared_folder_paths() {
       return this.active_folder_paths.map((path) => path + "/stacks");
@@ -751,12 +713,43 @@ export default {
       const folder = this.all_folders.find((f) => f.$path === folder_path);
       return folder ? folder.title || this.$t("untitled") : this.$t("untitled");
     },
-    joinRoom(roomPath) {
-      // Only join if we haven't already joined this room
-      if (!this.joined_rooms.has(roomPath)) {
-        this.$api.join({ room: roomPath });
-        this.joined_rooms.add(roomPath);
+    async syncActiveFolderPaths(new_paths = [], old_paths = []) {
+      const current_paths = [...new Set(new_paths)];
+      const previous_paths = [...new Set(old_paths)];
+
+      const added_paths = current_paths.filter(
+        (path) => !previous_paths.includes(path)
+      );
+      const removed_paths = previous_paths.filter(
+        (path) => !current_paths.includes(path)
+      );
+
+      if (added_paths.length === 0 && removed_paths.length === 0) {
+        return;
       }
+
+      removed_paths.forEach((path) => {
+        this.$api.leave({ room: path });
+        this.$api.leave({ room: path + "/stacks" });
+      });
+
+      if (added_paths.length > 0) {
+        for (const path of added_paths) {
+          await this.$api.getFolder({
+            path,
+          });
+          this.$api.join({ room: path });
+          this.$api.join({ room: path + "/stacks" });
+        }
+      }
+
+      if (current_paths.length === 0) {
+        this.all_stacks = [];
+        this.is_loading_folder = false;
+        return;
+      }
+
+      await this.loadStacksFromCommunities();
     },
     async loadStacksFromCommunities() {
       // Clear any existing timeout
