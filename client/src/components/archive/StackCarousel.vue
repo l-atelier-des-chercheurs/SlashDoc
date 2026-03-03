@@ -77,6 +77,7 @@
             <div class="_previewOverlay" />
             <select
               class="_changeOrderSelect"
+              v-if="can_edit"
               size="small"
               :value="index + 1"
               @change="
@@ -89,7 +90,9 @@
                 v-text="i + 1"
               />
             </select>
+            <div v-else class="_changeOrderSelect">{{ index + 1 }}</div>
             <RemoveMenu
+              v-if="can_edit"
               class="_removeBtn"
               :remove_text="$t('remove')"
               :show_button_text="false"
