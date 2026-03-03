@@ -93,6 +93,23 @@
           :contrib_instructions="$t('community_contrib_instructions')"
         />
 
+        <RadioCheckboxField
+          class="_licenseField"
+          :label="$t('license')"
+          :show_label="true"
+          :instructions="$t('licence_instructions')"
+          :field_name="'license'"
+          :input_type="'radio'"
+          :content="effective_license"
+          :path="folder.$path"
+          :can_edit="can_edit"
+          :options="license_options"
+          allow_custom_option="html"
+          :custom_option_label="$t('custom_license')"
+          :custom_option_placeholder="$t('fill_out_your_license')"
+          :custom_option_formats="['bold', 'italic', 'link', 'emoji']"
+        />
+
         <div class="_joinAction" v-if="!can_open_community">
           <div class="u-instructions">{{ $t("access_restricted") }}</div>
           <button
@@ -154,6 +171,26 @@ export default {
       showAskToJoin: false,
       isLoadingStats: false,
       localStats: null,
+      license_options: [
+        {
+          key: "",
+          label: this.$t("not_specified"),
+        },
+        {
+          key: "creativecommons_by_sa",
+          label: this.$t("creativecommons_by_sa"),
+          instructions: this.$t("creativecommons_by_sa_explanations"),
+        },
+        {
+          key: "all_rights_reserved",
+          label: this.$t("all_rights_reserved"),
+        },
+        {
+          key: "copyleft",
+          label: this.$t("copyleft"),
+          instructions: this.$t("copyleft_explanations"),
+        },
+      ],
     };
   },
   mounted() {},
@@ -191,6 +228,15 @@ export default {
     stats() {
       if (this.localStats) return this.localStats;
       return this.calculateStats(this.folder.$files || []);
+    },
+    effective_license() {
+      if (
+        this.folder.license === "custom_license" &&
+        this.folder.custom_license
+      ) {
+        return this.folder.custom_license;
+      }
+      return this.folder.license || "";
     },
   },
   methods: {
