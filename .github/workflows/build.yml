@@ -45,7 +45,6 @@ jobs:
             ${{ env.image }}:latest
 
   electron:
-    if: ${{ github.repository != 'l-atelier-des-chercheurs/slashdoc' }}
     runs-on: ${{ matrix.os }}
     needs: meta
     strategy:
