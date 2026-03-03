@@ -32,7 +32,6 @@
               :label_str="'last_name'"
               :required="true"
               :autocomplete="'family-name'"
-              @toggleValidity="checkValidity"
             />
           </div>
 
@@ -43,7 +42,6 @@
               :required="true"
               :autofocus="false"
               :autocomplete="'given-name'"
-              @toggleValidity="checkValidity"
             />
           </div>
 

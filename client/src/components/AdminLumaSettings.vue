@@ -111,6 +111,18 @@
               :input_type="'email'"
               :can_edit="is_instance_admin"
             />
+            <br />
+
+            <TitleField
+              :field_name="'upload_max_file_size_in_mo'"
+              :label="$t('upload_max_file_size_in_mo')"
+              :instructions="$t('umo_instructions')"
+              :content="settings.upload_max_file_size_in_mo || 10_000"
+              :path="settings.$path"
+              :input_type="'number'"
+              :required="false"
+              :can_edit="is_instance_admin"
+            />
           </template>
           <template v-if="current_tab === 'suggested_cat_kw'">
             <SuggestedCategories />

@@ -32,6 +32,7 @@
       <router-link
         to="/login"
         class="u-button u-button_transparent"
+        :disabled="$route.path === '/login'"
         @click.native="show_mobile_menu = false"
       >
         {{ $t("login") }}
@@ -39,6 +40,7 @@
       <router-link
         to="/login/create"
         class="u-button u-button_transparent"
+        :disabled="$route.path === '/login/create'"
         @click.native="show_mobile_menu = false"
       >
         {{ $t("create_account") }}
