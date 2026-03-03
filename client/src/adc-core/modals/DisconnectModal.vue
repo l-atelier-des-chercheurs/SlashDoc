@@ -11,7 +11,7 @@
       <div class="_reconnectButton">
         <button
           type="button"
-          class="u-button u-button_bleumarine u-button_small"
+          class="u-button u-button_small"
           @click="reconnectSocket"
           :disabled="is_reconnecting"
         >

@@ -38,7 +38,7 @@
                 />
               </div>
               <div
-                v-if="debouncing_search_author_name"
+                v-else-if="debouncing_search_author_name"
                 class="u-instructions u-spacingBottom"
                 key="debouncing"
               >
