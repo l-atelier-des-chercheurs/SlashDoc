@@ -116,8 +116,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 ._authorsView {
-  max-width: min(var(--max-column-width), var(--max-column-width-px));
-  margin: calc(var(--spacing) * 2) auto calc(var(--spacing) * 4);
+  // max-width: min(var(--max-column-width), var(--max-column-width-px));
+  // margin: calc(var(--spacing) * 2) auto calc(var(--spacing) * 4);
 }
 
 ._currentlyConnected {
