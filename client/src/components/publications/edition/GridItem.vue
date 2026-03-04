@@ -248,6 +248,8 @@ export default {
           source_medias,
         },
       });
+
+      this.show_media_picker = false;
     },
 
     async removeAreaText() {
