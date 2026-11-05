@@ -133,7 +133,9 @@ module.exports = function () {
   );
 
   // app.use(express.urlencoded({ extended: true }));
-  app.use(express.json({ limit: "1mb" })); // To parse the incoming requests with JSON payloads
+  // inflate: false — never decompress request bodies: the client never sends
+  // compressed ones, and Node < 22.23.4 has an RCE in its Brotli decoder (CVE-2026-111497)
+  app.use(express.json({ limit: "1mb", inflate: false })); // To parse the incoming requests with JSON payloads
   app.locals.pretty = true;
 
   journal.log({
